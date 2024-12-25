@@ -22,7 +22,7 @@ const TutoringWithUs = () => {
             <img src={withUs} alt="withUs" className="h-[300px]" />
           </div>
           <div className="w-[50%] text-white">
-            <p className="text-[#f3c03e] font-bold">TEAM OF EXPERT TUTORS</p>
+            <p className="text-[#DAA520] font-bold py-2">TEAM OF EXPERT TUTORS</p>
             <h1 className="text-4xl font-bold mb-4">Start Tutoring With Us</h1>
             <p className="text-lg mb-8">
               We're always on the lookout for skilled tutors! Set your own

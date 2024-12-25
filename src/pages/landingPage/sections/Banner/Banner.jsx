@@ -8,7 +8,7 @@ const Banner = () => {
       <div className="container mx-auto">
         <div className="flex gap-20 justify-between px-20">
           <div className="w-[45%]">
-            <p className="text-[#f3c03e] font-bold">
+            <p className="text-[#DAA520] font-bold">
               100% SATISFACTION GUARANTEE
             </p>
             <div className="my-4 font-bold">
