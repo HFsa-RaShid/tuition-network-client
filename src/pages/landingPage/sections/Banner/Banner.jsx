@@ -24,15 +24,33 @@ const Banner = () => {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
+                      <path
+                        d="M8 49C85.2556 24.5985 292.813 -14.4606 505 24.5152"
+                        stroke="#F9D045"
+                        stroke-width="16"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                  {/* flower line */}
+                  <span className="absolute bottom-8 left-[118px] w-full">
+                  <svg
+                    width="40"
+                    height="35"
+                    viewBox="0 0 256 222"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <path
-                      d="M8 49C85.2556 24.5985 292.813 -14.4606 505 24.5152"
-                      stroke="#F9D045"
-                      stroke-width="16"
+                      d="M9.57951 166.787C6.95283 123.003 5.72063 35.4108 21.8054 35.3182C41.9113 35.2025 66.7846 121.96 64.7991 143.575C62.8136 165.191 88.6879 28.8063 117.55 10.0993C146.412 -8.60783 119.285 134.878 109.071 151.382C98.8577 167.885 210.559 83.2433 243.267 94.502C275.974 105.761 132.489 236.051 69.469 210.295"
+                      stroke="#0065ff"
+                      stroke-width="15"
                       stroke-linecap="round"
                     />
                   </svg>
-                  </span>
                 </span>
+                </span>
+                
               </h1>
             </div>
 
