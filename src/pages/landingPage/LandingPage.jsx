@@ -4,16 +4,18 @@ import Banner from "./sections/Banner/Banner";
 import ContactSection from "./sections/contact/ContactSection";
 import CountDown from "./sections/countDown/CountDown";
 import FAQ from "./sections/FAQ/FAQ";
+import TutoringWithUs from "./sections/TutoringWithUs/TutoringWithUs";
 
 const LandingPage = () => {
   return (
-    <div className="bg-slate-100 min-h-screen">
+    <div className="bg-white min-h-screen">
       <Helmet>
         <title>TuitionNetwork</title>
       </Helmet>
       <ContactSection></ContactSection>
       <Banner></Banner>
       <CountDown></CountDown>
+      <TutoringWithUs></TutoringWithUs>
       <FAQ></FAQ>
     </div>
   );

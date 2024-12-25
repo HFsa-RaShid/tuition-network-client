@@ -4,8 +4,9 @@ import tuitions from "../../../../assets/tuitions.png";
 import tuitionMatched from "../../../../assets/tuitionMatched.png";
 const CountDown = () => {
   return (
-    <div className="bg-[#0065ff] h-[130px] flex items-center justify-around text-white">
-      <div className="flex items-center gap-4">
+   <div className="bg-[#0065ff] h-[130px]">
+     <div className="h-full flex items-center justify-around text-white container mx-auto">
+      <div className="flex items-center gap-4 ">
         <div>
           <img src={tutor} alt="tutor" className="h-[52px]" />
         </div>
@@ -33,6 +34,7 @@ const CountDown = () => {
         </div>
       </div>
     </div>
+   </div>
   );
 };
 
