@@ -1,13 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import banner from '../../../../assets/tutor.png'
+import banner from '../../../../assets/teachers.png'
 
 const Banner = () => {
   return (
-    <div className="h-[480px] bg-white py-16 ">
+    <div className="h-[480px] bg-white py-16 mb-5 ">
       <div className="container mx-auto">
-        <div className="flex gap-20 justify-between px-20">
-          <div className="w-[45%]">
+        <div className="flex gap-28 justify-between px-20">
+          <div className="w-[50%]">
             <p className="text-[#DAA520] font-bold">
               100% SATISFACTION GUARANTEE
             </p>
@@ -68,8 +68,8 @@ const Banner = () => {
               </NavLink>
             </div>
           </div>
-          <div className="w-[55%]">
-            <img src={banner} className="h-[350px] w-full"></img>
+          <div className="w-[50%]">
+            <img src={banner} className="h-[400px]"></img>
           </div>
         </div>
       </div>

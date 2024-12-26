@@ -6,6 +6,7 @@ import CountDown from "./sections/countDown/CountDown";
 import FAQ from "./sections/FAQ/FAQ";
 import TutoringWithUs from "./sections/TutoringWithUs/TutoringWithUs";
 import WhyChooseUs from "./sections/whyChooseUs/WhyChooseUs";
+import TuitionTypes from "./sections/tuitionTypes/TuitionTypes";
 
 const LandingPage = () => {
   return (
@@ -17,6 +18,7 @@ const LandingPage = () => {
       <Banner></Banner>
       <CountDown></CountDown>
       <WhyChooseUs></WhyChooseUs>
+      <TuitionTypes></TuitionTypes>
       <TutoringWithUs></TutoringWithUs>
       <FAQ></FAQ>
     </div>

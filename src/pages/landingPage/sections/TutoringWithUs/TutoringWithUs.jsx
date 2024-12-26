@@ -1,5 +1,5 @@
 import React from "react";
-import withUs from "../../../../assets/withUs.png";
+import withUs from "../../../../assets/call.png";
 import withUsBg from "../../../../assets/tutoringbg.jpg";
 import { NavLink } from "react-router-dom";
 

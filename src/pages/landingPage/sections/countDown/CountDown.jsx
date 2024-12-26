@@ -7,27 +7,27 @@ const CountDown = () => {
    <div className="bg-[#0065ff] h-[130px]">
      <div className="h-full flex items-center justify-around text-white container mx-auto">
       <div className="flex items-center gap-4 ">
-        <div>
-          <img src={tutor} alt="tutor" className="h-[52px]" />
-        </div>
+        {/* <div >
+          <img src={tutor} alt="tutor" className="h-[52px] " />
+        </div> */}
         <div>
           <h1 className="text-3xl">5000</h1>
           <p>Verified Tutors</p>
         </div>
       </div>
-      <div className="flex items-center gap-4">
-        <div>
-          <img src={tuitions} alt="tuitions" className="h-[52px]" />
-        </div>
+      <div className="flex items-center gap-4 ">
+        {/* <div >
+          <img src={tuitions} alt="tuitions" className="h-[52px] " />
+        </div> */}
         <div>
           <h1 className="text-3xl">15000</h1>
           <p>Available Tuitions</p>
         </div>
       </div>
       <div className="flex items-center gap-4">
-        <div>
+        {/* <div>
           <img src={tuitionMatched} alt="tuitionMatched" className="h-[52px]" />
-        </div>
+        </div> */}
         <div>
           <h1 className="text-3xl">5000</h1>
           <p>Matched Tuitions</p>
