@@ -16,7 +16,7 @@ const TuitionTypes = () => {
           ].map((type) => (
             <div
               key={type.id}
-              className="relative w-[230px] h-[180px] rounded-[30px_30px_60px_60px] flex flex-col justify-center items-center  shadow-md  shadow-[#f9d045] bg-white"
+              className="relative w-[200px] h-[180px] rounded-[30px_30px_60px_60px] flex flex-col justify-center items-center  shadow-md  shadow-[#f9d045] bg-white"
             >
               {/* Circle Number */}
               <div className="absolute -top-6 flex justify-center items-center w-12 h-12 rounded-full bg-[#f9d045] text-base font-bold">

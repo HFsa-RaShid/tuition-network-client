@@ -1,9 +1,10 @@
 import React from 'react';
-
+import logo from '../../../assets/TuitionNetwork_logo1.png'
+import { NavLink } from 'react-router-dom';
 const Navbar = () => {
   return (
     <div className="navbar bg-base-100 container mx-auto">
-  <div className="navbar-start">
+  <div className="navbar-start ">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
         <svg
@@ -26,16 +27,25 @@ const Navbar = () => {
         <li><a>Item 3</a></li>
       </ul>
     </div>
-    <a className="btn btn-ghost text-xl">TuitionNetwork</a>
+    <NavLink>
+      <div className='flex items-center gap-2'>
+      <img src={logo} alt="logo" className="h-14" />
+      <h1 className='text-3xl font-bold'>Tuition<span className='text-[#DAA520]'>N</span>etwork</h1>
+
+      </div>
+    </NavLink>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-      <li><a>Tutors</a></li>
+      <navLink><a>Tutors</a></navLink>
+      <navLink><a>Tutors</a></navLink>
       <li><a>Item 3</a></li>
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn">Button</a>
+    <NavLink>
+      <button className='bg-[#0065ff] bg-opacity-80 py-[10px] px-6 rounded-3xl text-white shadow-md shadow-blue-900 font-semibold'>Sign Up</button>
+    </NavLink>
   </div>
 </div>
   );

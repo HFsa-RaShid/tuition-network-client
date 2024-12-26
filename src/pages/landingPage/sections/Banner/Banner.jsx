@@ -12,7 +12,7 @@ const Banner = () => {
     <div className="h-[480px] bg-white py-16 mb-16 ">
       <div className="container mx-auto">
         <div className="flex gap-32 justify-between px-20">
-          <div className="w-[55%]">
+          <div className="w-[55%] mt-8">
             <p className="text-[#DAA520] font-bold">
               100% SATISFACTION GUARANTEE
             </p>
@@ -66,7 +66,7 @@ const Banner = () => {
             </p>
             <div className="mt-8 font-semibold">
               <NavLink>
-                <button className="bg-[#f9d045] py-3 px-6 rounded-3xl">
+                <button className="bg-[#f9d045] py-3 px-6 rounded-3xl shadow-md shadow-blue-500">
                   Get Started
                 </button>
               </NavLink>
