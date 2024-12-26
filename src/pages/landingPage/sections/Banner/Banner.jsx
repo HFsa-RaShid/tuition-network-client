@@ -4,9 +4,12 @@ import banner from "../../../../assets/teachers.png";
 import yellowCircle from "../../../../assets/yellowCircle.png";
 import grayCircle from "../../../../assets/grayCircle.png";
 import blueCircle from "../../../../assets/blueCircle.png";
+import yellowShape from "../../../../assets/yellowShape.png";
+import blueShape from "../../../../assets/blueShape.png";
+import wireShape from "../../../../assets/Highlight 26.png";
 const Banner = () => {
   return (
-    <div className="h-[480px] bg-white py-16 mb-5 ">
+    <div className="h-[480px] bg-white py-16 mb-16 ">
       <div className="container mx-auto">
         <div className="flex gap-32 justify-between px-20">
           <div className="w-[55%]">
@@ -80,8 +83,11 @@ const Banner = () => {
             />
           
             <img src={yellowCircle}  className="absolute top-[-30px] -right-12 z-0 opacity-50"></img>
+            <img src={blueShape}  className="absolute top-[-20px] -right-16 z-0 h-[40px]"/>
             <img src={grayCircle}  className="absolute top-[150px] -right-20 z-0 opacity-50 "></img>
+            <img src={yellowShape}  className="absolute top-[132px] -right-16 z-0 h-[40px]"/>
             <img src={blueCircle}  className="absolute bottom-[-30px] -left-8 z-0 opacity-50 "></img>
+            <img src={wireShape}  className="absolute bottom-0 -left-16 z-0 h-[20px]"/>
             </div>
           </div>
         </div>
