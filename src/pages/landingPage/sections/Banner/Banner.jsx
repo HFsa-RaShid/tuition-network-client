@@ -1,13 +1,15 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import banner from '../../../../assets/teachers.png'
-
+import banner from "../../../../assets/teachers.png";
+import yellowCircle from "../../../../assets/yellowCircle.png";
+import grayCircle from "../../../../assets/grayCircle.png";
+import blueCircle from "../../../../assets/blueCircle.png";
 const Banner = () => {
   return (
     <div className="h-[480px] bg-white py-16 mb-5 ">
       <div className="container mx-auto">
-        <div className="flex gap-28 justify-between px-20">
-          <div className="w-[50%]">
+        <div className="flex gap-32 justify-between px-20">
+          <div className="w-[55%]">
             <p className="text-[#DAA520] font-bold">
               100% SATISFACTION GUARANTEE
             </p>
@@ -35,23 +37,22 @@ const Banner = () => {
                   </span>
                   {/* flower line */}
                   <span className="absolute bottom-8 left-[118px] w-full">
-                  <svg
-                    width="40"
-                    height="35"
-                    viewBox="0 0 256 222"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.57951 166.787C6.95283 123.003 5.72063 35.4108 21.8054 35.3182C41.9113 35.2025 66.7846 121.96 64.7991 143.575C62.8136 165.191 88.6879 28.8063 117.55 10.0993C146.412 -8.60783 119.285 134.878 109.071 151.382C98.8577 167.885 210.559 83.2433 243.267 94.502C275.974 105.761 132.489 236.051 69.469 210.295"
-                      stroke="#0065ff"
-                      stroke-width="15"
-                      stroke-linecap="round"
-                    />
-                  </svg>
+                    <svg
+                      width="40"
+                      height="35"
+                      viewBox="0 0 256 222"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9.57951 166.787C6.95283 123.003 5.72063 35.4108 21.8054 35.3182C41.9113 35.2025 66.7846 121.96 64.7991 143.575C62.8136 165.191 88.6879 28.8063 117.55 10.0993C146.412 -8.60783 119.285 134.878 109.071 151.382C98.8577 167.885 210.559 83.2433 243.267 94.502C275.974 105.761 132.489 236.051 69.469 210.295"
+                        stroke="#0065ff"
+                        stroke-width="15"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
                 </span>
-                </span>
-                
               </h1>
             </div>
 
@@ -68,8 +69,20 @@ const Banner = () => {
               </NavLink>
             </div>
           </div>
-          <div className="w-[50%]">
-            <img src={banner} className="h-[400px]"></img>
+
+          <div className=" w-[45%] mr-2">
+        
+            <div className="relative w-[400px]">
+            <img
+              src={banner}
+              alt="Banner"
+              className="h-[400px] relative z-10  w-full"
+            />
+          
+            <img src={yellowCircle}  className="absolute top-[-30px] -right-12 z-0 opacity-50"></img>
+            <img src={grayCircle}  className="absolute top-[150px] -right-20 z-0 opacity-50 "></img>
+            <img src={blueCircle}  className="absolute bottom-[-30px] -left-8 z-0 opacity-50 "></img>
+            </div>
           </div>
         </div>
       </div>
