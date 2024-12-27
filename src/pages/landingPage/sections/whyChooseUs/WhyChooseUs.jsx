@@ -38,7 +38,7 @@ const WhyChooseUs = () => {
                     {benefits.map((benefit, index) => (
                         <div
                             key={index}
-                            className="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-lg transition-shadow"
+                            className="bg-white z-30 shadow-lg shadow-slate-300 rounded-lg p-6 text-center hover:shadow-lg transition-shadow"
                         >
                             <div className="text-5xl mb-4">{benefit.icon}</div>
                             <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>

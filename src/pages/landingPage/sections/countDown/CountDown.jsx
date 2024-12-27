@@ -7,14 +7,14 @@ const CountDown = () => {
           <h1 className="text-3xl">5000</h1>
           <p>Verified Tutors</p>
         </div>
-        <div className="h-[70%] border border-gray-400"></div>
+        <div className="h-[70%] border border-gray-300"></div>
 
 
         <div>
           <h1 className="text-3xl">15000</h1>
           <p>Available Tuitions</p>
         </div>
-        <div className="h-[70%] border border-gray-400"></div>
+        <div className="h-[70%] border border-gray-300"></div>
 
 
         <div>

@@ -8,7 +8,7 @@ const TuitionTypes = () => {
         <h2 className="text-3xl font-bold mb-1">Find the Best Tuition Type</h2>
         <h2 className="text-3xl font-bold mb-1">which suits you most</h2>
 
-        <div className="flex justify-evenly items-center py-16 ">
+        <div className="flex justify-evenly items-center py-16  ">
           {[
             { id: 1, text: "Home" },
             { id: 2, text: "Online" },
@@ -16,10 +16,10 @@ const TuitionTypes = () => {
           ].map((type) => (
             <div
               key={type.id}
-              className="relative w-[200px] h-[180px] rounded-[30px_30px_60px_60px] flex flex-col justify-center items-center  shadow-md  shadow-[#f9d045] bg-white"
+              className="relative w-[200px] h-[180px] rounded-[30px_30px_60px_60px] flex flex-col justify-center items-center  shadow-sm  shadow-[#f9d045] bg-white "
             >
               {/* Circle Number */}
-              <div className="absolute -top-6 flex justify-center items-center w-12 h-12 rounded-full bg-[#f9d045] text-base font-bold">
+              <div className="absolute -top-6 flex justify-center items-center w-12 h-12 rounded-full bg-[#f9d045] text-base font-bold ">
                 {type.id}
               </div>
 
