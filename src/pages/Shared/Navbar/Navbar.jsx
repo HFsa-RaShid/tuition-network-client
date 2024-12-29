@@ -146,7 +146,7 @@ const Navbar = () => {
             )}
           </div>
 
-          <NavLink>
+          <NavLink to={"/signIn"}>
             <button className="bg-[#0065ff] bg-opacity-80 py-[10px] px-6 rounded-3xl text-white shadow-md shadow-blue-900 font-semibold">
               Sign Up
             </button>
