@@ -10,7 +10,7 @@ import TuitionTypes from "./sections/tuitionTypes/TuitionTypes";
 
 const LandingPage = () => {
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-base-100 min-h-screen">
       <Helmet>
         <title>TuitionNetwork</title>
       </Helmet>

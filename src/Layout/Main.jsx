@@ -7,7 +7,7 @@ const Main = () => {
     const noHeaderFooter = location.pathname.includes('login');
     const noHeaderFooterSignUp = location.pathname.includes('signup')
     return (
-        <div>
+        <div >
             { noHeaderFooter || noHeaderFooterSignUp || <Navbar></Navbar>}
             <Outlet></Outlet>
             { noHeaderFooter || noHeaderFooterSignUp || <Footer></Footer>}

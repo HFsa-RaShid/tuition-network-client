@@ -2,7 +2,7 @@ import logo from "../../../assets/TuitionNetwork_logo1.png";
 
 const Footer = () => {
   return (
-    <footer className=" bg-slate-100 text-base-content px-10 pt-10 pb-6 rounded-t-3xl border-t-4">
+    <footer className=" bg-slate-100 text-black px-10 pt-10 pb-6 rounded-t-3xl border-t-4">
       <div className="footer pb-6">
         <div className="flex flex-col items-start space-y-4">
           <img src={logo} alt="logo" className="h-20 mx-auto" />
@@ -83,7 +83,7 @@ const Footer = () => {
         </form>
       </div>
       <hr></hr>
-      <div className="text-center pt-6">
+      <div className="text-center pt-6 text-gray-700">
         <p>
           Copyright © {new Date().getFullYear()} - All right reserved by Tuition
           Network Ltd

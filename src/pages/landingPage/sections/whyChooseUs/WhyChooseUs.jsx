@@ -32,17 +32,17 @@ const WhyChooseUs = () => {
         <div className="bg-slate-100 py-16">
             <div className="container mx-auto text-center px-20">
                 <h4 className="text-[#DAA520] font-bold mb-2">WHY CHOOSE US</h4>
-                <h2 className="text-3xl font-bold mb-1">Benefits of Online Tutoring</h2>
-                <h2 className="text-3xl font-bold mb-8">Services with Us</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <h2 className="text-3xl font-bold mb-1 text-black">Benefits of Online Tutoring</h2>
+                <h2 className="text-3xl font-bold mb-8 text-black">Services with Us</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
                     {benefits.map((benefit, index) => (
                         <div
                             key={index}
-                            className="bg-white z-30 shadow-lg shadow-slate-300 rounded-lg p-6 text-center hover:shadow-lg transition-shadow"
+                            className="bg-base-100 z-30 shadow-lg shadow-slate-300 rounded-lg p-6 text-center hover:shadow-lg transition-shadow"
                         >
                             <div className="text-5xl mb-4">{benefit.icon}</div>
                             <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
-                            <p className="text-gray-600">{benefit.description}</p>
+                            <p className="text-base">{benefit.description}</p>
                         </div>
                     ))}
                 </div>
