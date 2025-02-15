@@ -7,6 +7,8 @@ import FAQ from "./sections/FAQ/FAQ";
 import TutoringWithUs from "./sections/TutoringWithUs/TutoringWithUs";
 import WhyChooseUs from "./sections/whyChooseUs/WhyChooseUs";
 import TuitionTypes from "./sections/tuitionTypes/TuitionTypes";
+import Navbar from "../Shared/Navbar/Navbar";
+import Footer from "../Shared/Footer/Footer";
 
 const LandingPage = () => {
   return (
@@ -14,6 +16,7 @@ const LandingPage = () => {
       <Helmet>
         <title>TuitionNetwork</title>
       </Helmet>
+      <Navbar></Navbar>
       <ContactSection></ContactSection>
       <Banner></Banner>
       <CountDown></CountDown>
@@ -21,6 +24,7 @@ const LandingPage = () => {
       <TuitionTypes></TuitionTypes>
       <TutoringWithUs></TutoringWithUs>
       <FAQ></FAQ>
+      <Footer></Footer>
     </div>
   );
 };

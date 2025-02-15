@@ -35,9 +35,9 @@ const GoogleSignIn = () => {
 
   return (
     <div>
-      <div className="bg-[#f9d045] rounded-3xl shadow-md shadow-blue-500 my-1 font-bold w-full gap-2 flex items-center justify-center text-xl text-center">
+      <div className="bg-[#f9d045] rounded-3xl shadow-md shadow-blue-500 my-1 font-semibold w-full gap-2 flex items-center justify-center text-xl text-center text-blue-800">
         <FcGoogle />
-        <button className="text-black py-2">Google</button>
+        <button className=" py-2">Google</button>
       </div>
 
       {/* onClick={handleGoogleLogIn} */}

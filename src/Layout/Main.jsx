@@ -4,16 +4,19 @@ import Navbar from "../pages/Shared/Navbar/Navbar";
 
 const Main = () => {
     const location = useLocation();
-    const noHeaderFooter = location.pathname.includes('login');
-    const noHeaderFooterSignUp = location.pathname.includes('signup')
+    const noHeaderFooter = location.pathname.includes('signIn');
+    const noHeaderFooterSignUp = location.pathname.includes('signUp')
     return (
-        <div >
-            { noHeaderFooter || noHeaderFooterSignUp || <Navbar></Navbar>}
+        <div>
+       
             <Outlet></Outlet>
-            { noHeaderFooter || noHeaderFooterSignUp || <Footer></Footer>}
+ 
+            
             
         </div>
     );
 };
 
 export default Main;
+
+
