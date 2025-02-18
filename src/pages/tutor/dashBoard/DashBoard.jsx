@@ -1,103 +1,69 @@
+
 import React, { useState } from "react";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import { RiArrowLeftDoubleLine } from "react-icons/ri";
+import { FaUser, FaEnvelope, FaBookOpen, FaTags, FaHistory, FaUsers, FaCog } from "react-icons/fa";
+
 const DashBoard = () => {
   const [activeSection, setActiveSection] = useState("Profile Details");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  // const renderContent = () => {
-  //     switch (activeSection) {
-  //         case 'Messages':
-  //             return <Messages />;
-  //         case 'My Tuitions':
-  //             return <MyTuitions />;
-  //         case 'Offers':
-  //             return <Offers />;
-  //         case 'Payment History':
-  //             return <PaymentHistory />;
-  //         case 'Affiliate Program':
-  //             return <AffiliateProgram />;
-  //         case 'Settings':
-  //             return <Settings />;
-  //         default:
-  //             return <ProfileDetails />;
-  //     }
-  // };
+  const menuItems = [
+    { name: "Profile Details", icon: <FaUser /> },
+    { name: "Messages", icon: <FaEnvelope /> },
+    { name: "My Tuitions", icon: <FaBookOpen /> },
+    { name: "Offers", icon: <FaTags /> },
+    { name: "Payment History", icon: <FaHistory /> },
+    { name: "Affiliate Program", icon: <FaUsers /> },
+    { name: "Settings", icon: <FaCog /> },
+  ];
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen transition-all duration-300">
       {/* Sidebar */}
-      <div className="w-1/5 bg-gray-900 text-white p-5 flex flex-col items-start space-y-4">
+      <div
+        className={`${
+          isSidebarOpen ? "w-1/5" : "w-16"
+        } bg-gray-900 text-white p-5 flex flex-col items-start space-y-4 relative transition-all duration-300`}
+      >
+        {/* Logo */}
         <div className="flex items-center space-x-2">
-          <img src="/logo.png" alt="Logo" className="w-10 h-10" />
+          {isSidebarOpen && <img src="/logo.png" alt="Logo" className="w-10 h-10" />}
         </div>
-        <button
-          className={`w-full text-left py-2 px-4 rounded ${
-            activeSection === "Profile Details" ? "bg-yellow-500" : ""
-          }`}
-          onClick={() => setActiveSection("Profile Details")}
-        >
-          Profile Details
-        </button>
-        <button
-          className={`w-full text-left py-2 px-4 rounded ${
-            activeSection === "Messages" ? "bg-yellow-500" : ""
-          }`}
-          onClick={() => setActiveSection("Messages")}
-        >
-          Messages
-        </button>
-        <button
-          className={`w-full text-left py-2 px-4 rounded ${
-            activeSection === "My Tuitions" ? "bg-yellow-500" : ""
-          }`}
-          onClick={() => setActiveSection("My Tuitions")}
-        >
-          My Tuitions
-        </button>
-        <button
-          className={`w-full text-left py-2 px-4 rounded ${
-            activeSection === "Offers" ? "bg-yellow-500" : ""
-          }`}
-          onClick={() => setActiveSection("Offers")}
-        >
-          Offers
-        </button>
-        <button
-          className={`w-full text-left py-2 px-4 rounded ${
-            activeSection === "Payment History" ? "bg-yellow-500" : ""
-          }`}
-          onClick={() => setActiveSection("Payment History")}
-        >
-          Payment History
-        </button>
-        <button
-          className={`w-full text-left py-2 px-4 rounded ${
-            activeSection === "Affiliate Program" ? "bg-yellow-500" : ""
-          }`}
-          onClick={() => setActiveSection("Affiliate Program")}
-        >
-          Affiliate Program
-        </button>
-        <button
-          className={`w-full text-left py-2 px-4 rounded ${
-            activeSection === "Settings" ? "bg-yellow-500" : ""
-          }`}
-          onClick={() => setActiveSection("Settings")}
-        >
-          Settings
-        </button>
 
+        {/* Sidebar Buttons with Icons */}
+        <div className="flex flex-col space-y-2 w-full">
+          {menuItems.map((item) => (
+            <button
+              key={item.name}
+              className={`flex items-center w-full text-left py-2 px-4 rounded transition-all duration-300 ${
+                activeSection === item.name ? "bg-yellow-500" : ""
+              } ${!isSidebarOpen ? "justify-center px-2" : ""}`}
+              onClick={() => setActiveSection(item.name)}
+            >
+              <span className="text-lg">{item.icon}</span>
+              {isSidebarOpen && <span className="ml-3">{item.name}</span>}
+            </button>
+          ))}
+        </div>
+
+        {/* Toggle Button (On Sidebar Side) */}
         <button
-          className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-yellow-500 p-2 rounded-full"
+          className="absolute bottom-5 -right-4 bg-yellow-500 p-2 rounded-full transition-all duration-300"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
           {isSidebarOpen ? <RiArrowLeftDoubleLine size={20} /> : <MdOutlineKeyboardDoubleArrowRight size={20} />}
         </button>
       </div>
 
-      {/* Main Content */}
-      <div className="w-4/5 bg-gray-100 p-6">{/* {renderContent()} */}</div>
+      {/* Main Dashboard Content */}
+      <div
+        className={`transition-all duration-300 ${
+          isSidebarOpen ? "w-4/5" : "w-full"
+        } bg-gray-100 p-6`}
+      >
+        <h1 className="text-2xl font-bold">{activeSection}</h1>
+      </div>
     </div>
   );
 };
