@@ -4,6 +4,7 @@ import ErrorPage from "../pages/errorPage/ErrorPage";
 import LandingPage from "../pages/landingPage/LandingPage";
 import SignIn from "../pages/landingPage/Auth/SignIn/SignIn";
 import SignUp from "../pages/landingPage/Auth/signUp/SignUp";
+import DashBoard from "../pages/tutor/dashBoard/DashBoard";
 
 
 
@@ -27,6 +28,11 @@ export const router = createBrowserRouter([
         {
           path: "/signUp",
           element: <SignUp></SignUp>,
+          
+        },
+        {
+          path: "/dashBoard",
+          element: <DashBoard></DashBoard>,
           
         },
 

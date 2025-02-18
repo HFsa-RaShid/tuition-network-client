@@ -8,7 +8,7 @@ const Main = () => {
     const noHeaderFooterSignUp = location.pathname.includes('signUp')
     return (
         <div>
-       
+      
             <Outlet></Outlet>
  
             
