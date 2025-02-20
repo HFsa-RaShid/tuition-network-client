@@ -50,22 +50,22 @@ const AuthProvider = ({ children }) => {
             setUser(currentUser);
             console.log('observing current provider', currentUser);
             
-             // if user exists then issue a token
-             if(currentUser){
-                const userInfo = {email: currentUser.email };
-                axiosPublic.post('/jwt', userInfo)
-                .then(res => {
-                    // console.log('token response',res.data);
-                    if(res.data.token){
-                        localStorage.setItem('access-token',res.data.token);
-                        setLoading(false);
-                    }
-                })
-            }
-            else{
-                localStorage.removeItem('access-token')
-                setLoading(false);
-            }
+            //  // if user exists then issue a token
+            //  if(currentUser){
+            //     const userInfo = {email: currentUser.email };
+            //     axiosPublic.post('/jwt', userInfo)
+            //     .then(res => {
+            //         // console.log('token response',res.data);
+            //         if(res.data.token){
+            //             localStorage.setItem('access-token',res.data.token);
+            //             setLoading(false);
+            //         }
+            //     })
+            // }
+            // else{
+            //     localStorage.removeItem('access-token')
+            //     setLoading(false);
+            // }
             
         });
         return () => {

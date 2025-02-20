@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../../provider/AuthProvider";
+import toast from "react-hot-toast";
 
 const SignupPage = () => {
   const [userType, setUserType] = useState("parent");
@@ -29,14 +30,15 @@ const SignupPage = () => {
       const res = await axiosPublic.post('/users', userInfo);
 
       if (res.data.insertedId) {
-        toast.success("Registered successfully!");
+        toast.success('Successfully toasted!')
         setTimeout(() => {
           navigate("/");
         }, 500);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Error during registration");
+      toast.error("Error during registration. Please try again.");
+    
     }
   };
 
