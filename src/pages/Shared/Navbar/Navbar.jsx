@@ -1,13 +1,25 @@
 import { BsSunFill } from "react-icons/bs";
 import { BiSolidMoon } from "react-icons/bi";
 import { PiCloudSunFill } from "react-icons/pi";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import logo from "../../../assets/TuitionNetwork_logo1.png";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../../provider/AuthProvider";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleSignOut = () => {
+    logOut()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Error during sign out:", error);
+      });
+  };
 
   useEffect(() => {
     const root = document.documentElement;
@@ -53,7 +65,7 @@ const Navbar = () => {
               <li>
                 <NavLink
                   className={({ isActive }) =>
-                    isActive ? "text-blue-600" : " "
+                    isActive ? "text-[#123d7e]" : " "
                   }
                   to="/"
                 >
@@ -86,7 +98,7 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1 font-semibold text-[18px]">
             <li>
               <NavLink
-                className={({ isActive }) => (isActive ? "text-blue-600" : " ")}
+                className={({ isActive }) => (isActive ? "text-[#123d7e]" : " ")}
                 to="/"
               >
                 Tutors
@@ -146,11 +158,23 @@ const Navbar = () => {
             )}
           </div>
 
-          <NavLink to={"/signIn"}>
-            <button className="bg-[#0065ff] bg-opacity-80 py-[10px] px-6 rounded-3xl text-white shadow-md shadow-blue-900 font-semibold">
-              Sign Up
-            </button>
-          </NavLink>
+          {user ? (
+            <>
+              {/* <img src={profileImage} className="rounded-full h-[42px] w-[42px] mr-4" key={profileImage} /> */}
+              <button
+                onClick={handleSignOut}
+                className="bg-[#123d7e] py-[10px] px-6 rounded-3xl text-white shadow-md shadow-blue-900 font-semibold"
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <NavLink to="/signIn">
+              <button className="bg-[#123d7e] py-[10px] px-6 rounded-3xl text-white shadow-md shadow-blue-900 font-semibold">
+                Sign Up
+              </button>
+            </NavLink>
+          )}
         </div>
       </div>
     </div>

@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import { RiArrowLeftDoubleLine } from "react-icons/ri";
 import { FaUser, FaEnvelope, FaBookOpen, FaTags, FaHistory, FaUsers, FaCog } from "react-icons/fa";
+import logo from '../../../assets/TuitionNetwork_logo1.png';
+import { NavLink } from "react-router-dom";
 
-const DashBoard = () => {
+const ParentDashBoard = () => {
   const [activeSection, setActiveSection] = useState("Profile Details");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
@@ -14,7 +16,7 @@ const DashBoard = () => {
     { name: "My Tuitions", icon: <FaBookOpen /> },
     { name: "Offers", icon: <FaTags /> },
     { name: "Payment History", icon: <FaHistory /> },
-    { name: "Affiliate Program", icon: <FaUsers /> },
+    { name: "Tuition Exchange Community", icon: <FaUsers /> },
     { name: "Settings", icon: <FaCog /> },
   ];
 
@@ -24,12 +26,18 @@ const DashBoard = () => {
       <div
         className={`${
           isSidebarOpen ? "w-1/5" : "w-16"
-        } bg-gray-900 text-white p-5 flex flex-col items-start space-y-4 relative transition-all duration-300`}
+        } bg-[#082755] text-white p-5 flex flex-col items-start space-y-4 relative transition-all duration-300`}
       >
         {/* Logo */}
-        <div className="flex items-center space-x-2">
-          {isSidebarOpen && <img src="/logo.png" alt="Logo" className="w-10 h-10" />}
-        </div>
+       
+        <NavLink to="/">
+            <div className="flex items-center space-x-2 mb-8 mt-2">
+            {isSidebarOpen && <img src={logo} alt="Logo" className="w-10 h-10 bg-slate-100 rounded-md" />}
+            <h1 className="text-2xl font-bold ">
+                Tuition<span className="text-[#DAA520]">N</span>etwork
+              </h1>
+            </div>
+          </NavLink>
 
         {/* Sidebar Buttons with Icons */}
         <div className="flex flex-col space-y-2 w-full">
@@ -37,7 +45,7 @@ const DashBoard = () => {
             <button
               key={item.name}
               className={`flex items-center w-full text-left py-2 px-4 rounded transition-all duration-300 ${
-                activeSection === item.name ? "bg-yellow-500" : ""
+                activeSection === item.name ? "bg-yellow-500 text-[#071c3b]" : ""
               } ${!isSidebarOpen ? "justify-center px-2" : ""}`}
               onClick={() => setActiveSection(item.name)}
             >
@@ -49,7 +57,7 @@ const DashBoard = () => {
 
         {/* Toggle Button (On Sidebar Side) */}
         <button
-          className="absolute bottom-5 -right-4 bg-yellow-500 p-2 rounded-full transition-all duration-300"
+          className="absolute bottom-5 -right-4 bg-yellow-500 text-[#071c3b] p-2 rounded-full transition-all duration-300"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
           {isSidebarOpen ? <RiArrowLeftDoubleLine size={20} /> : <MdOutlineKeyboardDoubleArrowRight size={20} />}
@@ -68,4 +76,4 @@ const DashBoard = () => {
   );
 };
 
-export default DashBoard;
+export default ParentDashBoard;

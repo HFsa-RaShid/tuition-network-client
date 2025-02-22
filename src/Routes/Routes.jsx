@@ -4,9 +4,8 @@ import ErrorPage from "../pages/errorPage/ErrorPage";
 import LandingPage from "../pages/landingPage/LandingPage";
 import SignIn from "../pages/landingPage/Auth/SignIn/SignIn";
 import SignUp from "../pages/landingPage/Auth/signUp/SignUp";
-import DashBoard from "../pages/tutor/dashBoard/DashBoard";
-
-
+import ParentDashBoard from "../pages/parentOrStudent/dashBoard/ParentDashboard";
+import TutorDashBoard from "../pages/tutor/dashBoard/TutorDashBoard";
 
 export const router = createBrowserRouter([
     {
@@ -32,7 +31,12 @@ export const router = createBrowserRouter([
         },
         {
           path: "/tutorDashBoard",
-          element: <DashBoard></DashBoard>,
+          element: <TutorDashBoard></TutorDashBoard>,
+          
+        },
+        {
+          path: "/parentDashBoard",
+          element: <ParentDashBoard></ParentDashBoard>,
           
         },
 

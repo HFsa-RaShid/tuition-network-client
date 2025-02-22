@@ -17,30 +17,31 @@ const SignupPage = () => {
     try {
       const result = await createUser(data.email, data.password);
       console.log(result.user);
-
+  
       // Update user profile
       await updateUserProfile(data.name);
-
+  
       const userInfo = {
         name: data.name,
         email: data.email,
-        role: userType, // Setting the role dynamically
+        role: userType, 
       };
-
+  
       const res = await axiosPublic.post('/users', userInfo);
-
+  
       if (res.data.insertedId) {
-        toast.success('Successfully toasted!')
+        toast.success('Account created successfully!');
         setTimeout(() => {
-          navigate("/");
+          // Redirect based on role
+          navigate(userType === "parent" ? "/parentDashBoard" : "/tutorDashBoard", { replace: true });
         }, 500);
       }
     } catch (error) {
       console.error(error);
       toast.error("Error during registration. Please try again.");
-    
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -56,7 +57,7 @@ const SignupPage = () => {
 
         {/* Right Section - Form */}
         <div className="w-full md:w-1/2 bg-white px-10 py-6">
-          <h2 className="text-3xl font-bold text-blue-500">Create an Account</h2>
+          <h2 className="text-3xl font-bold text-[#123d7e]">Create an Account</h2>
           <p className="text-gray-600">Let's get started on a new journey!</p>
 
           {/* User Type Selection */}
