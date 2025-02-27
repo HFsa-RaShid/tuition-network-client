@@ -24,6 +24,9 @@ const SignupPage = () => {
       const userInfo = {
         name: data.name,
         email: data.email,
+        phone: data.phone,
+        password: data.password,
+        gender: data.gender,
         role: userType, 
       };
   

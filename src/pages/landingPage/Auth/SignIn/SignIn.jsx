@@ -105,7 +105,7 @@ const SignIn = () => {
           </form>
 
           <div className="text-center mt-2 text-gray-500">──────── Or ────────</div>
-          <GoogleSignIn />
+          <GoogleSignIn role={role} />
           <p className="text-center mt-4 text-[14px] text-gray-700">
             New to TuitionNetwork? Please <Link to="/signup" className="text-blue-700 underline font-semibold">Sign Up</Link>
           </p>
