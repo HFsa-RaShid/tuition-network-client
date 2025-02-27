@@ -9,6 +9,7 @@ import ParentDashBoard from "../pages/parentOrStudent/dashBoard/ParentDashboard"
 import TutorDashBoard from "../pages/tutor/dashBoard/TutorDashBoard";
 import TutorRequest from "../pages/parentOrStudent/dashBoardPages/TutorRequest/TutorRequest";
 import ProfileDetails from "../pages/parentOrStudent/dashBoardPages/ProfileDetails/ProfileDetails";
+import DashBoardPage from "../pages/parentOrStudent/dashBoardPages/dasgBoardPage/DashBoardPage";
 
 
 export const router = createBrowserRouter([
@@ -42,6 +43,7 @@ export const router = createBrowserRouter([
         path: "/parentDashBoard",
         element: <ParentDashBoard />,
         children: [
+          { path: "dashBoardPage", element: <DashBoardPage></DashBoardPage>},
           { path: "profile-details", element: <ProfileDetails /> },
           { path: "tutor-request", element: <TutorRequest /> },
           // { path: "posted-jobs", element: <PostedJobs /> },

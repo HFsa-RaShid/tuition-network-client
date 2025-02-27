@@ -36,7 +36,7 @@ const SignupPage = () => {
         toast.success('Account created successfully!');
         setTimeout(() => {
           // Redirect based on role
-          navigate(userType === "parent" ? "/parentDashBoard" : "/tutorDashBoard", { replace: true });
+          navigate(userType === "parent" ? "/parentDashBoard/dashBoardPage" : "/tutorDashBoard", { replace: true });
         }, 500);
       }
     } catch (error) {

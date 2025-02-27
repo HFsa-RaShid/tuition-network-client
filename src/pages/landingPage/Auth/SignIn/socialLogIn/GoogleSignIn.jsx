@@ -18,13 +18,16 @@ const GoogleSignIn = ({ role }) => {
       const result = await googleSignIn();
       const userInfo = {
         name: result.user?.displayName,
-        email: result.user?.email.toLowerCase(), // ✅ Lowercase email
+        email: result.user?.email.toLowerCase(), 
         role: role,
       };
   
       let userExists = false;
+      let data = null; // Define data here
+  
       try {
-        const { data } = await axiosPublic.get(`/users/${userInfo.email}`);
+        const response = await axiosPublic.get(`/users/${userInfo.email}`);
+        data = response.data; // Store the response data
         userExists = data?.role ? true : false;
       } catch (error) {
         if (error.response?.status === 404) {
@@ -37,13 +40,13 @@ const GoogleSignIn = ({ role }) => {
       if (userExists) {
         toast.success("Sign In successfully");
         setTimeout(() => {
-          navigate(data.role === "parent" ? "/parentDashBoard" : "/tutorDashBoard", { replace: true });
+          navigate(data.role === "parent" ? "/parentDashBoard/dashBoardPage" : "/tutorDashBoard", { replace: true });
         }, 1000);
       } else {
         await axiosPublic.post("/users", userInfo);
         toast.success("Sign Up successful! Redirecting...");
         setTimeout(() => {
-          navigate(role === "parent" ? "/parentDashBoard" : "/tutorDashBoard", { replace: true });
+          navigate(role === "parent" ? "/parentDashBoard/dashBoardPage" : "/tutorDashBoard", { replace: true });
         }, 1000);
       }
     } catch (error) {
@@ -51,6 +54,7 @@ const GoogleSignIn = ({ role }) => {
       toast.error("Google Sign In failed. Try again.");
     }
   };
+  
   
   return (
     <div>
