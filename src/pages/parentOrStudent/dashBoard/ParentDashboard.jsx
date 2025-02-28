@@ -46,8 +46,8 @@ const ParentDashBoard = () => {
             to="/parentDashBoard/dashBoardPage"
             className={({ isActive }) =>
               isActive
-                ? "bg-yellow-500 p-2 rounded-lg flex items-center space-x-3"
-                : "p-3 rounded-lg flex items-center space-x-3"
+                ? "bg-yellow-500 p-1 rounded-lg flex items-center space-x-3"
+                : "p-1 rounded-lg flex items-center space-x-3"
             }
           >
             <FaUser />
@@ -57,8 +57,8 @@ const ParentDashBoard = () => {
             to="/parentDashBoard/profile-details"
             className={({ isActive }) =>
               isActive
-                ? "bg-yellow-500 p-2 rounded-lg flex items-center space-x-3 text-black"
-                : "p-3 rounded-lg flex items-center space-x-3"
+                ? "bg-yellow-500 p-1 rounded-lg flex items-center space-x-3 text-black"
+                : "p-1 rounded-lg flex items-center space-x-3"
             }
           >
             <FaUser />
@@ -68,8 +68,8 @@ const ParentDashBoard = () => {
             to="/parentDashBoard/tutor-request"
             className={({ isActive }) =>
               isActive
-                ? "bg-yellow-500 p-2 rounded-lg flex items-center space-x-3"
-                : "p-3 rounded-lg flex items-center space-x-3"
+                ? "bg-yellow-500 p-1 rounded-lg flex items-center space-x-3"
+                : "p-1 rounded-lg flex items-center space-x-3"
             }
           >
             <FaUsers />
@@ -79,8 +79,8 @@ const ParentDashBoard = () => {
             to="/parentDashBoard/posted-jobs"
             className={({ isActive }) =>
               isActive
-                ? "bg-yellow-500 p-2 rounded-lg flex items-center space-x-3"
-                : "p-3 rounded-lg flex items-center space-x-3"
+                ? "bg-yellow-500 p-1 rounded-lg flex items-center space-x-3"
+                : "p-1 rounded-lg flex items-center space-x-3"
             }
           >
             <FaBookOpen />
@@ -90,8 +90,8 @@ const ParentDashBoard = () => {
             to="/parentDashBoard/chat"
             className={({ isActive }) =>
               isActive
-                ? "bg-yellow-500 p-2 rounded-lg flex items-center space-x-3"
-                : "p-3 rounded-lg flex items-center space-x-3"
+                ? "bg-yellow-500 p-1 rounded-lg flex items-center space-x-3"
+                : "p-1 rounded-lg flex items-center space-x-3"
             }
           >
             <FaEnvelope />
@@ -101,8 +101,8 @@ const ParentDashBoard = () => {
             to="/parentDashBoard/payment-history"
             className={({ isActive }) =>
               isActive
-                ? "bg-yellow-500 p-2 rounded-lg flex items-center space-x-3"
-                : "p-3 rounded-lg flex items-center space-x-3"
+                ? "bg-yellow-500 p-1 rounded-lg flex items-center space-x-3"
+                : "p-1 rounded-lg flex items-center space-x-3"
             }
           >
             <FaHistory />
@@ -112,8 +112,8 @@ const ParentDashBoard = () => {
             to="/parentDashBoard/tuition-exchange"
             className={({ isActive }) =>
               isActive
-                ? "bg-yellow-500 p-2 rounded-lg flex items-center space-x-3"
-                : "p-3 rounded-lg flex items-center space-x-3"
+                ? "bg-yellow-500 p-1 rounded-lg flex items-center space-x-3"
+                : "p-1 rounded-lg flex items-center space-x-3"
             }
           >
             <FaTags />
@@ -123,8 +123,8 @@ const ParentDashBoard = () => {
             to="/parentDashBoard/settings"
             className={({ isActive }) =>
               isActive
-                ? "bg-yellow-500 p-2 rounded-lg flex items-center space-x-3"
-                : "p-3 rounded-lg flex items-center space-x-3"
+                ? "bg-yellow-500 p-1 rounded-lg flex items-center space-x-3"
+                : "p-1 rounded-lg flex items-center space-x-3"
             }
           >
             <FaCog />
