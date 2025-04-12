@@ -12,6 +12,14 @@ const DashBoard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { user } = useContext(AuthContext);
   const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
+  
+  if (isLoading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-white">
+        <span className="loading loading-spinner text-yellow-500 text-3xl"></span>
+      </div>
+    );
+  }
 
   // Parent Routes (visible to Parent & Admin)
   const StudentRoutes = [
@@ -122,10 +130,10 @@ const DashBoard = () => {
 
         {/* Sidebar Navigation */}
         <div className="flex flex-col space-y-2 w-full">
-          {(currentUser.role === "student" || currentUser.role === "admin") &&
+          {(currentUser?.role === "student" || currentUser.role === "admin") &&
             StudentRoutes.map(renderNavLink)}
 
-          {(currentUser.role === "tutor" || currentUser.role === "admin") &&
+          {(currentUser?.role === "tutor" || currentUser.role === "admin") &&
             tutorRoutes.map(renderNavLink)}
         </div>
 
