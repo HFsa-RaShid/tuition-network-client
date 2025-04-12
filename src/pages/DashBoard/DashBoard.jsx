@@ -1,39 +1,20 @@
 
-import React, { useEffect, useState, useContext } from "react";
-import {
-  MdOutlineKeyboardDoubleArrowRight,
-} from "react-icons/md";
+import React, { useState, useContext } from "react";
+import {MdOutlineKeyboardDoubleArrowRight,} from "react-icons/md";
 import { RiArrowLeftDoubleLine } from "react-icons/ri";
-import {
-  FaUser,
-  FaEnvelope,
-  FaBookOpen,
-  FaTags,
-  FaHistory,
-  FaUsers,
-  FaCog,
-} from "react-icons/fa";
+import {FaUser,FaEnvelope,FaBookOpen,FaTags,FaHistory,FaUsers,FaCog} from "react-icons/fa";
 import logo from "../../assets/TuitionNetwork_logo1.png";
 import { NavLink, Outlet } from "react-router-dom";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { AuthContext } from "../../provider/AuthProvider";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 const DashBoard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [userRole, setUserRole] = useState(null); // for storing role
-  const axiosPublic = useAxiosPublic();
   const { user } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (user?.email) {
-      axiosPublic.get(`/users/${user.email}`).then((res) => {
-        setUserRole(res.data.role); 
-      });
-    }
-  }, [user?.email, axiosPublic]);
+  const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
 
   // Parent Routes (visible to Parent & Admin)
-  const parentRoutes = [
+  const StudentRoutes = [
     {
       path: "dashBoardPage",
       icon: <FaUser />,
@@ -141,10 +122,10 @@ const DashBoard = () => {
 
         {/* Sidebar Navigation */}
         <div className="flex flex-col space-y-2 w-full">
-          {(userRole === "student" || userRole === "admin") &&
-            parentRoutes.map(renderNavLink)}
+          {(currentUser.role === "student" || currentUser.role === "admin") &&
+            StudentRoutes.map(renderNavLink)}
 
-          {(userRole === "tutor" || userRole === "admin") &&
+          {(currentUser.role === "tutor" || currentUser.role === "admin") &&
             tutorRoutes.map(renderNavLink)}
         </div>
 
