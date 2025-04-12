@@ -5,11 +5,10 @@ import ErrorPage from "../pages/errorPage/ErrorPage";
 import LandingPage from "../pages/landingPage/LandingPage";
 import SignIn from "../pages/landingPage/Auth/SignIn/SignIn";
 import SignUp from "../pages/landingPage/Auth/signUp/SignUp";
-import ParentDashBoard from "../pages/parentOrStudent/dashBoard/ParentDashboard";
-import TutorDashBoard from "../pages/tutor/dashBoard/TutorDashBoard";
-import TutorRequest from "../pages/parentOrStudent/dashBoardPages/TutorRequest/TutorRequest";
+
+import DashBoard from "../pages/DashBoard/DashBoard";
 import ProfileDetails from "../pages/parentOrStudent/dashBoardPages/ProfileDetails/ProfileDetails";
-import DashBoardPage from "../pages/parentOrStudent/dashBoardPages/dasgBoardPage/DashBoardPage";
+import TutorRequest from "../pages/parentOrStudent/dashBoardPages/TutorRequest/TutorRequest";
 import PostedJobs from "../pages/parentOrStudent/dashBoardPages/postedJobs/PostedJobs";
 
 
@@ -32,28 +31,15 @@ export const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path: "/tutorDashBoard",
-        element: <TutorDashBoard />,
-        // children: [
-        //   { path: "profile", element: <TutorProfile /> },
-        //   { path: "tutor-requests", element: <TutorRequests /> },
-        //   { path: "payments", element: <TutorPayments /> },
-        // ],
-      },
-      {
-        path: "/parentDashBoard",
-        element: <ParentDashBoard />,
+        path: "/dashBoard/:role",
+        element: <DashBoard></DashBoard>,
         children: [
-          { path: "dashBoardPage", element: <DashBoardPage></DashBoardPage>},
-          { path: "profile-details", element: <ProfileDetails /> },
-          { path: "tutor-request", element: <TutorRequest /> },
-          { path: "posted-jobs", element: <PostedJobs /> },
-          // { path: "chat", element: <Chat /> },
-          // { path: "payment-history", element: <PaymentHistory /> },
-          // { path: "tuition-exchange", element: <TuitionExchange /> },
-          // { path: "settings", element: <Settings /> },
+              { path: "profile-details", element:  <ProfileDetails />},
+              { path: "tutor-request", element: <TutorRequest /> },
+              { path: "posted-jobs", element: <PostedJobs></PostedJobs>}
         ],
       },
+    
     ],
   },
 ]);

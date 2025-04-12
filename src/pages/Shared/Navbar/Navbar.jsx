@@ -3,13 +3,15 @@ import { BiSolidMoon } from "react-icons/bi";
 import { PiCloudSunFill } from "react-icons/pi";
 import React, { useState, useEffect, useContext } from "react";
 import logo from "../../../assets/TuitionNetwork_logo1.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../provider/AuthProvider";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+
 
   const handleSignOut = () => {
     logOut()

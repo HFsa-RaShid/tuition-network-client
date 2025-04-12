@@ -7,7 +7,7 @@ import { AuthContext } from "../../../../provider/AuthProvider";
 import toast from "react-hot-toast";
 
 const SignupPage = () => {
-  const [userType, setUserType] = useState("parent");
+  const [userType, setUserType] = useState("student");
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -35,9 +35,8 @@ const SignupPage = () => {
       if (res.data.insertedId) {
         toast.success('Account created successfully!');
         setTimeout(() => {
-          // Redirect based on role
-          navigate(userType === "parent" ? "/parentDashBoard/dashBoardPage" : "/tutorDashBoard", { replace: true });
-        }, 500);
+         navigate(`/dashBoard/${userType}`); 
+        }, 1000);
       }
     } catch (error) {
       console.error(error);
@@ -52,8 +51,8 @@ const SignupPage = () => {
         {/* Left Section - Image */}
         <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-100 p-8">
           <img
-            src={userType === "parent" ? "/parent-image.png" : "/tutor-image.png"}
-            alt={userType === "parent" ? "Parent and Student" : "Tutor"}
+            src={userType === "student" ? "/parent-image.png" : "/tutor-image.png"}
+            alt={userType === "student" ? "Parent and Student" : "Tutor"}
             className="w-72"
           />
         </div>
@@ -65,7 +64,7 @@ const SignupPage = () => {
 
           {/* User Type Selection */}
           <div className="flex gap-4 my-4">
-            {["parent", "tutor"].map((role) => (
+            {["student", "tutor"].map((role) => (
               <div
                 key={role}
                 className={`cursor-pointer border p-2 rounded-md w-1/2 text-center ${
@@ -73,9 +72,9 @@ const SignupPage = () => {
                 }`}
                 onClick={() => setUserType(role)}
               >
-                <p className="font-medium">{role === "parent" ? "Parents Or Student" : "Tutor"}</p>
+                <p className="font-medium">{role === "student" ? "Parents Or Student" : "Tutor"}</p>
                 <p className="text-xs text-gray-500">
-                  {role === "parent" ? "Looking for a tutor? Tap here!" : "Looking for tuition jobs? Tap here!"}
+                  {role === "student" ? "Looking for a tutor? Tap here!" : "Looking for tuition jobs? Tap here!"}
                 </p>
               </div>
             ))}
