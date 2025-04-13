@@ -15,6 +15,7 @@ const ProfileDetails = () => {
   const [step, setStep] = useState(1);
   const [availableDays, setAvailableDays] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
+const [studentIdUrl, setStudentIdUrl] = useState("");
 
   const {
     register,
@@ -79,6 +80,54 @@ const ProfileDetails = () => {
     }
   };
 
+
+  const onSubmit = async (data) => {
+    try {
+      const updatedData = {
+        ...data,
+        availableDays, 
+        availableTimes,
+        studentIdImage: studentIdUrl || data.studentIdImage,
+      };
+
+      await axiosPublic.put(`/users/${user?.email}`, updatedData);
+      refetch();
+      toast.success("Profile updated successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update profile!");
+    }
+  };
+  
+
+  const handleStudentIdChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+  
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+  
+      const res = await fetch(
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_HOSTING_KEY}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+  
+      const imgData = await res.json();
+      const imageUrl = imgData.data.url;
+  
+      setStudentIdUrl(imageUrl); 
+      setValue("studentIdImage", imageUrl); 
+    } catch (err) {
+      console.error("Student ID image upload failed:", err);
+    }
+  };
+  
+
+
   // Handle day selection
   const handleDayChange = (day) => {
     setAvailableDays((prevDays) => {
@@ -105,22 +154,7 @@ const ProfileDetails = () => {
     });
   };
 
-  const onSubmit = async (data) => {
-    try {
-      const updatedData = {
-        ...data,
-        availableDays, // Include the availableDays state
-        availableTimes, // Include the availableTimes state
-      };
-
-      await axiosPublic.put(`/users/${user?.email}`, updatedData);
-      refetch();
-      toast.success("Profile updated successfully!");
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to update profile!");
-    }
-  };
+  
 
   if (isLoading) return <p className="text-center">Loading...</p>;
 
@@ -295,6 +329,19 @@ const ProfileDetails = () => {
                     })}{" "}
                   </select>{" "}
                 </div>{" "}
+                 {/* 👇 Student ID File Upload Field */}
+                 <div>
+  <label className="block font-medium mb-1">Student ID Card (image)</label>
+  <input
+    type="file"
+    accept="image/*"
+    className="file-input file-input-bordered w-full"
+    onChange={(e) => {
+      handleStudentIdChange(e); 
+    }}
+  />
+</div>
+
               </div>{" "}
             </>
           )}
@@ -469,7 +516,11 @@ const ProfileDetails = () => {
             ) : (
               <button
                 type="button"
-                onClick={() => setStep(step + 1)}
+                onClick={handleSubmit((data) => {
+                  onSubmit(data);
+                  setStep(step + 1);
+                })}
+                
                 className="btn btn-primary"
               >
                 Next
