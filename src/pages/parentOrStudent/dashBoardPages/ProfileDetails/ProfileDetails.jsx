@@ -1,10 +1,10 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../../provider/AuthProvider";
-import useCurrentUser from "../../../../hooks/useCurrentUser";
 import { FaEdit } from "react-icons/fa";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+import { toast } from "react-hot-toast";
+import useCurrentUser from "../../../../hooks/useCurrentUser";
 
 const ProfileDetails = () => {
   const { user } = useContext(AuthContext);
@@ -13,7 +13,8 @@ const ProfileDetails = () => {
   const [imagePreview, setImagePreview] = useState("");
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [step, setStep] = useState(1);
-
+  const [availableDays, setAvailableDays] = useState([]);
+  const [availableTimes, setAvailableTimes] = useState([]);
 
   const {
     register,
@@ -24,24 +25,35 @@ const ProfileDetails = () => {
 
   useEffect(() => {
     if (currentUser) {
-      setValue("name", currentUser.name);
-      setValue("email", currentUser.email);
-      setValue("phone", currentUser.phone);
-      setValue("gender", currentUser.gender);
-      setImagePreview(currentUser?.photoURL);
+      setValue("name", currentUser.name || "");
+      setValue("email", currentUser.email || "");
+      setValue("phone", currentUser.phone || "");
+      setValue("gender", currentUser.gender || "");
+      setValue("city", currentUser.city || "");
+      setValue("location", currentUser.location || "");
+      setValue("religion", currentUser.religion || "");
+      setValue("education", currentUser.education || "");
+      setValue("institute", currentUser.institute || "");
+      setValue("department", currentUser.department || "");
+      setValue("gpa", currentUser.gpa || "");
+      setValue("passingYear", currentUser.passingYear || "");
+      setValue("tuitionArea", currentUser.tuitionArea || "");
+      setValue("preferredSubjects", currentUser.preferredSubjects || "");
+      setValue("expectedSalary", currentUser.expectedSalary || "");
+      setValue("tuitionPreference", currentUser.tuitionPreference || "");
+      setValue("preferredClass", currentUser.preferredClass || "");
+      setAvailableDays(currentUser.availableDays || []);
+      setAvailableTimes(currentUser.availableTimes || []);
+      setImagePreview(currentUser?.photoURL || "");
     }
   }, [currentUser, setValue]);
 
-  // ✅ Handle Image Change
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Show local preview
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result);
-    };
+    reader.onloadend = () => setImagePreview(reader.result);
     reader.readAsDataURL(file);
 
     try {
@@ -49,45 +61,72 @@ const ProfileDetails = () => {
       formData.append("image", file);
 
       const res = await fetch(
-        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_HOSTING_KEY}`,
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMAGE_HOSTING_KEY
+        }`,
         {
           method: "POST",
           body: formData,
         }
       );
-
       const imgData = await res.json();
       const photoURL = imgData.data.url;
 
-      // ✅ Update in DB instantly
-      await axiosPublic.put(`/users/${user?.email}`, {
-        photoURL,
-      });
-
-      refetch(); // refresh user data
+      await axiosPublic.put(`/users/${user?.email}`, { photoURL });
+      refetch();
     } catch (err) {
-      console.error("Image upload or update failed", err);
+      console.error("Image upload failed:", err);
     }
   };
 
+  // Handle day selection
+  const handleDayChange = (day) => {
+    setAvailableDays((prevDays) => {
+      if (prevDays.includes(day)) {
+        // Remove day if it's already selected
+        return prevDays.filter((selectedDay) => selectedDay !== day);
+      } else {
+        // Add day if not already selected
+        return [...prevDays, day];
+      }
+    });
+  };
+
+  // Handle time selection
+  const handleTimeChange = (time) => {
+    setAvailableTimes((prevTimes) => {
+      if (prevTimes.includes(time)) {
+        // Remove time if it's already selected
+        return prevTimes.filter((selectedTime) => selectedTime !== time);
+      } else {
+        // Add time if not already selected
+        return [...prevTimes, time];
+      }
+    });
+  };
 
   const onSubmit = async (data) => {
     try {
-      await axiosPublic.put(`/users/${user?.email}`, data);
+      const updatedData = {
+        ...data,
+        availableDays, // Include the availableDays state
+        availableTimes, // Include the availableTimes state
+      };
+
+      await axiosPublic.put(`/users/${user?.email}`, updatedData);
       refetch();
       toast.success("Profile updated successfully!");
     } catch (err) {
-      toast.error("Something went wrong!");
-      console.log(err);
+      console.error(err);
+      toast.error("Failed to update profile!");
     }
   };
-  
 
   if (isLoading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 flex flex-col md:flex-row gap-10">
-      {/* Left: Image */}
+    <div className="max-w-5xl mx-auto mt-10 flex flex-col md:flex-row gap-10">
+      {/* Left Side - Profile Image and Info */}
       <div className="w-full md:w-1/3 text-center relative">
         <div className="relative inline-block">
           <img
@@ -103,7 +142,6 @@ const ProfileDetails = () => {
             <FaEdit className="text-indigo-600" />
           </button>
         </div>
-
         {showImageUpload && (
           <div className="mt-2">
             <input
@@ -114,7 +152,6 @@ const ProfileDetails = () => {
             />
           </div>
         )}
-
         <div className="mt-4">
           <h2 className="text-xl font-bold">{currentUser?.name}</h2>
           <p>{currentUser?.role || "Student"}</p>
@@ -123,95 +160,67 @@ const ProfileDetails = () => {
         </div>
       </div>
 
-      {/* Right Side - Multi-step Form */}
+      {/* Right Side - Multi-Step Form */}
       <div className="w-full md:w-2/3">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Step 1 - Personal Info */}
           {step === 1 && (
-            <div>
-              <h1 className="text-2xl pb-6 font-semibold">
-                Personal Information
-              </h1>
+            <>
+              <h2 className="text-2xl font-semibold pb-6">Personal Info</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Name */}
                 <div>
-                  <label className="block font-medium mb-1">Name</label>
+                  <label>Name</label>
                   <input
                     {...register("name", { required: true })}
-                    type="text"
                     className="input input-bordered w-full"
-                    placeholder="Your full name"
                   />
                   {errors.name && (
-                    <p className="text-red-500 text-sm">Name is required</p>
+                    <span className="text-red-500">Name is required</span>
                   )}
                 </div>
-
-                {/* Phone */}
                 <div>
-                  <label className="block font-medium mb-1">Phone</label>
+                  <label>Phone</label>
                   <input
                     {...register("phone", { required: true })}
-                    type="text"
                     className="input input-bordered w-full"
-                    placeholder="Your phone number"
                   />
                   {errors.phone && (
-                    <p className="text-red-500 text-sm">
-                      Phone number is required
-                    </p>
+                    <span className="text-red-500">Phone is required</span>
                   )}
                 </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Gender */}
                 <div>
-                  <label className="block font-medium mb-1">Gender</label>
+                  <label>Gender</label>
                   <input
                     {...register("gender")}
-                    type="text"
                     className="input input-bordered w-full"
-                    placeholder="Your gender"
                   />
                 </div>
-
-                {/* City */}
                 <div>
-                  <label className="block font-medium mb-1">City</label>
+                  <label>City</label>
                   <input
                     {...register("city")}
-                    type="text"
                     className="input input-bordered w-full"
-                    placeholder="Your city"
                   />
                 </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Location */}
                 <div>
-                  <label className="block font-medium mb-1">Location</label>
+                  <label>Location</label>
                   <input
                     {...register("location")}
-                    type="text"
                     className="input input-bordered w-full"
-                    placeholder="Your location"
                   />
                 </div>
-
-                {/* Religion */}
                 <div>
-                  <label className="block font-medium mb-1">Religion</label>
+                  <label>Religion</label>
                   <input
                     {...register("religion")}
-                    type="text"
                     className="input input-bordered w-full"
-                    placeholder="Your religion"
                   />
                 </div>
               </div>
-            </div>
+            </>
           )}
+
+          {/* Step 2 - Educational Info */}
 
           {step === 2 && (
             <>
@@ -219,7 +228,6 @@ const ProfileDetails = () => {
                 Educational Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Current/Highest Education */}
                 <div>
                   <label className="block font-medium mb-1">
                     Current/Highest Education
@@ -237,8 +245,6 @@ const ProfileDetails = () => {
                     <option value="Master's">Master's</option>
                   </select>
                 </div>
-
-                {/* Institute */}
                 <div>
                   <label className="block font-medium mb-1">Institute</label>
                   <input
@@ -249,9 +255,7 @@ const ProfileDetails = () => {
                   />
                 </div>
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                {/* Group/Department */}
                 <div>
                   <label className="block font-medium mb-1">
                     Group/Department
@@ -263,8 +267,6 @@ const ProfileDetails = () => {
                     placeholder="e.g., Science, Arts, CSE"
                   />
                 </div>
-
-                {/* GPA / CGPA */}
                 <div>
                   <label className="block font-medium mb-1">GPA / CGPA</label>
                   <input
@@ -275,9 +277,7 @@ const ProfileDetails = () => {
                   />
                 </div>
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                {/* Passing Year */}
                 <div>
                   <label className="block font-medium mb-1">Passing Year</label>
                   <select
@@ -292,141 +292,187 @@ const ProfileDetails = () => {
                           {year}
                         </option>
                       );
-                    })}
+                    })}{" "}
+                  </select>{" "}
+                </div>{" "}
+              </div>{" "}
+            </>
+          )}
+
+          {/* Step 3 - Tuition Info */}
+          {step === 3 && (
+            <>
+              <h3 className="text-2xl font-semibold pb-6">
+                Tuition Preference Information
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Tuition Preference */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Tuition Preference
+                  </label>
+                  <select
+                    {...register("tuitionPreference")}
+                    className="select select-bordered w-full"
+                  >
+                    <option value="">Select preference</option>
+                    <option value="Online">Online</option>
+                    <option value="Offline">Offline</option>
+                    <option value="Both">Both</option>
                   </select>
                 </div>
 
-                {/* Student ID Image Upload */}
+                {/* Expected Salary */}
                 <div>
-                  <label className="block font-medium mb-1">Student ID</label>
+                  <label className="block font-medium mb-1">
+                    Expected Salary
+                  </label>
                   <input
-                    {...register("studentIdPhoto")}
-                    type="file"
-                    accept="image/*"
-                    className="file-input file-input-bordered w-full h-10"
+                    {...register("expectedSalary")}
+                    type="text"
+                    className="input input-bordered w-full"
+                    placeholder="e.g., 5000 BDT/month"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                {/* Preferred Class */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Preferred Class
+                  </label>
+                  <input
+                    {...register("preferredClass")}
+                    type="text"
+                    className="input input-bordered w-full"
+                    placeholder="e.g., Class 6-10"
+                  />
+                </div>
+
+                {/* Preferred Subjects */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Preferred Subjects
+                  </label>
+                  <input
+                    {...register("preferredSubjects")}
+                    type="text"
+                    className="input input-bordered w-full"
+                    placeholder="e.g., Math, Physics"
                   />
                 </div>
               </div>
             </>
           )}
 
-{step === 3 && (
-  <>
-    <h3 className="text-2xl font-semibold pb-6">Tuition Related Information</h3>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {/* Tuition Preference */}
-      <div>
-        <label className="block font-medium mb-1">Tuition Preference</label>
-        <select
-          {...register("tuitionPreference")}
-          className="select select-bordered w-full"
-        >
-          <option value="">Select preference</option>
-          <option value="Online">Online</option>
-          <option value="Offline">Offline</option>
-          <option value="Both">Both</option>
-        </select>
-      </div>
+          {/* Step 4 - Availability Info */}
 
-      {/* Expected Salary */}
-      <div>
-        <label className="block font-medium mb-1">Expected Salary</label>
-        <input
-          {...register("expectedSalary")}
-          type="text"
-          className="input input-bordered w-full"
-          placeholder="e.g., 5000 BDT/month"
-        />
-      </div>
-    </div>
+          {step === 4 && (
+            <>
+              <h3 className="text-2xl font-semibold pb-6">
+                Availability Information
+              </h3>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-      {/* Preferred Class */}
-      <div>
-        <label className="block font-medium mb-1">Preferred Class</label>
-        <input
-          {...register("preferredClass")}
-          type="text"
-          className="input input-bordered w-full"
-          placeholder="e.g., Class 6-10"
-        />
-      </div>
+              {/* Available Days */}
+              <div>
+                <h4 className="font-medium">Select Available Days</h4>
+                <div className="flex flex-wrap gap-4 text-xs">
+                  {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
+                    (day) => (
+                      <label
+                        key={day}
+                        className="inline-flex items-center space-x-2"
+                      >
+                        <input
+                          type="checkbox"
+                          value={day}
+                          {...register("availableDays", {
+                            setValueAs: (value) => value,
+                          })}
+                          checked={availableDays.includes(day)}
+                          onChange={() => handleDayChange(day)} // Function to handle day change
+                          className="checkbox"
+                        />
+                        <span>{day}</span>
+                      </label>
+                    )
+                  )}
+                </div>
+              </div>
 
-      {/* Preferred Subjects */}
-      <div>
-        <label className="block font-medium mb-1">Preferred Subjects</label>
-        <input
-          {...register("preferredSubjects")}
-          type="text"
-          className="input input-bordered w-full"
-          placeholder="e.g., Math, Physics"
-        />
-      </div>
-    </div>
-
-    {/* Available Days */}
-    <div>
-            <h4 className="font-medium">Select Available Days</h4>
-            <div className="flex flex-wrap gap-4 text-xs">
-              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-                <label key={day} className="inline-flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    value={day}
-                    onChange={() => handleDayChange(day)}
-                    className="checkbox"
-                  />
-                  <span>{day}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Available Times */}
-    <div>
-            <h4 className="font-medium">Select Available Times</h4>
-            <div className="flex flex-wrap gap-4 text-xs">
-              {['8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM'].map((time) => (
-                <label key={time} className="inline-flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    value={time}
-                    onChange={() => handleTimeChange(time)}
-                    className="checkbox"
-                  />
-                  <span>{time}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-        
-
-         
-        </>
-)}
+              {/* Available Times */}
+              <div>
+                <h4 className="font-medium">Select Available Times</h4>
+                <div className="flex flex-wrap gap-4 text-xs">
+                  {[
+                    "8 AM",
+                    "9 AM",
+                    "10 AM",
+                    "11 AM",
+                    "12 PM",
+                    "1 PM",
+                    "2 PM",
+                    "3 PM",
+                    "4 PM",
+                    "5 PM",
+                    "6 PM",
+                    "7 PM",
+                    "8 PM",
+                    "9 PM",
+                    "10 PM",
+                  ].map((time) => (
+                    <label
+                      key={time}
+                      className="inline-flex items-center space-x-2"
+                    >
+                      <input
+                        type="checkbox"
+                        value={time}
+                        {...register("availableTimes", {
+                          setValueAs: (value) => value,
+                        })}
+                        checked={availableTimes.includes(time)}
+                        onChange={() => handleTimeChange(time)} // Function to handle time change
+                        className="checkbox"
+                      />
+                      <span>{time}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
 
           {/* Navigation Buttons */}
           <div className="flex justify-between pt-4">
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={() => setStep((prev) => Math.max(1, prev - 1))}
-              disabled={step === 1}
-            >
-              Previous
-            </button>
-            {step < 3 ? (
+            {step > 1 && (
               <button
                 type="button"
-                className="btn btn-outline"
-                onClick={() => setStep((prev) => Math.min(3, prev + 1))}
+                className="btn"
+                onClick={() => setStep(step - 1)}
               >
-                Next
+                Previous
+              </button>
+            )}
+            {step === 4 ? (
+              <button
+                type="submit"
+                className="btn btn-success"
+                onClick={handleSubmit((data) => {
+                  onSubmit(data);
+                  setStep(1);
+                })}
+              >
+                Complete
               </button>
             ) : (
-              <button type="submit" className="btn btn-primary">
-                Submit
+              <button
+                type="button"
+                onClick={() => setStep(step + 1)}
+                className="btn btn-primary"
+              >
+                Next
               </button>
             )}
           </div>
