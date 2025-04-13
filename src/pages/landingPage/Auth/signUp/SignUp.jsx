@@ -18,8 +18,8 @@ const SignupPage = () => {
       const result = await createUser(data.email, data.password);
       console.log(result.user);
   
-      // Update user profile
-      await updateUserProfile(data.name);
+       // Update user profile with name and default image
+    await updateUserProfile(data.name, "https://i.ibb.co.com/SXLvbnWL/manpp.png");
   
       const userInfo = {
         name: data.name,
@@ -27,7 +27,8 @@ const SignupPage = () => {
         phone: data.phone,
         password: data.password,
         gender: data.gender,
-        role: userType, 
+        role: userType,
+        photoURL: "https://i.ibb.co.com/SXLvbnWL/manpp.png", 
       };
   
       const res = await axiosPublic.post('/users', userInfo);

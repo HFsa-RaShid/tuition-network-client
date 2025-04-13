@@ -5,7 +5,6 @@ import React, { useState, useEffect, useContext } from "react";
 import logo from "../../../assets/TuitionNetwork_logo1.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../provider/AuthProvider";
-import { FaUserAlt } from "react-icons/fa";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 
 const Navbar = () => {
@@ -165,53 +164,51 @@ const Navbar = () => {
           </div>
 
           {user ? (
-  <div className="relative dropdown dropdown-end">
-    <div className="tooltip tooltip-bottom" data-tip={user?.displayName}>
-      <label tabIndex={0} >
-        <div className="w-10 h-10 rounded-full border border-black overflow-hidden flex items-center justify-center">
-          {user?.photoURL ? (
-            <img
-              src={user.photoURL}
-              alt="User"
-              className="w-full h-full object-cover"
-            />
+            <div className="relative dropdown dropdown-end">
+              <div
+                className="tooltip tooltip-bottom"
+                data-tip={user?.displayName}
+              >
+                <label tabIndex={0}>
+                  <div className="w-10 h-10 rounded-full border border-black overflow-hidden flex items-center justify-center">
+                    <img
+                      src={currentUser?.photoURL}
+                      alt="User"
+                      className="w-full h-full object-cover p-[2px]"
+                    />
+                  </div>
+                </label>
+              </div>
+
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-100 rounded-box w-52"
+              >
+                <li>
+                  <NavLink
+                    to={`/dashBoard/${currentUser?.role}`}
+                    className="hover:bg-slate-300"
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+                <li>
+                  <button
+                    onClick={handleSignOut}
+                    className="hover:bg-slate-300 text-left w-full"
+                  >
+                    Sign Out
+                  </button>
+                </li>
+              </ul>
+            </div>
           ) : (
-            <FaUserAlt className="text-black text-2xl" />
+            <NavLink to="/signIn">
+              <button className="bg-[#123d7e] py-[10px] px-6 rounded-3xl text-white shadow-md shadow-blue-900 font-semibold">
+                Sign Up
+              </button>
+            </NavLink>
           )}
-        </div>
-      </label>
-    </div>
-
-    <ul
-      tabIndex={0}
-      className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-100 rounded-box w-52"
-    >
-      <li>
-        <NavLink
-          to={`/dashBoard/${currentUser?.role}`} 
-          className="hover:bg-slate-300"
-        >
-          Dashboard
-        </NavLink>
-      </li>
-      <li>
-        <button
-          onClick={handleSignOut}
-          className="hover:bg-slate-300 text-left w-full"
-        >
-          Sign Out
-        </button>
-      </li>
-    </ul>
-  </div>
-) : (
-  <NavLink to="/signIn">
-    <button className="bg-[#123d7e] py-[10px] px-6 rounded-3xl text-white shadow-md shadow-blue-900 font-semibold">
-      Sign Up
-    </button>
-  </NavLink>
-)}
-
         </div>
       </div>
     </div>

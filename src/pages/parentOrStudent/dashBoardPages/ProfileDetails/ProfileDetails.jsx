@@ -1,20 +1,19 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import { FaEdit } from "react-icons/fa";
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 
 const ProfileDetails = () => {
   const { user } = useContext(AuthContext);
   const axiosPublic = useAxiosPublic();
   const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
   const [imagePreview, setImagePreview] = useState("");
-  const [step, setStep] = useState(1);
   const [showImageUpload, setShowImageUpload] = useState(false);
+  const [step, setStep] = useState(1);
+
 
   const {
     register,
@@ -25,124 +24,76 @@ const ProfileDetails = () => {
 
   useEffect(() => {
     if (currentUser) {
-      // Step 1 - Personal Info
       setValue("name", currentUser.name);
       setValue("email", currentUser.email);
       setValue("phone", currentUser.phone);
       setValue("gender", currentUser.gender);
-      setValue("city", currentUser.city);
-      setValue("location", currentUser.location);
-      setValue("religion", currentUser.religion);
-  
-      // Step 2 - Educational Info
-      setValue("education", currentUser.education);
-      setValue("institute", currentUser.institute);
-      setValue("department", currentUser.department);
-      setValue("university", currentUser.university);
-  
-      // Step 3 - Tuition Related Info
-      setValue("tuitionPreference", currentUser.tuitionPreference);
-      setValue("preferredSubjects", currentUser.preferredSubjects);
-      setValue("expectedSalary", currentUser.expectedSalary);
-      setValue("availableDays", currentUser.availableDays);
-      setValue("availableTime", currentUser.availableTime);
-        setValue("preferredClass", currentUser.preferredClass);
-      
-    //   setValue("experience", currentUser.experience);
-      // Profile Picture
       setImagePreview(currentUser?.photoURL);
     }
   }, [currentUser, setValue]);
-  
 
+  // ✅ Handle Image Change
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const [availableDays, setAvailableDays] = useState([]);
-  const [availableTimes, setAvailableTimes] = useState([]);
+    // Show local preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
 
-  // Handle day selection (Mon, Tue, etc.)
-  const handleDayChange = (day) => {
-    setAvailableDays((prev) => {
-      if (prev.includes(day)) {
-        return prev.filter((item) => item !== day);
-      } else {
-        return [...prev, day];
-      }
-    });
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const res = await fetch(
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_HOSTING_KEY}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const imgData = await res.json();
+      const photoURL = imgData.data.url;
+
+      // ✅ Update in DB instantly
+      await axiosPublic.put(`/users/${user?.email}`, {
+        photoURL,
+      });
+
+      refetch(); // refresh user data
+    } catch (err) {
+      console.error("Image upload or update failed", err);
+    }
   };
-
-  const handleTimeChange = (time) => {
-    setAvailableTimes((prev) => {
-      if (prev.includes(time)) {
-        return prev.filter((item) => item !== time);
-      } else {
-        return [...prev, time];
-      }
-    });
-  };
-
-   
 
 
   const onSubmit = async (data) => {
     try {
-      let photoURL = currentUser?.photoURL;
-      if (data.photoURL && data.photoURL.length > 0) {
-        const imageFile = data.photoURL[0];
-        const formData = new FormData();
-        formData.append("image", imageFile);
-
-        const res = await fetch(
-          `https://api.imgbb.com/1/upload?key=${
-            import.meta.env.VITE_IMAGE_HOSTING_KEY
-          }`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        const imgData = await res.json();
-        photoURL = imgData.data.url;
-      }
-
-      const updatedUser = {
-        name: data.name,
-        email: data.email,
-        university: data.university,
-        address: data.address,
-        tuitionPreference: data.tuitionPreference,
-        photoURL,
-      };
-
-      await axiosPublic.put(`/users/${user?.email}`, updatedUser);
+      await axiosPublic.put(`/users/${user?.email}`, data);
       refetch();
-      setImagePreview(photoURL);
-    } catch (error) {
-      console.error("Update failed", error);
+      toast.success("Profile updated successfully!");
+    } catch (err) {
+      toast.error("Something went wrong!");
+      console.log(err);
     }
   };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  
 
   if (isLoading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 flex flex-col md:flex-row gap-10">
-      {/* Left Side - Profile Image & Info */}
+    <div className="max-w-4xl mx-auto mt-10 flex flex-col md:flex-row gap-10">
+      {/* Left: Image */}
       <div className="w-full md:w-1/3 text-center relative">
         <div className="relative inline-block">
           <img
             src={imagePreview}
             alt="Profile"
-            className="w-44 h-44 rounded-full border-4 border-indigo-500 object-cover"
+            className="w-44 h-44 rounded-full border-4 p-2 border-indigo-500 object-cover"
           />
           <button
             type="button"
@@ -158,7 +109,6 @@ const ProfileDetails = () => {
             <input
               type="file"
               accept="image/*"
-              {...register("photoURL")}
               onChange={handleImageChange}
               className="file-input file-input-bordered w-[70%] h-8 max-w-xs"
             />
