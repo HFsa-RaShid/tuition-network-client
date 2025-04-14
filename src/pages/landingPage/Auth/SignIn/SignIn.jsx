@@ -1,10 +1,10 @@
 
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { AuthContext } from "../../../../provider/AuthProvider";
 import toast from "react-hot-toast";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+import signInImage from "../../../../assets/tutor-student.png"
 
 
 const SignIn = () => {
@@ -37,7 +37,7 @@ const SignIn = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="flex w-4/5 max-w-5xl  my-2 overflow-hidden gap-20 p-6">
         {/* Left Image Section */}
-        
+        <img src={signInImage} className="h-80 mt-6" />
 
         {/* Right Form Section */}
         <div className="w-1/2 px-14 py-6 bg-white">

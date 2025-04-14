@@ -5,6 +5,8 @@ import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import toast from "react-hot-toast";
+import tutorImage from "../../../../assets/tutor-student.png";
+import studentImage from "../../../../assets/parentauth.jpg";
 
 const SignupPage = () => {
   const [userType, setUserType] = useState("student");
@@ -52,9 +54,9 @@ const SignupPage = () => {
         {/* Left Section - Image */}
         <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-100 p-8">
           <img
-            src={userType === "student" ? "/parent-image.png" : "/tutor-image.png"}
+            src={userType === "student" ? studentImage : tutorImage}
             alt={userType === "student" ? "Parent and Student" : "Tutor"}
-            className="w-72"
+            className="h-80"
           />
         </div>
 
