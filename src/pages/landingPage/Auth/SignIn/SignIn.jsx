@@ -5,9 +5,11 @@ import { AuthContext } from "../../../../provider/AuthProvider";
 import toast from "react-hot-toast";
 import signInImage from "../../../../assets/tutor-student.png"
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignIn = () => {
   const { signInUser } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
 
@@ -58,13 +60,21 @@ const SignIn = () => {
             />
 
             <label className="block text-gray-700 mt-2">Password<span className="text-red-600">*</span></label>
-            <input
-              type="password"
-              name="password"
-              className="w-full p-2 border rounded mt-1"
-              placeholder="Enter your password"
-              required
-            />
+            <div className="relative">
+  <input
+    type={showPassword ? "text" : "password"}
+    name="password"
+    className="w-full p-2 border rounded mt-1 pr-10"
+    placeholder="Enter your password"
+    required
+  />
+  <span
+    onClick={() => setShowPassword(!showPassword)}
+    className="absolute right-3 top-3 text-gray-600 cursor-pointer"
+  >
+    {showPassword ? <FaEye /> : <FaEyeSlash />}
+  </span>
+</div>
 
             <div className="flex justify-between items-center mt-2">
               <a href="#" className="text-sm text-gray-500 hover:underline">Forgot Password?</a>
