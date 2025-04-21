@@ -91,7 +91,7 @@ const Navbar = () => {
             <div className="flex items-center gap-2">
               <img src={logo} alt="logo" className="h-10" />
               <h1 className="text-3xl font-bold ">
-                Tuition<span className="text-[#DAA520]">N</span>etwork
+                Tu<span className="text-[#DAA520]">T</span>oria
               </h1>
             </div>
           </NavLink>
@@ -186,8 +186,11 @@ const Navbar = () => {
               >
                 <li>
                   <NavLink
-                    to={`/dashBoard/${currentUser?.role}`}
-                    className="hover:bg-slate-300"
+                    to={`/${currentUser?.role}/dashboard`}
+                    className={({ isActive }) =>
+                      isActive ? "text-[#123d7e] bg-slate-300" : " "
+                    }
+                    
                   >
                     Dashboard
                   </NavLink>

@@ -3,9 +3,8 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import toast from "react-hot-toast";
-import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import signInImage from "../../../../assets/tutor-student.png"
-
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 
 const SignIn = () => {
   const { signInUser } = useContext(AuthContext);
@@ -21,11 +20,11 @@ const SignIn = () => {
     try {
       const result = await signInUser(email, password);
       const res = await axiosPublic.get(`/users/${result.user.email}`);
-      console.log(res.data);
+      // console.log(res.data);
       
 
     setTimeout(() => {
-      navigate(`/dashBoard/${res.data.role}`); // Redirect to the appropriate dashboard based on user role
+      navigate(`/${res.data.role}/dashboard`); // Redirect to the appropriate dashboard based on user role
       toast.success("Login successful! Redirecting to dashboard..."); 
     }, 1000);
     } catch (error) {

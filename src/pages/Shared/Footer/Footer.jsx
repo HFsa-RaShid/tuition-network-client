@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="flex flex-col items-start space-y-4">
           <img src={logo} alt="logo" className="h-20 mx-auto" />
           <h1 className="text-3xl font-bold">
-            Tuition<span className="text-[#DAA520]">N</span>etwork
+            Tu<span className="text-[#DAA520]">T</span>oria
           </h1>
         </div>
         <nav>
@@ -87,8 +87,7 @@ const Footer = () => {
       <hr></hr>
       <div className="text-center pt-6 text-gray-700">
         <p>
-          Copyright © {new Date().getFullYear()} - All right reserved by Tuition
-          Network Ltd
+          Copyright © {new Date().getFullYear()} - All right reserved by TuToria Ltd
         </p>
       </div>
     </footer>

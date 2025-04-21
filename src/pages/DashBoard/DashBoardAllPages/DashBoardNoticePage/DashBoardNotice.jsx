@@ -1,11 +1,11 @@
 import React from 'react';
 
-const DashBoardPage = () => {
+const DashBoardNotice = () => {
     return (
         <div>
-            
+            hgfjd
         </div>
     );
 };
 
-export default DashBoardPage;
+export default DashBoardNotice;

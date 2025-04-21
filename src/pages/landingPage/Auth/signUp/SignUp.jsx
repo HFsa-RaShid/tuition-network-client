@@ -38,7 +38,7 @@ const SignupPage = () => {
       if (res.data.insertedId) {
         toast.success('Account created successfully!');
         setTimeout(() => {
-         navigate(`/dashBoard/${userType}`); 
+         navigate(`/${userType}/dashboard`); // Redirect to the appropriate dashboard based on user role
         }, 1000);
       }
     } catch (error) {

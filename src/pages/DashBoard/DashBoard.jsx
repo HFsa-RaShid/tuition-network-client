@@ -1,8 +1,15 @@
-
 import React, { useState, useContext } from "react";
-import {MdOutlineKeyboardDoubleArrowRight,} from "react-icons/md";
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import { RiArrowLeftDoubleLine } from "react-icons/ri";
-import {FaUser,FaEnvelope,FaBookOpen,FaTags,FaHistory,FaUsers,FaCog} from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaBookOpen,
+  FaTags,
+  FaHistory,
+  FaUsers,
+  FaCog,
+} from "react-icons/fa";
 import logo from "../../assets/TuitionNetwork_logo1.png";
 import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
@@ -12,7 +19,7 @@ const DashBoard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { user } = useContext(AuthContext);
   const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
-  
+
   if (isLoading) {
     return (
       <div className="h-screen flex items-center justify-center bg-white">
@@ -24,7 +31,7 @@ const DashBoard = () => {
   // Parent Routes (visible to Parent & Admin)
   const StudentRoutes = [
     {
-      path: "dashBoardPage",
+      path: "dashboard",
       icon: <FaUser />,
       label: "DashBoard",
     },
@@ -44,31 +51,41 @@ const DashBoard = () => {
       label: "Posted Jobs",
     },
     {
-        path: "chat",
-        icon: <FaEnvelope />,
-        label: "Chat",
-      },
-      {
-        path: "payment-history",
-        icon: <FaHistory />,
-        label: "Payment History",
-      },
-      {
-        path: "tuition-exchange",
-        icon: <FaTags />,
-        label: "Tuition Exchange Community",
-      },
-      {
-        path: "settings",
-        icon: <FaCog />,
-        label: "Settings",
-      },
+      path: "chat",
+      icon: <FaEnvelope />,
+      label: "Chat",
+    },
+    {
+      path: "payment-history",
+      icon: <FaHistory />,
+      label: "Payment History",
+    },
+    {
+      path: "tuition-exchange",
+      icon: <FaTags />,
+      label: "Tuition Exchange Community",
+    },
+    {
+      path: "settings",
+      icon: <FaCog />,
+      label: "Settings",
+    },
   ];
 
   // Tutor Routes (visible to Tutor & Admin)
   const tutorRoutes = [
     {
-      path: "/parentDashBoard/chat",
+      path: "dashboard",
+      icon: <FaUser />,
+      label: "DashBoard",
+    },
+    {
+      path: "profile-details",
+      icon: <FaUser />,
+      label: "Profile Details",
+    },
+    {
+      path: "chat",
       icon: <FaEnvelope />,
       label: "Chat",
     },
@@ -84,6 +101,46 @@ const DashBoard = () => {
     },
     {
       path: "/parentDashBoard/settings",
+      icon: <FaCog />,
+      label: "Settings",
+    },
+  ];
+
+  // Admin Routes (visible to Admin only)
+
+  const adminRoutes = [
+    {
+      path: "dashboard",
+      icon: <FaUser />,
+      label: "DashBoard",
+    },
+    {
+      path: "profile-details",
+      icon: <FaUser />,
+      label: "Profile Details",
+    },
+    {
+      path: "users",
+      icon: <FaEnvelope />,
+      label: "Users",
+    },
+    {
+      path: "chat",
+      icon: <FaEnvelope />,
+      label: "Chat",
+    },
+    {
+      path: "payment-history",
+      icon: <FaHistory />,
+      label: "Payment History",
+    },
+    {
+      path: "tuition-exchange",
+      icon: <FaTags />,
+      label: "Tuition Exchange Community",
+    },
+    {
+      path: "settings",
       icon: <FaCog />,
       label: "Settings",
     },
@@ -105,7 +162,7 @@ const DashBoard = () => {
   );
 
   return (
-    <div className="flex h-screen transition-all duration-300">
+    <div className="flex min-h-screen transition-all duration-300">
       {/* Sidebar */}
       <div
         className={`${
@@ -122,7 +179,7 @@ const DashBoard = () => {
             />
             {isSidebarOpen && (
               <h1 className="text-2xl font-bold">
-                Tuition<span className="text-[#DAA520]">N</span>etwork
+                Tu<span className="text-[#DAA520]">T</span>oria
               </h1>
             )}
           </div>
@@ -130,11 +187,11 @@ const DashBoard = () => {
 
         {/* Sidebar Navigation */}
         <div className="flex flex-col space-y-2 w-full">
-          {(currentUser?.role === "student" || currentUser.role === "admin") &&
-            StudentRoutes.map(renderNavLink)}
+          {currentUser?.role === "student" && StudentRoutes.map(renderNavLink)}
 
-          {(currentUser?.role === "tutor" || currentUser.role === "admin") &&
-            tutorRoutes.map(renderNavLink)}
+          {currentUser?.role === "tutor" && tutorRoutes.map(renderNavLink)}
+
+          {currentUser?.role === "admin" && adminRoutes.map(renderNavLink)}
         </div>
 
         {/* Toggle Button */}
@@ -152,10 +209,10 @@ const DashBoard = () => {
 
       {/* Main Content */}
       <div
-        className={`transition-all duration-300 ${
-          isSidebarOpen ? "w-4/5" : "w-full"
-        } bg-gray-100 p-6`}
-      >
+  className={`transition-all duration-300 ${
+    isSidebarOpen ? "w-4/5" : "w-full"
+  } bg-gray-100 p-6 overflow-y-auto h-screen`}
+>
         <Outlet />
       </div>
     </div>
@@ -163,3 +220,5 @@ const DashBoard = () => {
 };
 
 export default DashBoard;
+
+
