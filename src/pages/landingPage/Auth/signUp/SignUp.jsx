@@ -37,6 +37,7 @@ const SignupPage = () => {
         phone: data.phone,
         gender: data.gender,
         role: userType,
+        banned: "no",
         photoURL: "https://i.ibb.co.com/SXLvbnWL/manpp.png",
       };
 

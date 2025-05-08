@@ -12,6 +12,7 @@ import {
 } from "firebase/auth";
 import PropTypes from "prop-types";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
@@ -21,6 +22,9 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const googleProvider = new GoogleAuthProvider();
   const axiosPublic = useAxiosPublic();
+
+   //Get currentUser from DB
+   const { currentUser } = useCurrentUser(user?.email);
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -73,6 +77,18 @@ const AuthProvider = ({ children }) => {
       unSubscribe();
     };
   }, [axiosPublic, user?.email]);
+
+
+   //Role check: Log out if banned
+   useEffect(() => {
+    if (currentUser?.banned === "yes") {
+      console.log("Banned user detected. Logging out...");
+      localStorage.removeItem("access-token");
+      logOut().then(() => {
+        navigate("/signIn");
+      });
+    }
+  }, [currentUser?.banned]);
 
   const authInfo = {
     user,

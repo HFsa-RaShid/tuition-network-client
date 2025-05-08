@@ -6,12 +6,16 @@ import toast from "react-hot-toast";
 import signInImage from "../../../../assets/tutor-student.png"
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
+import useCurrentUser from "../../../../hooks/useCurrentUser";
 
 const SignIn = () => {
   const { signInUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
+  const { user } = useContext(AuthContext);
+  const { currentUser } = useCurrentUser(user?.email);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -22,13 +26,21 @@ const SignIn = () => {
     try {
       const result = await signInUser(email, password);
       const res = await axiosPublic.get(`/users/${result.user.email}`);
-      // console.log(res.data);
-      
 
+      if (currentUser.banned === "yes") {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+          footer: '<a href="#">Why do I have this issue?</a>'
+        });
+        // toast.error("Your account has been banned. Please contact support.");
+        return;
+      }
     setTimeout(() => {
-      navigate(`/${res.data.role}/dashboard`); // Redirect to the appropriate dashboard based on user role
+      navigate(`/${res.data.role}/dashboard`); 
       toast.success("Login successful! Redirecting to dashboard..."); 
-    }, 1000);
+    }, 500);
     } catch (error) {
       toast.error("Invalid email or password.");
     }

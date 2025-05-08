@@ -1,17 +1,19 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { FaTrash } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
-
+import { FaCircle, FaBan } from "react-icons/fa";
 import Swal from "sweetalert2";
+
 
 const ViewUsers = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedRole, setSelectedRole] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const axiosSecure = useAxiosSecure();
+  
 
   const {
     data: users = [],
@@ -33,22 +35,48 @@ const ViewUsers = () => {
     axiosSecure
       .put(`/users/${email}`, { role: selectedRole })
       .then(() => {
-        refetch();
-        // Swal.fire({
-        //     title: "Role Updated Successfully",
-        //     icon: "success"
-        // });
+        refetch();   
       })
       .catch((error) => {
         console.error("Error updating user role:", error);
-        // Swal.fire({
-        //     title: "Error!",
-        //     text: "Failed to update user role.",
-        //     icon: "error"
-        // });
       });
   };
 
+
+const toggleBanStatus = (email, currentStatus) => {
+    const isBanning = currentStatus === "no";
+    Swal.fire({
+      title: `Are you sure you want to ${isBanning ? "ban" : "unban"} this user?`,
+      text: `This action can be reversed later.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: `Yes, ${isBanning ? "ban" : "unban"}!`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .put(`/users/${email}`, { banned: isBanning ? "yes" : "no" })
+          .then(() => {
+            refetch();
+            Swal.fire({
+              title: `${isBanning ? "Banned" : "Unbanned"}!`,
+              text: `User has been ${isBanning ? "banned" : "unbanned"}.`,
+              icon: "success",
+            });
+          })
+          .catch((error) => {
+            console.error("Error updating user ban status:", error);
+            Swal.fire({
+              title: "Error!",
+              text: `Failed to ${isBanning ? "ban" : "unban"} the user.`,
+              icon: "error",
+            });
+          });
+      }
+    });
+  };
+  
   const deleteUser = async (email) => {
     Swal.fire({
       title: "Are you sure?",
@@ -92,7 +120,7 @@ const ViewUsers = () => {
   };
 
   return (
-    <div className="min-h-screen mb-4">
+    <div className="min-h-screen mb-2">
       <Helmet>
         <title>Users | TuToria</title>
       </Helmet>
@@ -148,16 +176,32 @@ const ViewUsers = () => {
               <td className="border  py-2">{user.role}</td>
 
               <td className="border py-2">
-                <div className="flex justify-around gap-2 items-center">
+                <div className="flex justify-around items-center">
                   <button
                     onClick={() => openModal(user)}
                     className="px-4 py-2 bg-[#f9d045] rounded hover:bg-[#e7bd34] text-[9px] md:text-[16px]"
                   >
                     Update Role
                   </button>
+       
+
+
+<button
+  type="button"
+  className={`border-2 border-gray-400 rounded-full ${
+    user.banned === "yes" ? "bg-red-100 text-red-600" : "bg-gray-500 text-white"
+  } hover:bg-red-200 flex items-center justify-center transition`}
+  title={user.banned === "yes" ? "Click to Unban" : "Click to Ban"}
+  onClick={() => toggleBanStatus(user.email, user.banned)}
+>
+  {user.banned === "yes" ? <FaBan /> : <FaCircle />}
+</button>
+
+
                   <button
                     type="button"
                     className="text-xl text-red-600 rounded flex items-center gap-1"
+                    title={"Delete User"}
                     onClick={() => deleteUser(user.email)}
                   >
                     <FaTrash />
