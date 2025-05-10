@@ -61,7 +61,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { AuthContext } from "../../../../provider/AuthProvider";
-import toast from "react-hot-toast";
 
 const PostedJobs = () => {
   const { user } = useContext(AuthContext);

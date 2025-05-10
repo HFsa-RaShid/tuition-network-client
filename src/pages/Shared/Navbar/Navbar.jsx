@@ -102,7 +102,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 className={({ isActive }) =>
-                  isActive ? "text-[#123d7e]" : " "
+                  isActive ? "text-[#123d7e] underline" : " "
                 }
                 to="/"
               >
@@ -112,9 +112,9 @@ const Navbar = () => {
             <li>
               <NavLink
                 className={({ isActive }) =>
-                  isActive ? "text-black bg-white " : " "
+                  isActive ? " text-[#123d7e] underline" : " "
                 }
-                to="/rooms"
+                to="/JobBoard"
               >
                 Job Boards
               </NavLink>

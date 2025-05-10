@@ -188,9 +188,9 @@ const toggleBanStatus = (email, currentStatus) => {
 
 <button
   type="button"
-  className={`border-2 border-gray-400 rounded-full ${
-    user.banned === "yes" ? "bg-red-100 text-red-600" : "bg-gray-500 text-white"
-  } hover:bg-red-200 flex items-center justify-center transition`}
+  className={`border-2 border-green-400 rounded-full ${
+    user.banned === "yes" ? " text-red-600 border-none text-xl" : "text-white"
+  }  flex items-center justify-center transition`}
   title={user.banned === "yes" ? "Click to Unban" : "Click to Ban"}
   onClick={() => toggleBanStatus(user.email, user.banned)}
 >

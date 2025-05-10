@@ -61,11 +61,6 @@ const DashBoard = () => {
       label: "Payment History",
     },
     {
-      path: "tuition-exchange",
-      icon: <FaTags />,
-      label: "Tuition Exchange Community",
-    },
-    {
       path: "settings",
       icon: <FaCog />,
       label: "Settings",
@@ -128,16 +123,6 @@ const DashBoard = () => {
       path: "chat",
       icon: <FaEnvelope />,
       label: "Chat",
-    },
-    {
-      path: "payment-history",
-      icon: <FaHistory />,
-      label: "Payment History",
-    },
-    {
-      path: "tuition-exchange",
-      icon: <FaTags />,
-      label: "Tuition Exchange Community",
     },
     {
       path: "settings",

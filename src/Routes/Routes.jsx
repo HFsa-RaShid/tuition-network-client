@@ -12,6 +12,8 @@ import PrivateRoute from "./PrivateRoute";
 import ProfileDetails from "../pages/DashBoard/DashBoardAllPages/ProfileDetails/ProfileDetails";
 import DashBoardNotice from "../pages/DashBoard/DashBoardAllPages/DashBoardNoticePage/DashBoardNotice";
 import ViewUsers from "../pages/DashBoard/DashBoardAllPages/Users/ViewUsers";
+import JobBoard from "../pages/Shared/Navbar/JobBoard/JobBoard";
+
 
 
 export const router = createBrowserRouter([
@@ -33,6 +35,10 @@ export const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
+        path: "/JobBoard",
+        element: <JobBoard></JobBoard>,
+      },
+      {
         path: "/:role",
         element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
         children: [
@@ -40,7 +46,8 @@ export const router = createBrowserRouter([
               { path: "profile-details", element: <ProfileDetails></ProfileDetails> },
               { path: "tutor-request", element: <TutorRequest /> },
               { path: "posted-jobs", element: <PostedJobs></PostedJobs>},
-              { path: "users", element: <ViewUsers></ViewUsers>}
+              { path: "users", element: <ViewUsers></ViewUsers>},
+              
         ],
       },
     
