@@ -13,6 +13,7 @@ import ProfileDetails from "../pages/DashBoard/DashBoardAllPages/ProfileDetails/
 import DashBoardNotice from "../pages/DashBoard/DashBoardAllPages/DashBoardNoticePage/DashBoardNotice";
 import ViewUsers from "../pages/DashBoard/DashBoardAllPages/Users/ViewUsers";
 import JobBoard from "../pages/Shared/Navbar/JobBoard/JobBoard";
+import PendingRequest from "../pages/DashBoard/DashBoardAllPages/PendingRequest/PendingRequest";
 
 
 
@@ -46,6 +47,7 @@ export const router = createBrowserRouter([
               { path: "profile-details", element: <ProfileDetails></ProfileDetails> },
               { path: "tutor-request", element: <TutorRequest /> },
               { path: "posted-jobs", element: <PostedJobs></PostedJobs>},
+              { path: "pending-request", element: <PendingRequest></PendingRequest>},
               { path: "users", element: <ViewUsers></ViewUsers>},
               
         ],

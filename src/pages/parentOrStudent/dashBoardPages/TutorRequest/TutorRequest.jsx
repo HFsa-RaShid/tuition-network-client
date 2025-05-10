@@ -21,6 +21,7 @@ const TutorRequest = () => {
     daysPerWeek: "",
     salary: "",
     duration: "1 hour",
+    status: "pending",
   });
 
   const cities = [
@@ -78,6 +79,7 @@ const TutorRequest = () => {
     if (user) {
         const tutorRequestData = {
             ...formData,
+            status: "pending",
             userEmail: user?.email,
             userName: user?.displayName || user?.email,
         };

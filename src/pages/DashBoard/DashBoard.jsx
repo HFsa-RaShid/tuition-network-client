@@ -2,13 +2,7 @@ import React, { useState, useContext } from "react";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import { RiArrowLeftDoubleLine } from "react-icons/ri";
 import {
-  FaUser,
-  FaEnvelope,
-  FaBookOpen,
-  FaTags,
-  FaHistory,
-  FaUsers,
-  FaCog,
+  FaUser,FaEnvelope,FaBookOpen,FaTags,FaHistory,FaUsers,FaCog,FaTachometerAlt,FaHourglassHalf,
 } from "react-icons/fa";
 import logo from "../../assets/TuitionNetwork_logo1.png";
 import { NavLink, Outlet } from "react-router-dom";
@@ -32,7 +26,7 @@ const DashBoard = () => {
   const StudentRoutes = [
     {
       path: "dashboard",
-      icon: <FaUser />,
+      icon: <FaTachometerAlt />,
       label: "DashBoard",
     },
     {
@@ -71,7 +65,7 @@ const DashBoard = () => {
   const tutorRoutes = [
     {
       path: "dashboard",
-      icon: <FaUser />,
+      icon: <FaTachometerAlt />,
       label: "DashBoard",
     },
     {
@@ -106,7 +100,7 @@ const DashBoard = () => {
   const adminRoutes = [
     {
       path: "dashboard",
-      icon: <FaUser />,
+      icon: <FaTachometerAlt />,
       label: "DashBoard",
     },
     {
@@ -123,6 +117,11 @@ const DashBoard = () => {
       path: "chat",
       icon: <FaEnvelope />,
       label: "Chat",
+    },
+    {
+      path: "pending-request",
+      icon: <FaHourglassHalf />,
+      label: "Pending Request",
     },
     {
       path: "settings",
