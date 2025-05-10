@@ -29,6 +29,14 @@ const JobBoard = () => {
   }, [allJobs]);
 
 
+  useEffect(() => {
+    if (allJobs) {
+      const approvedJobs = allJobs.filter(job => job.status === 'approved');
+      setJobs(approvedJobs);
+    }
+  }, [allJobs]);
+
+
   const handleDelete = (jobId) => {
     Swal.fire({
       title: "Are you sure?",

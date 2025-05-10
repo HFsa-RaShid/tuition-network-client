@@ -69,17 +69,11 @@ const PendingRequest = () => {
 
   return (
     <div className="min-h-screen">
-      <Tabs>
-        <TabList>
-          <Tab>Pending Requests</Tab>
-          <Tab>Approved Requests</Tab>
-        </TabList>
-
-        <TabPanel>
+      
           {pendingRequests?.length === 0 ? (
             <p className="text-center mt-4">No pending requests found.</p>
           ) : (
-            <div className="my-12 grid grid-cols-1 lg:grid-cols-2  gap-10 px-1">
+            <div className="my-6 grid grid-cols-1 lg:grid-cols-2  gap-10 px-1">
               {pendingRequests.map((request) => (
                 <div key={request._id} className="card shadow-xl">
                   <div className="card-body ">
@@ -149,7 +143,7 @@ const PendingRequest = () => {
 
                     <div className="card-actions justify-end">
                       <button
-                        className="btn btn-outline"
+                        className="btn btn-outline hover:bg-green-600"
                         onClick={() => approveRequest(request)}
                       >
                         Approve
@@ -166,38 +160,7 @@ const PendingRequest = () => {
               ))}
             </div>
           )}
-        </TabPanel>
-
-        <TabPanel>
-          {approvedRequests?.length === 0 ? (
-            <p className="text-center mt-4">No approved requests found.</p>
-          ) : (
-            <div className="my-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 px-4">
-              {approvedRequests.map((request) => (
-                <div key={request._id} className="card shadow-xl">
-                  <div className="card-body text-center">
-                  
-                    <div className="card-actions justify-end">
-                      <button
-                        className="btn btn-outline"
-                        onClick={() =>
-                          Swal.fire(
-                            "Approved Request",
-                            "This request is already approved.",
-                            "info"
-                          )
-                        }
-                      >
-                        Already Approved
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </TabPanel>
-      </Tabs>
+       
     </div>
   );
 };
