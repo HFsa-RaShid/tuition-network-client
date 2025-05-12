@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import tutorImage from "../../../../assets/tutor-student.png";
 import studentImage from "../../../../assets/parentauth.jpg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Helmet } from "react-helmet-async";
 
 const SignupPage = () => {
   const [userType, setUserType] = useState("student");
@@ -57,6 +58,9 @@ const SignupPage = () => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
+       <Helmet>
+                            <title>Sign_Up | TiToria</title>
+                        </Helmet>
       <div className="flex w-4/5 max-w-5xl my-8">
         {/* Left Section - Image */}
         <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-100 p-8">

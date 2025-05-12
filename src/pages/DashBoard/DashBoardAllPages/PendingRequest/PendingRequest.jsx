@@ -16,14 +16,17 @@ const PendingRequest = () => {
   const approveRequest = (request) => {
     axiosSecure
       .put(`/tutorRequests/${request._id}`, {
-        tutorDetails: request.tutorDetails,
+        status: "approved",
       })
       .then(() => {
-        Swal.fire(
-          "Approved!",
-          "The tutor request has been approved.",
-          "success"
-        );
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Approved!The tutor request has been approved.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
         refetch();
       })
       .catch((error) => {
@@ -69,98 +72,94 @@ const PendingRequest = () => {
 
   return (
     <div className="min-h-screen">
-      
-          {pendingRequests?.length === 0 ? (
-            <p className="text-center mt-4">No pending requests found.</p>
-          ) : (
-            <div className="my-6 grid grid-cols-1 lg:grid-cols-2  gap-10 px-1">
-              {pendingRequests.map((request) => (
-                <div key={request._id} className="card shadow-xl">
-                  <div className="card-body ">
-                    <p className="text-gray-500">
-                      📍 {request.city}, {request.location}
-                    </p>
-                    <h2 className="text-xl text-black font-bold mt-2">
-                      Tuition for {request.classCourse}
-                    </h2>
-                    <div className="flex gap-2 mt-2">
-                      <span className="bg-purple-600 text-white px-2 py-1 rounded text-sm">
-                        {request.tuitionType}
-                      </span>
-                      <span className="bg-blue-600 text-white px-2 py-1 rounded text-sm">
-                        ⏰ {request.duration}
-                      </span>
-                    </div>
+      {pendingRequests?.length === 0 ? (
+        <p className="text-center mt-4">No pending requests found.</p>
+      ) : (
+        <div className="my-6 grid grid-cols-1 lg:grid-cols-2  gap-10 px-1">
+          {pendingRequests.map((request) => (
+            <div key={request._id} className="card shadow-xl">
+              <div className="card-body ">
+                <p className="text-gray-500">
+                  📍 {request.city}, {request.location}
+                </p>
+                <h2 className="text-xl text-black font-bold mt-2">
+                  Tuition for {request.classCourse}
+                </h2>
+                <div className="flex gap-2 mt-2">
+                  <span className="bg-purple-600 text-white px-2 py-1 rounded text-sm">
+                    {request.tuitionType}
+                  </span>
+                  <span className="bg-blue-600 text-white px-2 py-1 rounded text-sm">
+                    ⏰ {request.duration}
+                  </span>
+                </div>
 
-                    <div className="mt-4 grid grid-cols-2 justify-between gap-2 text-black">
-                      <p>
-                        <strong>👨‍🏫 No. of Students:</strong>{" "}
-                        {request.noOfStudents}
-                      </p>
-                      <p>
-                        <strong>🏫 Medium:</strong> {request.category}
-                      </p>
-                      <p>
-                        <strong>📚 Class:</strong> {request.classCourse}
-                      </p>
-                      <p>
-                        <strong>📅 Tutoring Days:</strong> {request.daysPerWeek}
-                      </p>
-                      <p>
-                        <strong>👤 Preferred Tutor:</strong>{" "}
-                        {request.tutorGenderPreference}
-                      </p>
-                      <p>
-                        <strong>👧 Student Gender:</strong>{" "}
-                        {request.studentGender}
-                      </p>
-                    </div>
+                <div className="mt-4 grid grid-cols-2 justify-between gap-2 text-black">
+                  <p>
+                    <strong>👨‍🏫 No. of Students:</strong> {request.noOfStudents}
+                  </p>
+                  <p>
+                    <strong>🏫 Medium:</strong> {request.category}
+                  </p>
+                  <p>
+                    <strong>📚 Class:</strong> {request.classCourse}
+                  </p>
+                  <p>
+                    <strong>📅 Tutoring Days:</strong> {request.daysPerWeek}
+                  </p>
+                  <p>
+                    <strong>👤 Preferred Tutor:</strong>{" "}
+                    {request.tutorGenderPreference}
+                  </p>
+                  <p>
+                    <strong>👧 Student Gender:</strong> {request.studentGender}
+                  </p>
+                </div>
 
-                    <div className="mt-2 text-black">
-                      <strong>📖 Subjects:</strong>
-                      <div className="flex gap-2 mt-1 flex-wrap">
-                        {request.subjects?.map((subj, idx) => (
-                          <span
-                            key={idx}
-                            className="bg-green-300 text-sm px-2 py-1 rounded"
-                          >
-                            {subj}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <p className="mt-3 text-black">
-                      <strong>💰 Salary:</strong>{" "}
-                      <span className="text-blue-700 font-bold">
-                        {request.salary} TK
-                      </span>
-                      /Month
-                    </p>
-                    <p className="text-gray-500 mt-2 text-sm">
-                      Posted by: {request.userName} ({request.userEmail})
-                    </p>
-
-                    <div className="card-actions justify-end">
-                      <button
-                        className="btn btn-outline hover:bg-green-600"
-                        onClick={() => approveRequest(request)}
+                <div className="mt-2 text-black">
+                  <strong>📖 Subjects:</strong>
+                  <div className="flex gap-2 mt-1 flex-wrap">
+                    {request.subjects?.map((subj, idx) => (
+                      <span
+                        key={idx}
+                        className="bg-green-300 text-sm px-2 py-1 rounded"
                       >
-                        Approve
-                      </button>
-                      <button
-                        className="btn btn-outline btn-error"
-                        onClick={() => handleReject(request._id)}
-                      >
-                        Reject
-                      </button>
-                    </div>
+                        {subj}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              ))}
+
+                <p className="mt-3 text-black">
+                  <strong>💰 Salary:</strong>{" "}
+                  <span className="text-blue-700 font-bold">
+                    {request.salary} TK
+                  </span>
+                  /Month
+                </p>
+                <p className="text-gray-500 mt-2 text-sm">
+                  Posted by: {request.userName} ({request.userEmail})
+                </p>
+
+                <div className="card-actions justify-end">
+                  <button
+                    className="btn btn-outline hover:bg-green-600"
+                    onClick={() => approveRequest(request)}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    className="btn btn-outline btn-error"
+                    onClick={() => handleReject(request._id)}
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
             </div>
-          )}
-       
+          ))}
+        </div>
+      )}
     </div>
   );
 };
