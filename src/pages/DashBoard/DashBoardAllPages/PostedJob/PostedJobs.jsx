@@ -23,13 +23,35 @@ const PostedJobs = () => {
     }
   }, [allJobs, user?.email]);
 
-  if (isLoading) {
-    return (
-      <div className="text-center mt-10 text-gray-500">
-        Loading your posted jobs...
-      </div>
-    );
-  }
+ const [appliedTutorInfos, setAppliedTutorInfos] = useState({});
+
+useEffect(() => {
+  const fetchAppliedTutors = async () => {
+    if (!jobs.length) return;
+
+    const allTutorEmails = jobs.flatMap(job => job.appliedTutors || []);
+    const uniqueEmails = [...new Set(allTutorEmails)];
+
+    try {
+      const res = await axiosSecure.post("/users/by-emails", {
+        emails: uniqueEmails,
+      });
+
+      // assuming res.data = array of users: [{email, name}, ...]
+      const infoMap = {};
+      res.data.forEach(user => {
+        infoMap[user.email] = user.name;
+      });
+
+      setAppliedTutorInfos(infoMap);
+    } catch (error) {
+      console.error("Error fetching applied tutor info:", error);
+    }
+  };
+
+  fetchAppliedTutors();
+}, [jobs]);
+
 
   return (
     <div className="container mx-auto mt-6">
@@ -171,22 +193,35 @@ const PostedJobs = () => {
                 </div>
               </div>
               <dialog id={`modal-${job._id}`} className="modal">
-                <div className="modal-box">
-                  <form method="dialog">
-                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                      ✕
-                    </button>
-                  </form>
-                  <h3 className="font-bold text-lg">📋 Job Details</h3>
-                  <p className="py-4">
-                    Tuition for: <strong>{job.classCourse}</strong>
-                  </p>
-                  <p className="py-1">Subjects: {job.subjects?.join(", ")}</p>
-                  <p className="py-1">City: {job.city}</p>
-                  <p className="py-1">Salary: {job.salary} TK</p>
-                  {/* Add more job details here if needed */}
-                </div>
-              </dialog>
+  <div className="modal-box">
+    <form method="dialog">
+      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        ✕
+      </button>
+    </form>
+    
+
+   <div className="mt-4">
+  <h4 className="font-semibold text-md mb-2">👨‍🏫 Applied Tutors:</h4>
+  {job.appliedTutors && job.appliedTutors.length > 0 ? (
+    <ul className="list-disc list-inside space-y-1">
+      {job.appliedTutors.map((email, index) => (
+        <li key={index} className="text-gray-700">
+          {appliedTutorInfos[email]
+            ? `${appliedTutorInfos[email]}`
+            : email}
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p className="text-gray-500">No tutors have applied yet.</p>
+  )}
+</div>
+
+  </div>
+</dialog>
+
+
             </div>
           ))}
         </div>

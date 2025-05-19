@@ -275,9 +275,16 @@ const JobBoard = () => {
                 {currentUser?.role === "tutor" && (
                   <button
                     onClick={() => handleApply(job._id)}
-                    className="absolute bottom-4 right-4 bg-[#f9d045] px-4 py-2 rounded font-medium hover:bg-[#c5a331] transition"
+                    disabled={job.appliedTutors?.includes(user.email)}
+                    className={`absolute bottom-4 right-4 px-4 py-2 rounded font-medium ${
+                      job.appliedTutors?.includes(user.email)
+                        ? "bg-gray-300 cursor-not-allowed "
+                        : "bg-[#f9d045] hover:bg-[#f9d045]"
+                    }`}
                   >
-                    Apply Now
+                    {job.appliedTutors?.includes(user.email)
+                      ? "Already Applied"
+                      : "Apply Now"}
                   </button>
                 )}
               </div>
