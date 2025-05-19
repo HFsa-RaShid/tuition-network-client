@@ -35,36 +35,48 @@ const JobBoard = () => {
     }
   }, [allJobs]);
 
-const handleApply = (jobId) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, apply for this request!"
-  }).then((result) => {
-    if (result.isConfirmed) {
-      axiosSecure
-        .put(`/tutorRequests/${jobId}`, {
-          email: user.email
-        })
-        .then((res) => {
-          if (res.data?.message === "Applied successfully.") {
-              Swal.fire("Applied!", "You have successfully applied for this tutor request.", "success");
-          } else {
-            Swal.fire("Note", res.data?.message || "Something happened.", "info");
-          }
-          refetch();
-        })
-        .catch((error) => {
-          console.error("Apply error:", error);
-          Swal.fire("Error!", "Failed to apply for the tutor request.", "error");
-        });
-    }
-  });
-};
+  const handleApply = (jobId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, apply for this request!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .put(`/tutorRequests/${jobId}`, {
+            email: user.email,
+          })
+          .then((res) => {
+            if (res.data?.message === "Applied successfully.") {
+              Swal.fire(
+                "Applied!",
+                "You have successfully applied for this tutor request.",
+                "success"
+              );
+            } else {
+              Swal.fire(
+                "Note",
+                res.data?.message || "Something happened.",
+                "info"
+              );
+            }
+            refetch();
+          })
+          .catch((error) => {
+            console.error("Apply error:", error);
+            Swal.fire(
+              "Error!",
+              "Failed to apply for the tutor request.",
+              "error"
+            );
+          });
+      }
+    });
+  };
 
   const handleDelete = (jobId) => {
     Swal.fire({
@@ -106,13 +118,14 @@ const handleApply = (jobId) => {
   });
 
   // Show a message if no jobs match the filter
-{filteredJobs.length === 0 && (
-  <p className="text-center text-gray-500">No matching jobs found.</p>
-)}
+  {
+    filteredJobs.length === 0 && (
+      <p className="text-center text-gray-500">No matching jobs found.</p>
+    );
+  }
   if (isLoading) {
     return <div className="text-center py-10">Loading...</div>;
   }
-
 
   return (
     <div>
@@ -178,9 +191,15 @@ const handleApply = (jobId) => {
                 key={job._id}
                 className="bg-slate-100 shadow-md rounded-lg p-6 relative"
               >
+                {job.tutorStatus === "selected" && (
+                  <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                    Selected
+                  </div>
+                )}
+
                 {/* 🔧 Admin Edit/Delete Buttons */}
                 {currentUser?.role === "admin" && (
-                  <div className="absolute top-4 right-4 flex gap-3">
+                  <div className="absolute top-4 right-24 flex gap-3">
                     <button
                       onClick={() => handleDelete(job._id)}
                       className="text-red-600 hover:text-red-800"
@@ -253,12 +272,14 @@ const handleApply = (jobId) => {
                   Posted by: {job.userName} ({job.userEmail})
                 </p>
 
-                <button
-                  onClick={() => handleApply(job._id)}
-                  className="absolute bottom-4 right-4 bg-[#f9d045] px-4 py-2 rounded font-medium hover:bg-[#c5a331] transition"
-                >
-                  Apply Now
-                </button>
+                {currentUser?.role === "tutor" && (
+                  <button
+                    onClick={() => handleApply(job._id)}
+                    className="absolute bottom-4 right-4 bg-[#f9d045] px-4 py-2 rounded font-medium hover:bg-[#c5a331] transition"
+                  >
+                    Apply Now
+                  </button>
+                )}
               </div>
             ))}
           </div>

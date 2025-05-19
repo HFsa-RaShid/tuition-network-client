@@ -4,6 +4,7 @@ import useCurrentUser from "../../../../hooks/useCurrentUser";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { FaListUl } from "react-icons/fa";
 
 const PostedJobs = () => {
   const axiosPublic = useAxiosPublic();
@@ -39,6 +40,18 @@ const PostedJobs = () => {
               key={job._id}
               className="bg-slate-100 shadow-md rounded-lg p-6 relative "
             >
+              <div
+                className="tooltip tooltip-left absolute top-4 right-4 z-10"
+                data-tip="Applied Tutors List"
+              >
+                <FaListUl
+                  onClick={() =>
+                    document.getElementById(`modal-${job._id}`).showModal()
+                  }
+                  className="text-gray-600 text-xl cursor-pointer hover:text-black transition duration-200"
+                />
+              </div>
+
               <p className="text-gray-500">
                 📍 {job.city}, {job.location}
               </p>
@@ -93,70 +106,87 @@ const PostedJobs = () => {
               <div className="flex justify-between">
                 <div>
                   <p className="mt-3 text-black">
-                <strong>💰 Salary:</strong>{" "}
-                <span className="text-blue-700 font-bold">{job.salary} TK</span>
-                /Month
-              </p>
-              <p className="text-gray-500 mt-2 text-sm">
-                Posted by: {job.userName} ({job.userEmail})
-              </p>
+                    <strong>💰 Salary:</strong>{" "}
+                    <span className="text-blue-700 font-bold">
+                      {job.salary} TK
+                    </span>
+                    /Month
+                  </p>
+                  <p className="text-gray-500 mt-2 text-sm">
+                    Posted by: {job.userName} ({job.userEmail})
+                  </p>
                 </div>
 
-              <div className="mt-4">
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    const selectedStatus = e.target.tutorStatus.value;
+                <div className="mt-4">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const selectedStatus = e.target.tutorStatus.value;
 
-                    axiosSecure
-                      .put(`/tutorRequests/${job._id}`, {
-                        tutorStatus: selectedStatus,
-                      })
-                      .then((res) => {
-                        if (res.data.modifiedCount > 0) {
-                          refetch(); 
-                        }
-                      })
-                      .catch((err) => {
-                        console.error(
-                          "Failed to update status:",
-                          err.response ? err.response.data : err.message
-                        );
-                      });
-                  }}
-                >
-                  
-                  <div className="flex gap-4 items-center mb-2">
-                    <label className="flex items-center gap-1">
-                      <input
-                        type="radio"
-                        name="tutorStatus"
-                        value="none"
-                        defaultChecked={job.tutorStatus === "none"}
-                      />
-                      No Need
-                    </label>
-                    <label className="flex items-center gap-1">
-                      <input
-                        type="radio"
-                        name="tutorStatus"
-                        value="selected"
-                        defaultChecked={job.tutorStatus === "selected"}
-                      />
-                      Selected
-                    </label>
-
-                     <button
-                    type="submit"
-                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                      axiosSecure
+                        .put(`/tutorRequests/${job._id}`, {
+                          tutorStatus: selectedStatus,
+                        })
+                        .then((res) => {
+                          if (res.data.modifiedCount > 0) {
+                            refetch();
+                          }
+                        })
+                        .catch((err) => {
+                          console.error(
+                            "Failed to update status:",
+                            err.response ? err.response.data : err.message
+                          );
+                        });
+                    }}
                   >
-                    Update Status
-                  </button>
-                  </div>
-                 
-                </form>
+                    <div className="flex gap-4 items-center mb-2">
+                      <label className="flex items-center gap-1">
+                        <input
+                          type="radio"
+                          name="tutorStatus"
+                          value="none"
+                          defaultChecked={job.tutorStatus === "none"}
+                        />
+                        No Need
+                      </label>
+                      <label className="flex items-center gap-1">
+                        <input
+                          type="radio"
+                          name="tutorStatus"
+                          value="selected"
+                          defaultChecked={job.tutorStatus === "selected"}
+                        />
+                        Selected
+                      </label>
+
+                      <button
+                        type="submit"
+                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                      >
+                        Update Status
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
-              </div>
+              <dialog id={`modal-${job._id}`} className="modal">
+                <div className="modal-box">
+                  <form method="dialog">
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                      ✕
+                    </button>
+                  </form>
+                  <h3 className="font-bold text-lg">📋 Job Details</h3>
+                  <p className="py-4">
+                    Tuition for: <strong>{job.classCourse}</strong>
+                  </p>
+                  <p className="py-1">Subjects: {job.subjects?.join(", ")}</p>
+                  <p className="py-1">City: {job.city}</p>
+                  <p className="py-1">Salary: {job.salary} TK</p>
+                  {/* Add more job details here if needed */}
+                </div>
+              </dialog>
             </div>
           ))}
         </div>
