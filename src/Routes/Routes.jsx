@@ -6,7 +6,6 @@ import LandingPage from "../pages/landingPage/LandingPage";
 import SignIn from "../pages/landingPage/Auth/SignIn/SignIn";
 import SignUp from "../pages/landingPage/Auth/signUp/SignUp";
 import DashBoard from "../pages/DashBoard/DashBoard";
-import TutorRequest from "../pages/parentOrStudent/dashBoardPages/TutorRequest/TutorRequest";
 import PrivateRoute from "./PrivateRoute";
 import ProfileDetails from "../pages/DashBoard/DashBoardAllPages/ProfileDetails/ProfileDetails";
 import DashBoardNotice from "../pages/DashBoard/DashBoardAllPages/DashBoardNoticePage/DashBoardNotice";
@@ -15,6 +14,7 @@ import JobBoard from "../pages/Shared/Navbar/JobBoard/JobBoard";
 import PendingRequest from "../pages/DashBoard/DashBoardAllPages/PendingRequest/PendingRequest";
 import PostedJobs from "../pages/DashBoard/DashBoardAllPages/PostedJob/PostedJobs";
 import AppliedTutorProfile from "../pages/DashBoard/DashBoardAllPages/PostedJob/AppliedTutorProfile";
+import TutorRequests from "../pages/DashBoard/tutorRequests/TutorRequests";
 
 
 
@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
         children: [
               { path: "dashboard", element: <DashBoardNotice></DashBoardNotice> },
               { path: "profile-details", element: <ProfileDetails></ProfileDetails> },
-              { path: "tutor-request", element: <TutorRequest /> },
+              { path: "tutor-request", element: <TutorRequests></TutorRequests>},
               { path: "posted-jobs", element: <PostedJobs></PostedJobs>},
               { path: "pending-request", element: <PendingRequest></PendingRequest>},
               { path: "users", element: <ViewUsers></ViewUsers>},

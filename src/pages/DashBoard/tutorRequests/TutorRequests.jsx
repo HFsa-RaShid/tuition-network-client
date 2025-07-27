@@ -1,10 +1,11 @@
 
 import React, { useContext, useState } from "react";
-import useAxiosPublic from "../../../../hooks/useAxiosPublic";
-import { AuthContext } from "../../../../provider/AuthProvider";
-import toast from "react-hot-toast";
 
-const TutorRequest = () => {
+import toast from "react-hot-toast";
+import { AuthContext } from "../../../provider/AuthProvider";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+
+const TutorRequests = () => {
     const { user } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
   const [step, setStep] = useState(1);
@@ -82,6 +83,7 @@ const TutorRequest = () => {
             status: "pending",
             userEmail: user?.email,
             userName: user?.displayName || user?.email,
+            postedAt: new Date(),
         };
         
         try {
@@ -395,4 +397,4 @@ const TutorRequest = () => {
   );
 };
 
-export default TutorRequest;
+export default TutorRequests;

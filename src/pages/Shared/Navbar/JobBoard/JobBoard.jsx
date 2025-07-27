@@ -269,7 +269,7 @@ const JobBoard = () => {
                   /Month
                 </p>
                 <p className="text-gray-500 mt-2 text-sm">
-                  Posted by: {job.userName} ({job.userEmail})
+                  Posted Date: {new Date(job.postedAt).toLocaleDateString("en-GB")}
                 </p>
 
                 {currentUser?.role === "tutor" && (
