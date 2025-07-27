@@ -5,18 +5,20 @@ import { FaEdit } from "react-icons/fa";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { toast } from "react-hot-toast";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const ProfileDetails = () => {
   const { user } = useContext(AuthContext);
   const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
   const [imagePreview, setImagePreview] = useState("");
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [step, setStep] = useState(1);
   const [availableDays, setAvailableDays] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
-const [studentIdUrl, setStudentIdUrl] = useState("");
-  
+  const [studentIdUrl, setStudentIdUrl] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -38,6 +40,7 @@ const [studentIdUrl, setStudentIdUrl] = useState("");
       setValue("department", currentUser.department || "");
       setValue("gpa", currentUser.gpa || "");
       setValue("passingYear", currentUser.passingYear || "");
+      setValue("tutorType", currentUser.tutorType || "");
       setValue("tuitionArea", currentUser.tuitionArea || "");
       setValue("preferredSubjects", currentUser.preferredSubjects || "");
       setValue("expectedSalary", currentUser.expectedSalary || "");
@@ -73,24 +76,23 @@ const [studentIdUrl, setStudentIdUrl] = useState("");
       const imgData = await res.json();
       const photoURL = imgData.data.url;
 
-      await axiosPublic.put(`/users/${user?.email}`, { photoURL });
+      await axiosSecure.put(`/users/${user?.email}`, { photoURL });
       refetch();
     } catch (err) {
       console.error("Image upload failed:", err);
     }
   };
 
-
   const onSubmit = async (data) => {
     try {
       const updatedData = {
         ...data,
-        availableDays, 
+        availableDays,
         availableTimes,
         studentIdImage: studentIdUrl || data.studentIdImage,
       };
 
-      await axiosPublic.put(`/users/${user?.email}`, updatedData);
+      await axiosSecure.put(`/users/${user?.email}`, updatedData);
       refetch();
       toast.success("Profile updated successfully!");
     } catch (err) {
@@ -98,35 +100,34 @@ const [studentIdUrl, setStudentIdUrl] = useState("");
       toast.error("Failed to update profile!");
     }
   };
-  
 
   const handleStudentIdChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-  
+
     try {
       const formData = new FormData();
       formData.append("image", file);
-  
+
       const res = await fetch(
-        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_HOSTING_KEY}`,
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMAGE_HOSTING_KEY
+        }`,
         {
           method: "POST",
           body: formData,
         }
       );
-  
+
       const imgData = await res.json();
       const imageUrl = imgData.data.url;
-  
-      setStudentIdUrl(imageUrl); 
-      setValue("studentIdImage", imageUrl); 
+
+      setStudentIdUrl(imageUrl);
+      setValue("studentIdImage", imageUrl);
     } catch (err) {
       console.error("Student ID image upload failed:", err);
     }
   };
-  
-
 
   // Handle day selection
   const handleDayChange = (day) => {
@@ -153,8 +154,6 @@ const [studentIdUrl, setStudentIdUrl] = useState("");
       }
     });
   };
-
-  
 
   if (isLoading) return <p className="text-center">Loading...</p>;
 
@@ -329,19 +328,20 @@ const [studentIdUrl, setStudentIdUrl] = useState("");
                     })}{" "}
                   </select>{" "}
                 </div>{" "}
-                 {/* 👇 Student ID File Upload Field */}
-                 <div>
-  <label className="block font-medium mb-1">Student ID Card (image)</label>
-  <input
-    type="file"
-    accept="image/*"
-    className="file-input file-input-bordered w-full"
-    onChange={(e) => {
-      handleStudentIdChange(e); 
-    }}
-  />
-</div>
-
+                {/* 👇 Student ID File Upload Field */}
+                <div>
+                  <label className="block font-medium mb-1">
+                    Student ID Card (image)
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="file-input file-input-bordered w-full"
+                    onChange={(e) => {
+                      handleStudentIdChange(e);
+                    }}
+                  />
+                </div>
               </div>{" "}
             </>
           )}
@@ -409,6 +409,24 @@ const [studentIdUrl, setStudentIdUrl] = useState("");
                     placeholder="e.g., Math, Physics"
                   />
                 </div>
+              </div>
+              {/* Tutor Type */}
+              <div>
+                <label className="block font-medium mb-1">Tutor Type</label>
+                <select
+                  {...register("tutorType")}
+                  className="select select-bordered w-full"
+                >
+                  <option value="">Select </option>
+                  <option value="Government Institution">
+                    Government Institution
+                  </option>
+                  <option value="Private Institution">
+                    Private Institution
+                  </option>
+                  <option value="University Student">University Student</option>
+                  <option value="College Student">College Student</option>
+                </select>
               </div>
             </>
           )}
@@ -520,7 +538,6 @@ const [studentIdUrl, setStudentIdUrl] = useState("");
                   onSubmit(data);
                   setStep(step + 1);
                 })}
-                
                 className="btn btn-primary"
               >
                 Next

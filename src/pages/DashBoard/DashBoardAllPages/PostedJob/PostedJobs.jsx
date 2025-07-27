@@ -5,6 +5,8 @@ import { AuthContext } from "../../../../provider/AuthProvider";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { FaListUl } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const PostedJobs = () => {
   const axiosPublic = useAxiosPublic();
@@ -13,6 +15,7 @@ const PostedJobs = () => {
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
   const [jobs, setJobs] = useState([]);
+  const { role } = useParams();
 
   useEffect(() => {
     if (allJobs && user?.email) {
@@ -23,38 +26,37 @@ const PostedJobs = () => {
     }
   }, [allJobs, user?.email]);
 
- const [appliedTutorInfos, setAppliedTutorInfos] = useState({});
+  const [appliedTutorInfos, setAppliedTutorInfos] = useState({});
 
-useEffect(() => {
-  const fetchAppliedTutors = async () => {
-    if (!jobs.length) return;
+  useEffect(() => {
+    const fetchAppliedTutors = async () => {
+      if (!jobs.length) return;
 
-    const allTutorEmails = jobs.flatMap(job => job.appliedTutors || []);
-    const uniqueEmails = [...new Set(allTutorEmails)];
+      const allTutorEmails = jobs.flatMap((job) => job.appliedTutors || []);
+      const uniqueEmails = [...new Set(allTutorEmails)];
 
-    try {
-      const res = await axiosSecure.post("/users/by-emails", {
-        emails: uniqueEmails,
-      });
-      if (res.data.length === 0) {
-        console.warn("No tutor information found for the provided emails.");      
-        return;
+      try {
+        const res = await axiosSecure.post("/users/by-emails", {
+          emails: uniqueEmails,
+        });
+        if (res.data.length === 0) {
+          console.warn("No tutor information found for the provided emails.");
+          return;
+        }
+
+        const infoMap = {};
+        res.data.forEach((user) => {
+          infoMap[user.email] = user.name;
+        });
+
+        setAppliedTutorInfos(infoMap);
+      } catch (error) {
+        console.error("Error fetching applied tutor info:", error);
       }
+    };
 
-      const infoMap = {};
-      res.data.forEach(user => {
-        infoMap[user.email] = user.name;
-      });
-
-      setAppliedTutorInfos(infoMap);
-    } catch (error) {
-      console.error("Error fetching applied tutor info:", error);
-    }
-  };
-
-  fetchAppliedTutors();
-}, [jobs]);
-
+    fetchAppliedTutors();
+  }, [jobs]);
 
   return (
     <div className="container mx-auto mt-6">
@@ -196,30 +198,33 @@ useEffect(() => {
                 </div>
               </div>
               <dialog id={`modal-${job._id}`} className="modal">
-  <div className="modal-box">
-    <form method="dialog">
-      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-        ✕
-      </button>
-    </form>
-    <h3 className="font-bold text-lg mb-2">Applied Tutors</h3>
+                <div className="modal-box">
+                  <form method="dialog">
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                      ✕
+                    </button>
+                  </form>
+                  <h3 className="font-bold text-lg mb-2">Applied Tutors</h3>
 
-    {(job.appliedTutors && job.appliedTutors.length > 0) ? (
-      <ul className="list-disc ml-5 space-y-1">
-        {job.appliedTutors.map((email) => (
-          <li key={email}>
-            {appliedTutorInfos[email.toLowerCase()] || "Unknown"}
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p>No one has applied yet.</p>
-    )}
-  </div>
-
-</dialog>
-
-
+                  {job.appliedTutors && job.appliedTutors.length > 0 ? (
+                    <ul className="list-disc ml-5 space-y-1">
+                      {job.appliedTutors.map((email) => (
+                        <li key={email}>
+                          <NavLink
+                            to={`/${role}/tutor-profile`}
+                            state={{ email }}
+                            className="text-blue-600 hover:underline"
+                          >
+                            {appliedTutorInfos[email.toLowerCase()] || email}
+                          </NavLink>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No one has applied yet.</p>
+                  )}
+                </div>
+              </dialog>
             </div>
           ))}
         </div>
