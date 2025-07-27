@@ -36,8 +36,11 @@ useEffect(() => {
       const res = await axiosSecure.post("/users/by-emails", {
         emails: uniqueEmails,
       });
+      if (res.data.length === 0) {
+        console.warn("No tutor information found for the provided emails.");      
+        return;
+      }
 
-      // assuming res.data = array of users: [{email, name}, ...]
       const infoMap = {};
       res.data.forEach(user => {
         infoMap[user.email] = user.name;
@@ -199,26 +202,21 @@ useEffect(() => {
         ✕
       </button>
     </form>
-    
+    <h3 className="font-bold text-lg mb-2">Applied Tutors</h3>
 
-   <div className="mt-4">
-  <h4 className="font-semibold text-md mb-2">👨‍🏫 Applied Tutors:</h4>
-  {job.appliedTutors && job.appliedTutors.length > 0 ? (
-    <ul className="list-disc list-inside space-y-1">
-      {job.appliedTutors.map((email, index) => (
-        <li key={index} className="text-gray-700">
-          {appliedTutorInfos[email]
-            ? `${appliedTutorInfos[email]}`
-            : email}
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p className="text-gray-500">No tutors have applied yet.</p>
-  )}
-</div>
-
+    {(job.appliedTutors && job.appliedTutors.length > 0) ? (
+      <ul className="list-disc ml-5 space-y-1">
+        {job.appliedTutors.map((email) => (
+          <li key={email}>
+            {appliedTutorInfos[email.toLowerCase()] || "Unknown"}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>No one has applied yet.</p>
+    )}
   </div>
+
 </dialog>
 
 

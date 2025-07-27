@@ -16,7 +16,7 @@ const ProfileDetails = () => {
   const [availableDays, setAvailableDays] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
 const [studentIdUrl, setStudentIdUrl] = useState("");
-
+  
   const {
     register,
     handleSubmit,
