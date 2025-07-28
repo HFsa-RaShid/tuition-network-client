@@ -8,6 +8,7 @@ import { AuthContext } from "../../../../provider/AuthProvider";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import bdDistricts from "../../../utils/bdDistricts";
 
 const JobBoard = () => {
   const axiosPublic = useAxiosPublic();
@@ -20,6 +21,7 @@ const JobBoard = () => {
     tutoringType: "",
     gender: "",
     medium: "",
+    city: "",
   });
 
   useEffect(() => {
@@ -113,7 +115,8 @@ const JobBoard = () => {
     return (
       (!filter.tutoringType || job.tuitionType === filter.tutoringType) &&
       (!filter.gender || job.tutorGenderPreference === filter.gender) &&
-      (!filter.medium || job.category === filter.medium)
+      (!filter.medium || job.category === filter.medium) &&
+      (!filter.city || job.city === filter.city)
     );
   });
 
@@ -170,7 +173,7 @@ const JobBoard = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block font-semibold mb-1">Medium</label>
+              <label className="block font-semibold mb-1">Preferred Medium</label>
               <select
                 className="w-full border p-2 rounded bg-white"
                 onChange={(e) =>
@@ -180,6 +183,20 @@ const JobBoard = () => {
                 <option value="">All</option>
                 <option value="Bangla Medium">Bangla Medium</option>
                 <option value="English Medium">English Medium</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block font-semibold mb-1">Preferred City</label>
+              <select
+                className="w-full border p-2 rounded bg-white"
+                onChange={(e) => setFilter({ ...filter, city: e.target.value })}
+              >
+                <option value="">All</option>
+                {bdDistricts.map((district) => (
+                  <option key={district} value={district}>
+                    {district}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -194,6 +211,11 @@ const JobBoard = () => {
                 {job.tutorStatus === "selected" && (
                   <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
                     Selected
+                  </div>
+                )}
+                {job.tutorStatus === "Not Available" && (
+                  <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                    Not Available
                   </div>
                 )}
 
@@ -269,24 +291,27 @@ const JobBoard = () => {
                   /Month
                 </p>
                 <p className="text-gray-500 mt-2 text-sm">
-                  Posted Date: {new Date(job.postedAt).toLocaleDateString("en-GB")}
+                  Posted Date:{" "}
+                  {new Date(job.postedAt).toLocaleDateString("en-GB")}
                 </p>
 
-                {currentUser?.role === "tutor" && (
-                  <button
-                    onClick={() => handleApply(job._id)}
-                    disabled={job.appliedTutors?.includes(user.email)}
-                    className={`absolute bottom-4 right-4 px-4 py-2 rounded font-medium ${
-                      job.appliedTutors?.includes(user.email)
-                        ? "bg-gray-300 cursor-not-allowed "
-                        : "bg-[#f9d045] hover:bg-[#f9d045]"
-                    }`}
-                  >
-                    {job.appliedTutors?.includes(user.email)
-                      ? "Already Applied"
-                      : "Apply Now"}
-                  </button>
-                )}
+                {currentUser?.role === "tutor" &&
+                  job.tutorStatus !== "selected" &&
+                  job.tutorStatus !== "Not Available" && (
+                    <button
+                      onClick={() => handleApply(job._id)}
+                      disabled={job.appliedTutors?.includes(user.email)}
+                      className={`absolute bottom-4 right-4 px-4 py-2 rounded font-medium ${
+                        job.appliedTutors?.includes(user.email)
+                          ? "bg-gray-300 cursor-not-allowed"
+                          : "bg-[#f9d045] hover:bg-[#f9d045]"
+                      }`}
+                    >
+                      {job.appliedTutors?.includes(user.email)
+                        ? "Already Applied"
+                        : "Apply Now"}
+                    </button>
+                  )}
               </div>
             ))}
           </div>

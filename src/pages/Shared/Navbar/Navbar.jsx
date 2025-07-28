@@ -106,7 +106,7 @@ const Navbar = () => {
                 }
                 to="/"
               >
-                Tutors
+                Home
               </NavLink>
             </li>
             <li>

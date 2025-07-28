@@ -172,10 +172,10 @@ const PostedJobs = () => {
                         <input
                           type="radio"
                           name="tutorStatus"
-                          value="none"
-                          defaultChecked={job.tutorStatus === "none"}
+                          value="Not Available"
+                          defaultChecked={job.tutorStatus === "Not Available"}
                         />
-                        No Need
+                        Not Available
                       </label>
                       <label className="flex items-center gap-1">
                         <input
