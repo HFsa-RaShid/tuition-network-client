@@ -10,6 +10,8 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const JobBoard = () => {
   const axiosPublic = useAxiosPublic();
@@ -24,6 +26,8 @@ const JobBoard = () => {
     medium: "",
     city: "",
     area: "",
+    classCourse: "",
+    selectedDate: null,
   });
 
   useEffect(() => {
@@ -38,6 +42,16 @@ const JobBoard = () => {
       setJobs(approvedJobs);
     }
   }, [allJobs]);
+
+  const classes = [
+    "Play",
+    "Nursery",
+    "KG",
+    ...Array.from({ length: 10 }, (_, i) => `Class ${i + 1}`),
+    "Class 12",
+    "Honours",
+    "Masters",
+  ];
 
   const handleApply = (jobId) => {
     Swal.fire({
@@ -113,23 +127,29 @@ const JobBoard = () => {
     });
   };
 
-
   // When city changes, reset area
   const handleCityChange = (city) => {
     setFilter((prev) => ({
       ...prev,
       city,
-      area: "",        // reset area on city change
+      area: "",
     }));
   };
 
-  const filteredJobs = jobs.filter((job) => {
+  let filteredJobs = jobs.filter((job) => {
+    const jobDate = new Date(job.postedAt).toISOString().split("T")[0];
+    const selectedDate = filter.selectedDate
+      ? filter.selectedDate.toISOString().split("T")[0]
+      : null;
+
     return (
       (!filter.tutoringType || job.tuitionType === filter.tutoringType) &&
       (!filter.gender || job.tutorGenderPreference === filter.gender) &&
       (!filter.medium || job.category === filter.medium) &&
       (!filter.city || job.city === filter.city) &&
-      (!filter.area || job.location === filter.area)
+      (!filter.area || job.location === filter.area) &&
+      (!filter.classCourse || job.classCourse === filter.classCourse) &&
+      (!selectedDate || jobDate === selectedDate)
     );
   });
 
@@ -152,7 +172,7 @@ const JobBoard = () => {
         <div className="flex p-6 gap-4">
           {/* Left Sidebar (Filters) */}
           <div className="w-[30%] bg-slate-100 shadow-md rounded-lg p-4 text-black">
-            <h2 className="text-lg font-semibold mb-4">🔍 Advanced Filter</h2>
+            <h2 className="text-[24px] font-semibold mb-4">🔍 Advanced Filter</h2>
 
             <div className="mb-4">
               <label className="block font-semibold mb-1">Tuition Type</label>
@@ -186,7 +206,9 @@ const JobBoard = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block font-semibold mb-1">Preferred Medium</label>
+              <label className="block font-semibold mb-1">
+                Preferred Medium
+              </label>
               <select
                 className="w-full border p-2 rounded bg-white"
                 onChange={(e) =>
@@ -198,41 +220,77 @@ const JobBoard = () => {
                 <option value="English Medium">English Medium</option>
               </select>
             </div>
-           
+
             <div className="mb-4">
-  <label className="block font-semibold mb-1">Preferred City</label>
-  <select
-    className="w-full border p-2 rounded bg-white"
-    value={filter.city}
-    onChange={(e) => handleCityChange(e.target.value)}
-  >
-    <option value="">All</option>
-    {bdDistricts.map((district) => (
-      <option key={district} value={district}>
-        {district}
-      </option>
-    ))}
-  </select>
-</div>
+              <label className="block font-semibold mb-1">Preferred City</label>
+              <select
+                className="w-full border p-2 rounded bg-white"
+                value={filter.city}
+                onChange={(e) => handleCityChange(e.target.value)}
+              >
+                <option value="">All</option>
+                {bdDistricts.map((district) => (
+                  <option key={district} value={district}>
+                    {district}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-<div className="mb-4">
-  <label className="block font-semibold mb-1">Preferred Area</label>
-  <select
-    className="w-full border p-2 rounded bg-white"
-    value={filter.area}
-    onChange={(e) => setFilter({ ...filter, area: e.target.value })}
-    disabled={!filter.city}
-  >
-    <option value="">All</option>
-    {filter.city &&
-      cityAreaMap[filter.city]?.map((area) => (
-        <option key={area} value={area}>
-          {area}
-        </option>
-      ))}
-  </select>
-</div>
+            <div className="mb-4">
+              <label className="block font-semibold mb-1">Preferred Area</label>
+              <select
+                className="w-full border p-2 rounded bg-white"
+                value={filter.area}
+                onChange={(e) => setFilter({ ...filter, area: e.target.value })}
+                disabled={!filter.city}
+              >
+                <option value="">All</option>
+                {filter.city &&
+                  cityAreaMap[filter.city]?.map((area) => (
+                    <option key={area} value={area}>
+                      {area}
+                    </option>
+                  ))}
+              </select>
+            </div>
 
+            {/* Preferred Class */}
+
+            <div className="mb-4">
+              <label className="block font-semibold mb-1">
+                Preferred Class
+              </label>
+              <select
+                className="w-full border p-2 rounded bg-white"
+                value={filter.classCourse}
+                onChange={(e) =>
+                  setFilter({ ...filter, classCourse: e.target.value })
+                }
+              >
+                <option value="">All</option>
+                {classes.map((cls) => (
+                  <option key={cls} value={cls}>
+                    {cls}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Search by Date */}
+            <div className="mb-4">
+              <label className="block font-semibold mb-1">Search by Date</label>
+              <DatePicker
+                selected={filter.selectedDate}
+                onChange={(date) =>
+                  setFilter({ ...filter, selectedDate: date })
+                }
+                dateFormat="yyyy-MM-dd"
+                placeholderText="yyyy-mm-dd 📅"
+                className="w-full border p-2 rounded bg-white"
+                isClearable
+              />
+            </div>
           </div>
 
           {/* Right Content (Job Cards) */}
@@ -326,7 +384,14 @@ const JobBoard = () => {
                 </p>
                 <p className="text-gray-500 mt-2 text-sm">
                   Posted Date:{" "}
-                  {new Date(job.postedAt).toLocaleDateString("en-GB")}
+                  {new Date(job.postedAt).toLocaleString("en-US", {
+                    timeZone: "Asia/Dhaka",
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </p>
 
                 {currentUser?.role === "tutor" &&

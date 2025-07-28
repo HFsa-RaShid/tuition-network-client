@@ -5,6 +5,7 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import bdDistricts from "../../utils/bdDistricts";
 import cityAreaMap from "../../utils/cityAreaMap";
+import subjects from "../../utils/subjects";
 
 const TutorRequests = () => {
   const { user } = useContext(AuthContext);
@@ -39,55 +40,10 @@ const TutorRequests = () => {
     "KG",
     ...Array.from({ length: 10 }, (_, i) => `Class ${i + 1}`),
     "Class 12",
+    "Honours",
+    "Masters",
   ];
 
-  const subjects = [
-    "Play Activities",
-    "Drawing",
-    "Rhymes",
-    "Basic English",
-    "Basic Bangla",
-    "Numbers",
-    "Good Manners",
-    "Bangla",
-    "English",
-    "Mathematics",
-    "Science",
-    "Social Studies",
-    "Islamic Studies",
-    "ICT",
-    "Physical Education",
-    "Mathematics",
-    "Higher Mathematics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Bangla",
-    "English",
-    "ICT",
-    "Islamic Studies",
-    "History and Culture of Bangladesh",
-    "Geography and Environment",
-    "Agricultural Studies",
-    "Home Science",
-    "Physical Education & Health",
-    "Arts and Crafts",
-    "Career Education",
-    "Economics",
-    "Accounting",
-    "Finance & Banking",
-    "Business Studies",
-    "Statistics",
-    "Psychology",
-    "Sociology",
-    "Logic",
-    "Civics and Good Governance",
-    "History",
-    "Geography",
-    "Agricultural Studies",
-    "Home Science",
-    "Physical Education",
-  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;

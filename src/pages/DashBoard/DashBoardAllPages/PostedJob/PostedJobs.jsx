@@ -139,8 +139,17 @@ const PostedJobs = () => {
                     </span>
                     /Month
                   </p>
+
                   <p className="text-gray-500 mt-2 text-sm">
-                    Posted Date: {new Date(job.postedAt).toLocaleDateString("en-GB")}
+                     Posted Date:{" "}
+                    {new Date(job.postedAt).toLocaleString("en-US", {
+                      timeZone: "Asia/Dhaka",
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </p>
                 </div>
 
