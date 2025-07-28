@@ -1,13 +1,14 @@
-
 import React, { useContext, useState } from "react";
 
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../provider/AuthProvider";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import bdDistricts from "../../utils/bdDistricts";
+import cityAreaMap from "../../utils/cityAreaMap";
 
 const TutorRequests = () => {
-    const { user } = useContext(AuthContext);
-    const axiosPublic = useAxiosPublic();
+  const { user } = useContext(AuthContext);
+  const axiosPublic = useAxiosPublic();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     tuitionType: "Home Tutoring",
@@ -25,29 +26,67 @@ const TutorRequests = () => {
     status: "pending",
   });
 
-  const cities = [
-    "Dhaka", "Chattogram", "Khulna", "Rajshahi", "Barishal",
-    "Sylhet", "Rangpur", "Mymensingh", "Comilla", "Gazipur",
-    "Narayanganj", "Bogura", "Cox's Bazar", "Jessore", "Tangail",
-    "Feni", "Pabna",
-  ];
-
   const categories = [
-    "Bangla Medium", "English Version", "English Medium", "Madrasah",
+    "Bangla Medium",
+    "English Version",
+    "English Medium",
+    "Madrasah",
   ];
 
   const classes = [
-    "Play", "Nursery", "KG", ...Array.from({ length: 10 }, (_, i) => `Class ${i + 1}`), "Class 12",
+    "Play",
+    "Nursery",
+    "KG",
+    ...Array.from({ length: 10 }, (_, i) => `Class ${i + 1}`),
+    "Class 12",
   ];
 
   const subjects = [
-    "Play Activities", "Drawing", "Rhymes", "Basic English", "Basic Bangla", "Numbers", "Good Manners",
-    "Bangla", "English", "Mathematics", "Science", "Social Studies", "Islamic Studies", "ICT", "Physical Education",
-    "Mathematics", "Higher Mathematics", "Physics", "Chemistry", "Biology", "Bangla", "English",
-    "ICT", "Islamic Studies", "History and Culture of Bangladesh", "Geography and Environment", "Agricultural Studies",
-    "Home Science", "Physical Education & Health", "Arts and Crafts", "Career Education",
-    "Economics", "Accounting", "Finance & Banking", "Business Studies", "Statistics", "Psychology", "Sociology", "Logic",
-    "Civics and Good Governance", "History", "Geography", "Agricultural Studies", "Home Science", "Physical Education",
+    "Play Activities",
+    "Drawing",
+    "Rhymes",
+    "Basic English",
+    "Basic Bangla",
+    "Numbers",
+    "Good Manners",
+    "Bangla",
+    "English",
+    "Mathematics",
+    "Science",
+    "Social Studies",
+    "Islamic Studies",
+    "ICT",
+    "Physical Education",
+    "Mathematics",
+    "Higher Mathematics",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Bangla",
+    "English",
+    "ICT",
+    "Islamic Studies",
+    "History and Culture of Bangladesh",
+    "Geography and Environment",
+    "Agricultural Studies",
+    "Home Science",
+    "Physical Education & Health",
+    "Arts and Crafts",
+    "Career Education",
+    "Economics",
+    "Accounting",
+    "Finance & Banking",
+    "Business Studies",
+    "Statistics",
+    "Psychology",
+    "Sociology",
+    "Logic",
+    "Civics and Good Governance",
+    "History",
+    "Geography",
+    "Agricultural Studies",
+    "Home Science",
+    "Physical Education",
   ];
 
   const handleChange = (e) => {
@@ -76,51 +115,49 @@ const TutorRequests = () => {
   const prevStep = () => setStep(step - 1);
 
   const handleSubmit = async () => {
- 
     if (user) {
-        const tutorRequestData = {
-            ...formData,
-            status: "pending",
-            userEmail: user?.email,
-            userName: user?.displayName || user?.email,
-            postedAt: new Date(),
-        };
-        
-        try {
-            const res = await axiosPublic.post('/tutorRequests', tutorRequestData);
-            console.log('Tutor request submitted:', res.data);
-            toast.success('Tutor request submitted successfully!');
-             // Reset form data and go back to step 1
-             setFormData({
-              tuitionType: "Home Tutoring",
-              category: "",
-              classCourse: "",
-              subjects: [],
-              city: "",
-              location: "",
-              studentGender: "Female",
-              noOfStudents: "1",
-              tutorGenderPreference: "Any",
-              daysPerWeek: "",
-              salary: "",
-              duration: "1 hour",
-          });
-          setStep(1);
+      const tutorRequestData = {
+        ...formData,
+        status: "pending",
+        userEmail: user?.email,
+        userName: user?.displayName || user?.email,
+        postedAt: new Date(),
+      };
 
-        } catch (error) {
-            console.error('Error submitting tutor request:', error);
-        }
-        
+      try {
+        const res = await axiosPublic.post("/tutorRequests", tutorRequestData);
+        console.log("Tutor request submitted:", res.data);
+        toast.success("Tutor request submitted successfully!");
+        // Reset form data and go back to step 1
+        setFormData({
+          tuitionType: "Home Tutoring",
+          category: "",
+          classCourse: "",
+          subjects: [],
+          city: "",
+          location: "",
+          studentGender: "Female",
+          noOfStudents: "1",
+          tutorGenderPreference: "Any",
+          daysPerWeek: "",
+          salary: "",
+          duration: "1 hour",
+        });
+        setStep(1);
+      } catch (error) {
+        console.error("Error submitting tutor request:", error);
+      }
     }
-};
-
+  };
 
   const isNextButtonDisabled = () => {
     if (step === 1) {
       return !formData.category || !formData.classCourse;
     }
     if (step === 2) {
-      return !formData.city || !formData.location || formData.subjects.length === 0;
+      return (
+        !formData.city || !formData.location || formData.subjects.length === 0
+      );
     }
     if (step === 3) {
       return !formData.noOfStudents || !formData.salary;
@@ -130,7 +167,9 @@ const TutorRequests = () => {
 
   return (
     <div className="max-w-2xl mx-auto mt-12 p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-semibold text-center mb-2">Tuition Information</h2>
+      <h2 className="text-2xl font-semibold text-center mb-2">
+        Tuition Information
+      </h2>
 
       {step === 1 && (
         <div>
@@ -190,7 +229,9 @@ const TutorRequests = () => {
             <button
               onClick={nextStep}
               disabled={isNextButtonDisabled()}
-              className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${isNextButtonDisabled() ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
+                isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
               Next →
             </button>
@@ -234,34 +275,48 @@ const TutorRequests = () => {
               </div>
             </div>
 
+            {/* City Selection */}
             <div>
               <label className="block font-medium">City *</label>
               <select
                 name="city"
                 value={formData.city}
-                onChange={handleChange}
-                required
+                onChange={(e) => {
+                  handleChange(e);
+                  setFormData((prev) => ({
+                    ...prev,
+                    location: "", 
+                  }));
+                }}
                 className="w-full p-2 border rounded"
               >
-                <option value="">Select...</option>
-                {cities.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
+                <option value="">Select City</option>
+                {bdDistricts.map((district) => (
+                  <option key={district} value={district}>
+                    {district}
                   </option>
                 ))}
               </select>
             </div>
 
+            {/* Location/Area Selection */}
             <div>
               <label className="block font-medium">Location *</label>
-              <input
-                type="text"
+              <select
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                required
                 className="w-full p-2 border rounded"
-              />
+                disabled={!formData.city}
+              >
+                <option value="">Select Area</option>
+                {formData.city &&
+                  cityAreaMap[formData.city]?.map((area) => (
+                    <option key={area} value={area}>
+                      {area}
+                    </option>
+                  ))}
+              </select>
             </div>
           </div>
 
@@ -275,7 +330,9 @@ const TutorRequests = () => {
             <button
               onClick={nextStep}
               disabled={isNextButtonDisabled()}
-              className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${isNextButtonDisabled() ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
+                isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
               Next →
             </button>
@@ -303,22 +360,22 @@ const TutorRequests = () => {
               </select>
             </div>
             <div>
-        <label className="block font-medium">Days/Week *</label>
-        <select
-          name="daysPerWeek"
-          value={formData.daysPerWeek}
-          onChange={handleChange}
-          required
-          className="w-full p-2 border rounded"
-        >
-          <option value="">Select...</option>
-          {[1, 2, 3, 4, 5, 6, 7].map((day) => (
-            <option key={day} value={day}>
-              {day} Day{day > 1 ? 's' : ''}
-            </option>
-          ))}
-        </select>
-      </div>
+              <label className="block font-medium">Days/Week *</label>
+              <select
+                name="daysPerWeek"
+                value={formData.daysPerWeek}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border rounded"
+              >
+                <option value="">Select...</option>
+                {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+                  <option key={day} value={day}>
+                    {day} Day{day > 1 ? "s" : ""}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             <div>
               <label className="block font-medium">Duration *</label>
@@ -360,7 +417,9 @@ const TutorRequests = () => {
             <button
               onClick={nextStep}
               disabled={isNextButtonDisabled()}
-              className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${isNextButtonDisabled() ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
+                isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
               Next →
             </button>
@@ -371,11 +430,21 @@ const TutorRequests = () => {
       {step === 4 && (
         <div>
           <h3 className="text-lg font-medium mb-4">Review & Submit</h3>
-          <p><strong>Tuition Type:</strong> {formData.tuitionType}</p>
-          <p><strong>Category:</strong> {formData.category}</p>
-          <p><strong>Class:</strong> {formData.classCourse}</p>
-          <p><strong>Subjects:</strong> {formData.subjects.join(", ")}</p>
-          <p><strong>City:</strong> {formData.city}</p>
+          <p>
+            <strong>Tuition Type:</strong> {formData.tuitionType}
+          </p>
+          <p>
+            <strong>Category:</strong> {formData.category}
+          </p>
+          <p>
+            <strong>Class:</strong> {formData.classCourse}
+          </p>
+          <p>
+            <strong>Subjects:</strong> {formData.subjects.join(", ")}
+          </p>
+          <p>
+            <strong>City:</strong> {formData.city}
+          </p>
 
           <div className="mt-6 flex justify-between">
             <button

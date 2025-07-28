@@ -6,6 +6,8 @@ import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { toast } from "react-hot-toast";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import bdDistricts from "../../../utils/bdDistricts";
+import cityAreaMap from "../../../utils/cityAreaMap";
 
 const ProfileDetails = () => {
   const { user } = useContext(AuthContext);
@@ -23,6 +25,7 @@ const ProfileDetails = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -228,7 +231,7 @@ const ProfileDetails = () => {
                     className="input input-bordered w-full"
                   />
                 </div>
-                <div>
+                {/* <div>
                   <label>City</label>
                   <input
                     {...register("city")}
@@ -241,7 +244,44 @@ const ProfileDetails = () => {
                     {...register("location")}
                     className="input input-bordered w-full"
                   />
-                </div>
+                </div> */}
+                <div>
+  <label>City</label>
+  <select
+    {...register("city")}
+    className="input input-bordered w-full"
+    onChange={(e) => {
+      setValue("city", e.target.value);
+      setValue("location", ""); // Reset location when city changes
+    }}
+    defaultValue={currentUser?.city || ""}
+  >
+    <option value="">Select a City</option>
+    {bdDistricts.map((district) => (
+      <option key={district} value={district}>
+        {district}
+      </option>
+    ))}
+  </select>
+</div>
+
+<div>
+  <label>Location / Area</label>
+  <select
+    {...register("location")}
+    className="input input-bordered w-full"
+    disabled={!watch("city")}
+    defaultValue={currentUser?.location || ""}
+  >
+    <option value="">Select an Area</option>
+    {cityAreaMap[watch("city")]?.map((area) => (
+      <option key={area} value={area}>
+        {area}
+      </option>
+    ))}
+  </select>
+</div>
+
                 <div>
                   <label>Religion</label>
                   <input

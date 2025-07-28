@@ -37,7 +37,7 @@ const AppliedTutorProfile = () => {
           <strong>Institute:</strong> {tutor.institute}
         </p>
         <p>
-          <strong>GPA:</strong> {tutor.gpa}
+          <strong>CGPA/GPA:</strong> {tutor.gpa}
         </p>
         <p>
           <strong>Passing Year:</strong> {tutor.passingYear}
@@ -46,11 +46,12 @@ const AppliedTutorProfile = () => {
           <strong>City:</strong> {tutor.city}
         </p>
         <p>
-          <strong>Location:</strong> {tutor.location}
-        </p>
-        <p>
           <strong>Religion:</strong> {tutor.religion}
         </p>
+        <p>
+          <strong>Location:</strong> {tutor.location}
+        </p>
+        
         <p>
           <strong>Expected Salary:</strong> {tutor.expectedSalary} Tk
         </p>

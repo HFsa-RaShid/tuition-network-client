@@ -9,6 +9,7 @@ import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import bdDistricts from "../../../utils/bdDistricts";
+import cityAreaMap from "../../../utils/cityAreaMap";
 
 const JobBoard = () => {
   const axiosPublic = useAxiosPublic();
@@ -22,6 +23,7 @@ const JobBoard = () => {
     gender: "",
     medium: "",
     city: "",
+    area: "",
   });
 
   useEffect(() => {
@@ -111,12 +113,23 @@ const JobBoard = () => {
     });
   };
 
+
+  // When city changes, reset area
+  const handleCityChange = (city) => {
+    setFilter((prev) => ({
+      ...prev,
+      city,
+      area: "",        // reset area on city change
+    }));
+  };
+
   const filteredJobs = jobs.filter((job) => {
     return (
       (!filter.tutoringType || job.tuitionType === filter.tutoringType) &&
       (!filter.gender || job.tutorGenderPreference === filter.gender) &&
       (!filter.medium || job.category === filter.medium) &&
-      (!filter.city || job.city === filter.city)
+      (!filter.city || job.city === filter.city) &&
+      (!filter.area || job.location === filter.area)
     );
   });
 
@@ -185,20 +198,41 @@ const JobBoard = () => {
                 <option value="English Medium">English Medium</option>
               </select>
             </div>
+           
             <div className="mb-4">
-              <label className="block font-semibold mb-1">Preferred City</label>
-              <select
-                className="w-full border p-2 rounded bg-white"
-                onChange={(e) => setFilter({ ...filter, city: e.target.value })}
-              >
-                <option value="">All</option>
-                {bdDistricts.map((district) => (
-                  <option key={district} value={district}>
-                    {district}
-                  </option>
-                ))}
-              </select>
-            </div>
+  <label className="block font-semibold mb-1">Preferred City</label>
+  <select
+    className="w-full border p-2 rounded bg-white"
+    value={filter.city}
+    onChange={(e) => handleCityChange(e.target.value)}
+  >
+    <option value="">All</option>
+    {bdDistricts.map((district) => (
+      <option key={district} value={district}>
+        {district}
+      </option>
+    ))}
+  </select>
+</div>
+
+<div className="mb-4">
+  <label className="block font-semibold mb-1">Preferred Area</label>
+  <select
+    className="w-full border p-2 rounded bg-white"
+    value={filter.area}
+    onChange={(e) => setFilter({ ...filter, area: e.target.value })}
+    disabled={!filter.city}
+  >
+    <option value="">All</option>
+    {filter.city &&
+      cityAreaMap[filter.city]?.map((area) => (
+        <option key={area} value={area}>
+          {area}
+        </option>
+      ))}
+  </select>
+</div>
+
           </div>
 
           {/* Right Content (Job Cards) */}
