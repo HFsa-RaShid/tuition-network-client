@@ -172,7 +172,9 @@ const JobBoard = () => {
         <div className="flex p-6 gap-4">
           {/* Left Sidebar (Filters) */}
           <div className="w-[30%] bg-slate-100 shadow-md rounded-lg p-4 text-black">
-            <h2 className="text-[24px] font-semibold mb-4">🔍 Advanced Filter</h2>
+            <h2 className="text-[24px] font-semibold mb-4">
+              🔍 Advanced Filter
+            </h2>
 
             <div className="mb-4">
               <label className="block font-semibold mb-1">Tuition Type</label>
@@ -394,41 +396,29 @@ const JobBoard = () => {
                   })}
                 </p>
 
-                {/* {currentUser?.role === "tutor" &&
+                {currentUser?.role === "tutor" &&
                   job.tutorStatus !== "selected" &&
                   job.tutorStatus !== "Not Available" && (
                     <button
                       onClick={() => handleApply(job._id)}
-                      disabled={job.appliedTutors?.includes(user.email)}
+                      disabled={job.appliedTutors?.some(
+                        (tutor) => tutor.email === user.email
+                      )}
                       className={`absolute bottom-4 right-4 px-4 py-2 rounded font-medium ${
-                        job.appliedTutors?.includes(user.email)
+                        job.appliedTutors?.some(
+                          (tutor) => tutor.email === user.email
+                        )
                           ? "bg-gray-300 cursor-not-allowed"
                           : "bg-[#f9d045] hover:bg-[#f9d045]"
                       }`}
                     >
-                      {job.appliedTutors?.includes(user.email)
+                      {job.appliedTutors?.some(
+                        (tutor) => tutor.email === user.email
+                      )
                         ? "Already Applied"
                         : "Apply Now"}
                     </button>
-                  )} */}
-                  {currentUser?.role === "tutor" &&
-  job.tutorStatus !== "selected" &&
-  job.tutorStatus !== "Not Available" && (
-    <button
-      onClick={() => handleApply(job._id)}
-      disabled={job.appliedTutors?.some(tutor => tutor.email === user.email)}
-      className={`absolute bottom-4 right-4 px-4 py-2 rounded font-medium ${
-        job.appliedTutors?.some(tutor => tutor.email === user.email)
-          ? "bg-gray-300 cursor-not-allowed"
-          : "bg-[#f9d045] hover:bg-[#f9d045]"
-      }`}
-    >
-      {job.appliedTutors?.some(tutor => tutor.email === user.email)
-        ? "Already Applied"
-        : "Apply Now"}
-    </button>
-)}
-
+                  )}
               </div>
             ))}
           </div>

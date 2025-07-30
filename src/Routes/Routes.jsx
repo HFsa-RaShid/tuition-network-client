@@ -16,6 +16,8 @@ import PostedJobs from "../pages/DashBoard/DashBoardAllPages/PostedJob/PostedJob
 import AppliedTutorProfile from "../pages/DashBoard/DashBoardAllPages/PostedJob/AppliedTutorProfile";
 import TutorRequests from "../pages/DashBoard/tutorRequests/TutorRequests";
 import MyApplications from "../pages/DashBoard/DashBoardAllPages/MyApplications/MyApplications";
+import JobDetails from "../pages/DashBoard/DashBoardAllPages/MyApplications/JobDetails";
+
 
 
 
@@ -53,6 +55,8 @@ export const router = createBrowserRouter([
               { path: "users", element: <ViewUsers></ViewUsers>},
               { path: "tutor-profile", element: <AppliedTutorProfile></AppliedTutorProfile>},
               { path: "myApplications", element: <MyApplications></MyApplications>},
+              { path: "myApplications/job-details/:id",
+                    element: <JobDetails></JobDetails>}
               
         ],
       },

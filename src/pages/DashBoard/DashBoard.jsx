@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import { RiArrowLeftDoubleLine } from "react-icons/ri";
+import { VscGitStashApply } from "react-icons/vsc";
 import {
-  FaUser,FaEnvelope,FaBookOpen,FaTags,FaHistory,FaUsers,FaCog,FaTachometerAlt,FaHourglassHalf,
+  FaUser,FaEnvelope,FaBookOpen,FaHistory,FaUsers,FaCog,FaTachometerAlt,FaHourglassHalf,
 } from "react-icons/fa";
 import logo from "../../assets/TuitionNetwork_logo1.png";
 import { NavLink, Outlet } from "react-router-dom";
@@ -81,7 +82,7 @@ const DashBoard = () => {
     
     {
       path: "myApplications",
-      icon: <FaTags />,
+      icon: <VscGitStashApply />,
       label: "My Applications",
     },
     {
