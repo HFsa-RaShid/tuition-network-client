@@ -313,13 +313,13 @@ const JobBoard = () => {
 
                 {/* 🔧 Admin Edit/Delete Buttons */}
                 {currentUser?.role === "admin" && (
-                  <div className="absolute top-4 right-24 flex gap-3">
+                  <div className="absolute bottom-4 right-10 flex gap-3">
                     <button
                       onClick={() => handleDelete(job._id)}
                       className="text-red-600 hover:text-red-800"
                       title="Delete"
                     >
-                      <FaTrash size={20} />
+                      <FaTrash size={24} />
                     </button>
                   </div>
                 )}
@@ -394,7 +394,7 @@ const JobBoard = () => {
                   })}
                 </p>
 
-                {currentUser?.role === "tutor" &&
+                {/* {currentUser?.role === "tutor" &&
                   job.tutorStatus !== "selected" &&
                   job.tutorStatus !== "Not Available" && (
                     <button
@@ -410,7 +410,25 @@ const JobBoard = () => {
                         ? "Already Applied"
                         : "Apply Now"}
                     </button>
-                  )}
+                  )} */}
+                  {currentUser?.role === "tutor" &&
+  job.tutorStatus !== "selected" &&
+  job.tutorStatus !== "Not Available" && (
+    <button
+      onClick={() => handleApply(job._id)}
+      disabled={job.appliedTutors?.some(tutor => tutor.email === user.email)}
+      className={`absolute bottom-4 right-4 px-4 py-2 rounded font-medium ${
+        job.appliedTutors?.some(tutor => tutor.email === user.email)
+          ? "bg-gray-300 cursor-not-allowed"
+          : "bg-[#f9d045] hover:bg-[#f9d045]"
+      }`}
+    >
+      {job.appliedTutors?.some(tutor => tutor.email === user.email)
+        ? "Already Applied"
+        : "Apply Now"}
+    </button>
+)}
+
               </div>
             ))}
           </div>

@@ -78,18 +78,19 @@ const DashBoard = () => {
       icon: <FaEnvelope />,
       label: "Chat",
     },
+    
+    {
+      path: "myApplications",
+      icon: <FaTags />,
+      label: "My Applications",
+    },
     {
       path: "/parentDashBoard/payment-history",
       icon: <FaHistory />,
       label: "Payment History",
     },
     {
-      path: "/parentDashBoard/tuition-exchange",
-      icon: <FaTags />,
-      label: "Tuition Exchange Community",
-    },
-    {
-      path: "/parentDashBoard/settings",
+      path: "/settings",
       icon: <FaCog />,
       label: "Settings",
     },
