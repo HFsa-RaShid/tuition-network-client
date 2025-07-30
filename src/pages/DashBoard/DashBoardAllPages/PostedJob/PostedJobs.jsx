@@ -32,7 +32,11 @@ const PostedJobs = () => {
     const fetchAppliedTutors = async () => {
       if (!jobs.length) return;
 
-      const allTutorEmails = jobs.flatMap((job) => job.appliedTutors || []);
+      // const allTutorEmails = jobs.flatMap((job) => job.appliedTutors || []);
+      const allTutorEmails = jobs.flatMap((job) =>
+  (job.appliedTutors || []).map((tutor) => tutor.email)
+);
+
       const uniqueEmails = [...new Set(allTutorEmails)];
 
       try {
@@ -46,8 +50,9 @@ const PostedJobs = () => {
 
         const infoMap = {};
         res.data.forEach((user) => {
-          infoMap[user.email] = user.name;
+          infoMap[user.email.toLowerCase()] = user.name;
         });
+        console.log("Info Map:", infoMap);
 
         setAppliedTutorInfos(infoMap);
       } catch (error) {
@@ -215,19 +220,28 @@ const PostedJobs = () => {
                   </form>
                   <h3 className="font-bold text-lg mb-2">Applied Tutors</h3>
 
-                  {job.appliedTutors && job.appliedTutors.length > 0 ? (
-                    <ul className="list-disc ml-5 space-y-1">
-                      {job.appliedTutors.map((email) => (
-                        <li key={email}>
-                          <NavLink
-                            to={`/${role}/tutor-profile`}
-                            state={{ email }}
-                            className="text-blue-600 hover:underline"
-                          >
-                            {appliedTutorInfos[email.toLowerCase()] || email}
-                          </NavLink>
-                        </li>
-                      ))}
+     {job.appliedTutors && job.appliedTutors.length > 0 ? (
+  <ul className="list-disc ml-5 space-y-1">
+    {job.appliedTutors.map((tutor) => {
+      const emailLower = tutor.email ? tutor.email.toLowerCase() : "";
+      return (
+        <li key={emailLower || tutor.email}>
+          <NavLink
+            to={`/${role}/tutor-profile`}
+            state={{ email: tutor.email }}
+            className="text-blue-600 hover:underline"
+          >
+            {appliedTutorInfos[emailLower] || tutor.email || "Unknown"}
+          </NavLink>
+        </li>
+      );
+    })}
+ 
+
+
+
+
+
                     </ul>
                   ) : (
                     <p>No one has applied yet.</p>
