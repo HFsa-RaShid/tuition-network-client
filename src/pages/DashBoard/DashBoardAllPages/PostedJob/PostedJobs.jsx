@@ -26,42 +26,42 @@ const PostedJobs = () => {
     }
   }, [allJobs, user?.email]);
 
-  const [appliedTutorInfos, setAppliedTutorInfos] = useState({});
+  // const [appliedTutorInfos, setAppliedTutorInfos] = useState({});
 
-  useEffect(() => {
-    const fetchAppliedTutors = async () => {
-      if (!jobs.length) return;
+//   useEffect(() => {
+//     const fetchAppliedTutors = async () => {
+//       if (!jobs.length) return;
 
-      // const allTutorEmails = jobs.flatMap((job) => job.appliedTutors || []);
-      const allTutorEmails = jobs.flatMap((job) =>
-  (job.appliedTutors || []).map((tutor) => tutor.email)
-);
+//       // const allTutorEmails = jobs.flatMap((job) => job.appliedTutors || []);
+//       const allTutorEmails = jobs.flatMap((job) =>
+//   (job.appliedTutors || []).map((tutor) => tutor.email)
+// );
 
-      const uniqueEmails = [...new Set(allTutorEmails)];
+//       const uniqueEmails = [...new Set(allTutorEmails)];
 
-      try {
-        const res = await axiosSecure.post("/users/by-emails", {
-          emails: uniqueEmails,
-        });
-        if (res.data.length === 0) {
-          console.warn("No tutor information found for the provided emails.");
-          return;
-        }
+//       try {
+//         const res = await axiosSecure.post("/users/by-emails", {
+//           emails: uniqueEmails,
+//         });
+//         if (res.data.length === 0) {
+//           console.warn("No tutor information found for the provided emails.");
+//           return;
+//         }
 
-        const infoMap = {};
-        res.data.forEach((user) => {
-          infoMap[user.email.toLowerCase()] = user.name;
-        });
-        console.log("Info Map:", infoMap);
+//         const infoMap = {};
+//         res.data.forEach((user) => {
+//           infoMap[user.email.toLowerCase()] = user.name;
+//         });
+//         console.log("Info Map:", infoMap);
 
-        setAppliedTutorInfos(infoMap);
-      } catch (error) {
-        console.error("Error fetching applied tutor info:", error);
-      }
-    };
+//         setAppliedTutorInfos(infoMap);
+//       } catch (error) {
+//         console.error("Error fetching applied tutor info:", error);
+//       }
+//     };
 
-    fetchAppliedTutors();
-  }, [jobs]);
+//     fetchAppliedTutors();
+//   }, [jobs]);
 
   return (
     <div className="container mx-auto mt-6">
@@ -72,7 +72,7 @@ const PostedJobs = () => {
               key={job._id}
               className="bg-slate-100 shadow-md rounded-lg p-6 relative "
             >
-              <div
+              {/* <div
                 className="tooltip tooltip-left absolute top-4 right-4 z-10"
                 data-tip="Applied Tutors List"
               >
@@ -82,7 +82,15 @@ const PostedJobs = () => {
                   }
                   className="text-gray-600 text-xl cursor-pointer hover:text-black transition duration-200"
                 />
-              </div>
+              </div> */}
+              <NavLink
+  to={`/${role}/posted-jobs/applied-tutors`}
+  state={{ appliedTutors: job.appliedTutors }}
+  className="tooltip tooltip-left absolute top-4 right-4 z-10"
+  data-tip="Applied Tutors List"
+>
+  <FaListUl className="text-gray-600 text-xl cursor-pointer hover:text-black transition duration-200" />
+</NavLink>
 
               <p className="text-gray-500">
                 📍 {job.city}, {job.location}
@@ -191,7 +199,7 @@ const PostedJobs = () => {
                         />
                         Not Available
                       </label>
-                      <label className="flex items-center gap-1">
+                      {/* <label className="flex items-center gap-1">
                         <input
                           type="radio"
                           name="tutorStatus"
@@ -199,7 +207,7 @@ const PostedJobs = () => {
                           defaultChecked={job.tutorStatus === "selected"}
                         />
                         Selected
-                      </label>
+                      </label> */}
 
                       <button
                         type="submit"
@@ -211,7 +219,7 @@ const PostedJobs = () => {
                   </form>
                 </div>
               </div>
-              <dialog id={`modal-${job._id}`} className="modal">
+              {/* <dialog id={`modal-${job._id}`} className="modal">
                 <div className="modal-box">
                   <form method="dialog">
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
@@ -247,7 +255,7 @@ const PostedJobs = () => {
                     <p>No one has applied yet.</p>
                   )}
                 </div>
-              </dialog>
+              </dialog> */}
             </div>
           ))}
         </div>
