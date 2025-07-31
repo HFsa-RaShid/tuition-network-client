@@ -39,8 +39,8 @@ const MyApplications = () => {
     <div className="p-4 max-w-4xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4">All Applications</h2>
       <div className="overflow-x-auto rounded-lg shadow border">
-        <table className="table w-full">
-          <thead className="bg-gray-100 text-center text-xl font-semibold">
+        <table className="table w-full border border-gray-300 text-center">
+          <thead className="bg-gray-200 text-center text-[16px]">
             <tr>
               <th>Profile</th>
               <th>Applied On</th>

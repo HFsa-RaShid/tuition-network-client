@@ -54,11 +54,11 @@ export const router = createBrowserRouter([
               { path: "posted-jobs", element: <PostedJobs></PostedJobs>},
               { path: "pending-request", element: <PendingRequest></PendingRequest>},
               { path: "users", element: <ViewUsers></ViewUsers>},
-              { path: "tutor-profile", element: <AppliedTutorProfile></AppliedTutorProfile>},
+             
               { path: "myApplications", element: <MyApplications></MyApplications>},
               { path: "myApplications/job-details/:id",element: <JobDetails></JobDetails>},
-              { path: "posted-jobs/applied-tutors",element: <AppliedTutors></AppliedTutors>}
-              
+              { path: "posted-jobs/applied-tutors",element: <AppliedTutors></AppliedTutors>},
+              { path: "posted-jobs/applied-tutors/appliedTutor-profile",element: <AppliedTutorProfile></AppliedTutorProfile>},
         ],
       },
     
