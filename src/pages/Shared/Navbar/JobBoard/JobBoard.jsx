@@ -53,48 +53,49 @@ const JobBoard = () => {
     "Masters",
   ];
 
-  const handleApply = (jobId) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, apply for this request!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axiosSecure
-          .put(`/tutorRequests/${jobId}`, {
-            email: user.email,
-          })
-          .then((res) => {
-            if (res.data?.message === "Applied successfully.") {
-              Swal.fire(
-                "Applied!",
-                "You have successfully applied for this tutor request.",
-                "success"
-              );
-            } else {
-              Swal.fire(
-                "Note",
-                res.data?.message || "Something happened.",
-                "info"
-              );
-            }
-            refetch();
-          })
-          .catch((error) => {
-            console.error("Apply error:", error);
+ const handleApply = (jobId) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, apply for this request!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axiosSecure
+        .put(`/tutorRequests/${jobId}`, {
+          email: user.email,
+          name: currentUser?.name || user?.displayName, // ✅ send tutor name too
+        })
+        .then((res) => {
+          if (res.data?.message === "Applied successfully.") {
             Swal.fire(
-              "Error!",
-              "Failed to apply for the tutor request.",
-              "error"
+              "Applied!",
+              "You have successfully applied for this tutor request.",
+              "success"
             );
-          });
-      }
-    });
-  };
+          } else {
+            Swal.fire(
+              "Note",
+              res.data?.message || "Something happened.",
+              "info"
+            );
+          }
+          refetch();
+        })
+        .catch((error) => {
+          console.error("Apply error:", error);
+          Swal.fire(
+            "Error!",
+            "Failed to apply for the tutor request.",
+            "error"
+          );
+        });
+    }
+  });
+};
 
   const handleDelete = (jobId) => {
     Swal.fire({

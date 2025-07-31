@@ -2,14 +2,14 @@ import React, { useContext, useState } from "react";
 
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../provider/AuthProvider";
-import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import bdDistricts from "../../utils/bdDistricts";
 import cityAreaMap from "../../utils/cityAreaMap";
 import subjects from "../../utils/subjects";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const TutorRequests = () => {
   const { user } = useContext(AuthContext);
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     tuitionType: "Home Tutoring",
@@ -81,7 +81,7 @@ const TutorRequests = () => {
       };
 
       try {
-        const res = await axiosPublic.post("/tutorRequests", tutorRequestData);
+        const res = await axiosSecure.post("/tutorRequests", tutorRequestData);
         console.log("Tutor request submitted:", res.data);
         toast.success("Tutor request submitted successfully!");
         // Reset form data and go back to step 1

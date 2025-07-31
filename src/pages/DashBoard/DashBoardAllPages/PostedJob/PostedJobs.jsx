@@ -9,7 +9,6 @@ import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 const PostedJobs = () => {
-  const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const { allJobs, refetch, isLoading } = useAllJobs();
   const { user } = useContext(AuthContext);
@@ -26,42 +25,26 @@ const PostedJobs = () => {
     }
   }, [allJobs, user?.email]);
 
-  // const [appliedTutorInfos, setAppliedTutorInfos] = useState({});
+  const handleToggleStatus = (job) => {
+    const newStatus =
+      job.tutorStatus === "Not Available" ? "" : "Not Available";
 
-//   useEffect(() => {
-//     const fetchAppliedTutors = async () => {
-//       if (!jobs.length) return;
-
-//       // const allTutorEmails = jobs.flatMap((job) => job.appliedTutors || []);
-//       const allTutorEmails = jobs.flatMap((job) =>
-//   (job.appliedTutors || []).map((tutor) => tutor.email)
-// );
-
-//       const uniqueEmails = [...new Set(allTutorEmails)];
-
-//       try {
-//         const res = await axiosSecure.post("/users/by-emails", {
-//           emails: uniqueEmails,
-//         });
-//         if (res.data.length === 0) {
-//           console.warn("No tutor information found for the provided emails.");
-//           return;
-//         }
-
-//         const infoMap = {};
-//         res.data.forEach((user) => {
-//           infoMap[user.email.toLowerCase()] = user.name;
-//         });
-//         console.log("Info Map:", infoMap);
-
-//         setAppliedTutorInfos(infoMap);
-//       } catch (error) {
-//         console.error("Error fetching applied tutor info:", error);
-//       }
-//     };
-
-//     fetchAppliedTutors();
-//   }, [jobs]);
+    axiosSecure
+      .put(`/tutorRequests/${job._id}`, {
+        tutorStatus: newStatus,
+      })
+      .then((res) => {
+        if (res.data.message === "Tutor status updated successfully.") {
+          refetch();
+        }
+      })
+      .catch((err) => {
+        console.error(
+          "Failed to toggle status:",
+          err.response?.data || err.message
+        );
+      });
+  };
 
   return (
     <div className="container mx-auto mt-6">
@@ -72,25 +55,14 @@ const PostedJobs = () => {
               key={job._id}
               className="bg-slate-100 shadow-md rounded-lg p-6 relative "
             >
-              {/* <div
+              <NavLink
+                to={`/${role}/posted-jobs/applied-tutors`}
+                state={{ appliedTutors: job.appliedTutors }}
                 className="tooltip tooltip-left absolute top-4 right-4 z-10"
                 data-tip="Applied Tutors List"
               >
-                <FaListUl
-                  onClick={() =>
-                    document.getElementById(`modal-${job._id}`).showModal()
-                  }
-                  className="text-gray-600 text-xl cursor-pointer hover:text-black transition duration-200"
-                />
-              </div> */}
-              <NavLink
-  to={`/${role}/posted-jobs/applied-tutors`}
-  state={{ appliedTutors: job.appliedTutors }}
-  className="tooltip tooltip-left absolute top-4 right-4 z-10"
-  data-tip="Applied Tutors List"
->
-  <FaListUl className="text-gray-600 text-xl cursor-pointer hover:text-black transition duration-200" />
-</NavLink>
+                <FaListUl className="text-gray-600 text-xl cursor-pointer hover:text-black transition duration-200" />
+              </NavLink>
 
               <p className="text-gray-500">
                 📍 {job.city}, {job.location}
@@ -154,7 +126,7 @@ const PostedJobs = () => {
                   </p>
 
                   <p className="text-gray-500 mt-2 text-sm">
-                     Posted Date:{" "}
+                    Posted Date:{" "}
                     {new Date(job.postedAt).toLocaleString("en-US", {
                       timeZone: "Asia/Dhaka",
                       day: "2-digit",
@@ -165,97 +137,22 @@ const PostedJobs = () => {
                     })}
                   </p>
                 </div>
-
                 <div className="mt-4">
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      const selectedStatus = e.target.tutorStatus.value;
-
-                      axiosSecure
-                        .put(`/tutorRequests/${job._id}`, {
-                          tutorStatus: selectedStatus,
-                        })
-                        .then((res) => {
-                          if (res.data.modifiedCount > 0) {
-                            refetch();
-                          }
-                        })
-                        .catch((err) => {
-                          console.error(
-                            "Failed to update status:",
-                            err.response ? err.response.data : err.message
-                          );
-                        });
-                    }}
+                  <label
+                    className="flex items-center gap-2 cursor-pointer  text-blue-700 hover:text-red-600 transition"
+                    onClick={() => handleToggleStatus(job)}
                   >
-                    <div className="flex gap-4 items-center mb-2">
-                      <label className="flex items-center gap-1">
-                        <input
-                          type="radio"
-                          name="tutorStatus"
-                          value="Not Available"
-                          defaultChecked={job.tutorStatus === "Not Available"}
-                        />
-                        Not Available
-                      </label>
-                      {/* <label className="flex items-center gap-1">
-                        <input
-                          type="radio"
-                          name="tutorStatus"
-                          value="selected"
-                          defaultChecked={job.tutorStatus === "selected"}
-                        />
-                        Selected
-                      </label> */}
-
-                      <button
-                        type="submit"
-                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-                      >
-                        Update Status
-                      </button>
-                    </div>
-                  </form>
+                    <input
+                      type="checkbox"
+                      checked={job.tutorStatus === "Not Available"}
+                      readOnly
+                    />
+                    {job.tutorStatus === "Not Available"
+                      ? "Unset 'Not Available'"
+                      : "Set as 'Not Available'"}
+                  </label>
                 </div>
               </div>
-              {/* <dialog id={`modal-${job._id}`} className="modal">
-                <div className="modal-box">
-                  <form method="dialog">
-                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                      ✕
-                    </button>
-                  </form>
-                  <h3 className="font-bold text-lg mb-2">Applied Tutors</h3>
-
-     {job.appliedTutors && job.appliedTutors.length > 0 ? (
-  <ul className="list-disc ml-5 space-y-1">
-    {job.appliedTutors.map((tutor) => {
-      const emailLower = tutor.email ? tutor.email.toLowerCase() : "";
-      return (
-        <li key={emailLower || tutor.email}>
-          <NavLink
-            to={`/${role}/tutor-profile`}
-            state={{ email: tutor.email }}
-            className="text-blue-600 hover:underline"
-          >
-            {appliedTutorInfos[emailLower] || tutor.email || "Unknown"}
-          </NavLink>
-        </li>
-      );
-    })}
- 
-
-
-
-
-
-                    </ul>
-                  ) : (
-                    <p>No one has applied yet.</p>
-                  )}
-                </div>
-              </dialog> */}
             </div>
           ))}
         </div>

@@ -1,3 +1,4 @@
+
 import { useContext, useState } from "react";
 import moment from "moment";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
@@ -33,7 +34,13 @@ const MyApplications = () => {
     currentPage * itemsPerPage
   );
 
-  const handlePageChange = (pageNum) => setCurrentPage(pageNum);
+  const goToPrevious = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const goToNext = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
@@ -61,7 +68,7 @@ const MyApplications = () => {
                     Class: {app.classCourse}{" "}
                     <NavLink
                       to={`/${currentUser?.role}/myApplications/job-details/${app._id}`}
-                      title="View Application Details"
+                      title="View Job Details"
                     >
                       <MdSendToMobile className="inline ml-2 text-blue-700 cursor-pointer text-[20px]" />
                     </NavLink>
@@ -89,25 +96,32 @@ const MyApplications = () => {
         )}
       </div>
 
-      {/* Pagination */}
+      {/* Prev / Next Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center mt-4 gap-2">
-          {Array.from({ length: totalPages }, (_, idx) => (
-            <button
-              key={idx}
-              onClick={() => handlePageChange(idx + 1)}
-              className={`px-3 py-1 rounded ${
-                currentPage === idx + 1
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
-              }`}
-            >
-              {idx + 1}
-            </button>
-          ))}
+        <div className="flex justify-center mt-6 items-center gap-4">
+          <button
+            onClick={goToPrevious}
+            disabled={currentPage === 1}
+            className="px-3 py-1 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50"
+          >
+            &lt; Prev
+          </button>
+
+          <span className="font-semibold">
+            {currentPage} / {totalPages}
+          </span>
+
+          <button
+            onClick={goToNext}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50"
+          >
+            Next &gt;
+          </button>
         </div>
       )}
-      <Outlet></Outlet>
+
+      <Outlet />
     </div>
   );
 };
