@@ -10,9 +10,9 @@ const JobDetails = () => {
 
   const navigate = useNavigate();
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+     return (
+      <div className="flex justify-center items-center mt-20">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
       </div>
     );
   }

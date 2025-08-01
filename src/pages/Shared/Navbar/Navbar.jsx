@@ -126,7 +126,7 @@ const Navbar = () => {
                 }
                 to="/search-by-map"
               >
-                Job Boards
+                Find on Map
               </NavLink>
             </li>
           </ul>

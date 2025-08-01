@@ -158,7 +158,12 @@ const ProfileDetails = () => {
     });
   };
 
-  if (isLoading) return <p className="text-center">Loading...</p>;
+  if (isLoading)
+     return (
+      <div className="flex justify-center items-center mt-20">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    );
 
   return (
     <div className="max-w-5xl mx-auto mt-10 flex flex-col md:flex-row gap-10">

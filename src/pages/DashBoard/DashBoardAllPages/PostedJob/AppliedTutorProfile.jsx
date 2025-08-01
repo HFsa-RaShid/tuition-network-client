@@ -7,7 +7,12 @@ const AppliedTutorProfile = () => {
   const email = location.state?.email;
   const { appliedTutor: tutor, isLoading, refetch } = useAppliedTutor(email);
 
-  if (isLoading) return <div className="text-center mt-10">Loading...</div>;
+  if (isLoading) 
+     return (
+      <div className="flex justify-center items-center mt-20">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    );
   if (!tutor) return <div className="text-center mt-10">Tutor not found</div>;
 
   return (

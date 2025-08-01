@@ -20,7 +20,7 @@ const districtAreaMap = {
   Rangpur: ["Jahaj Company", "Pairaband", "Mithapukur", "Lalbagh", "Central Bus Terminal", "Keranipara", "Vinno Jogot", "Satmatha", "Mahiganj", "Betgari", "Uttampara", "Modern Mor", "CO Bazar", "Purbo Para", "Darshana"],
   Mymensingh: ["Ganginarpar", "Kishoreganj Road", "Trishal", "Muktagachha", "Brahmapalli", "Town Hall", "Charpara", "Agricultural University", "Durgabari", "Kachari Ferry", "Police Line", "Ramnagar", "Maskanda", "Kushtia Mor", "Jamalpur Road"],
   Narayanganj: ["Fatullah", "Shanarpar", "Chashara", "Signboard", "Tanbazar", "Pagla", "Deobhog", "Adamjee", "Shibu Market", "Bhuigarh", "Kanchpur", "Enayetnagar", "Narayanganj Sadar", "Bandar", "Kadamtoli"],
-  Savar: ["Savar Bazar", "Hemayetpur", "Rajphulbaria", "Aminbazar", "Genda", "Shimulia", "Tetuljhora", "Ashulia", "Jirani", "Kaundia", "Baliarpur", "Kalma", "Pathalia", "Saver Cantonment", "Radio Colony"],
+  Savar: ["Savar Bazar", "Hemayetpur", "Rajphulbaria", "Aminbazar", "Genda", "Shimulia", "Tetuljhora", "Ashulia", "Jirani", "Kaundia", "Baliarpur", "Kalma", "Pathalia", "Savar Cantonment", "Radio Colony"],
   Gazipur: ["Tongi", "Konabari", "Chandana Chowrasta", "Board Bazar", "Gazipur Sadar", "Sreepur", "Basan", "Pubail", "Kaliakoir", "Bhawal", "Hotapara", "Vogra", "Monipur", "Kapasia", "Tumulia"],
   Bagerhat: ["Fakirhat", "Mollahat", "Rampal", "Bagerhat Sadar", "Chitalmari", "Moroelganj", "Sarankhola", "Kachua", "Rayenda", "Bishnupur", "Khan Jahan Ali Mazar", "Kazi Para", "Panchgati", "Kumarkhali", "Khalishakhali"],
   Bandarban: ["Thanchi", "Ruma", "Rowangchhari", "Lama", "Bandarban Sadar", "Alikadam", "Naikhongchhari", "Tanchangya Para", "Meghla", "Nilgiri", "Chimbuk", "Balaghata", "Ujanipara", "Islampur", "Rajvila"],

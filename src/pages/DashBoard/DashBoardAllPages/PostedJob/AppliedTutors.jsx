@@ -40,7 +40,7 @@ const AppliedTutors = () => {
               <th>Name</th>
               <th></th>
               <th>Applied On</th>
-              <th>Status</th>
+              {/* <th>Status</th> */}
               <th>Action</th>
             </tr>
           </thead>
@@ -67,7 +67,7 @@ const AppliedTutors = () => {
                     year: "numeric",
                   })}
                 </td>
-                <td>{tutor.status}</td>
+                {/* <td>{tutor.ApplyStatus }</td> */}
                 <td className="flex justify-center gap-2">
                   <button className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 flex items-center gap-1">
                     <FaCheck />
