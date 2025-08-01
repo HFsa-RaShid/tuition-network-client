@@ -67,7 +67,7 @@ const AppliedTutors = () => {
                     year: "numeric",
                   })}
                 </td>
-                <td>{tutor.status || "Pending"}</td>
+                <td>{tutor.status}</td>
                 <td className="flex justify-center gap-2">
                   <button className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 flex items-center gap-1">
                     <FaCheck />

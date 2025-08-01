@@ -119,6 +119,16 @@ const Navbar = () => {
                 Job Boards
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? " text-[#123d7e] underline" : " "
+                }
+                to="/search-by-map"
+              >
+                Job Boards
+              </NavLink>
+            </li>
           </ul>
         </div>
 

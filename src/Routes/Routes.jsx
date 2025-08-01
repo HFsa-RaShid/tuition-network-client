@@ -18,6 +18,7 @@ import TutorRequests from "../pages/DashBoard/tutorRequests/TutorRequests";
 import MyApplications from "../pages/DashBoard/DashBoardAllPages/MyApplications/MyApplications";
 import JobDetails from "../pages/DashBoard/DashBoardAllPages/MyApplications/JobDetails";
 import AppliedTutors from "../pages/DashBoard/DashBoardAllPages/PostedJob/AppliedTutors";
+import SearchByMap from "../pages/Shared/Navbar/SearchByMap/SearchByMap";
 
 
 
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
       {
         path: "/JobBoard",
         element: <JobBoard></JobBoard>,
+      },
+      {
+        path: "/search-by-map",
+        element: <SearchByMap></SearchByMap>,
       },
       {
         path: "/:role",
