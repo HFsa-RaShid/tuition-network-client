@@ -338,10 +338,10 @@ const JobBoard = () => {
                   Tuition for {job.classCourse}
                 </h2>
                 <div className="flex gap-2 mt-2">
-                  <span className="bg-purple-600 text-white px-2 py-1 rounded text-sm">
+                  <span className="bg-purple-200 text-purple-800 px-2 py-1 rounded text-sm">
                     {job.tuitionType}
                   </span>
-                  <span className="bg-blue-600 text-white px-2 py-1 rounded text-sm">
+                  <span className="bg-blue-200 text-blue-800 px-2 py-1 rounded text-sm">
                     ⏰ {job.duration}
                   </span>
                 </div>
@@ -374,7 +374,7 @@ const JobBoard = () => {
                     {job.subjects?.map((subj, idx) => (
                       <span
                         key={idx}
-                        className="bg-green-300 text-sm px-2 py-1 rounded"
+                        className="bg-green-200 text-green-800 text-sm px-2 py-1 rounded"
                       >
                         {subj}
                       </span>

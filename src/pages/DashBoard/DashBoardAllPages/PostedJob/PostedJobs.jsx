@@ -3,13 +3,12 @@ import useAllJobs from "../../../../hooks/useAllJobs";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
-import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { FaListUl } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 const PostedJobs = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const { allJobs, refetch, isLoading } = useAllJobs();
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
@@ -29,7 +28,7 @@ const PostedJobs = () => {
     const newStatus =
       job.tutorStatus === "Not Available" ? "" : "Not Available";
 
-    axiosSecure
+    axiosPublic
       .put(`/tutorRequests/${job._id}`, {
         tutorStatus: newStatus,
       })
@@ -57,7 +56,7 @@ const PostedJobs = () => {
             >
               <NavLink
                 to={`/${role}/posted-jobs/applied-tutors`}
-                state={{ appliedTutors: job.appliedTutors }}
+                state={{ appliedTutors: job.appliedTutors, jobId: job._id }}
                 className="tooltip tooltip-left absolute top-4 right-4 z-10"
                 data-tip="Applied Tutors List"
               >
@@ -70,50 +69,50 @@ const PostedJobs = () => {
               <h2 className="text-xl text-black font-bold mt-2">
                 Tuition for {job.classCourse}
               </h2>
-              <div className="flex gap-2 mt-2">
-                <span className="bg-purple-600 text-white px-2 py-1 rounded text-sm">
-                  {job.tuitionType}
-                </span>
-                <span className="bg-blue-600 text-white px-2 py-1 rounded text-sm">
-                  ⏰ {job.duration}
-                </span>
-              </div>
+            <div className="flex gap-2 mt-2">
+  <span className="bg-purple-200 text-purple-800 px-2 py-1 rounded text-sm">
+    {job.tuitionType}
+  </span>
+  <span className="bg-blue-200 text-blue-800 px-2 py-1 rounded text-sm">
+    ⏰ {job.duration}
+  </span>
+</div>
 
-              <div className="mt-4 grid grid-cols-2 justify-between gap-2 text-black">
-                <p>
-                  <strong>👨‍🏫 No. of Students:</strong> {job.noOfStudents}
-                </p>
-                <p>
-                  <strong>🏫 Medium:</strong> {job.category}
-                </p>
-                <p>
-                  <strong>📚 Class:</strong> {job.classCourse}
-                </p>
-                <p>
-                  <strong>📅 Tutoring Days:</strong> {job.daysPerWeek}
-                </p>
-                <p>
-                  <strong>👤 Preferred Tutor:</strong>{" "}
-                  {job.tutorGenderPreference}
-                </p>
-                <p>
-                  <strong>👧 Student Gender:</strong> {job.studentGender}
-                </p>
-              </div>
+<div className="mt-4 grid grid-cols-2 justify-between gap-2 text-black">
+  <p>
+    <strong>👨‍🏫 No. of Students:</strong> {job.noOfStudents}
+  </p>
+  <p>
+    <strong>🏫 Medium:</strong> {job.category}
+  </p>
+  <p>
+    <strong>📚 Class:</strong> {job.classCourse}
+  </p>
+  <p>
+    <strong>📅 Tutoring Days:</strong> {job.daysPerWeek}
+  </p>
+  <p>
+    <strong>👤 Preferred Tutor:</strong> {job.tutorGenderPreference}
+  </p>
+  <p>
+    <strong>👧 Student Gender:</strong> {job.studentGender}
+  </p>
+</div>
 
-              <div className="mt-2 text-black">
-                <strong>📖 Subjects:</strong>
-                <div className="flex gap-2 mt-1 flex-wrap">
-                  {job.subjects?.map((subj, idx) => (
-                    <span
-                      key={idx}
-                      className="bg-green-300 text-sm px-2 py-1 rounded"
-                    >
-                      {subj}
-                    </span>
-                  ))}
-                </div>
-              </div>
+<div className="mt-2 text-black">
+  <strong>📖 Subjects:</strong>
+  <div className="flex gap-2 mt-1 flex-wrap">
+    {job.subjects?.map((subj, idx) => (
+      <span
+        key={idx}
+        className={`text-green-800 bg-green-200 text-sm px-2 py-1 rounded`}
+      >
+        {subj}
+      </span>
+    ))}
+  </div>
+</div>
+
 
               <div className="flex justify-between">
                 <div>

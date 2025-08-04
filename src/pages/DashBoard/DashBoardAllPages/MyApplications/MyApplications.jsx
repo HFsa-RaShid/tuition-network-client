@@ -1,4 +1,3 @@
-
 import { useContext, useState } from "react";
 import moment from "moment";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
@@ -45,13 +44,14 @@ const MyApplications = () => {
   return (
     <div className="p-4 max-w-4xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4">All Applications</h2>
-      <div className="overflow-x-auto rounded-lg shadow border">
+      <div className="overflow-visible rounded-lg shadow border">
         <table className="table w-full border border-gray-300 text-center">
           <thead className="bg-gray-200 text-center text-[16px]">
             <tr>
               <th>Profile</th>
               <th>Applied On</th>
               <th>Application Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -78,11 +78,49 @@ const MyApplications = () => {
                       ? moment(appliedTutor.appliedAt).format("DD MMM, YYYY")
                       : "N/A"}
                   </td>
-                  <td className="flex items-center gap-2">
-                    {app.tutorStatus === "selected"
-                      ? "Selected"
-                      : "Not selected"}
-                    <FaRegQuestionCircle className="inline ml-2 text-blue-700 cursor-pointer text-xl" />
+
+                  <td className="relative text-center !overflow-visible">
+                    <div className="flex justify-center items-center gap-2 relative group">
+                      <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                        {appliedTutor?.confirmationStatus === "confirmed"
+                          ? "Confirmed"
+                          : "Applied"}
+                      </span>
+
+                      <div className="relative group">
+                        <FaRegQuestionCircle className="text-blue-700 cursor-pointer text-xl" />
+
+                        {/* Tooltip */}
+                        <div className="absolute bottom-full  transform -translate-x-1/2 -mb-2 w-72 p-3 bg-gray-800 text-white text-sm rounded-md shadow-lg z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                          {appliedTutor?.confirmationStatus === "confirmed" ? (
+                            <>
+                              You got confirmation from Guardian. <br />
+                              Now click on the confirm button, <br />
+                              pay and get the Job.
+                            </>
+                          ) : (
+                            <>
+                            Your application has been <br />
+                            shared with Guardian who may <br />
+                            get in touch if they like it.
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td>
+                    {appliedTutor?.confirmationStatus === "confirmed" && (
+                      <button
+                        onClick={() =>
+                          handleConfirm(app._id, currentUser?.email)
+                        }
+                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
+                      >
+                        Confirm
+                      </button>
+                    )}
                   </td>
                 </tr>
               );
