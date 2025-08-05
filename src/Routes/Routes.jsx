@@ -19,6 +19,7 @@ import MyApplications from "../pages/DashBoard/DashBoardAllPages/MyApplications/
 import JobDetails from "../pages/DashBoard/DashBoardAllPages/MyApplications/JobDetails";
 import AppliedTutors from "../pages/DashBoard/DashBoardAllPages/PostedJob/AppliedTutors";
 import SearchByMap from "../pages/Shared/Navbar/SearchByMap/SearchByMap";
+import PaymentSuccess from "../pages/DashBoard/DashBoardAllPages/MyApplications/PaymentSuccess";
 
 
 
@@ -61,6 +62,7 @@ export const router = createBrowserRouter([
               { path: "users", element: <ViewUsers></ViewUsers>},
              
               { path: "myApplications", element: <MyApplications></MyApplications>},
+              { path: "myApplications/payment/success/:tranId", element: <PaymentSuccess></PaymentSuccess>},
               { path: "myApplications/job-details/:id",element: <JobDetails></JobDetails>},
               { path: "posted-jobs/applied-tutors",element: <AppliedTutors></AppliedTutors>},
               { path: "posted-jobs/applied-tutors/appliedTutor-profile",element: <AppliedTutorProfile></AppliedTutorProfile>},

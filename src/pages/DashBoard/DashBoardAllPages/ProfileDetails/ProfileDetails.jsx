@@ -236,20 +236,7 @@ const ProfileDetails = () => {
                     className="input input-bordered w-full"
                   />
                 </div>
-                {/* <div>
-                  <label>City</label>
-                  <input
-                    {...register("city")}
-                    className="input input-bordered w-full"
-                  />
-                </div>
-                <div>
-                  <label>Location</label>
-                  <input
-                    {...register("location")}
-                    className="input input-bordered w-full"
-                  />
-                </div> */}
+               
                 <div>
   <label>City</label>
   <select

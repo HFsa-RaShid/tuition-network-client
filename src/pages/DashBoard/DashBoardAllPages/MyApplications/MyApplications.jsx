@@ -6,13 +6,27 @@ import useAllJobs from "../../../../hooks/useAllJobs";
 import { MdSendToMobile } from "react-icons/md";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const MyApplications = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const axiosSecure = useAxiosSecure();
   const itemsPerPage = 10;
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
   const { allJobs, isLoading } = useAllJobs();
+
+  const handlePaymentBkash = (jobId,name, email) => {
+    console.log("Processing payment for job:", jobId, "Email:", email);
+    axiosSecure
+      .post("/paymentBkash", { jobId,name, email })
+      
+      .then((result) => {
+        window.location.replace(result.data.url);
+      });
+
+  }
 
   if (isLoading) {
     return (
@@ -49,8 +63,10 @@ const MyApplications = () => {
           <thead className="bg-gray-200 text-center text-[16px]">
             <tr>
               <th>Profile</th>
+              <th></th>
               <th>Applied On</th>
               <th>Application Status</th>
+              <th></th>
               <th>Action</th>
             </tr>
           </thead>
@@ -66,13 +82,14 @@ const MyApplications = () => {
                 >
                   <td>
                     Class: {app.classCourse}{" "}
-                    <NavLink
+                    
+                  </td>
+                  <td><NavLink
                       to={`/${currentUser?.role}/myApplications/job-details/${app._id}`}
                       title="View Job Details"
                     >
                       <MdSendToMobile className="inline ml-2 text-blue-700 cursor-pointer text-[20px]" />
-                    </NavLink>
-                  </td>
+                    </NavLink></td>
                   <td>
                     {appliedTutor
                       ? moment(appliedTutor.appliedAt).format("DD MMM, YYYY")
@@ -80,14 +97,17 @@ const MyApplications = () => {
                   </td>
 
                   <td className="relative text-center !overflow-visible">
-                    <div className="flex justify-center items-center gap-2 relative group">
+                    <div className="flex justify-center items-center relative group">
                       <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
                         {appliedTutor?.confirmationStatus === "confirmed"
                           ? "Confirmed"
                           : "Applied"}
                       </span>
 
-                      <div className="relative group">
+                      
+                    </div>
+                  </td>
+                  <td><div className="relative group">
                         <FaRegQuestionCircle className="text-blue-700 cursor-pointer text-xl" />
 
                         {/* Tooltip */}
@@ -106,19 +126,17 @@ const MyApplications = () => {
                             </>
                           )}
                         </div>
-                      </div>
-                    </div>
-                  </td>
+                      </div></td>
 
                   <td>
                     {appliedTutor?.confirmationStatus === "confirmed" && (
                       <button
                         onClick={() =>
-                          handleConfirm(app._id, currentUser?.email)
+                          handlePaymentBkash(app._id,currentUser?.name, currentUser?.email)
                         }
                         className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
                       >
-                        Confirm
+                        Pay Now
                       </button>
                     )}
                   </td>
