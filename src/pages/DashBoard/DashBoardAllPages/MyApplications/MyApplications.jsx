@@ -129,7 +129,7 @@ const MyApplications = () => {
 
                   <td>
                     {appliedTutor?.confirmationStatus === "confirmed" &&
-                      (paidJobs?.includes(app._id) ? (
+                      (paidJobs?.some((p) => p.jobId === app._id) ? (
                         <button
                           disabled
                           className="bg-green-500 text-white px-3 py-1 rounded opacity-70 cursor-not-allowed"
