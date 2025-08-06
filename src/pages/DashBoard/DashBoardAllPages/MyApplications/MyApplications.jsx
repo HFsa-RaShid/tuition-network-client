@@ -7,7 +7,7 @@ import { MdSendToMobile } from "react-icons/md";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import Swal from "sweetalert2";
+import usePaidJobs from "../../../../hooks/usePaidJobs";
 
 const MyApplications = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,17 +16,17 @@ const MyApplications = () => {
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
   const { allJobs, isLoading } = useAllJobs();
+  const { paidJobs } = usePaidJobs(currentUser?.email);
 
-  const handlePaymentBkash = (jobId,name, email) => {
+  const handlePaymentBkash = (jobId, name, email) => {
     console.log("Processing payment for job:", jobId, "Email:", email);
     axiosSecure
-      .post("/paymentBkash", { jobId,name, email })
-      
+      .post("/paymentBkash", { jobId, name, email })
+
       .then((result) => {
         window.location.replace(result.data.url);
       });
-
-  }
+  };
 
   if (isLoading) {
     return (
@@ -80,16 +80,15 @@ const MyApplications = () => {
                   key={index}
                   className="hover:bg-gray-50 text-[17px] text-center"
                 >
+                  <td>Class: {app.classCourse} </td>
                   <td>
-                    Class: {app.classCourse}{" "}
-                    
-                  </td>
-                  <td><NavLink
+                    <NavLink
                       to={`/${currentUser?.role}/myApplications/job-details/${app._id}`}
                       title="View Job Details"
                     >
                       <MdSendToMobile className="inline ml-2 text-blue-700 cursor-pointer text-[20px]" />
-                    </NavLink></td>
+                    </NavLink>
+                  </td>
                   <td>
                     {appliedTutor
                       ? moment(appliedTutor.appliedAt).format("DD MMM, YYYY")
@@ -103,42 +102,54 @@ const MyApplications = () => {
                           ? "Confirmed"
                           : "Applied"}
                       </span>
-
-                      
                     </div>
                   </td>
-                  <td><div className="relative group">
-                        <FaRegQuestionCircle className="text-blue-700 cursor-pointer text-xl" />
+                  <td>
+                    <div className="relative group">
+                      <FaRegQuestionCircle className="text-blue-700 cursor-pointer text-xl" />
 
-                        {/* Tooltip */}
-                        <div className="absolute bottom-full  transform -translate-x-1/2 -mb-2 w-72 p-3 bg-gray-800 text-white text-sm rounded-md shadow-lg z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                          {appliedTutor?.confirmationStatus === "confirmed" ? (
-                            <>
-                              You got confirmation from Guardian. <br />
-                              Now click on the confirm button, <br />
-                              pay and get the Job.
-                            </>
-                          ) : (
-                            <>
+                      {/* Tooltip */}
+                      <div className="absolute bottom-full  transform -translate-x-1/2 -mb-2 w-72 p-3 bg-gray-800 text-white text-sm rounded-md shadow-lg z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                        {appliedTutor?.confirmationStatus === "confirmed" ? (
+                          <>
+                            You got confirmation from Guardian. <br />
+                            Now click on the confirm button, <br />
+                            pay and get the Job.
+                          </>
+                        ) : (
+                          <>
                             Your application has been <br />
                             shared with Guardian who may <br />
                             get in touch if they like it.
-                            </>
-                          )}
-                        </div>
-                      </div></td>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </td>
 
                   <td>
-                    {appliedTutor?.confirmationStatus === "confirmed" && (
-                      <button
-                        onClick={() =>
-                          handlePaymentBkash(app._id,currentUser?.name, currentUser?.email)
-                        }
-                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
-                      >
-                        Pay Now
-                      </button>
-                    )}
+                    {appliedTutor?.confirmationStatus === "confirmed" &&
+                      (paidJobs?.includes(app._id) ? (
+                        <button
+                          disabled
+                          className="bg-green-500 text-white px-3 py-1 rounded opacity-70 cursor-not-allowed"
+                        >
+                          Paid
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            handlePaymentBkash(
+                              app._id,
+                              currentUser?.name,
+                              currentUser?.email
+                            )
+                          }
+                          className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
+                        >
+                          Pay Now
+                        </button>
+                      ))}
                   </td>
                 </tr>
               );

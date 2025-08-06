@@ -1,15 +1,20 @@
 
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { MdContentCopy } from 'react-icons/md';
 import { FaCheckCircle } from 'react-icons/fa';
 import usePayment from '../../../../hooks/usePayment';
+import { IoArrowBack } from 'react-icons/io5';
+import { AuthContext } from '../../../../provider/AuthProvider';
+import useCurrentUser from '../../../../hooks/useCurrentUser';
 
 const PaymentSuccess = () => {
   const { tranId } = useParams();
   const { payments: paymentData, isLoading, isError } = usePayment(tranId);
   const [tooltipVisible, setTooltipVisible] = useState(false);
+    const { user } = useContext(AuthContext);
+  const { currentUser } = useCurrentUser(user?.email);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(tranId);
@@ -17,6 +22,12 @@ const PaymentSuccess = () => {
     setTimeout(() => {
       setTooltipVisible(false);
     }, 1500); 
+  };
+
+  const navigate = useNavigate();
+
+  const goBackToApplications = () => {
+    navigate(`/${currentUser?.role}/myApplications`);
   };
 
   if (isLoading) {
@@ -30,6 +41,14 @@ const PaymentSuccess = () => {
   }
 
   return (
+   <div>
+     <button
+        onClick={goBackToApplications}
+        className="flex items-center text-blue-600 hover:underline mb-4"
+      >
+        <IoArrowBack className="text-2xl" />
+        <span className="text-lg font-medium ml-1">Back to MyApplications</span>
+      </button>
     <div className="max-w-[60%] mx-auto mt-24 p-6 border rounded-md shadow-md bg-slate-100">
       <div className="flex items-center justify-center gap-2 text-green-600 mb-6">
         <FaCheckCircle className="text-3xl" />
@@ -74,6 +93,7 @@ const PaymentSuccess = () => {
         </div>
       </div>
     </div>
+   </div>
   );
 };
 

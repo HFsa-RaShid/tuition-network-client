@@ -51,11 +51,6 @@ const DashBoard = () => {
       label: "Chat",
     },
     {
-      path: "payment-history",
-      icon: <FaHistory />,
-      label: "Payment History",
-    },
-    {
       path: "settings",
       icon: <FaCog />,
       label: "Settings",
