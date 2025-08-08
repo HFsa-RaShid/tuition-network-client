@@ -137,11 +137,19 @@ const JobBoard = () => {
     }));
   };
 
-  let filteredJobs = jobs.filter((job) => {
-    const jobDate = new Date(job.postedAt).toISOString().split("T")[0];
-    const selectedDate = filter.selectedDate
-      ? filter.selectedDate.toISOString().split("T")[0]
-      : null;
+  // Helper to get local YYYY-MM-DD from Date object
+const formatLocalDate = (date) => {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = (d.getMonth() + 1).toString().padStart(2, "0");
+  const day = d.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+let filteredJobs = jobs.filter((job) => {
+  const jobDate = formatLocalDate(job.postedAt);
+  const selectedDate = filter.selectedDate ? formatLocalDate(filter.selectedDate) : null;
+
 
     return (
       (!filter.tutoringType || job.tuitionType === filter.tutoringType) &&
