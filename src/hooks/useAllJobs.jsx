@@ -9,6 +9,7 @@ const useAllJobs = () => {
       const res = await axiosPublic.get(`/tutorRequests`);
       return res.data;
     },
+    enabled: true, 
   });
   return { allJobs, refetch, isLoading, isError };
 };

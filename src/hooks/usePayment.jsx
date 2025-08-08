@@ -9,6 +9,7 @@ const usePayment = (tranId) => {
       const res = await axiosPublic.get(`/myApplications/payment/success/${tranId}`);
       return res.data;
     },
+    enabled: !!tranId,
   });
   return { payments, refetch, isLoading, isError };
 };

@@ -10,6 +10,7 @@ const usePaidJobs = (email) => {
       const res = await axiosPublic.get(`/user/paidJobs/${email}`);
       return res.data;
     },
+    enabled: !!email, 
   });
   return { paidJobs, refetch, isLoading, isError };
 };

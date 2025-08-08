@@ -10,6 +10,7 @@ const useAppliedTutor = (email) => {
       const res = await axiosPublic.get(`/tutors/email/${email}`);
       return res.data;
     },
+    enabled: !!email,
   });
   return { appliedTutor, refetch, isLoading, isError };
 };
