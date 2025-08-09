@@ -30,7 +30,10 @@ const AppliedTutors = () => {
   const tutorsPerPage = 10;
   const totalPages = Math.ceil(localTutors.length / tutorsPerPage);
   const startIndex = (currentPage - 1) * tutorsPerPage;
-  const currentTutors = localTutors.slice(startIndex, startIndex + tutorsPerPage);
+  const currentTutors = localTutors.slice(
+    startIndex,
+    startIndex + tutorsPerPage
+  );
 
   const goToPrevious = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -41,7 +44,6 @@ const AppliedTutors = () => {
 
   // Avoid unnecessary state updates on appliedTutors change
   useEffect(() => {
-    // Find confirmed tutor email from props
     const confirmed = appliedTutorsFromState.find(
       (t) => t.confirmationStatus === "confirmed"
     );
@@ -49,7 +51,6 @@ const AppliedTutors = () => {
       setConfirmedTutorEmail(confirmed.email);
     }
 
-    // Compare current localTutors with new appliedTutors from state
     // Only update if different (simple check by JSON stringify)
     const currentTutorsJSON = JSON.stringify(localTutors);
     const newTutorsJSON = JSON.stringify(appliedTutorsFromState);
@@ -120,12 +121,10 @@ const AppliedTutors = () => {
           if (res.data.message) {
             toast.success(res.data.message);
             setConfirmedTutorEmail(null);
-
-            // Remove confirmationStatus locally
-            const updated = localTutors.map(({ confirmationStatus, ...rest }) => rest);
+            const updated = localTutors.map(
+              ({ confirmationStatus, ...rest }) => rest
+            );
             setLocalTutors(updated);
-
-            // Refetch payment data
             refetch();
           }
         } catch {
@@ -133,6 +132,27 @@ const AppliedTutors = () => {
         }
       }
     });
+  };
+
+  // Handle trial class payment
+  const handleTrialClassPayment = async () => {
+    try {
+      const paymentData = {
+        jobId: jobId,
+        name: currentUser?.name,
+        email: currentUser?.email,
+        amount: 250,
+        source: "appliedTutors",
+      };
+
+      const response = await axiosPublic.post("/paymentBkash", paymentData);
+
+      if (response.data.url) {
+        window.location.href = response.data.url;
+      }
+    } catch (error) {
+      toast.error("Payment initiation failed.");
+    }
   };
 
   // Show a message if no tutors applied
@@ -169,11 +189,9 @@ const AppliedTutors = () => {
               );
 
               return (
-                <tr key={index} className="border-t">
-                  <td className="flex items-center justify-center py-3">
-                    {tutor.name}
-                  </td>
-                  <td className="py-3 text-center">
+                <tr key={index} className="border-b border-gray-300">
+                  <td className="text-center py-2 ">{tutor.name}</td>
+                  <td className="py-2 text-center">
                     <NavLink
                       to={`/${currentUser?.role}/posted-jobs/applied-tutors/appliedTutor-profile`}
                       state={{ email: tutor.email }}
@@ -193,14 +211,35 @@ const AppliedTutors = () => {
                   <td className="flex justify-center gap-2">
                     {isConfirmed ? (
                       hasPaid ? (
-                        <button
-                          onClick={() =>
-                            console.log("Open chat with", tutor.email)
-                          }
-                          className="bg-blue-200 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1"
-                        >
-                          💬 Chat
-                        </button>
+                        <div className="">
+                          <button
+                            onClick={() =>
+                              console.log("Open chat with", tutor.email)
+                            }
+                            className="bg-blue-200 mb-2 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1"
+                          >
+                            💬Chat TuToria
+                          </button>
+
+                          
+                          <div
+                            className="tooltip"
+                            data-tip="Pay 200 BDT and get trial class"
+                          >
+                            <button
+                              onClick={handleTrialClassPayment}
+                              disabled={hasPaid} 
+                              className={`px-2 py-1 rounded flex items-center gap-1 mb-2 
+      ${
+        hasPaid
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+          : "bg-blue-200 text-blue-700 hover:bg-blue-300"
+      }`}
+                            >
+                              Book Trial Class
+                            </button>
+                          </div>
+                        </div>
                       ) : (
                         <button
                           onClick={handleCancel}

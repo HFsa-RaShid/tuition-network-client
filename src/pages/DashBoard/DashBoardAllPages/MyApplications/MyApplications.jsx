@@ -18,10 +18,10 @@ const MyApplications = () => {
   const { allJobs, isLoading } = useAllJobs();
   const { paidJobs } = usePaidJobs(currentUser?.email);
 
-  const handlePaymentBkash = (jobId, name, email) => {
-    console.log("Processing payment for job:", jobId, "Email:", email);
+  const handlePaymentBkash = (jobId, name, email, amount) => {
+    // console.log("Processing payment for job:", jobId, "Email:", email);
     axiosSecure
-      .post("/paymentBkash", { jobId, name, email })
+      .post("/paymentBkash", { jobId, name, email,amount,source: "myApplications",})
 
       .then((result) => {
         window.location.replace(result.data.url);
@@ -142,7 +142,8 @@ const MyApplications = () => {
                             handlePaymentBkash(
                               app._id,
                               currentUser?.name,
-                              currentUser?.email
+                              currentUser?.email,
+                              100
                             )
                           }
                           className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"

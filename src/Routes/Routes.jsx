@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/search-by-map",
-        element: <SearchByMap></SearchByMap>,
+        element: <PrivateRoute><SearchByMap></SearchByMap></PrivateRoute>,
       },
       {
         path: "/:role",
@@ -63,7 +63,7 @@ export const router = createBrowserRouter([
               { path: "users", element: <ViewUsers></ViewUsers>},
              
               { path: "myApplications", element: <MyApplications></MyApplications>},
-              { path: "myApplications/payment/success/:tranId", element: <PaymentSuccess></PaymentSuccess>},
+              { path: "payment/success/:tranId", element: <PaymentSuccess></PaymentSuccess>},
               { path: "myApplications/job-details/:id",element: <JobDetails></JobDetails>},
               { path: "posted-jobs/applied-tutors",element: <AppliedTutors></AppliedTutors>},
               { path: "posted-jobs/applied-tutors/appliedTutor-profile",element: <AppliedTutorProfile></AppliedTutorProfile>},

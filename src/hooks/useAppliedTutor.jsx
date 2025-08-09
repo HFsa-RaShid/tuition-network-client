@@ -7,7 +7,7 @@ const useAppliedTutor = (email) => {
   const {refetch,data: appliedTutor = null,isLoading,isError,} = useQuery({
     queryKey: ["AppliedTutor"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/tutors/email/${email}`);
+      const res = await axiosPublic.get(`/appliedTutors/${email}`);
       return res.data;
     },
     enabled: !!email,

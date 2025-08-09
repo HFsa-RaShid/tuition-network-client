@@ -6,7 +6,7 @@ const usePayment = (tranId) => {
   const {refetch,data: payments = null,isLoading,isError,} = useQuery({
     queryKey: ["payments"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/myApplications/payment/success/${tranId}`);
+      const res = await axiosPublic.get(`/payment/success/${tranId}`);
       return res.data;
     },
     enabled: !!tranId,
