@@ -14,7 +14,6 @@ const PaymentHistory = () => {
 
   const handleDownloadInvoice = async (job) => {
     try {
-      // Open a new, temporary window to render the invoice content
       const newWindow = window.open("", "_blank", "width=800,height=600");
       if (!newWindow) {
         alert("Please allow pop-ups to download the invoice.");
@@ -273,7 +272,7 @@ const PaymentHistory = () => {
                   <td className="p-3 border">{job.amount} BDT</td>
                   <td className="p-3 border">
                     {job.paidStatus ? (
-                      <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">
+                      <span className="bg-green-200 text-green-800 px-2 py-1 rounded-full text-sm">
                         Paid
                       </span>
                     ) : (
@@ -288,7 +287,7 @@ const PaymentHistory = () => {
                   <td className="p-3 border">
                     <button
                       onClick={() => handleDownloadInvoice(job)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm transition-colors duration-200"
+                      className="bg-blue-200 hover:bg-blue-300 text-blue-700 font-bold py-1 px-3 rounded text-sm transition-colors duration-200"
                       disabled={!job.paidStatus}
                     >
                       Download Invoice 

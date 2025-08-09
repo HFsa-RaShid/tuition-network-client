@@ -1,6 +1,5 @@
-
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { MdSendToMobile } from "react-icons/md";
 import toast from "react-hot-toast";
@@ -10,14 +9,27 @@ import useCurrentUser from "../../../../hooks/useCurrentUser";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import useJobIdpayment from "../../../../hooks/useJobIdpayment";
 import useAppliedTutorForJobID from "../../../../hooks/useAppliedTutorForJobID";
+import { IoArrowBack } from "react-icons/io5";
 
 const AppliedTutors = () => {
+  
   const { state } = useLocation();
-  const jobId = state?.jobId;
+  let jobId = state?.jobId;
+
+  useEffect(() => {
+    if (jobId) {
+      localStorage.setItem("appliedTutorsJobId", jobId);
+    }
+  }, [jobId]);
+
+  if (!jobId) {
+    jobId = localStorage.getItem("appliedTutorsJobId");
+  }
 
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
   const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
 
   const {
     appliedTutorForJobId: appliedTutorsFromAPI = [],
@@ -26,7 +38,7 @@ const AppliedTutors = () => {
     isError,
   } = useAppliedTutorForJobID(jobId);
 
-  // Fetch paid jobs data
+
   const { paidJobsById: paidData = [], refetch: refetchPayments } = useJobIdpayment(jobId);
 
   const [confirmedTutorEmail, setConfirmedTutorEmail] = useState(null);
@@ -35,7 +47,7 @@ const AppliedTutors = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const tutorsPerPage = 10;
 
-  // Defensive: Make sure appliedTutorsFromAPI is an array before accessing length
+
   const totalPages = Array.isArray(appliedTutorsFromAPI) && appliedTutorsFromAPI.length > 0
     ? Math.ceil(appliedTutorsFromAPI.length / tutorsPerPage)
     : 1;
@@ -124,7 +136,7 @@ const AppliedTutors = () => {
         name: currentUser?.name,
         email: currentUser?.email,
         amount: 250,
-        source: "appliedTutors",
+        source: "trialClassPayment",
       };
       const response = await axiosPublic.post("/paymentBkash", paymentData);
       if (response.data.url) {
@@ -168,14 +180,22 @@ const AppliedTutors = () => {
         p.jobId === jobId &&
         p.email === userEmail &&
         p.paidStatus === true &&
-        p.source === "appliedTutors"
+        p.source === "trialClassPayment"
     );
 
   const hasPaidTrial = isTrialPaidForUser(paidData, jobId, currentUser?.email);
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">Applied Tutors</h2>
+       <button
+              onClick={() => navigate(-1)}
+              className="flex items-center text-blue-600 hover:underline mb-1"
+            >
+              <IoArrowBack className="text-2xl" />
+      
+              <span className="text-lg font-medium">Back</span>
+            </button>
+      <h2 className="text-2xl font-bold mb-4 text-center">Applied Tutors</h2>
 
       <div className="overflow-x-auto rounded-lg shadow border">
         <table className="table w-full border border-gray-300 text-center">

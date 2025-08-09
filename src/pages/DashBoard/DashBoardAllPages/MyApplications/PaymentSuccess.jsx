@@ -30,7 +30,7 @@ const PaymentSuccess = () => {
     if(paymentData?.source === "myApplications") {  
     navigate(`/${currentUser?.role}/myApplications`);
     }
-    else if(paymentData?.source === "appliedTutors") {
+    else if(paymentData?.source === "trialClassPayment") {
       navigate(`/${currentUser?.role}/posted-jobs/applied-tutors`);
     }
   };

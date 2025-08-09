@@ -1,14 +1,16 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAppliedTutor from "../../../../hooks/useAppliedTutor";
+import { IoArrowBack } from "react-icons/io5";
 
 const AppliedTutorProfile = () => {
   const location = useLocation();
   const email = location.state?.email;
   const { appliedTutor: tutor, isLoading, refetch } = useAppliedTutor(email);
+  const navigate = useNavigate();
 
-  if (isLoading) 
-     return (
+  if (isLoading)
+    return (
       <div className="flex justify-center items-center mt-20">
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
       </div>
@@ -17,6 +19,14 @@ const AppliedTutorProfile = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow pl-20">
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center text-blue-600 hover:underline mb-8"
+      >
+        <IoArrowBack className="text-2xl" />
+
+        <span className="text-lg font-medium">Back</span>
+      </button>
       <div className="flex items-center gap-8 mb-6">
         <img
           src={tutor.photoURL}
@@ -56,7 +66,7 @@ const AppliedTutorProfile = () => {
         <p>
           <strong>Location:</strong> {tutor.location}
         </p>
-        
+
         <p>
           <strong>Expected Salary:</strong> {tutor.expectedSalary} Tk
         </p>

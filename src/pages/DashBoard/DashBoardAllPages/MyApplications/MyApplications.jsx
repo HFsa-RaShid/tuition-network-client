@@ -1,3 +1,4 @@
+
 import { useContext, useState } from "react";
 import moment from "moment";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
@@ -8,6 +9,7 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import usePaidJobs from "../../../../hooks/usePaidJobs";
+import useMultipleJobPayments from "../../../../hooks/useMultipleJobPayments";
 
 const MyApplications = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,24 +19,6 @@ const MyApplications = () => {
   const { currentUser } = useCurrentUser(user?.email);
   const { allJobs, isLoading } = useAllJobs();
   const { paidJobs } = usePaidJobs(currentUser?.email);
-
-  const handlePaymentBkash = (jobId, name, email, amount) => {
-    // console.log("Processing payment for job:", jobId, "Email:", email);
-    axiosSecure
-      .post("/paymentBkash", { jobId, name, email,amount,source: "myApplications",})
-
-      .then((result) => {
-        window.location.replace(result.data.url);
-      });
-  };
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center mt-20">
-        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-      </div>
-    );
-  }
 
   const appliedJobs =
     allJobs?.filter((job) =>
@@ -46,6 +30,33 @@ const MyApplications = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+
+  const jobIds = paginatedApps.map((app) => app._id);
+  const { paidJobsByJobIds, isLoading: paymentsLoading } =
+    useMultipleJobPayments(jobIds);
+
+  const handlePaymentBkash = (jobId, name, email, amount) => {
+    axiosSecure
+      .post("/paymentBkash", {
+        jobId,
+        name,
+        email,
+        amount,
+        source: "myApplications",
+      })
+      .then((result) => {
+        window.location.replace(result.data.url);
+      });
+  };
+
+  if (isLoading || paymentsLoading) {
+    return (
+      <div className="flex justify-center items-center mt-20">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   const goToPrevious = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -75,10 +86,20 @@ const MyApplications = () => {
               const appliedTutor = app.appliedTutors?.find(
                 (t) => t.email === currentUser?.email
               );
+
+            
+              const paymentsForThisJob = paidJobsByJobIds.filter(
+                (p) => p.jobId === app._id
+              );
+
+              const isTrialClassBooked = paymentsForThisJob.some(
+                (p) => p.source === "trialClassPayment" && p.paidStatus === true
+              );
+
               return (
                 <tr
                   key={index}
-                  className="hover:bg-gray-50 text-[17px] text-center"
+                  className="hover:bg-gray-50 text-[17px] text-center border-b-gray-300"
                 >
                   <td>Class: {app.classCourse} </td>
                   <td>
@@ -97,24 +118,27 @@ const MyApplications = () => {
 
                   <td className="relative text-center !overflow-visible">
                     <div className="flex justify-center items-center relative group">
-                      <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                        {appliedTutor?.confirmationStatus === "confirmed"
-                          ? "Confirmed"
-                          : "Applied"}
-                      </span>
+                      {isTrialClassBooked ? (
+                        <span className="text-green-700 font-semibold px-3 py-1 rounded-xl bg-green-200">
+                          Booked for <br /> Trial Class
+                        </span>
+                      ) : (
+                        <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-xl">
+                          {appliedTutor?.confirmationStatus === "confirmed"
+                            ? "Confirmed"
+                            : "Applied"}
+                        </span>
+                      )}
                     </div>
                   </td>
+
                   <td>
                     <div className="relative group">
                       <FaRegQuestionCircle className="text-blue-700 cursor-pointer text-xl" />
-
-                      {/* Tooltip */}
-                      <div className="absolute bottom-full  transform -translate-x-1/2 -mb-2 w-72 p-3 bg-gray-800 text-white text-sm rounded-md shadow-lg z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                      <div className="absolute bottom-full transform -translate-x-1/2 -mb-2 w-72 p-3 bg-gray-800 text-white text-sm rounded-md shadow-lg z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                         {appliedTutor?.confirmationStatus === "confirmed" ? (
                           <>
-                            You got confirmation from Guardian. <br />
-                            Now click on the confirm button, <br />
-                            pay and get the Job.
+                            You got confirmation <br /> from Guardian.
                           </>
                         ) : (
                           <>
@@ -132,9 +156,9 @@ const MyApplications = () => {
                       (paidJobs?.some((p) => p.jobId === app._id) ? (
                         <button
                           disabled
-                          className="bg-green-500 text-white px-3 py-1 rounded opacity-70 cursor-not-allowed"
+                          className="bg-blue-200 mb-2 text-blue-700 px-2 py-2 rounded hover:bg-blue-300 flex items-center gap-1"
                         >
-                          Paid
+                          💬Chat TuToria
                         </button>
                       ) : (
                         <button
@@ -146,7 +170,7 @@ const MyApplications = () => {
                               100
                             )
                           }
-                          className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
+                          className="bg-green-200 mb-2 text-green-700 font-medium px-2 py-2 rounded hover:bg-green-300 transition"
                         >
                           Pay Now
                         </button>
@@ -164,7 +188,6 @@ const MyApplications = () => {
         )}
       </div>
 
-      {/* Prev / Next Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center mt-6 items-center gap-4">
           <button
