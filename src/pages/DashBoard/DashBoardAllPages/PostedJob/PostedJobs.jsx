@@ -16,13 +16,13 @@ const PostedJobs = () => {
   const { role } = useParams();
 
   useEffect(() => {
-    if (allJobs && user?.email) {
+    if (allJobs && currentUser?.email) {
       const userPostedJobs = allJobs.filter(
-        (job) => job.userEmail === user.email && job.status === "approved"
+        (job) => job.userEmail === currentUser.email && job.status === "approved"
       );
       setJobs(userPostedJobs);
     }
-  }, [allJobs, user?.email]);
+  }, [allJobs, currentUser?.email]);
 
   const handleToggleStatus = (job) => {
     const newStatus =
@@ -44,6 +44,24 @@ const PostedJobs = () => {
         );
       });
   };
+
+   if (isLoading) {
+    return (
+      <div className="flex justify-center items-center mt-20">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+  if (jobs.length === 0) {
+    return (
+      <div className="container mx-auto mt-6">
+        <div className="p-6 text-center">
+          <h2 className="text-xl font-semibold">No jobs found</h2>
+          <p className="text-gray-500">You have not posted any jobs yet.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto mt-6">

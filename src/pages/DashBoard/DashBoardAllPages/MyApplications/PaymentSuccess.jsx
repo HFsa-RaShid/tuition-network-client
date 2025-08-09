@@ -11,10 +11,10 @@ import useCurrentUser from '../../../../hooks/useCurrentUser';
 
 const PaymentSuccess = () => {
   const { tranId } = useParams();
-  const { payments: paymentData, isLoading, isError } = usePayment(tranId);
   const [tooltipVisible, setTooltipVisible] = useState(false);
     const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
+  const { payments: paymentData, isLoading, isError } = usePayment(tranId);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(tranId);
@@ -27,7 +27,12 @@ const PaymentSuccess = () => {
   const navigate = useNavigate();
 
   const goBackToApplications = () => {
+    if(paymentData?.source === "myApplications") {  
     navigate(`/${currentUser?.role}/myApplications`);
+    }
+    else if(paymentData?.source === "appliedTutors") {
+      navigate(`/${currentUser?.role}/posted-jobs/applied-tutors`);
+    }
   };
 
   if (isLoading) {
@@ -47,7 +52,7 @@ const PaymentSuccess = () => {
         className="flex items-center text-blue-600 hover:underline mb-4"
       >
         <IoArrowBack className="text-2xl" />
-        <span className="text-lg font-medium ml-1">Back to MyApplications</span>
+        <span className="text-lg font-medium ml-1">Back</span>
       </button>
     <div className="max-w-[60%] mx-auto mt-24 p-6 border rounded-md shadow-md bg-slate-100">
       <div className="flex items-center justify-center gap-2 text-green-600 mb-6">

@@ -1,6 +1,6 @@
-import React from "react";
+
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { MdSendToMobile } from "react-icons/md";
 import toast from "react-hot-toast";
@@ -9,58 +9,60 @@ import { AuthContext } from "../../../../provider/AuthProvider";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import useJobIdpayment from "../../../../hooks/useJobIdpayment";
+import useAppliedTutorForJobID from "../../../../hooks/useAppliedTutorForJobID";
 
 const AppliedTutors = () => {
   const { state } = useLocation();
-  const appliedTutorsFromState = state?.appliedTutors || [];
   const jobId = state?.jobId;
 
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
   const axiosPublic = useAxiosPublic();
 
+  const {
+    appliedTutorForJobId: appliedTutorsFromAPI = [],
+    refetch: refetchTutors,
+    isLoading,
+    isError,
+  } = useAppliedTutorForJobID(jobId);
+
+  // Fetch paid jobs data
+  const { paidJobsById: paidData = [], refetch: refetchPayments } = useJobIdpayment(jobId);
+
   const [confirmedTutorEmail, setConfirmedTutorEmail] = useState(null);
-  const [localTutors, setLocalTutors] = useState(appliedTutorsFromState);
 
-  // Use payment hook with enabled flag
-  const { paidJobsById: paidData = [], refetch } = useJobIdpayment(jobId);
-
-  // Pagination
+  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const tutorsPerPage = 10;
-  const totalPages = Math.ceil(localTutors.length / tutorsPerPage);
+
+  // Defensive: Make sure appliedTutorsFromAPI is an array before accessing length
+  const totalPages = Array.isArray(appliedTutorsFromAPI) && appliedTutorsFromAPI.length > 0
+    ? Math.ceil(appliedTutorsFromAPI.length / tutorsPerPage)
+    : 1;
+
   const startIndex = (currentPage - 1) * tutorsPerPage;
-  const currentTutors = localTutors.slice(
-    startIndex,
-    startIndex + tutorsPerPage
-  );
+  const currentTutors = Array.isArray(appliedTutorsFromAPI)
+    ? appliedTutorsFromAPI.slice(startIndex, startIndex + tutorsPerPage)
+    : [];
+
+  // Update confirmed tutor email when applied tutors data changes
+  useEffect(() => {
+    if (!Array.isArray(appliedTutorsFromAPI)) return;
+
+    const confirmed = appliedTutorsFromAPI.find(t => t.confirmationStatus === "confirmed");
+    setConfirmedTutorEmail(confirmed ? confirmed.email : null);
+    setCurrentPage(1); // Reset to first page when data changes
+  }, [appliedTutorsFromAPI]);
 
   const goToPrevious = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
+
   const goToNext = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  // Avoid unnecessary state updates on appliedTutors change
-  useEffect(() => {
-    const confirmed = appliedTutorsFromState.find(
-      (t) => t.confirmationStatus === "confirmed"
-    );
-    if (confirmed && confirmed.email !== confirmedTutorEmail) {
-      setConfirmedTutorEmail(confirmed.email);
-    }
-
-    // Only update if different (simple check by JSON stringify)
-    const currentTutorsJSON = JSON.stringify(localTutors);
-    const newTutorsJSON = JSON.stringify(appliedTutorsFromState);
-    if (currentTutorsJSON !== newTutorsJSON) {
-      setLocalTutors(appliedTutorsFromState);
-      setCurrentPage(1); // reset page when data changes
-    }
-  }, [appliedTutorsFromState, confirmedTutorEmail, localTutors]);
-
-  // Handle confirmation
+  // Confirm tutor handler
   const handleConfirm = async (email) => {
     Swal.fire({
       title: "Are you sure?",
@@ -73,27 +75,12 @@ const AppliedTutors = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axiosPublic.put(`/tutorRequests/${jobId}`, {
-            confirmedTutorEmail: email,
-          });
+          const res = await axiosPublic.put(`/tutorRequests/${jobId}`, { confirmedTutorEmail: email });
           if (res.data.message) {
-            Swal.fire({
-              title: "Confirmed!",
-              text: res.data.message,
-              icon: "success",
-            });
+            Swal.fire({ title: "Confirmed!", text: res.data.message, icon: "success" });
             setConfirmedTutorEmail(email);
-
-            // Update local status
-            const updated = localTutors.map((tutor) =>
-              tutor.email === email
-                ? { ...tutor, confirmationStatus: "confirmed" }
-                : { ...tutor, confirmationStatus: undefined }
-            );
-            setLocalTutors(updated);
-
-            // Refetch payment data
-            refetch();
+            refetchTutors();
+            refetchPayments();
           }
         } catch {
           toast.error("Failed to confirm tutor.");
@@ -102,7 +89,7 @@ const AppliedTutors = () => {
     });
   };
 
-  // Cancel confirmation
+  // Cancel confirmation handler
   const handleCancel = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -115,17 +102,12 @@ const AppliedTutors = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axiosPublic.put(`/tutorRequests/${jobId}`, {
-            cancelConfirmation: true,
-          });
+          const res = await axiosPublic.put(`/tutorRequests/${jobId}`, { cancelConfirmation: true });
           if (res.data.message) {
             toast.success(res.data.message);
             setConfirmedTutorEmail(null);
-            const updated = localTutors.map(
-              ({ confirmationStatus, ...rest }) => rest
-            );
-            setLocalTutors(updated);
-            refetch();
+            refetchTutors();
+            refetchPayments();
           }
         } catch {
           toast.error("Failed to cancel confirmation.");
@@ -134,19 +116,17 @@ const AppliedTutors = () => {
     });
   };
 
-  // Handle trial class payment
+  // Trial class payment handler
   const handleTrialClassPayment = async () => {
     try {
       const paymentData = {
-        jobId: jobId,
+        jobId,
         name: currentUser?.name,
         email: currentUser?.email,
         amount: 250,
         source: "appliedTutors",
       };
-
       const response = await axiosPublic.post("/paymentBkash", paymentData);
-
       if (response.data.url) {
         window.location.href = response.data.url;
       }
@@ -155,8 +135,23 @@ const AppliedTutors = () => {
     }
   };
 
-  // Show a message if no tutors applied
-  if (localTutors.length === 0) {
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center mt-20">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="container mx-auto p-6 text-center text-red-600">
+        <p>Failed to load applied tutors.</p>
+      </div>
+    );
+  }
+
+  if (!Array.isArray(appliedTutorsFromAPI) || appliedTutorsFromAPI.length === 0) {
     return (
       <div className="container mx-auto p-6 text-center text-gray-600">
         <h2 className="text-2xl font-bold mb-4">Applied Tutors</h2>
@@ -164,6 +159,19 @@ const AppliedTutors = () => {
       </div>
     );
   }
+
+  // Helper function to check if trial payment done
+  const isTrialPaidForUser = (paidData, jobId, userEmail) =>
+    Array.isArray(paidData) &&
+    paidData.some(
+      (p) =>
+        p.jobId === jobId &&
+        p.email === userEmail &&
+        p.paidStatus === true &&
+        p.source === "appliedTutors"
+    );
+
+  const hasPaidTrial = isTrialPaidForUser(paidData, jobId, currentUser?.email);
 
   return (
     <div className="container mx-auto p-6">
@@ -184,13 +192,17 @@ const AppliedTutors = () => {
               const isConfirmed = confirmedTutorEmail === tutor.email;
               const isDisabled = confirmedTutorEmail && !isConfirmed;
 
-              const hasPaid = paidData.some(
-                (p) => p.email === tutor.email && p.paidStatus === true
+              const hasPaidJob = paidData.some(
+                (p) =>
+                  p.jobId === jobId &&
+                  p.email === tutor.email &&
+                  p.paidStatus === true &&
+                  p.source === "myApplications"
               );
 
               return (
                 <tr key={index} className="border-b border-gray-300">
-                  <td className="text-center py-2 ">{tutor.name}</td>
+                  <td className="text-center py-2">{tutor.name}</td>
                   <td className="py-2 text-center">
                     <NavLink
                       to={`/${currentUser?.role}/posted-jobs/applied-tutors/appliedTutor-profile`}
@@ -210,31 +222,22 @@ const AppliedTutors = () => {
                   </td>
                   <td className="flex justify-center gap-2">
                     {isConfirmed ? (
-                      hasPaid ? (
-                        <div className="">
+                      hasPaidJob ? (
+                        <div>
                           <button
-                            onClick={() =>
-                              console.log("Open chat with", tutor.email)
-                            }
+                            onClick={() => console.log("Open chat with", tutor.email)}
                             className="bg-blue-200 mb-2 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1"
                           >
                             💬Chat TuToria
                           </button>
 
-                          
-                          <div
-                            className="tooltip"
-                            data-tip="Pay 200 BDT and get trial class"
-                          >
+                          <div className="tooltip" data-tip="Pay 200 BDT and get trial class">
                             <button
                               onClick={handleTrialClassPayment}
-                              disabled={hasPaid} 
-                              className={`px-2 py-1 rounded flex items-center gap-1 mb-2 
-      ${
-        hasPaid
-          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-          : "bg-blue-200 text-blue-700 hover:bg-blue-300"
-      }`}
+                              disabled={hasPaidTrial}
+                              className={`bg-blue-200 mb-2 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1 ${
+                                hasPaidTrial ? "cursor-not-allowed opacity-50" : ""
+                              }`}
                             >
                               Book Trial Class
                             </button>
