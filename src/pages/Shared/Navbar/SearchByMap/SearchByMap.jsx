@@ -274,18 +274,33 @@ const blueIcon = createColoredIcon("blue");
 const greenIcon = createColoredIcon("green");
 const axiosPublic = useAxiosPublic();
 
+// const FitBounds = ({ coordsArray }) => {
+//   const map = useMap();
+
+//   useEffect(() => {
+//     if (coordsArray.length > 0) {
+//       const bounds = L.latLngBounds(coordsArray);
+//       map.fitBounds(bounds, { padding: [50, 50] });
+//     }
+//   }, [coordsArray, map]);
+
+//   return null;
+// };
 const FitBounds = ({ coordsArray }) => {
   const map = useMap();
+  const [fitted, setFitted] = useState(false);
 
   useEffect(() => {
-    if (coordsArray.length > 0) {
+    if (!fitted && coordsArray.length > 0) {
       const bounds = L.latLngBounds(coordsArray);
       map.fitBounds(bounds, { padding: [50, 50] });
+      setFitted(true); 
     }
-  }, [coordsArray, map]);
+  }, [coordsArray, map, fitted]);
 
   return null;
 };
+
 
 const SearchByMap = () => {
   const { user } = useContext(AuthContext);

@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState, useContext } from "react";
 import { FaTrash } from "react-icons/fa";
 import useAllJobs from "../../../../hooks/useAllJobs";
@@ -19,6 +20,7 @@ const JobBoard = () => {
   const { allJobs, refetch, isLoading } = useAllJobs();
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
+
   const [jobs, setJobs] = useState([]);
   const [filter, setFilter] = useState({
     tutoringType: "",
@@ -30,11 +32,8 @@ const JobBoard = () => {
     selectedDate: null,
   });
 
-  useEffect(() => {
-    if (allJobs) {
-      setJobs(allJobs);
-    }
-  }, [allJobs]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 4;
 
   useEffect(() => {
     if (allJobs) {
@@ -53,49 +52,43 @@ const JobBoard = () => {
     "Masters",
   ];
 
- const handleApply = (jobId) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, apply for this request!",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      axiosSecure
-        .put(`/tutorRequests/${jobId}`, {
-          email: user.email,
-          name: currentUser?.name || user?.displayName, // ✅ send tutor name too
-        })
-        .then((res) => {
-          if (res.data?.message === "Applied successfully.") {
+  const handleApply = (jobId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, apply for this request!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .put(`/tutorRequests/${jobId}`, {
+            email: user.email,
+            name: currentUser?.name || user?.displayName,
+          })
+          .then((res) => {
             Swal.fire(
-              "Applied!",
-              "You have successfully applied for this tutor request.",
-              "success"
-            );
-          } else {
-            Swal.fire(
-              "Note",
+              res.data?.message === "Applied successfully."
+                ? "Applied!"
+                : "Note",
               res.data?.message || "Something happened.",
-              "info"
+              res.data?.message === "Applied successfully." ? "success" : "info"
             );
-          }
-          refetch();
-        })
-        .catch((error) => {
-          console.error("Apply error:", error);
-          Swal.fire(
-            "Error!",
-            "Failed to apply for the tutor request.",
-            "error"
-          );
-        });
-    }
-  });
-};
+            refetch();
+          })
+          .catch((error) => {
+            console.error("Apply error:", error);
+            Swal.fire(
+              "Error!",
+              "Failed to apply for the tutor request.",
+              "error"
+            );
+          });
+      }
+    });
+  };
 
   const handleDelete = (jobId) => {
     Swal.fire({
@@ -128,7 +121,6 @@ const JobBoard = () => {
     });
   };
 
-  // When city changes, reset area
   const handleCityChange = (city) => {
     setFilter((prev) => ({
       ...prev,
@@ -137,19 +129,20 @@ const JobBoard = () => {
     }));
   };
 
-  // Helper to get local YYYY-MM-DD from Date object
-const formatLocalDate = (date) => {
-  const d = new Date(date);
-  const year = d.getFullYear();
-  const month = (d.getMonth() + 1).toString().padStart(2, "0");
-  const day = d.getDate().toString().padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
+  const formatLocalDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = (d.getMonth() + 1).toString().padStart(2, "0");
+    const day = d.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
-let filteredJobs = jobs.filter((job) => {
-  const jobDate = formatLocalDate(job.postedAt);
-  const selectedDate = filter.selectedDate ? formatLocalDate(filter.selectedDate) : null;
-
+  // Filter jobs
+  let filteredJobs = jobs.filter((job) => {
+    const jobDate = formatLocalDate(job.postedAt);
+    const selectedDate = filter.selectedDate
+      ? formatLocalDate(filter.selectedDate)
+      : null;
 
     return (
       (!filter.tutoringType || job.tuitionType === filter.tutoringType) &&
@@ -162,12 +155,16 @@ let filteredJobs = jobs.filter((job) => {
     );
   });
 
-  // Show a message if no jobs match the filter
-  {
-    filteredJobs.length === 0 && (
-      <p className="text-center text-gray-500">No matching jobs found.</p>
-    );
-  }
+  // Pagination
+  const indexOfLastJob = currentPage * jobsPerPage;
+  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+  const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+
+  const goToNext = () =>
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  const goToPrevious = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center mt-20">
@@ -183,12 +180,13 @@ let filteredJobs = jobs.filter((job) => {
 
       <div className="container mx-auto mt-6">
         <div className="flex p-6 gap-4">
-          {/* Left Sidebar (Filters) */}
+          {/* Left Sidebar */}
           <div className="w-[30%] bg-slate-100 shadow-md rounded-lg p-4 text-black">
             <h2 className="text-[24px] font-semibold mb-4">
               🔍 Advanced Filter
             </h2>
 
+            {/* Tuition Type */}
             <div className="mb-4">
               <label className="block font-semibold mb-1">Tuition Type</label>
               <select
@@ -203,6 +201,7 @@ let filteredJobs = jobs.filter((job) => {
               </select>
             </div>
 
+            {/* Preferred Tutor */}
             <div className="mb-4">
               <label className="block font-semibold mb-1">
                 Preferred Tutor
@@ -220,6 +219,7 @@ let filteredJobs = jobs.filter((job) => {
               </select>
             </div>
 
+            {/* Preferred Medium */}
             <div className="mb-4">
               <label className="block font-semibold mb-1">
                 Preferred Medium
@@ -232,10 +232,11 @@ let filteredJobs = jobs.filter((job) => {
               >
                 <option value="">All</option>
                 <option value="Bangla Medium">Bangla Medium</option>
-                <option value="English Medium">English Medium</option>
+                <option value="English Medium">English Version</option>
               </select>
             </div>
 
+            {/* Preferred City */}
             <div className="mb-4">
               <label className="block font-semibold mb-1">Preferred City</label>
               <select
@@ -252,6 +253,7 @@ let filteredJobs = jobs.filter((job) => {
               </select>
             </div>
 
+            {/* Preferred Area */}
             <div className="mb-4">
               <label className="block font-semibold mb-1">Preferred Area</label>
               <select
@@ -271,7 +273,6 @@ let filteredJobs = jobs.filter((job) => {
             </div>
 
             {/* Preferred Class */}
-
             <div className="mb-4">
               <label className="block font-semibold mb-1">
                 Preferred Class
@@ -310,23 +311,27 @@ let filteredJobs = jobs.filter((job) => {
 
           {/* Right Content (Job Cards) */}
           <div className="w-[70%] space-y-6">
-            {filteredJobs.map((job) => (
+            {currentJobs.map((job) => (
               <div
                 key={job._id}
                 className="bg-slate-100 shadow-md rounded-lg p-6 relative"
               >
-                {job.tutorStatus === "selected" && (
+                {job.appliedTutors?.some(
+                  (tutor) =>
+                    tutor.confirmationStatus?.toLowerCase() === "confirmed"
+                ) && (
                   <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
                     Selected
                   </div>
                 )}
+
                 {job.tutorStatus === "Not Available" && (
                   <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
                     Not Available
                   </div>
                 )}
 
-                {/* 🔧 Admin Edit/Delete Buttons */}
+                {/* Admin Delete */}
                 {currentUser?.role === "admin" && (
                   <div className="absolute bottom-4 right-10 flex gap-3">
                     <button
@@ -434,6 +439,31 @@ let filteredJobs = jobs.filter((job) => {
                   )}
               </div>
             ))}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex justify-center mt-6 items-center gap-4">
+                <button
+                  onClick={goToPrevious}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50"
+                >
+                  &lt; Prev
+                </button>
+
+                <span className="font-semibold">
+                  {currentPage} / {totalPages}
+                </span>
+
+                <button
+                  onClick={goToNext}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50"
+                >
+                  Next &gt;
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
