@@ -17,7 +17,7 @@ const Banner = () => {
     navigate("/matchTutors", { state: { className, location } });
   };
   return (
-    <div className="h-[560px] bg-base-100 py-16 ">
+    <div className="h-[560px] bg-base-100 py-16 mt-20 ">
       <div className="container mx-auto">
         <div className="flex gap-32 justify-between px-20 ">
           <div className="w-[55%] mt-8">

@@ -44,7 +44,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-white text-black w-full fixed top-0 z-50">
+    <div className="bg-white/80 shadow-md backdrop-blur text-black w-full fixed top-0 z-50">
       <div className="navbar container mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -72,7 +72,7 @@ const Navbar = () => {
                   }
                   to="/"
                 >
-                  Tutors
+                  Home
                 </NavLink>
               </li>
               <li>
@@ -116,7 +116,7 @@ const Navbar = () => {
                 }
                 to="/JobBoard"
               >
-                Job Boards
+                Tuitions
               </NavLink>
             </li>
             <li>
@@ -200,7 +200,6 @@ const Navbar = () => {
                     className={({ isActive }) =>
                       isActive ? "text-[#123d7e] bg-slate-300" : " "
                     }
-                    
                   >
                     Dashboard
                   </NavLink>

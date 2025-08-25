@@ -24,15 +24,18 @@ const ProfileDetails = () => {
   const [preferredSubjects, setPreferredSubjects] = useState(
     currentUser?.preferredSubjects?.split(",") || []
   );
-  
+
   const [preferredClasses, setPreferredClasses] = useState(
     currentUser?.preferredClass?.split(",") || []
   );
 
   const [preferredCategories, setPreferredCategories] = useState(
-  currentUser?.preferredCategories?.split(",") || []
-);
+    currentUser?.preferredCategories?.split(",") || []
+  );
 
+  const [dataPreferredLocations, setDataPreferredLocations] = useState(
+  currentUser?.preferredLocations?.split(",") || []
+);
 
 
   const {
@@ -125,6 +128,7 @@ const ProfileDetails = () => {
         preferredSubjects: preferredSubjects.join(","),
         preferredClass: preferredClasses.join(","),
         preferredCategories: preferredCategories.join(","),
+        preferredLocations: dataPreferredLocations.join(","),
         availableDays,
         availableTimes,
         studentIdImage: studentIdUrl || data.studentIdImage,
@@ -416,22 +420,21 @@ const ProfileDetails = () => {
                     <option value="College Student">College Student</option>
                   </select>
                 </div>
-                
               </div>{" "}
               {/* Student ID File Upload Field */}
-                <div>
-                  <label className="block font-medium mb-1">
-                    Student ID Card (image)
-                  </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="file-input file-input-bordered w-full"
-                    onChange={(e) => {
-                      handleStudentIdChange(e);
-                    }}
-                  />
-                </div>
+              <div>
+                <label className="block font-medium mb-1">
+                  Student ID Card (image)
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="file-input file-input-bordered w-full"
+                  onChange={(e) => {
+                    handleStudentIdChange(e);
+                  }}
+                />
+              </div>
             </>
           )}
 
@@ -470,55 +473,56 @@ const ProfileDetails = () => {
                 </div>
               </div>
 
-          
-                
-                {/* Preferred Categories */}
-<div>
-  <label className="block font-medium ">Preferred Categories</label>
-  <select
-    name="categories"
-    onChange={(e) => {
-      const selectedCategory = e.target.value;
-      if (
-        selectedCategory &&
-        !preferredCategories.includes(selectedCategory)
-      ) {
-        setPreferredCategories([...preferredCategories, selectedCategory]);
-      }
-    }}
-    className="w-full p-2 border rounded mb-2"
-  >
-    <option value="">Select Category</option>
-    {categories.map((cat) => (
-      <option key={cat} value={cat}>
-        {cat}
-      </option>
-    ))}
-  </select>
+              {/* Preferred Categories */}
+              <div>
+                <label className="block font-medium ">
+                  Preferred Categories
+                </label>
+                <select
+                  name="categories"
+                  onChange={(e) => {
+                    const selectedCategory = e.target.value;
+                    if (
+                      selectedCategory &&
+                      !preferredCategories.includes(selectedCategory)
+                    ) {
+                      setPreferredCategories([
+                        ...preferredCategories,
+                        selectedCategory,
+                      ]);
+                    }
+                  }}
+                  className="w-full p-2 border rounded mb-2"
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
 
-  <div className="flex flex-wrap gap-2">
-    {preferredCategories.map((cat) => (
-      <span
-        key={cat}
-        className="px-3 bg-purple-200 mb-2 text-purple-700 rounded-full flex items-center gap-2"
-      >
-        {cat}
-        <button
-          type="button"
-          onClick={() =>
-            setPreferredCategories(
-              preferredCategories.filter((c) => c !== cat)
-            )
-          }
-          className="text-white font-bold"
-        >
-          <RxCross2 />
-        </button>
-      </span>
-    ))}
-  </div>
-
-
+                <div className="flex flex-wrap gap-2">
+                  {preferredCategories.map((cat) => (
+                    <span
+                      key={cat}
+                      className="px-3 bg-purple-200 mb-2 text-purple-700 rounded-full flex items-center gap-2"
+                    >
+                      {cat}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setPreferredCategories(
+                            preferredCategories.filter((c) => c !== cat)
+                          )
+                        }
+                        className="text-white font-bold"
+                      >
+                        <RxCross2 />
+                      </button>
+                    </span>
+                  ))}
+                </div>
               </div>
 
               {/* Preferred Class */}
@@ -627,6 +631,59 @@ const ProfileDetails = () => {
               <h3 className="text-2xl font-semibold pb-6">
                 Availability Information
               </h3>
+               {/* Preferred Locations */}
+    <div>
+      <label className="block font-medium mb-2">
+        Preferred Locations
+      </label>
+      <select
+        name="preferredLocations"
+        onChange={(e) => {
+          const selectedLocation = e.target.value;
+          if (
+            selectedLocation &&
+            !dataPreferredLocations.includes(selectedLocation)
+          ) {
+            setDataPreferredLocations([
+              ...dataPreferredLocations,
+              selectedLocation,
+            ]);
+          }
+        }}
+        className="w-full p-2 border rounded mb-2"
+        disabled={!watch("city")}
+      >
+        <option value="">Select Location</option>
+        {cityAreaMap[watch("city")]?.map((loc) => (
+          <option key={loc} value={loc}>
+            {loc}
+          </option>
+        ))}
+      </select>
+
+      {/* Selected Location Badges */}
+      <div className="flex flex-wrap gap-2 mt-2">
+        {dataPreferredLocations.map((loc) => (
+          <span
+            key={loc}
+            className="px-3 py-1 bg-green-200 text-green-700 rounded-full flex items-center gap-2"
+          >
+            {loc}
+            <button
+              type="button"
+              onClick={() =>
+                setDataPreferredLocations(
+                  dataPreferredLocations.filter((l) => l !== loc)
+                )
+              }
+              className="text-white font-bold"
+            >
+              <RxCross2 />
+            </button>
+          </span>
+        ))}
+      </div>
+    </div>
 
               {/* Available Days */}
               <div>

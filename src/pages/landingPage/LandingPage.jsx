@@ -17,7 +17,7 @@ const LandingPage = () => {
         <title>TuitionNetwork</title>
       </Helmet>
       <Navbar></Navbar>
-      <ContactSection></ContactSection>
+      {/* <ContactSection></ContactSection> */}
       <Banner></Banner>
       <CountDown></CountDown>
       <WhyChooseUs></WhyChooseUs>
