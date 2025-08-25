@@ -91,7 +91,7 @@ const Banner = () => {
               />
               <button
                 onClick={handleSearch}
-                className="bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 shadow font-serif"
+                className="bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 shadow"
               >
                 Search Tutor
               </button>

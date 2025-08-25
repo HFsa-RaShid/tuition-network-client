@@ -65,9 +65,11 @@ const ProfileDetails = () => {
       setValue("expectedSalary", currentUser.expectedSalary || "");
       setValue("tuitionPreference", currentUser.tuitionPreference || "");
       setValue("preferredClass", currentUser.preferredClass || "");
+      setValue("studentIdImage", currentUser.studentIdImage || "");
       setAvailableDays(currentUser.availableDays || []);
       setAvailableTimes(currentUser.availableTimes || []);
       setImagePreview(currentUser?.photoURL || "");
+      setStudentIdUrl(currentUser?.studentIdImage || "")
     }
   }, [currentUser, setValue]);
 
@@ -196,6 +198,39 @@ const ProfileDetails = () => {
       }
     });
   };
+
+
+// Step 1 fields
+const step1Fields = watch(["name", "phone", "gender", "city", "location", "religion"]);
+const isStep1Valid = step1Fields.every((field) => field && field !== "");
+
+// Step 2 fields
+const step2Fields = watch([
+  "education",
+  "institute",
+  "department",
+  "gpa",
+  "passingYear",
+  "tutorType",
+  "studentIdImage",
+]);
+const isStep2Valid = step2Fields.every((field) => field && field !== "");
+
+// Step 3 fields
+const isStep3Valid =
+  watch("tuitionPreference") &&
+  watch("expectedSalary") &&
+  preferredCategories.length > 0 &&
+  preferredClasses.length > 0 &&
+  preferredSubjects.length > 0;
+
+// Step 4 fields
+const isStep4Valid =
+  dataPreferredLocations.length > 0 &&
+  availableDays.length > 0 &&
+  availableTimes.length > 0;
+
+  
 
   if (isLoading)
     return (
@@ -665,7 +700,7 @@ const ProfileDetails = () => {
                   {dataPreferredLocations.map((loc) => (
                     <span
                       key={loc}
-                      className="px-3 py-1 bg-green-200 text-green-700 rounded-full flex items-center gap-2"
+                      className="px-3 py-1 bg-blue-200 mb-2 text-blue-700 rounded-full flex items-center gap-2"
                     >
                       {loc}
                       <button
@@ -768,7 +803,8 @@ const ProfileDetails = () => {
             {step === 4 ? (
               <button
                 type="submit"
-                className="btn btn-success"
+                className="btn btn-success text-white"
+                 disabled={!isStep4Valid}
                 onClick={handleSubmit((data) => {
                   onSubmit(data);
                   setStep(1);
@@ -783,7 +819,12 @@ const ProfileDetails = () => {
                   onSubmit(data);
                   setStep(step + 1);
                 })}
-                className="btn btn-primary"
+                className="bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 shadow"
+                disabled={
+        (step === 1 && !isStep1Valid) ||
+        (step === 2 && !isStep2Valid) ||
+        (step === 3 && !isStep3Valid)
+      }
               >
                 Next
               </button>
