@@ -96,7 +96,7 @@ const SignIn = () => {
               <a href="#" className="text-sm text-gray-500 hover:underline">Forgot Password?</a>
             </div>
 
-            <button type="submit" className="w-full mt-6 bg-[#f9d045] rounded-3xl shadow-md shadow-blue-500 text-[#123d7e] text-xl py-2 font-semibold">
+            <button type="submit" className="w-full mt-6 bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 font-semibold shadow">
               Sign In
             </button>
           </form>

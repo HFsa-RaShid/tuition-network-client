@@ -143,7 +143,7 @@ const DashBoard = () => {
   );
 
   return (
-    <div className="flex min-h-screen transition-all duration-300">
+    <div className="flex min-h-screen transition-all duration-300 font-serif ">
       {/* Sidebar */}
       <div
         className={`${

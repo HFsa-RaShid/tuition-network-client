@@ -217,7 +217,7 @@ const Navbar = () => {
             </div>
           ) : (
             <NavLink to="/signIn">
-              <button className="bg-[#123d7e] py-[10px] px-6 rounded-3xl text-white shadow-md shadow-blue-900 font-semibold">
+              <button className="bg-blue-200 mb-2 mt-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 font-semibold shadow-sm">
                 Sign Up
               </button>
             </NavLink>

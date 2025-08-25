@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+
 import banner from "../../../../assets/teachers.png";
 import yellowCircle from "../../../../assets/yellowCircle.png";
 import grayCircle from "../../../../assets/grayCircle.png";
@@ -7,7 +7,10 @@ import blueCircle from "../../../../assets/blueCircle.png";
 import yellowShape from "../../../../assets/yellowShape.png";
 import blueShape from "../../../../assets/blueShape.png";
 import wireShape from "../../../../assets/Highlight 26.png";
+import { NavLink } from "react-router-dom";
 const Banner = () => {
+  const [className, setClassName] = useState("");
+  const [location, setLocation] = useState("");
   return (
     <div className="h-[560px] bg-base-100 py-16 ">
       <div className="container mx-auto">
@@ -64,10 +67,27 @@ const Banner = () => {
               delivered by a highly qualified instructor of your choice.
               Sessions can be conducted online or in person.
             </p>
-            <div className="mt-8 font-semibold">
-              <NavLink>
-                <button className="bg-[#f9d045] py-3 px-6 rounded-3xl shadow-md shadow-blue-500 text-black">
-                  Get Started
+             {/* ---------- SEARCH FORM ---------- */}
+            <div className="mt-10 flex items-center gap-4">
+              <input
+                type="text"
+                placeholder="Class"
+                value={className}
+                onChange={(e) => setClassName(e.target.value)}
+                className="border-b-2 border-gray-300 focus:outline-none px-2 py-1 w-40"
+              />
+              <input
+                type="text"
+                placeholder="Location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="border-b-2 border-gray-300 focus:outline-none px-2 py-1 w-40"
+              />
+              <NavLink
+                to="/matchTutors"
+              >
+                <button className="bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 shadow font-serif">
+                  Search Tutor
                 </button>
               </NavLink>
             </div>
