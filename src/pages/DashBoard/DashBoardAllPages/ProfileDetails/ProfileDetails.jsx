@@ -34,9 +34,8 @@ const ProfileDetails = () => {
   );
 
   const [dataPreferredLocations, setDataPreferredLocations] = useState(
-  currentUser?.preferredLocations?.split(",") || []
-);
-
+    currentUser?.preferredLocations?.split(",") || []
+  );
 
   const {
     register,
@@ -243,7 +242,7 @@ const ProfileDetails = () => {
 
       {/* Right Side - Multi-Step Form */}
       <div className="w-full md:w-2/3">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 ">
           {/* Step 1 - Personal Info */}
           {step === 1 && (
             <>
@@ -631,59 +630,59 @@ const ProfileDetails = () => {
               <h3 className="text-2xl font-semibold pb-6">
                 Availability Information
               </h3>
-               {/* Preferred Locations */}
-    <div>
-      <label className="block font-medium mb-2">
-        Preferred Locations
-      </label>
-      <select
-        name="preferredLocations"
-        onChange={(e) => {
-          const selectedLocation = e.target.value;
-          if (
-            selectedLocation &&
-            !dataPreferredLocations.includes(selectedLocation)
-          ) {
-            setDataPreferredLocations([
-              ...dataPreferredLocations,
-              selectedLocation,
-            ]);
-          }
-        }}
-        className="w-full p-2 border rounded mb-2"
-        disabled={!watch("city")}
-      >
-        <option value="">Select Location</option>
-        {cityAreaMap[watch("city")]?.map((loc) => (
-          <option key={loc} value={loc}>
-            {loc}
-          </option>
-        ))}
-      </select>
+              {/* Preferred Locations */}
+              <div>
+                <label className="block font-medium mb-2">
+                  Preferred Locations
+                </label>
+                <select
+                  name="preferredLocations"
+                  onChange={(e) => {
+                    const selectedLocation = e.target.value;
+                    if (
+                      selectedLocation &&
+                      !dataPreferredLocations.includes(selectedLocation)
+                    ) {
+                      setDataPreferredLocations([
+                        ...dataPreferredLocations,
+                        selectedLocation,
+                      ]);
+                    }
+                  }}
+                  className="w-full p-2 border rounded mb-2"
+                  disabled={!watch("city")}
+                >
+                  <option value="">Select Location</option>
+                  {cityAreaMap[watch("city")]?.map((loc) => (
+                    <option key={loc} value={loc}>
+                      {loc}
+                    </option>
+                  ))}
+                </select>
 
-      {/* Selected Location Badges */}
-      <div className="flex flex-wrap gap-2 mt-2">
-        {dataPreferredLocations.map((loc) => (
-          <span
-            key={loc}
-            className="px-3 py-1 bg-green-200 text-green-700 rounded-full flex items-center gap-2"
-          >
-            {loc}
-            <button
-              type="button"
-              onClick={() =>
-                setDataPreferredLocations(
-                  dataPreferredLocations.filter((l) => l !== loc)
-                )
-              }
-              className="text-white font-bold"
-            >
-              <RxCross2 />
-            </button>
-          </span>
-        ))}
-      </div>
-    </div>
+                {/* Selected Location Badges */}
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {dataPreferredLocations.map((loc) => (
+                    <span
+                      key={loc}
+                      className="px-3 py-1 bg-green-200 text-green-700 rounded-full flex items-center gap-2"
+                    >
+                      {loc}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setDataPreferredLocations(
+                            dataPreferredLocations.filter((l) => l !== loc)
+                          )
+                        }
+                        className="text-white font-bold"
+                      >
+                        <RxCross2 />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
 
               {/* Available Days */}
               <div>
