@@ -2,16 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import { FaEdit } from "react-icons/fa";
-import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { toast } from "react-hot-toast";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
+import subjects from "../../../utils/subjects";
+import { RxCross2 } from "react-icons/rx";
 
 const ProfileDetails = () => {
   const { user } = useContext(AuthContext);
-  const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
   const [imagePreview, setImagePreview] = useState("");
@@ -20,6 +20,20 @@ const ProfileDetails = () => {
   const [availableDays, setAvailableDays] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
   const [studentIdUrl, setStudentIdUrl] = useState("");
+
+  const [preferredSubjects, setPreferredSubjects] = useState(
+    currentUser?.preferredSubjects?.split(",") || []
+  );
+  
+  const [preferredClasses, setPreferredClasses] = useState(
+    currentUser?.preferredClass?.split(",") || []
+  );
+
+  const [preferredCategories, setPreferredCategories] = useState(
+  currentUser?.preferredCategories?.split(",") || []
+);
+
+
 
   const {
     register,
@@ -55,6 +69,23 @@ const ProfileDetails = () => {
     }
   }, [currentUser, setValue]);
 
+  const categories = [
+    "Bangla Medium",
+    "English Version",
+    "English Medium",
+    "Madrasah",
+  ];
+
+  const classes = [
+    "Play",
+    "Nursery",
+    "KG",
+    ...Array.from({ length: 10 }, (_, i) => `Class ${i + 1}`),
+    "Class 12",
+    "Honours",
+    "Masters",
+  ];
+
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -79,7 +110,8 @@ const ProfileDetails = () => {
       const imgData = await res.json();
       const photoURL = imgData.data.url;
 
-      await axiosSecure.put(`/users/${user?.email}`, { photoURL });
+      await axiosSecure.put(`/users/${currentUser?.email}`, { photoURL });
+      await axiosSecure.put(`/tutors/${currentUser?.email}`, { photoURL });
       refetch();
     } catch (err) {
       console.error("Image upload failed:", err);
@@ -90,12 +122,16 @@ const ProfileDetails = () => {
     try {
       const updatedData = {
         ...data,
+        preferredSubjects: preferredSubjects.join(","),
+        preferredClass: preferredClasses.join(","),
+        preferredCategories: preferredCategories.join(","),
         availableDays,
         availableTimes,
         studentIdImage: studentIdUrl || data.studentIdImage,
       };
 
-      await axiosSecure.put(`/users/${user?.email}`, updatedData);
+      await axiosSecure.put(`/users/${currentUser?.email}`, updatedData);
+      await axiosSecure.put(`/tutors/${currentUser?.email}`, updatedData);
       refetch();
       toast.success("Profile updated successfully!");
     } catch (err) {
@@ -159,14 +195,14 @@ const ProfileDetails = () => {
   };
 
   if (isLoading)
-     return (
+    return (
       <div className="flex justify-center items-center mt-20">
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
       </div>
     );
 
   return (
-    <div className="max-w-5xl mx-auto mt-10 flex flex-col md:flex-row gap-10">
+    <div className="max-w-5xl mx-auto mt-6 flex flex-col md:flex-row gap-10">
       {/* Left Side - Profile Image and Info */}
       <div className="w-full md:w-1/3 text-center relative">
         <div className="relative inline-block">
@@ -203,7 +239,7 @@ const ProfileDetails = () => {
 
       {/* Right Side - Multi-Step Form */}
       <div className="w-full md:w-2/3">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
           {/* Step 1 - Personal Info */}
           {step === 1 && (
             <>
@@ -236,43 +272,43 @@ const ProfileDetails = () => {
                     className="input input-bordered w-full"
                   />
                 </div>
-               
-                <div>
-  <label>City</label>
-  <select
-    {...register("city")}
-    className="input input-bordered w-full"
-    onChange={(e) => {
-      setValue("city", e.target.value);
-      setValue("location", ""); // Reset location when city changes
-    }}
-    defaultValue={currentUser?.city || ""}
-  >
-    <option value="">Select a City</option>
-    {bdDistricts.map((district) => (
-      <option key={district} value={district}>
-        {district}
-      </option>
-    ))}
-  </select>
-</div>
 
-<div>
-  <label>Location / Area</label>
-  <select
-    {...register("location")}
-    className="input input-bordered w-full"
-    disabled={!watch("city")}
-    defaultValue={currentUser?.location || ""}
-  >
-    <option value="">Select an Area</option>
-    {cityAreaMap[watch("city")]?.map((area) => (
-      <option key={area} value={area}>
-        {area}
-      </option>
-    ))}
-  </select>
-</div>
+                <div>
+                  <label>City</label>
+                  <select
+                    {...register("city")}
+                    className="input input-bordered w-full"
+                    onChange={(e) => {
+                      setValue("city", e.target.value);
+                      setValue("location", ""); // Reset location when city changes
+                    }}
+                    defaultValue={currentUser?.city || ""}
+                  >
+                    <option value="">Select a City</option>
+                    {bdDistricts.map((district) => (
+                      <option key={district} value={district}>
+                        {district}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label>Location / Area</label>
+                  <select
+                    {...register("location")}
+                    className="input input-bordered w-full"
+                    disabled={!watch("city")}
+                    defaultValue={currentUser?.location || ""}
+                  >
+                    <option value="">Select an Area</option>
+                    {cityAreaMap[watch("city")]?.map((area) => (
+                      <option key={area} value={area}>
+                        {area}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
                 <div>
                   <label>Religion</label>
@@ -360,7 +396,29 @@ const ProfileDetails = () => {
                     })}{" "}
                   </select>{" "}
                 </div>{" "}
-                {/* 👇 Student ID File Upload Field */}
+                {/* Tutor Type */}
+                <div>
+                  <label className="block font-medium ">Tutor Type</label>
+                  <select
+                    {...register("tutorType")}
+                    className="select select-bordered w-full"
+                  >
+                    <option value="">Select </option>
+                    <option value="Government Institution">
+                      Government Institution
+                    </option>
+                    <option value="Private Institution">
+                      Private Institution
+                    </option>
+                    <option value="University Student">
+                      University Student
+                    </option>
+                    <option value="College Student">College Student</option>
+                  </select>
+                </div>
+                
+              </div>{" "}
+              {/* Student ID File Upload Field */}
                 <div>
                   <label className="block font-medium mb-1">
                     Student ID Card (image)
@@ -374,20 +432,19 @@ const ProfileDetails = () => {
                     }}
                   />
                 </div>
-              </div>{" "}
             </>
           )}
 
           {/* Step 3 - Tuition Info */}
           {step === 3 && (
             <>
-              <h3 className="text-2xl font-semibold pb-6">
+              <h3 className="text-2xl font-semibold pb-4">
                 Tuition Preference Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Tuition Preference */}
                 <div>
-                  <label className="block font-medium mb-1">
+                  <label className="block font-medium ">
                     Tuition Preference
                   </label>
                   <select
@@ -397,15 +454,13 @@ const ProfileDetails = () => {
                     <option value="">Select preference</option>
                     <option value="Online">Online</option>
                     <option value="Offline">Offline</option>
-                    <option value="Both">Both</option>
+                    <option value="Both">Online & Offline</option>
                   </select>
                 </div>
 
                 {/* Expected Salary */}
                 <div>
-                  <label className="block font-medium mb-1">
-                    Expected Salary
-                  </label>
+                  <label className="block font-medium ">Expected Salary</label>
                   <input
                     {...register("expectedSalary")}
                     type="text"
@@ -415,50 +470,152 @@ const ProfileDetails = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                {/* Preferred Class */}
-                <div>
-                  <label className="block font-medium mb-1">
-                    Preferred Class
-                  </label>
-                  <input
-                    {...register("preferredClass")}
-                    type="text"
-                    className="input input-bordered w-full"
-                    placeholder="e.g., Class 6-10"
-                  />
-                </div>
+          
+                
+                {/* Preferred Categories */}
+<div>
+  <label className="block font-medium ">Preferred Categories</label>
+  <select
+    name="categories"
+    onChange={(e) => {
+      const selectedCategory = e.target.value;
+      if (
+        selectedCategory &&
+        !preferredCategories.includes(selectedCategory)
+      ) {
+        setPreferredCategories([...preferredCategories, selectedCategory]);
+      }
+    }}
+    className="w-full p-2 border rounded mb-2"
+  >
+    <option value="">Select Category</option>
+    {categories.map((cat) => (
+      <option key={cat} value={cat}>
+        {cat}
+      </option>
+    ))}
+  </select>
 
-                {/* Preferred Subjects */}
-                <div>
-                  <label className="block font-medium mb-1">
-                    Preferred Subjects
-                  </label>
-                  <input
-                    {...register("preferredSubjects")}
-                    type="text"
-                    className="input input-bordered w-full"
-                    placeholder="e.g., Math, Physics"
-                  />
+  <div className="flex flex-wrap gap-2">
+    {preferredCategories.map((cat) => (
+      <span
+        key={cat}
+        className="px-3 bg-purple-200 mb-2 text-purple-700 rounded-full flex items-center gap-2"
+      >
+        {cat}
+        <button
+          type="button"
+          onClick={() =>
+            setPreferredCategories(
+              preferredCategories.filter((c) => c !== cat)
+            )
+          }
+          className="text-white font-bold"
+        >
+          <RxCross2 />
+        </button>
+      </span>
+    ))}
+  </div>
+
+
+              </div>
+
+              {/* Preferred Class */}
+              <div>
+                <label className="block font-medium ">Preferred Class</label>
+                <select
+                  name="classes"
+                  onChange={(e) => {
+                    const selectedClass = e.target.value;
+                    if (
+                      selectedClass &&
+                      !preferredClasses.includes(selectedClass)
+                    ) {
+                      setPreferredClasses([...preferredClasses, selectedClass]);
+                    }
+                  }}
+                  className="w-full p-2 border rounded mb-2"
+                >
+                  <option value="">Select Class</option>
+                  {classes.map((cls) => (
+                    <option key={cls} value={cls}>
+                      {cls}
+                    </option>
+                  ))}
+                </select>
+
+                <div className="flex flex-wrap gap-2">
+                  {preferredClasses.map((cls) => (
+                    <span
+                      key={cls}
+                      className="px-3 bg-blue-200 mb-2 text-blue-700 rounded-full flex items-center gap-2"
+                    >
+                      {cls}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setPreferredClasses(
+                            preferredClasses.filter((c) => c !== cls)
+                          )
+                        }
+                        className="text-white font-bold"
+                      >
+                        <RxCross2 />
+                      </button>
+                    </span>
+                  ))}
                 </div>
               </div>
-              {/* Tutor Type */}
+
+              {/* Preferred Subjects */}
               <div>
-                <label className="block font-medium mb-1">Tutor Type</label>
+                <label className="block font-medium ">Preferred Subjects</label>
                 <select
-                  {...register("tutorType")}
-                  className="select select-bordered w-full"
+                  name="subjects"
+                  onChange={(e) => {
+                    const selectedSubject = e.target.value;
+                    if (
+                      selectedSubject &&
+                      !preferredSubjects.includes(selectedSubject)
+                    ) {
+                      setPreferredSubjects([
+                        ...preferredSubjects,
+                        selectedSubject,
+                      ]);
+                    }
+                  }}
+                  className="w-full p-2 border rounded mb-2"
                 >
-                  <option value="">Select </option>
-                  <option value="Government Institution">
-                    Government Institution
-                  </option>
-                  <option value="Private Institution">
-                    Private Institution
-                  </option>
-                  <option value="University Student">University Student</option>
-                  <option value="College Student">College Student</option>
+                  <option value="">Select Subject</option>
+                  {subjects.map((sub) => (
+                    <option key={sub} value={sub}>
+                      {sub}
+                    </option>
+                  ))}
                 </select>
+
+                <div className="flex flex-wrap gap-2">
+                  {preferredSubjects.map((subject) => (
+                    <span
+                      key={subject}
+                      className="px-3 bg-blue-200 mb-2 text-blue-700 rounded-full flex items-center gap-2"
+                    >
+                      {subject}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setPreferredSubjects(
+                            preferredSubjects.filter((s) => s !== subject)
+                          )
+                        }
+                        className="text-white font-bold"
+                      >
+                        <RxCross2 />
+                      </button>
+                    </span>
+                  ))}
+                </div>
               </div>
             </>
           )}

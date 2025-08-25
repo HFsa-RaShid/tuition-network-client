@@ -43,11 +43,14 @@ const SignupPage = () => {
       };
 
       const res = await axiosPublic.post("/users", userInfo);
+      if (userType === "tutor") {
+        const tutors = await axiosPublic.post("/tutors", userInfo);
+      }
 
       if (res.data.insertedId) {
         toast.success("Account created successfully!");
         setTimeout(() => {
-          navigate(`/${userType}/dashboard`); // Redirect to the appropriate dashboard based on user role
+          navigate(`/${userType}/dashboard`);
         }, 1000);
       }
     } catch (error) {
@@ -58,9 +61,9 @@ const SignupPage = () => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
-       <Helmet>
-                            <title>Sign_Up | TiToria</title>
-                        </Helmet>
+      <Helmet>
+        <title>Sign_Up | TiToria</title>
+      </Helmet>
       <div className="flex w-4/5 max-w-5xl my-8">
         {/* Left Section - Image */}
         <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-100 p-8">

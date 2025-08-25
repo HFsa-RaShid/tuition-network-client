@@ -174,11 +174,11 @@ const JobBoard = () => {
   }
 
   return (
-    <div>
+    <div className="font-serif">
       <Navbar />
       <ContactSection />
 
-      <div className="container mx-auto mt-6 font-serif">
+      <div className="container mx-auto mt-6 ">
         <div className="flex p-6 gap-4">
           {/* Left Sidebar */}
           <div className="w-[30%] bg-slate-100 shadow-md rounded-lg p-4 text-black">

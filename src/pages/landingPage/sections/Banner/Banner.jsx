@@ -7,10 +7,15 @@ import blueCircle from "../../../../assets/blueCircle.png";
 import yellowShape from "../../../../assets/yellowShape.png";
 import blueShape from "../../../../assets/blueShape.png";
 import wireShape from "../../../../assets/Highlight 26.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 const Banner = () => {
-  const [className, setClassName] = useState("");
+   const [className, setClassName] = useState("");
   const [location, setLocation] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate("/matchTutors", { state: { className, location } });
+  };
   return (
     <div className="h-[560px] bg-base-100 py-16 ">
       <div className="container mx-auto">
@@ -68,28 +73,28 @@ const Banner = () => {
               Sessions can be conducted online or in person.
             </p>
              {/* ---------- SEARCH FORM ---------- */}
+       
             <div className="mt-10 flex items-center gap-4">
               <input
                 type="text"
-                placeholder="Class"
+                placeholder="Your Class"
                 value={className}
                 onChange={(e) => setClassName(e.target.value)}
                 className="border-b-2 border-gray-300 focus:outline-none px-2 py-1 w-40"
               />
               <input
                 type="text"
-                placeholder="Location"
+                placeholder="Your Location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 className="border-b-2 border-gray-300 focus:outline-none px-2 py-1 w-40"
               />
-              <NavLink
-                to="/matchTutors"
+              <button
+                onClick={handleSearch}
+                className="bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 shadow font-serif"
               >
-                <button className="bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 shadow font-serif">
-                  Search Tutor
-                </button>
-              </NavLink>
+                Search Tutor
+              </button>
             </div>
           </div>
 

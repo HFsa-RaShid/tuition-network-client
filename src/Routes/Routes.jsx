@@ -21,6 +21,7 @@ import AppliedTutors from "../pages/DashBoard/DashBoardAllPages/PostedJob/Applie
 import SearchByMap from "../pages/Shared/Navbar/SearchByMap/SearchByMap";
 import PaymentSuccess from "../pages/DashBoard/DashBoardAllPages/MyApplications/PaymentSuccess";
 import PaymentHistory from "../pages/DashBoard/DashBoardAllPages/PaymentHistory/PaymentHistory";
+import MatchTutors from "../pages/landingPage/sections/matchedTutorsList/MatchTutors";
 
 
 
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
       {
         path: "/search-by-map",
         element: <PrivateRoute><SearchByMap></SearchByMap></PrivateRoute>,
+      },
+      {
+        path: "/matchTutors",
+        element: <MatchTutors></MatchTutors>,
       },
       {
         path: "/:role",
