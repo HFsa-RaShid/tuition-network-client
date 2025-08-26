@@ -192,7 +192,7 @@ const DashBoard = () => {
       <div
   className={`transition-all duration-300 ${
     isSidebarOpen ? "w-4/5" : "w-full"
-  } bg-gray-100 p-6 overflow-y-auto h-screen`}
+  } bg-base-200 p-6 overflow-y-auto h-screen`}
 >
         <Outlet />
       </div>

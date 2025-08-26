@@ -20,6 +20,9 @@ const ProfileDetails = () => {
   const [availableDays, setAvailableDays] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
   const [studentIdUrl, setStudentIdUrl] = useState("");
+  const [tutorStatus, setTutorStatus] = useState(
+    currentUser?.tutorStatus || "available"
+  );
 
   const [preferredSubjects, setPreferredSubjects] = useState(
     currentUser?.preferredSubjects?.split(",") || []
@@ -69,7 +72,7 @@ const ProfileDetails = () => {
       setAvailableDays(currentUser.availableDays || []);
       setAvailableTimes(currentUser.availableTimes || []);
       setImagePreview(currentUser?.photoURL || "");
-      setStudentIdUrl(currentUser?.studentIdImage || "")
+      setStudentIdUrl(currentUser?.studentIdImage || "");
     }
   }, [currentUser, setValue]);
 
@@ -133,6 +136,7 @@ const ProfileDetails = () => {
         availableDays,
         availableTimes,
         studentIdImage: studentIdUrl || data.studentIdImage,
+        tutorStatus,
       };
 
       await axiosSecure.put(`/users/${currentUser?.email}`, updatedData);
@@ -199,38 +203,42 @@ const ProfileDetails = () => {
     });
   };
 
+  // Step 1 fields
+  const step1Fields = watch([
+    "name",
+    "phone",
+    "gender",
+    "city",
+    "location",
+    "religion",
+  ]);
+  const isStep1Valid = step1Fields.every((field) => field && field !== "");
 
-// Step 1 fields
-const step1Fields = watch(["name", "phone", "gender", "city", "location", "religion"]);
-const isStep1Valid = step1Fields.every((field) => field && field !== "");
+  // Step 2 fields
+  const step2Fields = watch([
+    "education",
+    "institute",
+    "department",
+    "gpa",
+    "passingYear",
+    "tutorType",
+    "studentIdImage",
+  ]);
+  const isStep2Valid = step2Fields.every((field) => field && field !== "");
 
-// Step 2 fields
-const step2Fields = watch([
-  "education",
-  "institute",
-  "department",
-  "gpa",
-  "passingYear",
-  "tutorType",
-  "studentIdImage",
-]);
-const isStep2Valid = step2Fields.every((field) => field && field !== "");
+  // Step 3 fields
+  const isStep3Valid =
+    watch("tuitionPreference") &&
+    watch("expectedSalary") &&
+    preferredCategories.length > 0 &&
+    preferredClasses.length > 0 &&
+    preferredSubjects.length > 0;
 
-// Step 3 fields
-const isStep3Valid =
-  watch("tuitionPreference") &&
-  watch("expectedSalary") &&
-  preferredCategories.length > 0 &&
-  preferredClasses.length > 0 &&
-  preferredSubjects.length > 0;
-
-// Step 4 fields
-const isStep4Valid =
-  dataPreferredLocations.length > 0 &&
-  availableDays.length > 0 &&
-  availableTimes.length > 0;
-
-  
+  // Step 4 fields
+  const isStep4Valid =
+    dataPreferredLocations.length > 0 &&
+    availableDays.length > 0 &&
+    availableTimes.length > 0;
 
   if (isLoading)
     return (
@@ -667,7 +675,7 @@ const isStep4Valid =
               </h3>
               {/* Preferred Locations */}
               <div>
-                <label className="block font-medium mb-2">
+                <label className="block font-medium mb-1">
                   Preferred Locations
                 </label>
                 <select
@@ -696,7 +704,7 @@ const isStep4Valid =
                 </select>
 
                 {/* Selected Location Badges */}
-                <div className="flex flex-wrap gap-2 mt-2">
+                <div className="flex flex-wrap gap-2 ">
                   {dataPreferredLocations.map((loc) => (
                     <span
                       key={loc}
@@ -719,7 +727,8 @@ const isStep4Valid =
                 </div>
               </div>
 
-              {/* Available Days */}
+              <div className="space-y-8">
+                {/* Available Days */}
               <div>
                 <h4 className="font-medium">Select Available Days</h4>
                 <div className="flex flex-wrap gap-4 text-xs">
@@ -778,13 +787,40 @@ const isStep4Valid =
                           setValueAs: (value) => value,
                         })}
                         checked={availableTimes.includes(time)}
-                        onChange={() => handleTimeChange(time)} // Function to handle time change
+                        onChange={() => handleTimeChange(time)}
                         className="checkbox"
                       />
                       <span>{time}</span>
                     </label>
                   ))}
                 </div>
+              </div>
+
+              <div className="mt-20">
+                <h4 className="font-medium mb-2">Tutor Availability</h4>
+                <div className="flex gap-6">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      value="available"
+                      checked={tutorStatus === "available"}
+                      onChange={(e) => setTutorStatus(e.target.value)}
+                      className="radio"
+                    />
+                    <span>Available</span>
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      value="unavailable"
+                      checked={tutorStatus === "unavailable"}
+                      onChange={(e) => setTutorStatus(e.target.value)}
+                      className="radio"
+                    />
+                    <span>Unavailable</span>
+                  </label>
+                </div>
+              </div>
               </div>
             </>
           )}
@@ -804,7 +840,7 @@ const isStep4Valid =
               <button
                 type="submit"
                 className="btn btn-success text-white"
-                 disabled={!isStep4Valid}
+                disabled={!isStep4Valid}
                 onClick={handleSubmit((data) => {
                   onSubmit(data);
                   setStep(1);
@@ -821,10 +857,10 @@ const isStep4Valid =
                 })}
                 className="bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 shadow"
                 disabled={
-        (step === 1 && !isStep1Valid) ||
-        (step === 2 && !isStep2Valid) ||
-        (step === 3 && !isStep3Valid)
-      }
+                  (step === 1 && !isStep1Valid) ||
+                  (step === 2 && !isStep2Valid) ||
+                  (step === 3 && !isStep3Valid)
+                }
               >
                 Next
               </button>

@@ -29,7 +29,7 @@ const TutoringWithUs = () => {
               rates, earn on your terms, and make a meaningful impact in
               students' lives.
             </p>
-            <NavLink>
+            <NavLink to='/signUp'>
             <button className="bg-[#f9d045] py-3 px-6 rounded-3xl shadow-md shadow-blue-500 text-black font-semibold">
                   Apply Now
                 </button>

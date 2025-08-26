@@ -2,7 +2,7 @@ import React from "react";
 
 const TuitionTypes = () => {
   return (
-    <div className="bg-slate-100">
+    <div className="bg-base-200">
       <div className="container mx-auto px-20 text-center py-8">
         <h4 className="text-[#DAA520] font-bold mb-2 ">TUITION TYPES</h4>
         <h2 className="text-3xl font-bold mb-1 text-black">Find the Best Tuition Type</h2>
