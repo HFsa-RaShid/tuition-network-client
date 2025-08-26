@@ -62,7 +62,7 @@ const MatchTutors = () => {
                 {/* Left Side: Image + Info */}
                 <div className="flex items-center gap-3">
                   <img
-                    className="w-10 h-10 rounded-full object-cover"
+                    className="w-10 h-10 rounded-md object-cover bg-white"
                     src={
                       tutor.photoURL ||
                       "https://i.ibb.co/7n4R8Rt/default-avatar.png"

@@ -46,6 +46,11 @@ const DashBoard = () => {
       label: "Posted Jobs",
     },
     {
+      path: "hired-tutors",
+      icon: <FaBookOpen />,
+      label: "Hired Tutors",
+    },
+    {
       path: "chat",
       icon: <FaEnvelope />,
       label: "Chat",
@@ -81,7 +86,7 @@ const DashBoard = () => {
       label: "My Applications",
     },
     {
-      path: "/parentDashBoard/payment-history",
+      path: "payment-history",
       icon: <FaHistory />,
       label: "Payment History",
     },

@@ -22,6 +22,7 @@ import SearchByMap from "../pages/Shared/Navbar/SearchByMap/SearchByMap";
 import PaymentSuccess from "../pages/DashBoard/DashBoardAllPages/MyApplications/PaymentSuccess";
 import PaymentHistory from "../pages/DashBoard/DashBoardAllPages/PaymentHistory/PaymentHistory";
 import MatchTutors from "../pages/landingPage/sections/matchedTutorsList/MatchTutors";
+import HiredTutors from "../pages/DashBoard/DashBoardAllPages/HiredTutors/HiredTutors";
 
 
 
@@ -73,6 +74,7 @@ export const router = createBrowserRouter([
               { path: "posted-jobs/applied-tutors",element: <AppliedTutors></AppliedTutors>},
               { path: "posted-jobs/applied-tutors/appliedTutor-profile",element: <AppliedTutorProfile></AppliedTutorProfile>},
               { path: "payment-history", element: <PaymentHistory></PaymentHistory>},
+              { path: "hired-tutors", element: <HiredTutors></HiredTutors>},
         ],
       },
     

@@ -12,7 +12,6 @@ import useAppliedTutorForJobID from "../../../../hooks/useAppliedTutorForJobID";
 import { IoArrowBack } from "react-icons/io5";
 
 const AppliedTutors = () => {
-  
   const { state } = useLocation();
   let jobId = state?.jobId;
 
@@ -38,8 +37,8 @@ const AppliedTutors = () => {
     isError,
   } = useAppliedTutorForJobID(jobId);
 
-
-  const { paidJobsById: paidData = [], refetch: refetchPayments } = useJobIdpayment(jobId);
+  const { paidJobsById: paidData = [], refetch: refetchPayments } =
+    useJobIdpayment(jobId);
 
   const [confirmedTutorEmail, setConfirmedTutorEmail] = useState(null);
 
@@ -47,10 +46,10 @@ const AppliedTutors = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const tutorsPerPage = 10;
 
-
-  const totalPages = Array.isArray(appliedTutorsFromAPI) && appliedTutorsFromAPI.length > 0
-    ? Math.ceil(appliedTutorsFromAPI.length / tutorsPerPage)
-    : 1;
+  const totalPages =
+    Array.isArray(appliedTutorsFromAPI) && appliedTutorsFromAPI.length > 0
+      ? Math.ceil(appliedTutorsFromAPI.length / tutorsPerPage)
+      : 1;
 
   const startIndex = (currentPage - 1) * tutorsPerPage;
   const currentTutors = Array.isArray(appliedTutorsFromAPI)
@@ -61,7 +60,9 @@ const AppliedTutors = () => {
   useEffect(() => {
     if (!Array.isArray(appliedTutorsFromAPI)) return;
 
-    const confirmed = appliedTutorsFromAPI.find(t => t.confirmationStatus === "confirmed");
+    const confirmed = appliedTutorsFromAPI.find(
+      (t) => t.confirmationStatus === "confirmed"
+    );
     setConfirmedTutorEmail(confirmed ? confirmed.email : null);
     setCurrentPage(1); // Reset to first page when data changes
   }, [appliedTutorsFromAPI]);
@@ -87,9 +88,15 @@ const AppliedTutors = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axiosPublic.put(`/tutorRequests/${jobId}`, { confirmedTutorEmail: email });
+          const res = await axiosPublic.put(`/tutorRequests/${jobId}`, {
+            confirmedTutorEmail: email,
+          });
           if (res.data.message) {
-            Swal.fire({ title: "Confirmed!", text: res.data.message, icon: "success" });
+            Swal.fire({
+              title: "Confirmed!",
+              text: res.data.message,
+              icon: "success",
+            });
             setConfirmedTutorEmail(email);
             refetchTutors();
             refetchPayments();
@@ -114,7 +121,9 @@ const AppliedTutors = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axiosPublic.put(`/tutorRequests/${jobId}`, { cancelConfirmation: true });
+          const res = await axiosPublic.put(`/tutorRequests/${jobId}`, {
+            cancelConfirmation: true,
+          });
           if (res.data.message) {
             toast.success(res.data.message);
             setConfirmedTutorEmail(null);
@@ -128,24 +137,6 @@ const AppliedTutors = () => {
     });
   };
 
-  // Trial class payment handler
-  const handleTrialClassPayment = async () => {
-    try {
-      const paymentData = {
-        jobId,
-        name: currentUser?.name,
-        email: currentUser?.email,
-        amount: 250,
-        source: "trialClassPayment",
-      };
-      const response = await axiosPublic.post("/paymentBkash", paymentData);
-      if (response.data.url) {
-        window.location.href = response.data.url;
-      }
-    } catch (error) {
-      toast.error("Payment initiation failed.");
-    }
-  };
 
   if (isLoading) {
     return (
@@ -155,15 +146,11 @@ const AppliedTutors = () => {
     );
   }
 
-  if (isError) {
-    return (
-      <div className="container mx-auto p-6 text-center text-red-600">
-        <p>Failed to load applied tutors.</p>
-      </div>
-    );
-  }
 
-  if (!Array.isArray(appliedTutorsFromAPI) || appliedTutorsFromAPI.length === 0) {
+  if (
+    !Array.isArray(appliedTutorsFromAPI) ||
+    appliedTutorsFromAPI.length === 0
+  ) {
     return (
       <div className="container mx-auto p-6 text-center text-gray-600">
         <h2 className="text-2xl font-bold mb-4">Applied Tutors</h2>
@@ -172,29 +159,16 @@ const AppliedTutors = () => {
     );
   }
 
-  // Helper function to check if trial payment done
-  const isTrialPaidForUser = (paidData, jobId, userEmail) =>
-    Array.isArray(paidData) &&
-    paidData.some(
-      (p) =>
-        p.jobId === jobId &&
-        p.email === userEmail &&
-        p.paidStatus === true &&
-        p.source === "trialClassPayment"
-    );
-
-  const hasPaidTrial = isTrialPaidForUser(paidData, jobId, currentUser?.email);
-
   return (
     <div className="container mx-auto p-6">
-       <button
-              onClick={() => navigate(-1)}
-              className="flex items-center text-blue-600 hover:underline mb-1"
-            >
-              <IoArrowBack className="text-2xl" />
-      
-              <span className="text-lg font-medium">Back</span>
-            </button>
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center text-blue-600 hover:underline mb-1"
+      >
+        <IoArrowBack className="text-2xl" />
+
+        <span className="text-lg font-medium">Back</span>
+      </button>
       <h2 className="text-2xl font-bold mb-4 text-center">Applied Tutors</h2>
 
       <div className="overflow-x-auto rounded-lg shadow border">
@@ -242,41 +216,27 @@ const AppliedTutors = () => {
                   </td>
                   <td className="flex justify-center gap-2">
                     {isConfirmed ? (
-                      hasPaidJob ? (
-                        <div>
-                          <button
-                            onClick={() => console.log("Open chat with", tutor.email)}
-                            className="bg-blue-200 mb-2 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1"
-                          >
-                            💬Chat TuToria
-                          </button>
-
-                          <div className="tooltip" data-tip="Pay 200 BDT and get trial class">
-                            <button
-                              onClick={handleTrialClassPayment}
-                              disabled={hasPaidTrial}
-                              className={`bg-blue-200 mb-2 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1 ${
-                                hasPaidTrial ? "cursor-not-allowed opacity-50" : ""
-                              }`}
-                            >
-                              Book Trial Class
-                            </button>
-                          </div>
-                        </div>
-                      ) : (
-                        <button
-                          onClick={handleCancel}
-                          className="bg-red-200 text-red-700 px-2 py-1 rounded hover:bg-red-300 flex items-center gap-1"
-                        >
-                          <FaTimes />
-                          Cancel
-                        </button>
-                      )
+                      <button
+                        onClick={handleCancel}
+                        disabled={hasPaidJob} // disable if paid
+                        className={`px-2 py-1 rounded flex items-center gap-1 ${
+                          hasPaidJob
+                            ? "bg-red-200 text-red-400 cursor-not-allowed"
+                            : "bg-red-200 text-red-700 hover:bg-red-300"
+                        }`}
+                      >
+                        <FaTimes />
+                        Cancel
+                      </button>
                     ) : (
                       <button
                         onClick={() => handleConfirm(tutor.email)}
                         disabled={isDisabled}
-                        className="bg-green-200 text-green-700 px-2 py-1 rounded hover:bg-green-300 flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className={`px-2 py-1 rounded flex items-center gap-1 ${
+                          isDisabled
+                            ? "bg-green-200 text-green-400 cursor-not-allowed"
+                            : "bg-green-200 text-green-700 hover:bg-green-300"
+                        }`}
                       >
                         <FaCheck />
                         Confirm

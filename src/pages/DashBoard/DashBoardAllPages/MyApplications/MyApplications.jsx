@@ -1,4 +1,3 @@
-
 import { useContext, useState } from "react";
 import moment from "moment";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
@@ -31,12 +30,11 @@ const MyApplications = () => {
     currentPage * itemsPerPage
   );
 
-
   const jobIds = paginatedApps.map((app) => app._id);
   const { paidJobsByJobIds, isLoading: paymentsLoading } =
     useMultipleJobPayments(jobIds);
 
-  const handlePaymentBkash = (jobId, name, email, amount) => {
+  const handlePaymentBkash = (jobId, name, email, amount,studentEmail,studentName) => {
     axiosSecure
       .post("/paymentBkash", {
         jobId,
@@ -44,6 +42,8 @@ const MyApplications = () => {
         email,
         amount,
         source: "myApplications",
+        studentEmail,
+        studentName,
       })
       .then((result) => {
         window.location.replace(result.data.url);
@@ -87,7 +87,6 @@ const MyApplications = () => {
                 (t) => t.email === currentUser?.email
               );
 
-            
               const paymentsForThisJob = paidJobsByJobIds.filter(
                 (p) => p.jobId === app._id
               );
@@ -167,7 +166,9 @@ const MyApplications = () => {
                               app._id,
                               currentUser?.name,
                               currentUser?.email,
-                              100
+                              100,
+                              app.userEmail, // student email
+                              app.userName // student name
                             )
                           }
                           className="bg-green-200 mb-2 text-green-700 font-medium px-2 py-2 rounded hover:bg-green-300 transition"
