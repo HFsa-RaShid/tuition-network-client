@@ -139,7 +139,7 @@ const TutorProfile = () => {
       tutor._id,
       tutor.name,
       tutor.email,
-      tutor.expectedSalary || 500, // amount টা তুমি dynamic করতে পারো
+      50, 
       user.email,
       user.displayName
     );

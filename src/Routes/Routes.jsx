@@ -25,6 +25,7 @@ import MatchTutors from "../pages/landingPage/sections/matchedTutorsList/MatchTu
 import HiredTutors from "../pages/DashBoard/DashBoardAllPages/HiredTutors/HiredTutors";
 import TutorProfile from "../pages/landingPage/sections/matchedTutorsList/TutorProfile/TutorProfile";
 import MatchedTutorsList from "../pages/landingPage/sections/matchedTutorsList/MatchedTutorsList";
+import Tutors from "../pages/Shared/Navbar/tutors/Tutors";
 
 
 
@@ -54,6 +55,11 @@ export const router = createBrowserRouter([
       {
         path: "/search-by-map",
         element: <PrivateRoute><SearchByMap></SearchByMap></PrivateRoute>,
+      },
+      {
+        path: "/tutors",
+        element: <Tutors></Tutors>,
+      
       },
       {
         path: "/matchTutors",

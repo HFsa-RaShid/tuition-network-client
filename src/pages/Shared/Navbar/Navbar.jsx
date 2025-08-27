@@ -80,9 +80,19 @@ const Navbar = () => {
                   className={({ isActive }) =>
                     isActive ? "text-black bg-white " : " "
                   }
-                  to="/rooms"
+                  to="/tutors"
                 >
-                  Job Boards
+                  Tutors
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-black bg-white " : " "
+                  }
+                  to="/JobBoard"
+                >
+                  Tuitions
                 </NavLink>
               </li>
             </ul>
@@ -107,6 +117,16 @@ const Navbar = () => {
                 to="/"
               >
                 Home
+              </NavLink>
+            </li>
+             <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? " text-[#123d7e] underline" : " "
+                }
+                to="/tutors"
+              >
+                Tutors
               </NavLink>
             </li>
             <li>
