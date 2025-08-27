@@ -31,7 +31,7 @@ const PaymentSuccess = () => {
     navigate(`/${currentUser?.role}/myApplications`);
     }
     else if(paymentData?.source === "trialClassPayment") {
-      navigate(`/${currentUser?.role}/posted-jobs/applied-tutors`);
+      navigate(`/${currentUser?.role}/hired-tutors`);
     }
   };
 
