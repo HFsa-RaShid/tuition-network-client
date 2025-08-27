@@ -174,14 +174,14 @@ const JobBoard = () => {
   }
 
   return (
-    <div className="font-serif">
+    <div className="font-serif bg-base-200">
       <Navbar />
     
 
-      <div className="container mx-auto mt-20 ">
+      <div className="container mx-auto  ">
         <div className="flex p-6 gap-4">
           {/* Left Sidebar */}
-          <div className="w-[30%] bg-base-200 shadow-md rounded-lg p-4 text-black">
+          <div className="w-[30%] mt-20 bg-white/80 shadow-md rounded-lg p-4 text-black">
             <h2 className="text-[24px] font-semibold mb-4">
               🔍 Advanced Filter
             </h2>
@@ -310,11 +310,11 @@ const JobBoard = () => {
           </div>
 
           {/* Right Content (Job Cards) */}
-          <div className="w-[70%] space-y-6">
+          <div className="w-[70%]  mt-20 space-y-6">
             {currentJobs.map((job) => (
               <div
                 key={job._id}
-                className="bg-base-200 shadow-md rounded-lg p-6 relative"
+                className="bg-white/80 shadow-md rounded-lg p-6 relative"
               >
                 {job.appliedTutors?.some(
                   (tutor) =>

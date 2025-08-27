@@ -23,6 +23,8 @@ import PaymentSuccess from "../pages/DashBoard/DashBoardAllPages/MyApplications/
 import PaymentHistory from "../pages/DashBoard/DashBoardAllPages/PaymentHistory/PaymentHistory";
 import MatchTutors from "../pages/landingPage/sections/matchedTutorsList/MatchTutors";
 import HiredTutors from "../pages/DashBoard/DashBoardAllPages/HiredTutors/HiredTutors";
+import TutorProfile from "../pages/landingPage/sections/matchedTutorsList/TutorProfile/TutorProfile";
+import MatchedTutorsList from "../pages/landingPage/sections/matchedTutorsList/MatchedTutorsList";
 
 
 
@@ -56,6 +58,10 @@ export const router = createBrowserRouter([
       {
         path: "/matchTutors",
         element: <MatchTutors></MatchTutors>,
+        children: [
+           { index: true, element: <MatchedTutorsList /> },
+          { path: "tutor-profile", element: <TutorProfile></TutorProfile> },
+        ],
       },
       {
         path: "/:role",
