@@ -33,6 +33,9 @@ const PaymentSuccess = () => {
     else if(paymentData?.source === "trialClassPayment") {
       navigate(`/${currentUser?.role}/hired-tutors`);
     }
+    else if(paymentData?.source === "contactTutor") {
+      navigate(`/`);
+    }
   };
 
   if (isLoading) {

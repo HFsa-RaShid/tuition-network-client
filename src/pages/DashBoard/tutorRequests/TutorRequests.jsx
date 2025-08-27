@@ -39,9 +39,10 @@ const TutorRequests = () => {
     "Nursery",
     "KG",
     ...Array.from({ length: 10 }, (_, i) => `Class ${i + 1}`),
+    "Class 11",
     "Class 12",
-    "Honours",
-    "Masters",
+    "BSc/Honours",
+    "MSc/Masters",
   ];
 
 
