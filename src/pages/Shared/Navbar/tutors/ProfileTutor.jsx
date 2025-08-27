@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import useAxiosPublic from "../../../../../hooks/useAxiosPublic";
-import { MdVerified } from "react-icons/md";
-import Footer from "../../../../Shared/Footer/Footer";
-import useAxiosSecure from "../../../../../hooks/useAxiosSecure";
-import { AuthContext } from "../../../../../provider/AuthProvider";
 
-const TutorProfile = () => {
+import { MdVerified } from "react-icons/md";
+
+
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { AuthContext } from "../../../../provider/AuthProvider";
+import Footer from "../../Footer/Footer";
+import Navbar from "../Navbar";
+
+const ProfileTutor = () => {
   const { state } = useLocation();
   const { tutorEmail } = state || {};
   const [tutor, setTutor] = useState(null);
@@ -149,6 +153,7 @@ const TutorProfile = () => {
 
   return (
     <div>
+        <Navbar></Navbar>
       <div className="bg-base-200 min-h-screen">
         <div className="flex p-6 gap-6 container mx-auto">
           {/* Left Side - Profile Card */}
@@ -394,4 +399,4 @@ const TutorProfile = () => {
   );
 };
 
-export default TutorProfile;
+export default ProfileTutor;

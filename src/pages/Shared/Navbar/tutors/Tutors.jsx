@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { ImProfile } from "react-icons/im";
 import useAllTutors from "../../../../hooks/useAllTutors";
@@ -336,6 +336,7 @@ const religionMatch =
           </ul>
         </div>
       </div>
+      <Outlet></Outlet>
       <Footer />
     </div>
   );

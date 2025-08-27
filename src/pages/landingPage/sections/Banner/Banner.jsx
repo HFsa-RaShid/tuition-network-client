@@ -14,7 +14,7 @@ const Banner = () => {
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    navigate("/matchTutors", { state: { className, location } });
+    navigate("/tutors", { state: { className, location } });
   };
   return (
     <div className="h-[560px] bg-base-100 py-16 mt-20 ">

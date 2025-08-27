@@ -1,4 +1,3 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
 import ErrorPage from "../pages/errorPage/ErrorPage";
@@ -26,9 +25,7 @@ import HiredTutors from "../pages/DashBoard/DashBoardAllPages/HiredTutors/HiredT
 import TutorProfile from "../pages/landingPage/sections/matchedTutorsList/TutorProfile/TutorProfile";
 import MatchedTutorsList from "../pages/landingPage/sections/matchedTutorsList/MatchedTutorsList";
 import Tutors from "../pages/Shared/Navbar/tutors/Tutors";
-
-
-
+import ProfileTutor from "../pages/Shared/Navbar/tutors/ProfileTutor";
 
 export const router = createBrowserRouter([
   {
@@ -54,42 +51,76 @@ export const router = createBrowserRouter([
       },
       {
         path: "/search-by-map",
-        element: <PrivateRoute><SearchByMap></SearchByMap></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <SearchByMap></SearchByMap>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/tutors",
         element: <Tutors></Tutors>,
-      
       },
       {
-        path: "/matchTutors",
-        element: <MatchTutors></MatchTutors>,
-        children: [
-           { index: true, element: <MatchedTutorsList /> },
-          { path: "tutor-profile", element: <TutorProfile></TutorProfile> },
-        ],
+        path: "/tutors/tutor-profile",
+        element: <ProfileTutor></ProfileTutor>,
       },
+      // {
+      //   path: "/matchTutors",
+      //   element: <MatchTutors></MatchTutors>,
+      //   children: [
+      //      { index: true, element: <MatchedTutorsList /> },
+      //     { path: "tutor-profile", element: <TutorProfile></TutorProfile> },
+      //   ],
+      // },
       {
         path: "/:role",
-        element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <DashBoard></DashBoard>
+          </PrivateRoute>
+        ),
         children: [
-              { path: "dashboard", element: <DashBoardNotice></DashBoardNotice> },
-              { path: "profile-details", element: <ProfileDetails></ProfileDetails> },
-              { path: "tutor-request", element: <TutorRequests></TutorRequests>},
-              { path: "posted-jobs", element: <PostedJobs></PostedJobs>},
-              { path: "pending-request", element: <PendingRequest></PendingRequest>},
-              { path: "users", element: <ViewUsers></ViewUsers>},
-             
-              { path: "myApplications", element: <MyApplications></MyApplications>},
-              { path: "payment/success/:tranId", element: <PaymentSuccess></PaymentSuccess>},
-              { path: "myApplications/job-details/:id",element: <JobDetails></JobDetails>},
-              { path: "posted-jobs/applied-tutors",element: <AppliedTutors></AppliedTutors>},
-              { path: "posted-jobs/applied-tutors/appliedTutor-profile",element: <AppliedTutorProfile></AppliedTutorProfile>},
-              { path: "payment-history", element: <PaymentHistory></PaymentHistory>},
-              { path: "hired-tutors", element: <HiredTutors></HiredTutors>},
+          { path: "dashboard", element: <DashBoardNotice></DashBoardNotice> },
+          {
+            path: "profile-details",
+            element: <ProfileDetails></ProfileDetails>,
+          },
+          { path: "tutor-request", element: <TutorRequests></TutorRequests> },
+          { path: "posted-jobs", element: <PostedJobs></PostedJobs> },
+          {
+            path: "pending-request",
+            element: <PendingRequest></PendingRequest>,
+          },
+          { path: "users", element: <ViewUsers></ViewUsers> },
+
+          {
+            path: "myApplications",
+            element: <MyApplications></MyApplications>,
+          },
+          {
+            path: "payment/success/:tranId",
+            element: <PaymentSuccess></PaymentSuccess>,
+          },
+          {
+            path: "myApplications/job-details/:id",
+            element: <JobDetails></JobDetails>,
+          },
+          {
+            path: "posted-jobs/applied-tutors",
+            element: <AppliedTutors></AppliedTutors>,
+          },
+          {
+            path: "posted-jobs/applied-tutors/appliedTutor-profile",
+            element: <AppliedTutorProfile></AppliedTutorProfile>,
+          },
+          {
+            path: "payment-history",
+            element: <PaymentHistory></PaymentHistory>,
+          },
+          { path: "hired-tutors", element: <HiredTutors></HiredTutors> },
         ],
       },
-    
     ],
   },
 ]);
