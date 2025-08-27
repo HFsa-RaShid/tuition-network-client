@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { FaTrash } from "react-icons/fa";
 import useAllJobs from "../../../../hooks/useAllJobs";
 import Navbar from "../Navbar";
-import ContactSection from "../../../landingPage/sections/contact/ContactSection";
+
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
