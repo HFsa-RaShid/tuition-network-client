@@ -52,88 +52,137 @@ const ProfileTutor = () => {
     );
   };
 
-  const RatingStars = ({ rating = 0, totalRatings = 0, name }) => {
+ const RatingStars = ({ rating, totalRatings = 0, name }) => {
+  // যদি কোনো rating না থাকে → gray star দেখাবে
+  if (!rating || totalRatings === 0) {
     return (
       <div className="space-y-2 text-center">
         <div className="rating rating-sm rating-half">
-          <input
-            type="radio"
-            name={`${name}-avg-rating`}
-            className="rating-hidden"
-            readOnly
-          />
-          {[...Array(10)].map((_, i) => {
-            const value = (i + 1) / 2;
-            return (
-              <input
-                key={i}
-                type="radio"
-                name={`${name}-avg-rating`}
-                className={`mask mask-star-2 ${
-                  i % 2 === 0 ? "mask-half-1" : "mask-half-2"
-                } bg-yellow-500`}
-                aria-label={`${value} star`}
-                checked={rating >= value}
-                readOnly
-              />
-            );
-          })}
+          {[...Array(10)].map((_, i) => (
+            <input
+              key={i}
+              type="radio"
+              name={`${name}-no-rating`}
+              className={`mask mask-star-2 ${
+                i % 2 === 0 ? "mask-half-1" : "mask-half-2"
+              } bg-gray-300`} // ⭐ gray color
+              readOnly
+            />
+          ))}
         </div>
+        <p className="text-gray-500 text-sm">No Ratings Yet</p>
       </div>
     );
-  };
+  }
 
-  // -------- Payment Function ----------
-  const handlePaymentBkash = (
-    jobId,
-    name,
-    email,
-    tutorId,
-    amount,
-    studentEmail,
-    studentName
-  ) => {
-    axiosSecure
-      .post("/paymentBkash", {
-        jobId,
-        name,
-        email,
-        tutorId,
-        amount,
-        source: "contactTutor",
-        studentEmail,
-        studentName,
-      })
-      .then((result) => {
-        window.location.replace(result.data.url);
-      });
-  };
+  // যদি rating থাকে → yellow star দেখাবে
+  return (
+    <div className="space-y-2 text-center">
+      <div className="rating rating-sm rating-half">
+        <input
+          type="radio"
+          name={`${name}-avg-rating`}
+          className="rating-hidden"
+          readOnly
+        />
+        {[...Array(10)].map((_, i) => {
+          const value = (i + 1) / 2;
+          return (
+            <input
+              key={i}
+              type="radio"
+              name={`${name}-avg-rating`}
+              className={`mask mask-star-2 ${
+                i % 2 === 0 ? "mask-half-1" : "mask-half-2"
+              } bg-yellow-500`}
+              aria-label={`${value} star`}
+              checked={rating >= value}
+              readOnly
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
-  // -------- Form Submit Handler ----------
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    if (!formData.name || !formData.email) {
-      alert("Name and Email are required");
-      return;
+
+
+
+
+// -------- Contact + Payment Function ----------
+const handlePaymentAndContact = async (
+  jobId,
+  tutorId,
+  tutorName,
+  tutorEmail,
+  amount,
+  studentName,
+  studentEmail,
+  message
+) => {
+  try {
+    // 1️⃣ Initiate Bkash payment
+    const paymentResponse = await axiosSecure.post("/paymentBkash", {
+      jobId,
+      tutorId,
+      name: tutorName,
+      email: tutorEmail,
+      amount,
+      source: "contactTutor",
+      studentEmail,
+      studentName,
+    });
+
+    // Redirect to payment page if URL received
+    if (paymentResponse.data.url) {
+      window.location.href = paymentResponse.data.url;
     }
 
-   
-    if (!user) {
-      navigate("/login", { state: { from: location } });
-      return;
-    }
+    // 2️⃣ After successful payment, send email automatically
+    // NOTE: This assumes your backend triggers this after payment success
+    await axiosSecure.post("/contact", {
+      tutorName,
+      studentName,
+      tutorEmail,
+      studentEmail,
+      message,
+    });
 
-    handlePaymentBkash(
-      tutor._id,
-      tutor.name,
-      tutor.email,
-      tutor.customId,
-      50, 
-      user.email,
-      user.displayName
-    );
-  };
+    toast.success("Email sent to the tutor successfully!");
+  } catch (err) {
+    console.error(err);
+    toast.error("Payment or email sending failed!");
+  }
+};
+
+// -------- Form Submit Handler ----------
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (!formData.name || !formData.email || !formData.details) {
+    toast.error("Please fill all fields!");
+    return;
+  }
+
+  if (!user) {
+    navigate("/login", { state: { from: location } });
+    return;
+  }
+
+  handlePaymentAndContact(
+    tutor._id,
+    tutor.customId,         // tutorId
+    tutor.name,             // tutorName
+    tutor.email,            // tutorEmail
+    50,                     // amount
+    formData.name,          // studentName
+    formData.email,         // studentEmail
+    formData.details        // message
+  );
+};
+
 
   // Main Return
 

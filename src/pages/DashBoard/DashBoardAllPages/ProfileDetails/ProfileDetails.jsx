@@ -452,14 +452,16 @@ const ProfileDetails = () => {
                   >
                     <option value="">Select </option>
                     <option value="Government Institution">
-                      Government Institution
+                      Govt. Employee
                     </option>
                     <option value="Private Institution">
-                      Private Institution
+                      Private Employee
                     </option>
+                    <option value="Job Seeker">Job Seeker</option>
                     <option value="University Student">
                       University Student
                     </option>
+
                     <option value="College Student">College Student</option>
                   </select>
                 </div>

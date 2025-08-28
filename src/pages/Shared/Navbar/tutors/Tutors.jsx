@@ -7,6 +7,7 @@ import Footer from "../../../Shared/Footer/Footer";
 import Navbar from "../Navbar";
 import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
+import { MdLocationOn } from "react-icons/md";
 
 const Tutors = () => {
   const { allTutors, isLoading, isError } = useAllTutors();
@@ -52,7 +53,9 @@ const Tutors = () => {
 
     // Area match (preferredLocations থেকে)
     const preferredLocations = tutor.preferredLocations
-      ? tutor.preferredLocations.split(",").map((loc) => loc.trim().toLowerCase())
+      ? tutor.preferredLocations
+          .split(",")
+          .map((loc) => loc.trim().toLowerCase())
       : [];
 
     const areaMatch =
@@ -62,8 +65,7 @@ const Tutors = () => {
     // Medium match
     const mediumMatch =
       selectedMedium === "All" ||
-      tutor.preferredCategories?.toLowerCase() ===
-        selectedMedium.toLowerCase();
+      tutor.preferredCategories?.toLowerCase() === selectedMedium.toLowerCase();
 
     // Class match (preferredClass থেকে)
     const preferredClasses = tutor.preferredClass
@@ -102,11 +104,12 @@ const Tutors = () => {
   });
 
   return (
-    <div>
+    <div className="font-serif">
       <Navbar />
-      <div className="container mx-auto p-4 mt-28 font-serif min-h-screen flex gap-6">
+      <div className="bg-base-200">
+        <div className="container mx-auto p-4   min-h-screen flex gap-6">
         {/* Sidebar Filter */}
-        <div className="w-[30%] border p-4 rounded-md shadow-md">
+        <div className="w-[30%] bg-white/80 mt-28 border p-4 rounded-md shadow-md">
           <h2 className="font-bold mb-3 text-lg text-blue-600">
             Advance Filter
           </h2>
@@ -230,7 +233,7 @@ const Tutors = () => {
         </div>
 
         {/* Tutor List */}
-        <div className="w-[70%]">
+        <div className="w-[70%] bg-white/80 mt-28">
           <ul className="list rounded-box shadow-md">
             <li className="p-4 pb-2 text-xs opacity-60 tracking-wide bg-base-200">
               Showing Tutors ({filteredTutors.length})
@@ -253,20 +256,18 @@ const Tutors = () => {
                       alt={tutor.name}
                     />
                     <div>
-                      <div className="text-blue-600 font-medium text-lg">
+                      <div className="text-black font-medium text-lg">
                         {tutor.name}
                       </div>
-                      <div className="text-xs text-gray-500">
-                        {tutor.department} • {tutor.institute}
+                      <div className="flex items-center text-xs text-gray-500 gap-1">
+                        <MdLocationOn className="text-blue-400" />
+                        <span>{tutor.city}</span>
                       </div>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <NavLink
-                      to={`/tutors/tutor-profile/${tutor.customId}`}
-                      
-                    >
+                    <NavLink to={`/tutors/tutor-profile/${tutor.customId}`}>
                       <button className="bg-blue-200 p-2 rounded-md hover:bg-blue-300 transition">
                         <ImProfile className="text-base text-blue-700" />
                       </button>
@@ -279,6 +280,7 @@ const Tutors = () => {
               ))}
           </ul>
         </div>
+      </div>
       </div>
       <Outlet />
       <Footer />
