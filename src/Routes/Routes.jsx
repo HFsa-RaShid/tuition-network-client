@@ -20,12 +20,12 @@ import AppliedTutors from "../pages/DashBoard/DashBoardAllPages/PostedJob/Applie
 import SearchByMap from "../pages/Shared/Navbar/SearchByMap/SearchByMap";
 import PaymentSuccess from "../pages/DashBoard/DashBoardAllPages/MyApplications/PaymentSuccess";
 import PaymentHistory from "../pages/DashBoard/DashBoardAllPages/PaymentHistory/PaymentHistory";
-import MatchTutors from "../pages/landingPage/sections/matchedTutorsList/MatchTutors";
+
 import HiredTutors from "../pages/DashBoard/DashBoardAllPages/HiredTutors/HiredTutors";
-import TutorProfile from "../pages/landingPage/sections/matchedTutorsList/TutorProfile/TutorProfile";
-import MatchedTutorsList from "../pages/landingPage/sections/matchedTutorsList/MatchedTutorsList";
+
 import Tutors from "../pages/Shared/Navbar/tutors/Tutors";
 import ProfileTutor from "../pages/Shared/Navbar/tutors/ProfileTutor";
+import OtherPaymentSuccess from "../pages/Shared/otherPaymentSuccess/OtherPaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -62,17 +62,13 @@ export const router = createBrowserRouter([
         element: <Tutors></Tutors>,
       },
       {
-        path: "/tutors/tutor-profile",
+        path: "/tutors/tutor-profile/:id",
         element: <ProfileTutor></ProfileTutor>,
       },
-      // {
-      //   path: "/matchTutors",
-      //   element: <MatchTutors></MatchTutors>,
-      //   children: [
-      //      { index: true, element: <MatchedTutorsList /> },
-      //     { path: "tutor-profile", element: <TutorProfile></TutorProfile> },
-      //   ],
-      // },
+      {
+        path: "/payment/success/:tranId",
+        element:<OtherPaymentSuccess></OtherPaymentSuccess>
+      },
       {
         path: "/:role",
         element: (

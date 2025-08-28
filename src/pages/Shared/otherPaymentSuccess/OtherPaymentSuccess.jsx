@@ -4,12 +4,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { MdContentCopy } from 'react-icons/md';
 import { FaCheckCircle } from 'react-icons/fa';
-import usePayment from '../../../../hooks/usePayment';
-import { IoArrowBack } from 'react-icons/io5';
-import { AuthContext } from '../../../../provider/AuthProvider';
-import useCurrentUser from '../../../../hooks/useCurrentUser';
 
-const PaymentSuccess = () => {
+import { IoArrowBack } from 'react-icons/io5';
+import { AuthContext } from '../../../provider/AuthProvider';
+import useCurrentUser from '../../../hooks/useCurrentUser';
+import usePayment from '../../../hooks/usePayment';
+
+
+const OtherPaymentSuccess = () => {
   const { tranId } = useParams();
   const [tooltipVisible, setTooltipVisible] = useState(false);
     const { user } = useContext(AuthContext);
@@ -27,13 +29,9 @@ const PaymentSuccess = () => {
   const navigate = useNavigate();
 
   const goBackToApplications = () => {
-    if(paymentData?.source === "myApplications") {  
-    navigate(`/${currentUser?.role}/myApplications`);
+    if(paymentData?.source === "contactTutor") {
+      navigate(`/tutors/tutor-profile/${paymentData.tutorId}`);
     }
-    else if(paymentData?.source === "trialClassPayment") {
-      navigate(`/${currentUser?.role}/hired-tutors`);
-    }
-   
   };
 
   if (isLoading) {
@@ -103,4 +101,4 @@ const PaymentSuccess = () => {
   );
 };
 
-export default PaymentSuccess;
+export default OtherPaymentSuccess;

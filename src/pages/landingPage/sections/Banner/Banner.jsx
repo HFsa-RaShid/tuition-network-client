@@ -139,7 +139,7 @@ const Banner = () => {
       ${!city ? "text-gray-400" : "text-black"}`}
               >
                 <option value="" disabled>
-                  City
+                  Location
                 </option>
                 {district &&
                   cityAreaMap[district]?.map((ct, idx) => (
@@ -153,7 +153,7 @@ const Banner = () => {
                 onClick={handleSearch}
                 className="bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 shadow"
               >
-                Search Tutor
+                Search
               </button>
             </div>
           </div>

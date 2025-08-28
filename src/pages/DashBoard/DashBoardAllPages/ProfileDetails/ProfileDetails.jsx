@@ -88,6 +88,7 @@ const ProfileDetails = () => {
     "Nursery",
     "KG",
     ...Array.from({ length: 10 }, (_, i) => `Class ${i + 1}`),
+    "class 11",
     "Class 12",
     "Honours",
     "Masters",

@@ -264,8 +264,8 @@ const Tutors = () => {
 
                   <div className="flex items-center gap-3">
                     <NavLink
-                      to="tutor-profile"
-                      state={{ tutorEmail: tutor.email }}
+                      to={`/tutors/tutor-profile/${tutor.customId}`}
+                      
                     >
                       <button className="bg-blue-200 p-2 rounded-md hover:bg-blue-300 transition">
                         <ImProfile className="text-base text-blue-700" />

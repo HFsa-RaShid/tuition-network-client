@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { MdVerified } from "react-icons/md";
 
@@ -9,18 +9,16 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import Footer from "../../Footer/Footer";
 import Navbar from "../Navbar";
+import useAxisTutorByID from "../../../../hooks/useAxisTutorByID";
 
 const ProfileTutor = () => {
-  const { state } = useLocation();
-  const { tutorEmail } = state || {};
-  const [tutor, setTutor] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { id } = useParams();
   const [activeTab, setActiveTab] = useState("tuition");
-  const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useContext(AuthContext); 
+  const { tutorProfile: tutor, isLoading, isError } = useAxisTutorByID(id);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -28,22 +26,8 @@ const ProfileTutor = () => {
     details: "",
   });
 
-  useEffect(() => {
-    if (tutorEmail) {
-      axiosPublic
-        .get(`/tutors/${tutorEmail}`)
-        .then((res) => {
-          setTutor(res.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.error(err);
-          setLoading(false);
-        });
-    }
-  }, [tutorEmail]);
 
-  if (loading) return <p className="mt-24 text-center">Loading...</p>;
+  if (isLoading) return <p className="mt-24 text-center">Loading...</p>;
   if (!tutor)
     return <p className="mt-24 text-center text-red-500">Tutor not found.</p>;
 
@@ -71,7 +55,7 @@ const ProfileTutor = () => {
   const RatingStars = ({ rating = 0, totalRatings = 0, name }) => {
     return (
       <div className="space-y-2 text-center">
-        <div className="rating rating-md rating-half">
+        <div className="rating rating-sm rating-half">
           <input
             type="radio"
             name={`${name}-avg-rating`}
@@ -104,6 +88,7 @@ const ProfileTutor = () => {
     jobId,
     name,
     email,
+    tutorId,
     amount,
     studentEmail,
     studentName
@@ -113,6 +98,7 @@ const ProfileTutor = () => {
         jobId,
         name,
         email,
+        tutorId,
         amount,
         source: "contactTutor",
         studentEmail,
@@ -132,17 +118,17 @@ const ProfileTutor = () => {
       return;
     }
 
-    // যদি login না করা থাকে → login page এ যাবে
+   
     if (!user) {
       navigate("/login", { state: { from: location } });
       return;
     }
 
-    // login করা থাকলে → same page এ থেকে payment call হবে
     handlePaymentBkash(
       tutor._id,
       tutor.name,
       tutor.email,
+      tutor.customId,
       50, 
       user.email,
       user.displayName
@@ -174,12 +160,13 @@ const ProfileTutor = () => {
               rating={tutor.averageRating}
               totalRatings={tutor.ratings?.length}
               name="profile"
+             
             />
 
             {/* CV Format Info */}
-            <div className="mt-2 w-full  text-gray-700">
+            <div className="mt-4 w-full  text-gray-700">
               <InfoRow title="Status" value={tutor.tutorStatus} />
-              <InfoRow title="ID#" value={tutor._id} />
+              <InfoRow title="ID#" value={tutor.customId} />
               <InfoRow title="Gender" value={tutor.gender} />
               <InfoRow title="Religion" value={tutor.religion} />
 

@@ -67,6 +67,7 @@ const JobBoard = () => {
           .put(`/tutorRequests/${jobId}`, {
             email: user.email,
             name: currentUser?.name || user?.displayName,
+            tutorId: currentUser?.customId,
           })
           .then((res) => {
             Swal.fire(
