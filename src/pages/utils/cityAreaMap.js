@@ -16,7 +16,7 @@ const districtAreaMap = {
 
   Sylhet: ["Zindabazar", "Ambarkhana", "Subidbazar", "Shibganj", "Tilagor", "Kumarpara", "Bondor Bazar", "Dargah Gate", "Kazir Bazar", "Shahi Eidgah", "Electric Supply", "Lama Bazar", "Baghbari", "Maghbazar", "Pathantula"],
   Khulna: ["Sonadanga", "Khalishpur", "Daulatpur", "Boyra", "Batiaghata", "Shiromoni", "Gollamari", "Fulbarigate", "Khulna Sadar", "Rupsha", "Teligati", "Royaler Mor", "Bagerhat Road", "Labanchara", "Basundia"],
-  Barishal: ["Nathullabad", "Rupatali", "Band Road", "C&B Road", "Chandmari", "Sagordi", "Kawnia", "Alekharchar", "Raihanpur", "Bogra Road", "Oxford Mission", "Chawkbazar", "Bazar Road", "Bangla Bazar", "Bibir Pukur Par"],
+  Barishal: ["Nathullabad", "Rupatali","chowmatha", "Band Road", "C&B Road", "Chandmari", "Sagordi", "Kawnia", "Alekharchar", "Raihanpur", "Bogra Road", "Oxford Mission", "Chawkbazar", "Bazar Road", "Bangla Bazar", "Bibir Pukur Par"],
   Rangpur: ["Jahaj Company", "Pairaband", "Mithapukur", "Lalbagh", "Central Bus Terminal", "Keranipara", "Vinno Jogot", "Satmatha", "Mahiganj", "Betgari", "Uttampara", "Modern Mor", "CO Bazar", "Purbo Para", "Darshana"],
   Mymensingh: ["Ganginarpar", "Kishoreganj Road", "Trishal", "Muktagachha", "Brahmapalli", "Town Hall", "Charpara", "Agricultural University", "Durgabari", "Kachari Ferry", "Police Line", "Ramnagar", "Maskanda", "Kushtia Mor", "Jamalpur Road"],
   Narayanganj: ["Fatullah", "Shanarpar", "Chashara", "Signboard", "Tanbazar", "Pagla", "Deobhog", "Adamjee", "Shibu Market", "Bhuigarh", "Kanchpur", "Enayetnagar", "Narayanganj Sadar", "Bandar", "Kadamtoli"],
@@ -32,7 +32,24 @@ const districtAreaMap = {
   Jessore: ["Jessore Sadar", "Bagharpara", "Keshabpur", "Manirampur", "Abhaynagar", "Jhikargacha", "Sharsha", "Benapole", "Chaugachha", "Basundia", "Upashahar", "Dhulgram", "Baliadanga", "Rajarhat", "Trimohoni"],
   Noakhali: ["Maijdee", "Begumganj", "Senbagh", "Subarnachar", "Chatkhil", "Sonaimuri", "Kabirhat", "Companyganj", "Hatiya", "Char Jabbar", "Char Wapda", "Noakhali Sadar", "Bazra", "Jayag", "Dattarhat"],
   Pabna: ["Ishwardi", "Pabna Sadar", "Santhia", "Bera", "Atghoria", "Chatmohar", "Sujanagar", "Bhangura", "Faridpur", "Hemayetpur", "Mulgram", "Ruppur", "Dapunia", "Char Bangalia", "Dulai"],
-  Rangamati: ["Baghaichari", "Barkal", "Kaptai", "Rangamati Sadar", "Juraichhari", "Langadu", "Rajasthali", "Belaichhari", "Naniarchar", "Chandraghona", "Tabalchhari", "Polwell Park", "Manikchhari", "Sapchhari", "Tabalpara"]
+  Rangamati: ["Baghaichari", "Barkal", "Kaptai", "Rangamati Sadar", "Juraichhari", "Langadu", "Rajasthali", "Belaichhari", "Naniarchar", "Chandraghona", "Tabalchhari", "Polwell Park", "Manikchhari", "Sapchhari", "Tabalpara"],
+  "Chapai Nawabganj": ["Sadar", "Nachole", "Shibganj", "Bholahat", "Gomstapur"],
+  Chuadanga: ["Chuadanga Sadar", "Alamdanga", "Damurhuda", "Jibannagar"],
+  Dinajpur: ["Dinajpur Sadar", "Parbatipur", "Birampur", "Birganj", "Phulbari"],
+  Faridpur: ["Faridpur Sadar", "Alfadanga", "Bhanga", "Nagarkanda", "Sadarpur"],
+  Feni: ["Feni Sadar", "Daganbhuiyan", "Parshuram", "Fulgazi", "Chhagalnaiya"],
+"Cox's Bazar" :[
+  "Cox's Bazar Sadar ",
+  "Chakaria",
+  "Maheshkhali ",
+  "Kutubdia",
+  "Ramu",
+  "Ukhiya",
+  "Teknaf",
+  "Pekua"
+]
+
+
 };
 
 export default districtAreaMap;

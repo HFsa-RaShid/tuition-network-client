@@ -21,8 +21,10 @@ const bdDistricts = [
   "Chuadanga",
   "Cumilla",
   "Cox's Bazar",
+  "Pabna",
   "Dinajpur",
   "Faridpur",
+  "Rangamati",
   "Feni",
 ];
 

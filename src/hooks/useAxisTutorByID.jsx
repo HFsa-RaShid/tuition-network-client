@@ -10,7 +10,7 @@ const useAxisTutorByID = (id) => {
       const res = await axiosPublic.get(`/tutors/profile/${id}`);
       return res.data;
     },
-    enabled: !!email,
+    enabled: !!id,
   });
   return { tutorProfile, refetch, isLoading, isError };
 };

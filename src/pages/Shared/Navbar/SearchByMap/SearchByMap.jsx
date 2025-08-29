@@ -17,8 +17,11 @@ import Navbar from "../Navbar";
 import Footer from "../../../Shared/Footer/Footer";
 import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
+
 import axios from "axios";
 import useMultipleJobPayments from "../../../../hooks/useMultipleJobPayments";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 
 const createColoredIcon = (color) =>
@@ -59,7 +62,7 @@ const SearchByMap = () => {
     isLoading: userLoading,
     isError: userError,
   } = useCurrentUser(user?.email);
-  const { allJobs, isLoading: jobsLoading, isError: jobsError } = useAllJobs();
+  const { allJobs, isLoading: jobsLoading, isError: jobsError ,refetch} = useAllJobs();
 
   const [userCoords, setUserCoords] = useState(null);
   const [mapCenter, setMapCenter] = useState(null);
@@ -68,6 +71,7 @@ const SearchByMap = () => {
   const [tutorRequestMarkers, setTutorRequestMarkers] = useState([]);
   const [hoveredTutorId, setHoveredTutorId] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const axiosSecure = useAxiosSecure();
 
   // ✅ Paid jobs hook
   const jobIds = allJobs?.map((job) => job._id) || [];
@@ -153,6 +157,47 @@ const SearchByMap = () => {
     }
   };
 
+
+
+  const handleApply = (jobId) => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, apply for this request!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure
+            .put(`/tutorRequests/${jobId}`, {
+              email: user.email,
+              name: currentUser?.name || user?.displayName,
+              tutorId: currentUser?.customId,
+            })
+            .then((res) => {
+              Swal.fire(
+                res.data?.message === "Applied successfully."
+                  ? "Applied!"
+                  : "Note",
+                res.data?.message || "Something happened.",
+                res.data?.message === "Applied successfully." ? "success" : "info"
+              );
+              refetch();
+            })
+            .catch((error) => {
+              console.error("Apply error:", error);
+              Swal.fire(
+                "Error!",
+                "Failed to apply for the tutor request.",
+                "error"
+              );
+            });
+        }
+      });
+    };
+
   if (userLoading || jobsLoading) {
     return (
       <div className="flex justify-center items-center mt-20">
@@ -228,7 +273,7 @@ const SearchByMap = () => {
             {selectedRequest && (
               <div
                 key={selectedRequest._id}
-                className="bg-white/80 shadow-md rounded-lg p-6 relative"
+                className="bg-white/80 shadow-md rounded-lg p-6 relative "
               >
                 {selectedRequest.appliedTutors?.some(
                   (tutor) =>
@@ -319,23 +364,25 @@ const SearchByMap = () => {
                 </p>
 
                 {/* ✅ Tutor Apply Button */}
-                {currentUser?.role === "tutor" &&
+               
+                    {currentUser?.role === "tutor" &&
                   selectedRequest.tutorStatus !== "selected" &&
                   selectedRequest.tutorStatus !== "Not Available" && (
                     <button
+                      onClick={() => handleApply(selectedRequest._id)}
                       disabled={selectedRequest.appliedTutors?.some(
                         (tutor) => tutor.email === user.email
                       )}
-                      className={`mt-4 w-full px-4 py-2 rounded font-medium ${
+                      className={`w-full mt-4 px-4 py-2 rounded font-medium ${
                         selectedRequest.appliedTutors?.some(
-                          (tutor) => tutor.email === user.email
+                          (tutor) => tutor?.email === user?.email
                         )
                           ? "bg-gray-300 cursor-not-allowed"
                           : "bg-[#f9d045] hover:bg-[#f9d045]"
                       }`}
                     >
                       {selectedRequest.appliedTutors?.some(
-                        (tutor) => tutor.email === user.email
+                        (tutor) => tutor?.email === user?.email
                       )
                         ? "Already Applied"
                         : "Apply Now"}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { MdSendToMobile } from "react-icons/md";
 import toast from "react-hot-toast";
@@ -16,14 +16,10 @@ const AppliedTutors = () => {
   let jobId = state?.jobId;
 
   useEffect(() => {
-    if (jobId) {
-      localStorage.setItem("appliedTutorsJobId", jobId);
-    }
+    if (jobId) localStorage.setItem("appliedTutorsJobId", jobId);
   }, [jobId]);
 
-  if (!jobId) {
-    jobId = localStorage.getItem("appliedTutorsJobId");
-  }
+  if (!jobId) jobId = localStorage.getItem("appliedTutorsJobId");
 
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
@@ -34,48 +30,125 @@ const AppliedTutors = () => {
     appliedTutorForJobId: appliedTutorsFromAPI = [],
     refetch: refetchTutors,
     isLoading,
-    isError,
   } = useAppliedTutorForJobID(jobId);
 
   const { paidJobsById: paidData = [], refetch: refetchPayments } =
     useJobIdpayment(jobId);
 
   const [confirmedTutorEmail, setConfirmedTutorEmail] = useState(null);
+  const [showMatched, setShowMatched] = useState(false);
+  const [matchedTutors, setMatchedTutors] = useState([]);
+  const [allTutorProfiles, setAllTutorProfiles] = useState([]);
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const tutorsPerPage = 10;
 
-  const totalPages =
-    Array.isArray(appliedTutorsFromAPI) && appliedTutorsFromAPI.length > 0
-      ? Math.ceil(appliedTutorsFromAPI.length / tutorsPerPage)
-      : 1;
-
-  const startIndex = (currentPage - 1) * tutorsPerPage;
-  const currentTutors = Array.isArray(appliedTutorsFromAPI)
-    ? appliedTutorsFromAPI.slice(startIndex, startIndex + tutorsPerPage)
-    : [];
-
-  // Update confirmed tutor email when applied tutors data changes
+  // Confirm check
   useEffect(() => {
     if (!Array.isArray(appliedTutorsFromAPI)) return;
-
     const confirmed = appliedTutorsFromAPI.find(
       (t) => t.confirmationStatus === "confirmed"
     );
     setConfirmedTutorEmail(confirmed ? confirmed.email : null);
-    setCurrentPage(1); // Reset to first page when data changes
+    setCurrentPage(1);
   }, [appliedTutorsFromAPI]);
 
-  const goToPrevious = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  // Fetch all tutor profiles for applied tutors
+  useEffect(() => {
+    const fetchTutorProfiles = async () => {
+      try {
+        const profiles = await Promise.all(
+          appliedTutorsFromAPI.map(async (applied) => {
+            const res = await axiosPublic.get(
+              `/tutors/profile/${applied.tutorId}`
+            );
+            return res.data;
+          })
+        );
+        setAllTutorProfiles(profiles);
+      } catch {
+        toast.error("Failed to fetch tutor profiles.");
+      }
+    };
+
+    if (Array.isArray(appliedTutorsFromAPI) && appliedTutorsFromAPI.length > 0)
+      fetchTutorProfiles();
+  });
+
+  const calculateMatchScore = (job, tutor) => {
+    let score = 0;
+
+    const tutorCity = tutor.city || "";
+    const tutorLocations = tutor.preferredLocations || "";
+    const tutorCategories = tutor.preferredCategories || "";
+    const tutorClass = tutor.preferredClass || "";
+    const tutorSubjects = (tutor.preferredSubjects || "")
+      .toLowerCase()
+      .split(",");
+    const tutorGender = tutor.gender || "";
+    const tutorSalary = parseInt(tutor.expectedSalary) || 0;
+
+    const jobCity = job.city || "";
+    const jobLocation = job.location || "";
+    const jobCategory = job.category || "";
+    const jobClass = job.classCourse || "";
+    const jobSubjects = job.subjects?.map((s) => s.toLowerCase()) || [];
+    const jobSalary = parseInt(job.salary) || 0;
+    const jobGenderPref = job.tutorGenderPreference || "Any";
+
+    if (tutorCity === jobCity) score += 30;
+    if (tutorLocations.toLowerCase().includes(jobLocation.toLowerCase()))
+      score += 20;
+    if (tutorCategories.toLowerCase().includes(jobCategory.toLowerCase()))
+      score += 20;
+    if (tutorClass.toLowerCase().includes(jobClass.toLowerCase())) score += 20;
+    if (jobSubjects.some((sub) => tutorSubjects.includes(sub))) score += 30;
+    if (tutorSalary <= jobSalary) score += 10;
+    if (
+      jobGenderPref === "Any" ||
+      jobGenderPref.toLowerCase() === tutorGender.toLowerCase()
+    )
+      score += 10;
+
+    return score;
   };
 
-  const goToNext = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  const fetchMatchedTutors = () => {
+    if (!allTutorProfiles.length) return;
+    const tutorsWithScore = allTutorProfiles.map((tutor) => ({
+      ...tutor,
+      matchScore: calculateMatchScore(state, tutor),
+    }));
+    const sorted = tutorsWithScore.sort((a, b) => b.matchScore - a.matchScore);
+    setMatchedTutors(sorted.slice(0, 10));
+    setShowMatched(true);
   };
 
-  // Confirm tutor handler
+  const goToPrevious = () => currentPage > 1 && setCurrentPage(currentPage - 1);
+  const goToNext = () =>
+    currentPage < totalPages && setCurrentPage(currentPage + 1);
+
+  // এই অংশে displayedTutors declare করার আগে নিশ্চিত করি array
+  // displayedTutors safe check
+  const displayedTutors = showMatched
+    ? Array.isArray(matchedTutors)
+      ? matchedTutors
+      : []
+    : Array.isArray(allTutorProfiles)
+    ? allTutorProfiles
+    : [];
+
+  const totalPages =
+    Array.isArray(displayedTutors) && displayedTutors.length > 0
+      ? Math.ceil(displayedTutors.length / tutorsPerPage)
+      : 1;
+
+  const startIndex = (currentPage - 1) * tutorsPerPage;
+  const currentTutors = displayedTutors.slice(
+    startIndex,
+    startIndex + tutorsPerPage
+  );
+
   const handleConfirm = async (email) => {
     Swal.fire({
       title: "Are you sure?",
@@ -108,7 +181,6 @@ const AppliedTutors = () => {
     });
   };
 
-  // Cancel confirmation handler
   const handleCancel = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -137,39 +209,54 @@ const AppliedTutors = () => {
     });
   };
 
-
-  if (isLoading) {
+  if (isLoading)
     return (
       <div className="flex justify-center items-center mt-20">
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
       </div>
     );
-  }
-
 
   if (
-    !Array.isArray(appliedTutorsFromAPI) ||
-    appliedTutorsFromAPI.length === 0
+    !showMatched &&
+    (!appliedTutorsFromAPI || appliedTutorsFromAPI.length === 0)
   ) {
     return (
       <div className="container mx-auto p-6 text-center text-gray-600">
         <h2 className="text-2xl font-bold mb-4">Applied Tutors</h2>
         <p>No tutors have applied for this job yet.</p>
+        <button
+          onClick={fetchMatchedTutors}
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
+        >
+          Show Top Matched Tutors
+        </button>
       </div>
     );
   }
 
   return (
     <div className="container mx-auto p-6">
-      <button
-        onClick={() => navigate(-1)}
-        className="flex items-center text-blue-600 hover:underline mb-1"
-      >
-        <IoArrowBack className="text-2xl" />
+      <div className="flex justify-between items-center mb-2">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center text-blue-600 hover:underline"
+        >
+          <IoArrowBack className="text-2xl" />
+          <span className="text-lg font-medium">Back</span>
+        </button>
+        <button
+          onClick={
+            showMatched ? () => setShowMatched(false) : fetchMatchedTutors
+          }
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
+        >
+          {showMatched ? "Show Applied Tutors" : "Show Top Matched Tutors"}
+        </button>
+      </div>
 
-        <span className="text-lg font-medium">Back</span>
-      </button>
-      <h2 className="text-2xl font-bold mb-4 text-center">Applied Tutors</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">
+        {showMatched ? "Top Matched Tutors" : "Applied Tutors"}
+      </h2>
 
       <div className="overflow-x-auto rounded-lg shadow border">
         <table className="table w-full border border-gray-300 text-center">
@@ -177,15 +264,14 @@ const AppliedTutors = () => {
             <tr>
               <th>Name</th>
               <th></th>
-              <th>Applied On</th>
-              <th>Action</th>
+              <th>{showMatched ? "Match %" : "Applied On"}</th>
+              <th>Action</th> {/* এখন সব ক্ষেত্রে Action থাকবে */}
             </tr>
           </thead>
           <tbody>
             {currentTutors.map((tutor, index) => {
               const isConfirmed = confirmedTutorEmail === tutor.email;
               const isDisabled = confirmedTutorEmail && !isConfirmed;
-
               const hasPaidJob = paidData.some(
                 (p) =>
                   p.jobId === jobId &&
@@ -208,25 +294,26 @@ const AppliedTutors = () => {
                     </NavLink>
                   </td>
                   <td>
-                    {new Date(tutor.appliedAt).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
+                    {showMatched
+                      ? `${tutor.matchScore}%`
+                      : new Date(tutor.appliedAt).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })}
                   </td>
                   <td className="flex justify-center gap-2">
                     {isConfirmed ? (
                       <button
                         onClick={handleCancel}
-                        disabled={hasPaidJob} // disable if paid
+                        disabled={hasPaidJob}
                         className={`px-2 py-1 rounded flex items-center gap-1 ${
                           hasPaidJob
                             ? "bg-red-200 text-red-400 cursor-not-allowed"
                             : "bg-red-200 text-red-700 hover:bg-red-300"
                         }`}
                       >
-                        <FaTimes />
-                        Cancel
+                        <FaTimes /> Cancel
                       </button>
                     ) : (
                       <button
@@ -238,8 +325,7 @@ const AppliedTutors = () => {
                             : "bg-green-200 text-green-700 hover:bg-green-300"
                         }`}
                       >
-                        <FaCheck />
-                        Confirm
+                        <FaCheck /> Confirm
                       </button>
                     )}
                   </td>
@@ -259,11 +345,9 @@ const AppliedTutors = () => {
           >
             &lt; Prev
           </button>
-
           <span className="font-semibold">
             {currentPage} / {totalPages}
           </span>
-
           <button
             onClick={goToNext}
             disabled={currentPage === totalPages}
@@ -276,5 +360,4 @@ const AppliedTutors = () => {
     </div>
   );
 };
-
 export default AppliedTutors;
