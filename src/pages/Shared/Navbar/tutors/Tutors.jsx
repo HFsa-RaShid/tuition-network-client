@@ -259,6 +259,9 @@ const Tutors = () => {
                       <div className="text-black font-medium text-lg">
                         {tutor.name}
                       </div>
+                      <div className="text-black font-medium text-md my-1">
+                        {tutor.institute}
+                      </div>
                       <div className="flex items-center text-xs text-gray-500 gap-1">
                         <MdLocationOn className="text-blue-400" />
                         <span>{tutor.city}</span>

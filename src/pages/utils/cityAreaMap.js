@@ -22,7 +22,7 @@ const districtAreaMap = {
   Narayanganj: ["Fatullah", "Shanarpar", "Chashara", "Signboard", "Tanbazar", "Pagla", "Deobhog", "Adamjee", "Shibu Market", "Bhuigarh", "Kanchpur", "Enayetnagar", "Narayanganj Sadar", "Bandar", "Kadamtoli"],
   Savar: ["Savar Bazar", "Hemayetpur", "Rajphulbaria", "Aminbazar", "Genda", "Shimulia", "Tetuljhora", "Ashulia", "Jirani", "Kaundia", "Baliarpur", "Kalma", "Pathalia", "Savar Cantonment", "Radio Colony"],
   Gazipur: ["Tongi", "Konabari", "Chandana Chowrasta", "Board Bazar", "Gazipur Sadar", "Sreepur", "Basan", "Pubail", "Kaliakoir", "Bhawal", "Hotapara", "Vogra", "Monipur", "Kapasia", "Tumulia"],
-  Bagerhat: ["Fakirhat", "Mollahat", "Rampal", "Bagerhat Sadar", "Chitalmari", "Moroelganj", "Sarankhola", "Kachua", "Rayenda", "Bishnupur", "Khan Jahan Ali Mazar", "Kazi Para", "Panchgati", "Kumarkhali", "Khalishakhali"],
+  Bagerhat: ["Fakirhat", "Mollahat", "Rampal", "Bagerhat Sadar", "Chitalmari", "Moroelganj", "Sarankhola", "Kachua", "Rayenda", "Bishnupur", "Khan Jahan Ali Mazar", "Kazi Para", "Kumarkhali", "Khalishakhali"],
   Bandarban: ["Thanchi", "Ruma", "Rowangchhari", "Lama", "Bandarban Sadar", "Alikadam", "Naikhongchhari", "Tanchangya Para", "Meghla", "Nilgiri", "Chimbuk", "Balaghata", "Ujanipara", "Islampur", "Rajvila"],
   Barguna: ["Amtali", "Patharghata", "Taltali", "Barguna Sadar", "Betagi", "Bamna", "Kakchira", "Rangabali", "Nishanbaria", "Fuljhuri", "Burirchar", "Dhalua", "Boro Baishdia", "Kazirhat", "Gulishakhali"],
   Bhola: ["Lalmohan", "Borhanuddin", "Char Fasson", "Tazumuddin", "Bhola Sadar", "Daulatkhan", "Manpura", "Ilisha", "Rajapur", "Dular Hat", "Hajipur", "Alinagar", "Gazaria", "Lord Hardinge", "Joynagar"],
