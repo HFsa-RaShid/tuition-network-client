@@ -1,3 +1,5 @@
+
+
 import React, { useContext, useEffect, useState } from "react";
 import {
   MapContainer,
@@ -16,6 +18,8 @@ import Footer from "../../../Shared/Footer/Footer";
 import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
 import axios from "axios";
+import useMultipleJobPayments from "../../../../hooks/useMultipleJobPayments";
+
 
 const createColoredIcon = (color) =>
   new L.Icon({
@@ -65,6 +69,10 @@ const SearchByMap = () => {
   const [hoveredTutorId, setHoveredTutorId] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
+  // ✅ Paid jobs hook
+  const jobIds = allJobs?.map((job) => job._id) || [];
+  const { paidJobsByJobIds } = useMultipleJobPayments(jobIds);
+
   // ✅ Geocode function
   const geocodeLocation = async (location = "", district = "", city = "") => {
     const parts = [location, city, district].filter(Boolean);
@@ -89,23 +97,33 @@ const SearchByMap = () => {
   // 🔹 Load user coords
   useEffect(() => {
     if (!userLoading && currentUser?.location) {
-      geocodeLocation(
-        currentUser.location,
-        currentUser.city || "Barishal"
-      ).then((coords) => {
-        if (coords) {
-          setUserCoords(coords);
-          setMapCenter(coords);
+      geocodeLocation(currentUser.location, currentUser.city || "Barishal").then(
+        (coords) => {
+          if (coords) {
+            setUserCoords(coords);
+            setMapCenter(coords);
+          }
         }
-      });
+      );
     }
   }, [currentUser, userLoading]);
 
-  // 🔹 Load all job markers
+  // 🔹 Load all job markers (skip paid jobs)
   useEffect(() => {
     if (!jobsLoading && allJobs?.length) {
+      const visibleJobs =
+        allJobs?.filter(
+          (job) =>
+            !paidJobsByJobIds?.some(
+              (p) =>
+                p.jobId === job._id &&
+                p.source === "myApplications" &&
+                p.paidStatus === true
+            )
+        ) || [];
+
       Promise.all(
-        allJobs.map(async (request) => {
+        visibleJobs.map(async (request) => {
           const coords = await geocodeLocation(
             request.location,
             "",
@@ -122,7 +140,7 @@ const SearchByMap = () => {
     } else {
       setTutorRequestMarkers([]);
     }
-  }, [allJobs, jobsLoading]);
+  }, [allJobs, jobsLoading, paidJobsByJobIds]);
 
   // 🔹 Handle search
   const handleSearch = async () => {
@@ -299,6 +317,30 @@ const SearchByMap = () => {
                     minute: "2-digit",
                   })}
                 </p>
+
+                {/* ✅ Tutor Apply Button */}
+                {currentUser?.role === "tutor" &&
+                  selectedRequest.tutorStatus !== "selected" &&
+                  selectedRequest.tutorStatus !== "Not Available" && (
+                    <button
+                      disabled={selectedRequest.appliedTutors?.some(
+                        (tutor) => tutor.email === user.email
+                      )}
+                      className={`mt-4 w-full px-4 py-2 rounded font-medium ${
+                        selectedRequest.appliedTutors?.some(
+                          (tutor) => tutor.email === user.email
+                        )
+                          ? "bg-gray-300 cursor-not-allowed"
+                          : "bg-[#f9d045] hover:bg-[#f9d045]"
+                      }`}
+                    >
+                      {selectedRequest.appliedTutors?.some(
+                        (tutor) => tutor.email === user.email
+                      )
+                        ? "Already Applied"
+                        : "Apply Now"}
+                    </button>
+                  )}
               </div>
             )}
           </div>
@@ -317,12 +359,6 @@ const SearchByMap = () => {
 
               {/* ✅ Auto center for search */}
               <RecenterMap center={mapCenter} />
-
-              {/* ✅ Auto fit once for markers */}
-              {/* <FitBounds coordsArray={[
-                ...tutorRequestMarkers.map((m) => m.coords),
-                ...(userCoords ? [userCoords] : []),
-              ]} /> */}
 
               {userCoords && (
                 <Marker position={userCoords} icon={redIcon}>
