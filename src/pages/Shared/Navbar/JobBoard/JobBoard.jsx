@@ -13,6 +13,7 @@ import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import useMultipleJobPayments from "../../../../hooks/useMultipleJobPayments";
 
 const JobBoard = () => {
   const axiosPublic = useAxiosPublic();
@@ -22,6 +23,10 @@ const JobBoard = () => {
   const { currentUser } = useCurrentUser(user?.email);
 
   const [jobs, setJobs] = useState([]);
+
+  const jobIds = jobs.map((job) => job._id);
+  const { paidJobsByJobIds } = useMultipleJobPayments(jobIds);
+
   const [filter, setFilter] = useState({
     tutoringType: "",
     gender: "",
@@ -155,6 +160,10 @@ const JobBoard = () => {
       (!selectedDate || jobDate === selectedDate)
     );
   });
+  // Sort so latest jobs show first
+filteredJobs = filteredJobs.sort(
+  (a, b) => new Date(b.postedAt) - new Date(a.postedAt)
+);
 
   // Pagination
   const indexOfLastJob = currentPage * jobsPerPage;
@@ -177,7 +186,6 @@ const JobBoard = () => {
   return (
     <div className="font-serif bg-base-200">
       <Navbar />
-    
 
       <div className="container mx-auto  ">
         <div className="flex p-6 gap-4">
@@ -317,14 +325,14 @@ const JobBoard = () => {
                 key={job._id}
                 className="bg-white/80 shadow-md rounded-lg p-6 relative"
               >
-                {job.appliedTutors?.some(
-                  (tutor) =>
-                    tutor.confirmationStatus?.toLowerCase() === "confirmed"
-                ) && (
-                  <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                    Selected
-                  </div>
-                )}
+               {paidJobsByJobIds?.some(
+  (p) => p.jobId === job._id && p.source === "myApplications" && p.paidStatus === true
+) && (
+  <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+    Selected
+  </div>
+)}
+
 
                 {job.tutorStatus === "Not Available" && (
                   <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">

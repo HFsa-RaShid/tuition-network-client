@@ -1,7 +1,11 @@
-
-
 import React, { useContext, useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Tooltip, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Tooltip,
+  useMap,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
@@ -13,7 +17,6 @@ import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
 import axios from "axios";
 
-// 🔹 Custom colored marker icons
 const createColoredIcon = (color) =>
   new L.Icon({
     iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${color}.png`,
@@ -24,35 +27,14 @@ const createColoredIcon = (color) =>
     shadowSize: [41, 41],
   });
 
-const redIcon = createColoredIcon("red");   // user
-const blueIcon = createColoredIcon("blue"); // default
-const greenIcon = createColoredIcon("green"); // hover
+const redIcon = createColoredIcon("red");
+const blueIcon = createColoredIcon("blue");
+const greenIcon = createColoredIcon("green");
 
 // 🔹 Jitter markers (avoid overlap)
 const jitterCoords = (coords, index) => {
-  const offset = 0.0004 * index; 
+  const offset = 0.0004 * index;
   return [coords[0] + offset, coords[1] + offset];
-};
-
-// 🔹 FitBounds - only once when markers change
-const FitBounds = ({ coordsArray }) => {
-  const map = useMap();
-  const coordsKey = JSON.stringify(coordsArray);
-  const [lastKey, setLastKey] = useState(null);
-
-  useEffect(() => {
-    if (coordsArray.length > 0 && coordsKey !== lastKey) {
-      if (coordsArray.length === 1) {
-        map.setView(coordsArray[0], 13);
-      } else {
-        const bounds = L.latLngBounds(coordsArray);
-        map.fitBounds(bounds, { padding: [50, 50] });
-      }
-      setLastKey(coordsKey);
-    }
-  }, [coordsKey, coordsArray, lastKey, map]);
-
-  return null;
 };
 
 // 🔹 RecenterMap - only when search center changes
@@ -60,7 +42,7 @@ const RecenterMap = ({ center }) => {
   const map = useMap();
   useEffect(() => {
     if (center) {
-      map.setView(center, 13);
+      map.setView(center, 15);
     }
   }, [center, map]);
   return null;
@@ -68,7 +50,11 @@ const RecenterMap = ({ center }) => {
 
 const SearchByMap = () => {
   const { user } = useContext(AuthContext);
-  const { currentUser, isLoading: userLoading, isError: userError } = useCurrentUser(user?.email);
+  const {
+    currentUser,
+    isLoading: userLoading,
+    isError: userError,
+  } = useCurrentUser(user?.email);
   const { allJobs, isLoading: jobsLoading, isError: jobsError } = useAllJobs();
 
   const [userCoords, setUserCoords] = useState(null);
@@ -87,7 +73,9 @@ const SearchByMap = () => {
     const query = parts.join(", ") + ", Bangladesh";
 
     try {
-      const res = await axios.get(`http://localhost:5000/geocode?q=${encodeURIComponent(query)}`);
+      const res = await axios.get(
+        `http://localhost:5000/geocode?q=${encodeURIComponent(query)}`
+      );
       const data = res.data;
       if (data && data.length > 0) {
         return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
@@ -101,7 +89,10 @@ const SearchByMap = () => {
   // 🔹 Load user coords
   useEffect(() => {
     if (!userLoading && currentUser?.location) {
-      geocodeLocation(currentUser.location, currentUser.city || "Barishal").then((coords) => {
+      geocodeLocation(
+        currentUser.location,
+        currentUser.city || "Barishal"
+      ).then((coords) => {
         if (coords) {
           setUserCoords(coords);
           setMapCenter(coords);
@@ -115,7 +106,11 @@ const SearchByMap = () => {
     if (!jobsLoading && allJobs?.length) {
       Promise.all(
         allJobs.map(async (request) => {
-          const coords = await geocodeLocation(request.location, "", request.city);
+          const coords = await geocodeLocation(
+            request.location,
+            "",
+            request.city
+          );
           if (coords) {
             return { id: request._id, coords, ...request };
           }
@@ -159,7 +154,9 @@ const SearchByMap = () => {
         <div className="flex w-full min-h-[500px]">
           {/* Left Panel */}
           <div className="w-1/3 p-4 overflow-y-auto border-r border-gray-200">
-            <h2 className="text-xl font-semibold mb-4">Find Tuition by Location</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Find Tuition by Location
+            </h2>
 
             {/* District + City Dropdown */}
             <div className="flex gap-2 mb-4">
@@ -169,11 +166,17 @@ const SearchByMap = () => {
                   setDistrict(e.target.value);
                   setCity("");
                 }}
-                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 ${!district ? "text-gray-400" : "text-black"}`}
+                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 ${
+                  !district ? "text-gray-400" : "text-black"
+                }`}
               >
-                <option value="" disabled>District</option>
+                <option value="" disabled>
+                  District
+                </option>
                 {bdDistricts.map((dist, idx) => (
-                  <option key={idx} value={dist}>{dist}</option>
+                  <option key={idx} value={dist}>
+                    {dist}
+                  </option>
                 ))}
               </select>
 
@@ -181,28 +184,121 @@ const SearchByMap = () => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 disabled={!district}
-                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 ${!city ? "text-gray-400" : "text-black"}`}
+                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 ${
+                  !city ? "text-gray-400" : "text-black"
+                }`}
               >
-                <option value="" disabled>Location</option>
-                {district && cityAreaMap[district]?.map((ct, idx) => (
-                  <option key={idx} value={ct}>{ct}</option>
-                ))}
+                <option value="" disabled>
+                  Location
+                </option>
+                {district &&
+                  cityAreaMap[district]?.map((ct, idx) => (
+                    <option key={idx} value={ct}>
+                      {ct}
+                    </option>
+                  ))}
               </select>
 
-              <button onClick={handleSearch} className="bg-blue-600 text-white px-3 rounded hover:bg-blue-700">
+              <button
+                onClick={handleSearch}
+                className="bg-blue-600 text-white px-3 rounded hover:bg-blue-700"
+              >
                 Search
               </button>
             </div>
 
             {selectedRequest && (
-              <div className="p-4 bg-white rounded shadow-md mb-4">
-                <h3 className="text-lg font-bold mb-2">Class: {selectedRequest.classCourse}</h3>
-                <p><strong>Location:</strong> {selectedRequest.location}</p>
-                <p><strong>Subjects:</strong> {selectedRequest.subjects?.join(", ")}</p>
-                <p><strong>Salary:</strong> {selectedRequest.salary} TK/Month</p>
-                <p><strong>Duration:</strong> {selectedRequest.duration}</p>
-                <p><strong>City:</strong> {selectedRequest.city}</p>
-                <p><strong>Days/Week:</strong> {selectedRequest.daysPerWeek}</p>
+              <div
+                key={selectedRequest._id}
+                className="bg-white/80 shadow-md rounded-lg p-6 relative"
+              >
+                {selectedRequest.appliedTutors?.some(
+                  (tutor) =>
+                    tutor.confirmationStatus?.toLowerCase() === "confirmed"
+                ) && (
+                  <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                    Selected
+                  </div>
+                )}
+
+                {selectedRequest.tutorStatus === "Not Available" && (
+                  <div className="absolute top-4 right-4 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                    Not Available
+                  </div>
+                )}
+
+                <p className="text-gray-500">
+                  📍 {selectedRequest.city}, {selectedRequest.location}
+                </p>
+                <h2 className="text-xl text-black font-bold mt-2">
+                  Tuition for {selectedRequest.classCourse}
+                </h2>
+                <div className="flex gap-2 mt-2">
+                  <span className="bg-purple-200 text-purple-800 px-2 py-1 rounded text-sm">
+                    {selectedRequest.tuitionType}
+                  </span>
+                  <span className="bg-blue-200 text-blue-800 px-2 py-1 rounded text-sm">
+                    ⏰ {selectedRequest.duration}
+                  </span>
+                </div>
+
+                <div className="mt-4 grid grid-cols-2 justify-between gap-2 text-black">
+                  <p>
+                    <strong>👨‍🏫 No. of Students:</strong>{" "}
+                    {selectedRequest.noOfStudents}
+                  </p>
+                  <p>
+                    <strong>🏫 Medium:</strong> {selectedRequest.category}
+                  </p>
+                  <p>
+                    <strong>📚 Class:</strong> {selectedRequest.classCourse}
+                  </p>
+                  <p>
+                    <strong>📅 Tutoring Days:</strong>{" "}
+                    {selectedRequest.daysPerWeek}
+                  </p>
+                  <p>
+                    <strong>👤 Preferred Tutor:</strong>{" "}
+                    {selectedRequest.tutorGenderPreference}
+                  </p>
+                  <p>
+                    <strong>👧 Student Gender:</strong>{" "}
+                    {selectedRequest.studentGender}
+                  </p>
+                </div>
+
+                <div className="mt-2 text-black">
+                  <strong>📖 Subjects:</strong>
+                  <div className="flex gap-2 mt-1 flex-wrap">
+                    {selectedRequest.subjects?.map((subj, idx) => (
+                      <span
+                        key={idx}
+                        className="bg-green-200 text-green-800 text-sm px-2 py-1 rounded"
+                      >
+                        {subj}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <p className="mt-3 text-black">
+                  <strong>💰 Salary:</strong>{" "}
+                  <span className="text-blue-700 font-bold">
+                    {selectedRequest.salary} TK
+                  </span>
+                  /Month
+                </p>
+                <p className="text-gray-500 mt-2 text-sm">
+                  Posted Date:{" "}
+                  {new Date(selectedRequest.postedAt).toLocaleString("en-US", {
+                    timeZone: "Asia/Dhaka",
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
               </div>
             )}
           </div>
@@ -230,7 +326,9 @@ const SearchByMap = () => {
 
               {userCoords && (
                 <Marker position={userCoords} icon={redIcon}>
-                  <Tooltip direction="top" offset={[0, -20]} opacity={1}>You are here</Tooltip>
+                  <Tooltip direction="top" offset={[0, -20]} opacity={1}>
+                    You are here
+                  </Tooltip>
                 </Marker>
               )}
 
@@ -248,10 +346,18 @@ const SearchByMap = () => {
                   >
                     <Tooltip direction="top" offset={[0, -20]} opacity={1}>
                       <div style={{ minWidth: "180px", lineHeight: "1.3" }}>
-                        <h4 style={{ marginBottom: "4px" }}><strong>Class:</strong> {request.classCourse}</h4>
-                        <p><strong>Location:</strong> {request.location}</p>
-                        <p><strong>Salary:</strong> {request.salary} TK/Month</p>
-                        <p><strong>Duration:</strong> {request.duration}</p>
+                        <h4 style={{ marginBottom: "4px" }}>
+                          <strong>Class:</strong> {request.classCourse}
+                        </h4>
+                        <p>
+                          <strong>Location:</strong> {request.location}
+                        </p>
+                        <p>
+                          <strong>Salary:</strong> {request.salary} TK/Month
+                        </p>
+                        <p>
+                          <strong>Duration:</strong> {request.duration}
+                        </p>
                       </div>
                     </Tooltip>
                   </Marker>
