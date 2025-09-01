@@ -158,7 +158,7 @@ const MyApplications = () => {
                           disabled
                           className="bg-blue-200 mb-2 text-blue-700 px-2 py-2 rounded hover:bg-blue-300 flex items-center gap-1"
                         >
-                          💬Chat TuToria
+                          Paid
                         </button>
                       ) : (
                         <button
