@@ -12,14 +12,18 @@ import useAppliedTutorForJobID from "../../../../hooks/useAppliedTutorForJobID";
 import { IoArrowBack } from "react-icons/io5";
 
 const AppliedTutors = () => {
-  const { state } = useLocation();
+  const { state } = useLocation(); // job data passed via state
   let jobId = state?.jobId;
 
   useEffect(() => {
-    if (jobId) localStorage.setItem("appliedTutorsJobId", jobId);
+    if (jobId) {
+      localStorage.setItem("appliedTutorsJobId", jobId);
+    }
   }, [jobId]);
 
-  if (!jobId) jobId = localStorage.getItem("appliedTutorsJobId");
+  if (!jobId) {
+    jobId = localStorage.getItem("appliedTutorsJobId");
+  }
 
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
@@ -36,119 +40,104 @@ const AppliedTutors = () => {
     useJobIdpayment(jobId);
 
   const [confirmedTutorEmail, setConfirmedTutorEmail] = useState(null);
-  const [showMatched, setShowMatched] = useState(false);
-  const [matchedTutors, setMatchedTutors] = useState([]);
-  const [allTutorProfiles, setAllTutorProfiles] = useState([]);
+  const [bestMatchedTutor, setBestMatchedTutor] = useState(null);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const tutorsPerPage = 10;
+  // ---- MATCH SCORE FUNCTION ----
+  const calculateMatchScore = (job, tutor) => {
+    let score = 0;
 
-  // Confirm check
+    // 1. City / Location
+    if (tutor.city === job.city) score += 30;
+    if (
+      tutor.preferredLocations
+        ?.toLowerCase()
+        .includes(job.location?.toLowerCase())
+    ) {
+      score += 20;
+    }
+
+    // 2. Category / Class / Subject
+    if (
+      tutor.preferredCategories
+        ?.toLowerCase()
+        .includes(job.category?.toLowerCase())
+    ) {
+      score += 20;
+    }
+    if (
+      tutor.preferredClass?.toLowerCase().includes(job.classCourse?.toLowerCase())
+    ) {
+      score += 20;
+    }
+
+    const jobSubjects = job.subjects?.map((s) => s.toLowerCase()) || [];
+    const tutorSubjects =
+      tutor.preferredSubjects?.toLowerCase().split(",") || [];
+    if (jobSubjects.some((sub) => tutorSubjects.includes(sub))) {
+      score += 30;
+    }
+
+    // 3. Salary
+    if (parseInt(tutor.expectedSalary) <= parseInt(job.salary)) {
+      score += 10;
+    }
+
+    // 4. Gender Preference
+    if (
+      job.tutorGenderPreference === "Any" ||
+      job.tutorGenderPreference?.toLowerCase() ===
+        tutor.gender?.toLowerCase()
+    ) {
+      score += 10;
+    }
+
+    return score;
+  };
+
+  // ---- FETCH APPLIED TUTORS WITH PROFILE ----
+  const [appliedTutorsWithProfile, setAppliedTutorsWithProfile] = useState([]);
+
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      if (!Array.isArray(appliedTutorsFromAPI)) return;
+      try {
+        const profiles = await Promise.all(
+          appliedTutorsFromAPI.map(async (t) => {
+            const res = await axiosPublic.get(`/tutors/${t.tutorId}`);
+            return { ...t, profile: res.data };
+          })
+        );
+        setAppliedTutorsWithProfile(profiles);
+      } catch {
+        toast.error("Failed to fetch tutor profiles");
+      }
+    };
+    fetchProfiles();
+  }, [appliedTutorsFromAPI, axiosPublic]);
+
+  // ---- FIND BEST MATCHED ----
+  useEffect(() => {
+    if (!state || appliedTutorsWithProfile.length === 0) return;
+
+    const tutorsWithScore = appliedTutorsWithProfile.map((t) => {
+      const score = calculateMatchScore(state, t.profile);
+      return { ...t, matchScore: score };
+    });
+
+    tutorsWithScore.sort((a, b) => b.matchScore - a.matchScore);
+    setBestMatchedTutor(tutorsWithScore[0] || null);
+  }, [state, appliedTutorsWithProfile]);
+
+  // Confirmed tutor effect
   useEffect(() => {
     if (!Array.isArray(appliedTutorsFromAPI)) return;
     const confirmed = appliedTutorsFromAPI.find(
       (t) => t.confirmationStatus === "confirmed"
     );
     setConfirmedTutorEmail(confirmed ? confirmed.email : null);
-    setCurrentPage(1);
   }, [appliedTutorsFromAPI]);
 
-  // Fetch all tutor profiles for applied tutors
-  useEffect(() => {
-    const fetchTutorProfiles = async () => {
-      try {
-        const profiles = await Promise.all(
-          appliedTutorsFromAPI.map(async (applied) => {
-            const res = await axiosPublic.get(
-              `/tutors/profile/${applied.tutorId}`
-            );
-            return res.data;
-          })
-        );
-        setAllTutorProfiles(profiles);
-      } catch {
-        toast.error("Failed to fetch tutor profiles.");
-      }
-    };
-
-    if (Array.isArray(appliedTutorsFromAPI) && appliedTutorsFromAPI.length > 0)
-      fetchTutorProfiles();
-  });
-
-  const calculateMatchScore = (job, tutor) => {
-    let score = 0;
-
-    const tutorCity = tutor.city || "";
-    const tutorLocations = tutor.preferredLocations || "";
-    const tutorCategories = tutor.preferredCategories || "";
-    const tutorClass = tutor.preferredClass || "";
-    const tutorSubjects = (tutor.preferredSubjects || "")
-      .toLowerCase()
-      .split(",");
-    const tutorGender = tutor.gender || "";
-    const tutorSalary = parseInt(tutor.expectedSalary) || 0;
-
-    const jobCity = job.city || "";
-    const jobLocation = job.location || "";
-    const jobCategory = job.category || "";
-    const jobClass = job.classCourse || "";
-    const jobSubjects = job.subjects?.map((s) => s.toLowerCase()) || [];
-    const jobSalary = parseInt(job.salary) || 0;
-    const jobGenderPref = job.tutorGenderPreference || "Any";
-
-    if (tutorCity === jobCity) score += 30;
-    if (tutorLocations.toLowerCase().includes(jobLocation.toLowerCase()))
-      score += 20;
-    if (tutorCategories.toLowerCase().includes(jobCategory.toLowerCase()))
-      score += 20;
-    if (tutorClass.toLowerCase().includes(jobClass.toLowerCase())) score += 20;
-    if (jobSubjects.some((sub) => tutorSubjects.includes(sub))) score += 30;
-    if (tutorSalary <= jobSalary) score += 10;
-    if (
-      jobGenderPref === "Any" ||
-      jobGenderPref.toLowerCase() === tutorGender.toLowerCase()
-    )
-      score += 10;
-
-    return score;
-  };
-
-  const fetchMatchedTutors = () => {
-    if (!allTutorProfiles.length) return;
-    const tutorsWithScore = allTutorProfiles.map((tutor) => ({
-      ...tutor,
-      matchScore: calculateMatchScore(state, tutor),
-    }));
-    const sorted = tutorsWithScore.sort((a, b) => b.matchScore - a.matchScore);
-    setMatchedTutors(sorted.slice(0, 10));
-    setShowMatched(true);
-  };
-
-  const goToPrevious = () => currentPage > 1 && setCurrentPage(currentPage - 1);
-  const goToNext = () =>
-    currentPage < totalPages && setCurrentPage(currentPage + 1);
-
-  // এই অংশে displayedTutors declare করার আগে নিশ্চিত করি array
-  // displayedTutors safe check
-  const displayedTutors = showMatched
-    ? Array.isArray(matchedTutors)
-      ? matchedTutors
-      : []
-    : Array.isArray(allTutorProfiles)
-    ? allTutorProfiles
-    : [];
-
-  const totalPages =
-    Array.isArray(displayedTutors) && displayedTutors.length > 0
-      ? Math.ceil(displayedTutors.length / tutorsPerPage)
-      : 1;
-
-  const startIndex = (currentPage - 1) * tutorsPerPage;
-  const currentTutors = displayedTutors.slice(
-    startIndex,
-    startIndex + tutorsPerPage
-  );
-
+  // ---- Confirm tutor ----
   const handleConfirm = async (email) => {
     Swal.fire({
       title: "Are you sure?",
@@ -165,11 +154,7 @@ const AppliedTutors = () => {
             confirmedTutorEmail: email,
           });
           if (res.data.message) {
-            Swal.fire({
-              title: "Confirmed!",
-              text: res.data.message,
-              icon: "success",
-            });
+            Swal.fire("Confirmed!", res.data.message, "success");
             setConfirmedTutorEmail(email);
             refetchTutors();
             refetchPayments();
@@ -181,6 +166,7 @@ const AppliedTutors = () => {
     });
   };
 
+  // ---- Cancel confirm ----
   const handleCancel = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -209,33 +195,29 @@ const AppliedTutors = () => {
     });
   };
 
-  if (isLoading)
+  // ---- LOADING ----
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center mt-20">
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
       </div>
     );
+  }
 
-  if (
-    !showMatched &&
-    (!appliedTutorsFromAPI || appliedTutorsFromAPI.length === 0)
-  ) {
+  // ---- NO APPLIED ----
+  if (!appliedTutorsFromAPI.length) {
     return (
       <div className="container mx-auto p-6 text-center text-gray-600">
         <h2 className="text-2xl font-bold mb-4">Applied Tutors</h2>
         <p>No tutors have applied for this job yet.</p>
-        <button
-          onClick={fetchMatchedTutors}
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
-        >
-          Show Top Matched Tutors
-        </button>
       </div>
     );
   }
 
+  // ---- MAIN UI ----
   return (
     <div className="container mx-auto p-6">
+      {/* Back Button */}
       <div className="flex justify-between items-center mb-2">
         <button
           onClick={() => navigate(-1)}
@@ -244,32 +226,43 @@ const AppliedTutors = () => {
           <IoArrowBack className="text-2xl" />
           <span className="text-lg font-medium">Back</span>
         </button>
-        <button
-          onClick={
-            showMatched ? () => setShowMatched(false) : fetchMatchedTutors
-          }
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
-        >
-          {showMatched ? "Show Applied Tutors" : "Show Top Matched Tutors"}
-        </button>
       </div>
 
-      <h2 className="text-2xl font-bold mb-4 text-center">
-        {showMatched ? "Top Matched Tutors" : "Applied Tutors"}
-      </h2>
+      <h2 className="text-2xl font-bold mb-6 text-center">Applied Tutors</h2>
 
+      {/* Best Match Section */}
+      {bestMatchedTutor && (
+        <div className="mb-6 p-4 border-2 border-green-400 rounded-lg bg-green-50 shadow">
+          <h3 className="text-xl font-bold text-green-700 mb-2">
+            Best Matched Tutor
+          </h3>
+          <p><strong>Name:</strong> {bestMatchedTutor.name}</p>
+          <p><strong>Email:</strong> {bestMatchedTutor.email}</p>
+          <p><strong>Match Score:</strong> {bestMatchedTutor.matchScore}%</p>
+          <p><strong>Expected Salary:</strong> {bestMatchedTutor.profile?.expectedSalary}</p>
+          <NavLink
+            to={`/${currentUser?.role}/posted-jobs/applied-tutors/appliedTutor-profile`}
+            state={{ email: bestMatchedTutor.email }}
+            className="text-blue-600 underline mt-2 inline-block"
+          >
+            View Profile
+          </NavLink>
+        </div>
+      )}
+
+      {/* Applied Tutors Table */}
       <div className="overflow-x-auto rounded-lg shadow border">
         <table className="table w-full border border-gray-300 text-center">
           <thead className="bg-gray-200 text-[16px]">
             <tr>
               <th>Name</th>
               <th></th>
-              <th>{showMatched ? "Match %" : "Applied On"}</th>
-              <th>Action</th> {/* এখন সব ক্ষেত্রে Action থাকবে */}
+              <th>Applied On</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {currentTutors.map((tutor, index) => {
+            {appliedTutorsFromAPI.map((tutor, index) => {
               const isConfirmed = confirmedTutorEmail === tutor.email;
               const isDisabled = confirmedTutorEmail && !isConfirmed;
               const hasPaidJob = paidData.some(
@@ -294,13 +287,11 @@ const AppliedTutors = () => {
                     </NavLink>
                   </td>
                   <td>
-                    {showMatched
-                      ? `${tutor.matchScore}%`
-                      : new Date(tutor.appliedAt).toLocaleDateString("en-GB", {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        })}
+                    {new Date(tutor.appliedAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </td>
                   <td className="flex justify-center gap-2">
                     {isConfirmed ? (
@@ -313,7 +304,8 @@ const AppliedTutors = () => {
                             : "bg-red-200 text-red-700 hover:bg-red-300"
                         }`}
                       >
-                        <FaTimes /> Cancel
+                        <FaTimes />
+                        Cancel
                       </button>
                     ) : (
                       <button
@@ -325,7 +317,8 @@ const AppliedTutors = () => {
                             : "bg-green-200 text-green-700 hover:bg-green-300"
                         }`}
                       >
-                        <FaCheck /> Confirm
+                        <FaCheck />
+                        Confirm
                       </button>
                     )}
                   </td>
@@ -335,29 +328,8 @@ const AppliedTutors = () => {
           </tbody>
         </table>
       </div>
-
-      {totalPages > 1 && (
-        <div className="flex justify-center mt-6 items-center gap-4">
-          <button
-            onClick={goToPrevious}
-            disabled={currentPage === 1}
-            className="px-3 py-1 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50"
-          >
-            &lt; Prev
-          </button>
-          <span className="font-semibold">
-            {currentPage} / {totalPages}
-          </span>
-          <button
-            onClick={goToNext}
-            disabled={currentPage === totalPages}
-            className="px-3 py-1 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50"
-          >
-            Next &gt;
-          </button>
-        </div>
-      )}
     </div>
   );
 };
+
 export default AppliedTutors;

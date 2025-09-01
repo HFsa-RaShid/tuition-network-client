@@ -500,9 +500,9 @@ const ProfileDetails = () => {
                     className="select select-bordered w-full"
                   >
                     <option value="">Select preference</option>
-                    <option value="Online">Online</option>
-                    <option value="Offline">Offline</option>
-                    <option value="Both">Online & Offline</option>
+                    <option value="Online">Home Tutoring </option>
+                    <option value="Offline">Online Tutoring</option>
+                    <option value="Both">Online & Home</option>
                   </select>
                 </div>
 

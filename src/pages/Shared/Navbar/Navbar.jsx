@@ -44,7 +44,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-white/80 shadow-md backdrop-blur text-black w-full fixed top-0 z-50">
+    <div className="bg-white/80 shadow-md backdrop-blur font-serif text-black w-full fixed top-0 z-50">
       <div className="navbar container mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -95,6 +95,16 @@ const Navbar = () => {
                   Tuitions
                 </NavLink>
               </li>
+               <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? " text-[#123d7e] underline" : " "
+                }
+                to="/search-by-map"
+              >
+                Find on Map
+              </NavLink>
+            </li>
             </ul>
           </div>
           <NavLink to="/">

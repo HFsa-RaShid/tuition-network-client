@@ -5,7 +5,7 @@ import useAxiosPublic from "./useAxiosPublic";
 const useAxisTutorByID = (id) => {
   const axiosPublic = useAxiosPublic();
   const {refetch,data: tutorProfile = null,isLoading,isError,} = useQuery({
-    queryKey: ["TutorProfile"],
+    queryKey: ["TutorProfile",id],
     queryFn: async () => {
       const res = await axiosPublic.get(`/tutors/profile/${id}`);
       return res.data;
