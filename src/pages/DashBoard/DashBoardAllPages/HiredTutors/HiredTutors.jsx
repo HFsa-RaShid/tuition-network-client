@@ -188,16 +188,16 @@ const HiredTutors = () => {
               className="rating rating-lg rating-half"
               onChange={(e) => setRating(e.target.value)}
             >
-              <input type="radio" name="rating" value="0.5" className="mask mask-star-2 mask-half-1 bg-green-500" />
-              <input type="radio" name="rating" value="1" className="mask mask-star-2 mask-half-2 bg-green-500" />
-              <input type="radio" name="rating" value="1.5" className="mask mask-star-2 mask-half-1 bg-green-500" />
-              <input type="radio" name="rating" value="2" className="mask mask-star-2 mask-half-2 bg-green-500" />
-              <input type="radio" name="rating" value="2.5" className="mask mask-star-2 mask-half-1 bg-green-500" />
-              <input type="radio" name="rating" value="3" className="mask mask-star-2 mask-half-2 bg-green-500" />
-              <input type="radio" name="rating" value="3.5" className="mask mask-star-2 mask-half-1 bg-green-500" />
-              <input type="radio" name="rating" value="4" className="mask mask-star-2 mask-half-2 bg-green-500" />
-              <input type="radio" name="rating" value="4.5" className="mask mask-star-2 mask-half-1 bg-green-500" />
-              <input type="radio" name="rating" value="5" className="mask mask-star-2 mask-half-2 bg-green-500" />
+              <input type="radio" name="rating" value="0.5" className="mask mask-star-2 mask-half-1 bg-yellow-500" />
+              <input type="radio" name="rating" value="1" className="mask mask-star-2 mask-half-2 bg-yellow-500" />
+              <input type="radio" name="rating" value="1.5" className="mask mask-star-2 mask-half-1 bg-yellow-500" />
+              <input type="radio" name="rating" value="2" className="mask mask-star-2 mask-half-2 bg-yellow-500" />
+              <input type="radio" name="rating" value="2.5" className="mask mask-star-2 mask-half-1 bg-yellow-500" />
+              <input type="radio" name="rating" value="3" className="mask mask-star-2 mask-half-2 bg-yellow-500" />
+              <input type="radio" name="rating" value="3.5" className="mask mask-star-2 mask-half-1 bg-yellow-500" />
+              <input type="radio" name="rating" value="4" className="mask mask-star-2 mask-half-2 bg-yellow-500" />
+              <input type="radio" name="rating" value="4.5" className="mask mask-star-2 mask-half-1 bg-yellow-500" />
+              <input type="radio" name="rating" value="5" className="mask mask-star-2 mask-half-2 bg-yellow-500" />
             </div>
 
             <div className="modal-action">
