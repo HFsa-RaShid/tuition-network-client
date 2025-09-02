@@ -1,10 +1,9 @@
+
 // HiredTutors.jsx
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
-import { toast } from "react-hot-toast";
 import useAllHiredByAStudent from "../../../../hooks/useAllHiredByAStudent";
-import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import HiredTutorRow from "./HiredTutorRow";
 
 const HiredTutors = () => {
@@ -27,7 +26,10 @@ const HiredTutors = () => {
   }
 
   const studentPaidJobs = paidJobs?.filter(
-    (p) => p.studentEmail === currentUser?.email && p.source === "myApplications"
+    (p) =>
+      p.studentEmail === currentUser?.email &&
+      p.paidStatus === true &&
+      p.source === "myApplications"
   );
 
   if (!studentPaidJobs?.length) {
@@ -44,7 +46,7 @@ const HiredTutors = () => {
         </li>
         {studentPaidJobs.map((payment) => (
           <HiredTutorRow
-            key={payment.jobId}
+            key={payment._id}
             payment={payment}
             currentUser={currentUser}
           />
