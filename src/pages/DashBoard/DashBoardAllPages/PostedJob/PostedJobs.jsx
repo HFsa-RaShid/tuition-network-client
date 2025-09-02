@@ -17,10 +17,15 @@ const PostedJobs = () => {
 
   useEffect(() => {
     if (allJobs && currentUser?.email) {
-      const userPostedJobs = allJobs.filter(
-        (job) =>
-          job.userEmail === currentUser.email && job.status === "approved"
-      );
+      const userPostedJobs = allJobs
+        .filter(
+          (job) =>
+            job.userEmail === currentUser.email && job.status === "approved"
+        )
+        .sort(
+          (a, b) => new Date(b.postedAt) - new Date(a.postedAt) // latest first
+        );
+
       setJobs(userPostedJobs);
     }
   }, [allJobs, currentUser?.email]);
@@ -65,13 +70,13 @@ const PostedJobs = () => {
   }
 
   return (
-    <div className="container mx-auto mt-6">
-      <div className="p-6 gap-4">
-        <div className="w-full space-y-6">
+    <div className=" bg-base-200">
+      <div className="p-6 gap-4 container mx-auto mt-6">
+        <div className="w-full space-y-6 ">
           {jobs.map((job) => (
             <div
               key={job._id}
-              className="bg-slate-100 shadow-md rounded-lg p-6 relative "
+              className="bg-white/80 shadow-md rounded-lg p-6 relative "
             >
               <NavLink
                 to={`/${role}/posted-jobs/applied-tutors`}
