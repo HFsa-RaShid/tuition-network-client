@@ -72,26 +72,48 @@ const HiredTutorRow = ({ payment, currentUser }) => {
     }
   };
 
+  // const handleSubmitRating = async () => {
+  //   if (!rating) return toast.error("Please select a rating!");
+  //   try {
+  //     const res = await axiosSecure.put(
+  //       `/tutors/${selectedTutor?.tutorEmail}`,
+  //       {
+  //         rating: parseFloat(rating),
+  //       }
+  //     );
+  //     if (res.modifiedCount > 0 || res.upsertedCount > 0) {
+  //       toast.success("Thanks for your rating!");
+  //     } else {
+  //       toast.success("Rating submitted!");
+  //     }
+  //     setSelectedTutor(null);
+  //     setRating(0);
+  //   } catch (err) {
+  //     toast.error("Rating failed!");
+  //   }
+  // };
+
   const handleSubmitRating = async () => {
-    if (!rating) return toast.error("Please select a rating!");
-    try {
-      const res = await axiosSecure.put(
-        `/tutors/${selectedTutor?.tutorEmail}`,
-        {
-          rating: parseFloat(rating),
-        }
-      );
-      if (res.modifiedCount > 0 || res.upsertedCount > 0) {
-        toast.success("Thanks for your rating!");
-      } else {
-        toast.success("Rating submitted!");
-      }
-      setSelectedTutor(null);
-      setRating(0);
-    } catch (err) {
-      toast.error("Rating failed!");
+  if (!rating) return toast.error("Please select a rating!");
+  try {
+    const res = await axiosSecure.put(
+      `/tutors/${selectedTutor?.tutorEmail}`,
+      { rating: parseFloat(rating) }
+    );
+
+    if (res.data?.modifiedCount > 0) {
+      toast.success("Thanks for your rating!");
+    } else {
+      toast.success("Rating submitted!");
     }
-  };
+
+    setSelectedTutor(null);
+    setRating(0);
+  } catch (err) {
+    toast.error("Rating failed!");
+  }
+};
+
 
   if (isLoading) {
     return (

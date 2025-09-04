@@ -3,17 +3,20 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import { FaEdit } from "react-icons/fa";
 import { toast } from "react-hot-toast";
-import useCurrentUser from "../../../../hooks/useCurrentUser";
+
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
 import subjects from "../../../utils/subjects";
 import { RxCross2 } from "react-icons/rx";
+import useCurrentUser from "../../../../hooks/useCurrentUser";
+
 
 const ProfileDetails = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
+  
   const [imagePreview, setImagePreview] = useState("");
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [step, setStep] = useState(1);
@@ -68,11 +71,11 @@ const ProfileDetails = () => {
       setValue("expectedSalary", currentUser.expectedSalary || "");
       setValue("tuitionPreference", currentUser.tuitionPreference || "");
       setValue("preferredClass", currentUser.preferredClass || "");
-      setValue("studentIdImage", currentUser.studentIdImage || "");
+      setValue("idImage", currentUser?.idImage || "");
       setAvailableDays(currentUser.availableDays || []);
       setAvailableTimes(currentUser.availableTimes || []);
       setImagePreview(currentUser?.photoURL || "");
-      setStudentIdUrl(currentUser?.studentIdImage || "");
+      setStudentIdUrl(currentUser?.idImage || "");
     }
   }, [currentUser, setValue]);
 
@@ -82,6 +85,8 @@ const ProfileDetails = () => {
     "English Medium",
     "Madrasah",
   ];
+
+
 
   const classes = [
     "Play",
@@ -136,11 +141,11 @@ const ProfileDetails = () => {
         preferredLocations: dataPreferredLocations.join(","),
         availableDays,
         availableTimes,
-        studentIdImage: studentIdUrl || data.studentIdImage,
+        idImage: studentIdUrl || data.idImage,
         tutorStatus,
       };
 
-      await axiosSecure.put(`/users/${currentUser?.email}`, updatedData);
+    
       await axiosSecure.put(`/tutors/${currentUser?.email}`, updatedData);
       refetch();
       toast.success("Profile updated successfully!");
@@ -284,6 +289,9 @@ const ProfileDetails = () => {
         </div>
       </div>
 
+
+
+
       {/* Right Side - Multi-Step Form */}
       <div className="w-full md:w-2/3">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 ">
@@ -312,12 +320,22 @@ const ProfileDetails = () => {
                     <span className="text-red-500">Phone is required</span>
                   )}
                 </div>
+                {/* Gender */}
                 <div>
                   <label>Gender</label>
-                  <input
-                    {...register("gender")}
-                    className="input input-bordered w-full"
-                  />
+                  <select
+                    {...register("gender", { required: true })}
+                    className="select select-bordered w-full"
+                    //defaultValue={currentUser?.gender || ""}
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Others">Others</option>
+                  </select>
+                  {errors.gender && (
+                    <span className="text-red-500">Gender is required</span>
+                  )}
                 </div>
 
                 <div>
@@ -329,7 +347,7 @@ const ProfileDetails = () => {
                       setValue("city", e.target.value);
                       setValue("location", ""); // Reset location when city changes
                     }}
-                    defaultValue={currentUser?.city || ""}
+                    //defaultValue={currentUser?.city || ""}
                   >
                     <option value="">Select a City</option>
                     {bdDistricts.map((district) => (
@@ -346,7 +364,7 @@ const ProfileDetails = () => {
                     {...register("location")}
                     className="input input-bordered w-full"
                     disabled={!watch("city")}
-                    defaultValue={currentUser?.location || ""}
+                    //defaultValue={currentUser?.location || ""}
                   >
                     <option value="">Select an Area</option>
                     {cityAreaMap[watch("city")]?.map((area) => (
@@ -357,12 +375,25 @@ const ProfileDetails = () => {
                   </select>
                 </div>
 
+                {/* Religion */}
+                
                 <div>
                   <label>Religion</label>
-                  <input
-                    {...register("religion")}
-                    className="input input-bordered w-full"
-                  />
+                  <select
+                    {...register("religion", { required: true })}
+                    className="select select-bordered w-full"
+                    //defaultValue={currentUser?.religion || ""}
+                  >
+                    <option value="">Select Religion</option>
+                    <option value="Islam">Islam</option>
+                    <option value="Hinduism">Hinduism</option>
+                    <option value="Buddhism">Buddhism</option>
+                    <option value="Christianity">Christianity</option>
+                    <option value="Others">Others</option>
+                  </select>
+                  {errors.religion && (
+                    <span className="text-red-500">Religion is required</span>
+                  )}
                 </div>
               </div>
             </>
@@ -469,7 +500,7 @@ const ProfileDetails = () => {
               {/* Student ID File Upload Field */}
               <div>
                 <label className="block font-medium mb-1">
-                  Student ID Card (image)
+                 Update NID/ Student ID
                 </label>
                 <input
                   type="file"
@@ -732,98 +763,98 @@ const ProfileDetails = () => {
 
               <div className="space-y-8">
                 {/* Available Days */}
-              <div>
-                <h4 className="font-medium">Select Available Days</h4>
-                <div className="flex flex-wrap gap-4 text-xs">
-                  {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
-                    (day) => (
+                <div>
+                  <h4 className="font-medium">Select Available Days</h4>
+                  <div className="flex flex-wrap gap-4 text-xs">
+                    {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
+                      (day) => (
+                        <label
+                          key={day}
+                          className="inline-flex items-center space-x-2"
+                        >
+                          <input
+                            type="checkbox"
+                            value={day}
+                            {...register("availableDays", {
+                              setValueAs: (value) => value,
+                            })}
+                            checked={availableDays.includes(day)}
+                            onChange={() => handleDayChange(day)} // Function to handle day change
+                            className="checkbox"
+                          />
+                          <span>{day}</span>
+                        </label>
+                      )
+                    )}
+                  </div>
+                </div>
+
+                {/* Available Times */}
+                <div>
+                  <h4 className="font-medium">Select Available Times</h4>
+                  <div className="flex flex-wrap gap-4 text-xs">
+                    {[
+                      "8 AM",
+                      "9 AM",
+                      "10 AM",
+                      "11 AM",
+                      "12 PM",
+                      "1 PM",
+                      "2 PM",
+                      "3 PM",
+                      "4 PM",
+                      "5 PM",
+                      "6 PM",
+                      "7 PM",
+                      "8 PM",
+                      "9 PM",
+                      "10 PM",
+                    ].map((time) => (
                       <label
-                        key={day}
+                        key={time}
                         className="inline-flex items-center space-x-2"
                       >
                         <input
                           type="checkbox"
-                          value={day}
-                          {...register("availableDays", {
+                          value={time}
+                          {...register("availableTimes", {
                             setValueAs: (value) => value,
                           })}
-                          checked={availableDays.includes(day)}
-                          onChange={() => handleDayChange(day)} // Function to handle day change
+                          checked={availableTimes.includes(time)}
+                          onChange={() => handleTimeChange(time)}
                           className="checkbox"
                         />
-                        <span>{day}</span>
+                        <span>{time}</span>
                       </label>
-                    )
-                  )}
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {/* Available Times */}
-              <div>
-                <h4 className="font-medium">Select Available Times</h4>
-                <div className="flex flex-wrap gap-4 text-xs">
-                  {[
-                    "8 AM",
-                    "9 AM",
-                    "10 AM",
-                    "11 AM",
-                    "12 PM",
-                    "1 PM",
-                    "2 PM",
-                    "3 PM",
-                    "4 PM",
-                    "5 PM",
-                    "6 PM",
-                    "7 PM",
-                    "8 PM",
-                    "9 PM",
-                    "10 PM",
-                  ].map((time) => (
-                    <label
-                      key={time}
-                      className="inline-flex items-center space-x-2"
-                    >
+                <div className="mt-20">
+                  <h4 className="font-medium mb-2">Tutor Availability</h4>
+                  <div className="flex gap-6">
+                    <label className="flex items-center gap-2">
                       <input
-                        type="checkbox"
-                        value={time}
-                        {...register("availableTimes", {
-                          setValueAs: (value) => value,
-                        })}
-                        checked={availableTimes.includes(time)}
-                        onChange={() => handleTimeChange(time)}
-                        className="checkbox"
+                        type="radio"
+                        value="available"
+                        checked={tutorStatus === "available"}
+                        onChange={(e) => setTutorStatus(e.target.value)}
+                        className="radio"
                       />
-                      <span>{time}</span>
+                      <span>Available</span>
                     </label>
-                  ))}
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        value="unavailable"
+                        checked={tutorStatus === "unavailable"}
+                        onChange={(e) => setTutorStatus(e.target.value)}
+                        className="radio"
+                      />
+                      <span>Unavailable</span>
+                    </label>
+                  </div>
                 </div>
-              </div>
-
-              <div className="mt-20">
-                <h4 className="font-medium mb-2">Tutor Availability</h4>
-                <div className="flex gap-6">
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      value="available"
-                      checked={tutorStatus === "available"}
-                      onChange={(e) => setTutorStatus(e.target.value)}
-                      className="radio"
-                    />
-                    <span>Available</span>
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      value="unavailable"
-                      checked={tutorStatus === "unavailable"}
-                      onChange={(e) => setTutorStatus(e.target.value)}
-                      className="radio"
-                    />
-                    <span>Unavailable</span>
-                  </label>
-                </div>
-              </div>
               </div>
             </>
           )}

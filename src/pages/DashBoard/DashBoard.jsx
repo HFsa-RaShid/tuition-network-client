@@ -50,11 +50,7 @@ const DashBoard = () => {
       icon: <FaBookOpen />,
       label: "Hired Tutors",
     },
-    {
-      path: "chat",
-      icon: <FaEnvelope />,
-      label: "Chat",
-    },
+   
     {
       path: "settings",
       icon: <FaCog />,
@@ -74,11 +70,7 @@ const DashBoard = () => {
       icon: <FaUser />,
       label: "Profile Details",
     },
-    {
-      path: "chat",
-      icon: <FaEnvelope />,
-      label: "Chat",
-    },
+  
     
     {
       path: "myApplications",

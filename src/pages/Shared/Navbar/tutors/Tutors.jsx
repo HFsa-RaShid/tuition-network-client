@@ -237,8 +237,8 @@ const Tutors = () => {
           </div>
 
           {/* Tutor List */}
-          <div className="w-[70%] bg-white/80 mt-28">
-            <ul className="list rounded-box shadow-md">
+          <div className="w-[70%]  mt-28">
+            <ul className="list bg-white/80 rounded-box shadow-md">
               <li className="p-4 pb-2 text-xs opacity-60 tracking-wide bg-base-200">
                 Showing Tutors ({filteredTutors.length})
               </li>
@@ -263,9 +263,7 @@ const Tutors = () => {
                         <div className="text-black font-medium text-lg">
                           {tutor.name}
                         </div>
-                        <div className="text-black font-medium text-md my-1">
-                          {tutor.institute}
-                        </div>
+                       
                         <div className="flex items-center text-xs text-gray-500 gap-1">
                           <MdLocationOn className="text-blue-400" />
                           <span>{tutor.city}</span>
