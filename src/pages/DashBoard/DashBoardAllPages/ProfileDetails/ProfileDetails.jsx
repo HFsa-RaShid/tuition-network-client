@@ -11,18 +11,18 @@ import subjects from "../../../utils/subjects";
 import { RxCross2 } from "react-icons/rx";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 
-
 const ProfileDetails = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
-  
-  const [imagePreview, setImagePreview] = useState("");
+
+  const [imagePreview, setImagePreview] = useState(currentUser?.photoURL || "");
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [step, setStep] = useState(1);
   const [availableDays, setAvailableDays] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
-  const [studentIdUrl, setStudentIdUrl] = useState("");
+  const [studentIdUrl, setStudentIdUrl] = useState(currentUser?.idImage || "");
+
   const [tutorStatus, setTutorStatus] = useState(
     currentUser?.tutorStatus || "available"
   );
@@ -72,10 +72,9 @@ const ProfileDetails = () => {
       setValue("tuitionPreference", currentUser.tuitionPreference || "");
       setValue("preferredClass", currentUser.preferredClass || "");
       setValue("idImage", currentUser?.idImage || "");
+      setStudentIdUrl(currentUser?.idImage || "");
       setAvailableDays(currentUser.availableDays || []);
       setAvailableTimes(currentUser.availableTimes || []);
-      setImagePreview(currentUser?.photoURL || "");
-      setStudentIdUrl(currentUser?.idImage || "");
     }
   }, [currentUser, setValue]);
 
@@ -85,8 +84,6 @@ const ProfileDetails = () => {
     "English Medium",
     "Madrasah",
   ];
-
-
 
   const classes = [
     "Play",
@@ -131,30 +128,56 @@ const ProfileDetails = () => {
     }
   };
 
-  const onSubmit = async (data) => {
-    try {
-      const updatedData = {
-        ...data,
-        preferredSubjects: preferredSubjects.join(","),
-        preferredClass: preferredClasses.join(","),
-        preferredCategories: preferredCategories.join(","),
-        preferredLocations: dataPreferredLocations.join(","),
-        availableDays,
-        availableTimes,
-        idImage: studentIdUrl || data.idImage,
-        tutorStatus,
-      };
+  // const onSubmit = async (data) => {
+  //   try {
+  //     const updatedData = {
+  //       ...data,
+  //       preferredSubjects: preferredSubjects.join(","),
+  //       preferredClass: preferredClasses.join(","),
+  //       preferredCategories: preferredCategories.join(","),
+  //       preferredLocations: dataPreferredLocations.join(","),
+  //       availableDays,
+  //       availableTimes,
+  //       idImage: data.idImage,
+  //       tutorStatus,
+  //     };
 
-    
-      await axiosSecure.put(`/tutors/${currentUser?.email}`, updatedData);
-      refetch();
+  //   await axiosSecure.put(`/users/${currentUser?.email}`, updatedData);
+  //     await axiosSecure.put(`/tutors/${currentUser?.email}`, updatedData);
+  //     refetch();
+  //     toast.success("Profile updated successfully!");
+  //   } catch (err) {
+  //     console.error(err);
+  //     toast.error("Failed to update profile!");
+  //   }
+  // };
+
+  const onSubmit = async (data) => {
+    const payload = {
+      ...data,
+      preferredSubjects: preferredSubjects.join(","),
+      preferredClass: preferredClasses.join(","),
+      preferredCategories: preferredCategories.join(","),
+      preferredLocations: dataPreferredLocations.join(","),
+      availableDays,
+      availableTimes,
+      tutorStatus,
+      idImage: data.idImage || currentUser?.idImage, // ✅ fallback to old one
+    };
+
+    try {
+      await axiosSecure.put(`/users/${currentUser?.email}`, payload);
+      await axiosSecure.put(`/tutors/${currentUser?.email}`, payload);
+
       toast.success("Profile updated successfully!");
-    } catch (err) {
-      console.error(err);
+      refetch();
+    } catch (error) {
+      console.error(error);
       toast.error("Failed to update profile!");
     }
   };
 
+ 
   const handleStudentIdChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -167,19 +190,29 @@ const ProfileDetails = () => {
         `https://api.imgbb.com/1/upload?key=${
           import.meta.env.VITE_IMAGE_HOSTING_KEY
         }`,
-        {
-          method: "POST",
-          body: formData,
-        }
+        { method: "POST", body: formData }
       );
 
       const imgData = await res.json();
-      const imageUrl = imgData.data.url;
+      const imageUrl = imgData?.data?.url;
 
-      setStudentIdUrl(imageUrl);
-      setValue("studentIdImage", imageUrl);
+      if (imageUrl) {
+        setStudentIdUrl(imageUrl);
+        setValue("idImage", imageUrl);
+
+        await axiosSecure.put(`/users/${currentUser?.email}`, {
+          idImage: imageUrl,
+        });
+        await axiosSecure.put(`/tutors/${currentUser?.email}`, {
+          idImage: imageUrl,
+        });
+
+        refetch();
+        toast.success("ID Image updated successfully!");
+      }
     } catch (err) {
       console.error("Student ID image upload failed:", err);
+      toast.error("Failed to upload ID Image!");
     }
   };
 
@@ -221,16 +254,25 @@ const ProfileDetails = () => {
   const isStep1Valid = step1Fields.every((field) => field && field !== "");
 
   // Step 2 fields
-  const step2Fields = watch([
-    "education",
-    "institute",
-    "department",
-    "gpa",
-    "passingYear",
-    "tutorType",
-    "studentIdImage",
-  ]);
-  const isStep2Valid = step2Fields.every((field) => field && field !== "");
+  // const step2Fields = watch([
+  //   "education",
+  //   "institute",
+  //   "department",
+  //   "gpa",
+  //   "passingYear",
+  //   "tutorType",
+  //   "studentIdImage",
+  // ]);
+  const isStep2Valid =
+    watch("education") &&
+    watch("institute") &&
+    watch("department") &&
+    watch("gpa") &&
+    watch("passingYear") &&
+    watch("tutorType");
+  currentUser.idImage;
+
+  // const isStep2Valid = step2Fields.every((field) => field && field !== "");
 
   // Step 3 fields
   const isStep3Valid =
@@ -289,9 +331,6 @@ const ProfileDetails = () => {
         </div>
       </div>
 
-
-
-
       {/* Right Side - Multi-Step Form */}
       <div className="w-full md:w-2/3">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 ">
@@ -338,6 +377,26 @@ const ProfileDetails = () => {
                   )}
                 </div>
 
+                 {/* Religion */}
+                <div>
+                  <label>Religion</label>
+                  <select
+                    {...register("religion", { required: true })}
+                    className="select select-bordered w-full"
+                    //defaultValue={currentUser?.religion || ""}
+                  >
+                    <option value="">Select Religion</option>
+                    <option value="Islam">Islam</option>
+                    <option value="Hinduism">Hinduism</option>
+                    <option value="Buddhism">Buddhism</option>
+                    <option value="Christianity">Christianity</option>
+                    <option value="Others">Others</option>
+                  </select>
+                  {errors.religion && (
+                    <span className="text-red-500">Religion is required</span>
+                  )}
+                </div>
+
                 <div>
                   <label>City</label>
                   <select
@@ -375,26 +434,25 @@ const ProfileDetails = () => {
                   </select>
                 </div>
 
-                {/* Religion */}
+               
+
                 
-                <div>
-                  <label>Religion</label>
-                  <select
-                    {...register("religion", { required: true })}
-                    className="select select-bordered w-full"
-                    //defaultValue={currentUser?.religion || ""}
-                  >
-                    <option value="">Select Religion</option>
-                    <option value="Islam">Islam</option>
-                    <option value="Hinduism">Hinduism</option>
-                    <option value="Buddhism">Buddhism</option>
-                    <option value="Christianity">Christianity</option>
-                    <option value="Others">Others</option>
-                  </select>
-                  {errors.religion && (
-                    <span className="text-red-500">Religion is required</span>
-                  )}
-                </div>
+              </div>
+              {/* Tutor Type */}
+              <div>
+                <label className="block font-medium ">Tutor Type</label>
+                <select
+                  {...register("tutorType")}
+                  className="select select-bordered w-full"
+                >
+                  <option value="">Select </option>
+                  <option value="Government Institution">Govt. Employee</option>
+                  <option value="Private Institution">Private Employee</option>
+                  <option value="Job Seeker">Job Seeker</option>
+                  <option value="University Student">University Student</option>
+
+                  <option value="College Student">College Student</option>
+                </select>
               </div>
             </>
           )}
@@ -474,43 +532,25 @@ const ProfileDetails = () => {
                     })}{" "}
                   </select>{" "}
                 </div>{" "}
-                {/* Tutor Type */}
                 <div>
-                  <label className="block font-medium ">Tutor Type</label>
-                  <select
-                    {...register("tutorType")}
-                    className="select select-bordered w-full"
-                  >
-                    <option value="">Select </option>
-                    <option value="Government Institution">
-                      Govt. Employee
-                    </option>
-                    <option value="Private Institution">
-                      Private Employee
-                    </option>
-                    <option value="Job Seeker">Job Seeker</option>
-                    <option value="University Student">
-                      University Student
-                    </option>
-
-                    <option value="College Student">College Student</option>
-                  </select>
+                  <label className="block font-medium mb-1">
+                    Update NID/ Student ID
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="file-input file-input-bordered w-full"
+                    onChange={handleStudentIdChange}
+                  />
+                  {studentIdUrl && (
+                    <img
+                      src={studentIdUrl}
+                      alt="Student ID"
+                      className="mt-2 w-60 h-24 border rounded object-cover"
+                    />
+                  )}
                 </div>
               </div>{" "}
-              {/* Student ID File Upload Field */}
-              <div>
-                <label className="block font-medium mb-1">
-                 Update NID/ Student ID
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="file-input file-input-bordered w-full"
-                  onChange={(e) => {
-                    handleStudentIdChange(e);
-                  }}
-                />
-              </div>
             </>
           )}
 
@@ -531,9 +571,9 @@ const ProfileDetails = () => {
                     className="select select-bordered w-full"
                   >
                     <option value="">Select preference</option>
-                    <option value="Online">Home Tutoring </option>
-                    <option value="Offline">Online Tutoring</option>
-                    <option value="Both">Online & Home</option>
+                    <option value="Home">Home Tutoring </option>
+                    <option value="Online">Online Tutoring</option>
+                    <option value="Online & Home">Online & Home</option>
                   </select>
                 </div>
 
