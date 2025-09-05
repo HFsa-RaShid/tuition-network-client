@@ -5,7 +5,7 @@ import { router } from './Routes/Routes';
 import { RouterProvider } from 'react-router-dom';
 import './index.css'
 
-
+import { Toaster } from "react-hot-toast";
 
 import {
   QueryClient,
@@ -23,7 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <HelmetProvider>
           
               <RouterProvider router={router}></RouterProvider>
-           
+           <Toaster position="top-right" reverseOrder={false} />
           </HelmetProvider>
           </AuthProvider>
         </QueryClientProvider>

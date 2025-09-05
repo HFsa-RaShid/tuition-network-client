@@ -113,38 +113,71 @@ const SearchByMap = () => {
   }, [currentUser, userLoading]);
 
   // 🔹 Load all job markers (skip paid jobs)
-  useEffect(() => {
-    if (!jobsLoading && allJobs?.length) {
-      const visibleJobs =
-        allJobs?.filter(
-          (job) =>
-            !paidJobsByJobIds?.some(
-              (p) =>
-                p.jobId === job._id &&
-                p.source === "myApplications" &&
-                p.paidStatus === true
-            )
-        ) || [];
+  // useEffect(() => {
+  //   if (!jobsLoading && allJobs?.length) {
+  //     const visibleJobs =
+  //       allJobs?.filter(
+  //         (job) =>
+  //           !paidJobsByJobIds?.some(
+  //             (p) =>
+  //               p.jobId === job._id &&
+  //               p.source === "myApplications" &&
+  //               p.paidStatus === true
+  //           )
+  //       ) || [];
 
-      Promise.all(
-        visibleJobs.map(async (request) => {
-          const coords = await geocodeLocation(
-            request.location,
-            "",
-            request.city
-          );
-          if (coords) {
-            return { id: request._id, coords, ...request };
-          }
-          return null;
-        })
-      ).then((markers) => {
-        setTutorRequestMarkers(markers.filter(Boolean));
-      });
-    } else {
-      setTutorRequestMarkers([]);
-    }
-  }, [allJobs, jobsLoading, paidJobsByJobIds]);
+  //     Promise.all(
+  //       visibleJobs.map(async (request) => {
+  //         const coords = await geocodeLocation(
+  //           request.location,
+  //           "",
+  //           request.city
+  //         );
+  //         if (coords) {
+  //           return { id: request._id, coords, ...request };
+  //         }
+  //         return null;
+  //       })
+  //     ).then((markers) => {
+  //       setTutorRequestMarkers(markers.filter(Boolean));
+  //     });
+  //   } else {
+  //     setTutorRequestMarkers([]);
+  //   }
+  // }, [allJobs, jobsLoading, paidJobsByJobIds]);
+  useEffect(() => {
+  if (!jobsLoading && allJobs?.length) {
+    const visibleJobs =
+      allJobs?.filter(
+        (job) =>
+          !paidJobsByJobIds?.some(
+            (p) =>
+              p.jobId === job._id &&
+              p.source === "myApplications" &&
+              p.paidStatus === true
+          )
+      ) || [];
+
+    Promise.all(
+      visibleJobs.map(async (request) => {
+        const coords = await geocodeLocation(
+          request.location,
+          "",
+          request.city
+        );
+        if (coords) {
+          return { id: request._id, coords, ...request };
+        }
+        return null;
+      })
+    ).then((markers) => {
+      setTutorRequestMarkers(markers.filter(Boolean));
+    });
+  } else {
+    setTutorRequestMarkers([]);
+  }
+}, [allJobs, jobsLoading, JSON.stringify(paidJobsByJobIds)]);
+
 
   // 🔹 Handle search
   const handleSearch = async () => {

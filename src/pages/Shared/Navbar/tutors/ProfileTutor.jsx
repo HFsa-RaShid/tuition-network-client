@@ -2,9 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { MdVerified } from "react-icons/md";
-
-
-import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import Footer from "../../Footer/Footer";
@@ -53,7 +50,7 @@ const ProfileTutor = () => {
   };
 
  const RatingStars = ({ rating, totalRatings = 0, name }) => {
-  // যদি কোনো rating না থাকে → gray star দেখাবে
+  
   if (!rating || totalRatings === 0) {
     return (
       <div className="space-y-2 text-center">
@@ -65,7 +62,7 @@ const ProfileTutor = () => {
               name={`${name}-no-rating`}
               className={`mask mask-star-2 ${
                 i % 2 === 0 ? "mask-half-1" : "mask-half-2"
-              } bg-gray-300`} // ⭐ gray color
+              } bg-gray-300`} 
               readOnly
             />
           ))}
