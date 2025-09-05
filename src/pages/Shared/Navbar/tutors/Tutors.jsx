@@ -32,7 +32,12 @@ const Tutors = () => {
     if (className) setSelectedClass(className);
   }, [district, city, className]);
 
-  if (isLoading) return <p>Loading tutors...</p>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center mt-20">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    );
   if (isError) return <p>Something went wrong while fetching tutors.</p>;
   if (!allTutors || allTutors.length === 0) {
     return (

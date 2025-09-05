@@ -13,7 +13,7 @@ import JobBoard from "../pages/Shared/Navbar/JobBoard/JobBoard";
 import PendingRequest from "../pages/DashBoard/DashBoardAllPages/PendingRequest/PendingRequest";
 import PostedJobs from "../pages/DashBoard/DashBoardAllPages/PostedJob/PostedJobs";
 import AppliedTutorProfile from "../pages/DashBoard/DashBoardAllPages/PostedJob/AppliedTutorProfile";
-import TutorRequests from "../pages/DashBoard/tutorRequests/TutorRequests";
+import TutorRequests from "../pages/DashBoard/DashBoardAllPages/tutorRequests/TutorRequests";
 import MyApplications from "../pages/DashBoard/DashBoardAllPages/MyApplications/MyApplications";
 import JobDetails from "../pages/DashBoard/DashBoardAllPages/MyApplications/JobDetails";
 import AppliedTutors from "../pages/DashBoard/DashBoardAllPages/PostedJob/AppliedTutors";

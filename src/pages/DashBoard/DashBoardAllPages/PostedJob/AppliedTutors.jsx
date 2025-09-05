@@ -45,7 +45,7 @@ const AppliedTutors = () => {
   const [appliedTutorsWithProfile, setAppliedTutorsWithProfile] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // Function to handle toggle and refresh data only when switching to Best Match
+
   const handleToggleAndRefresh = async () => {
     if (!showTopMatches) {
       // Switching to Best Match - refetch and recalculate
@@ -114,8 +114,6 @@ const AppliedTutors = () => {
             setTopMatchedTutors(tutorsWithScore);
           }
         }
-
-        // Toggle to Best Match view
         setShowTopMatches(true);
       } catch (error) {
         console.error("Error refreshing data:", error);
@@ -124,12 +122,12 @@ const AppliedTutors = () => {
         setIsRefreshing(false);
       }
     } else {
-      // Switching to Show All - just toggle without refetch
+      
       setShowTopMatches(false);
     }
   };
 
-  // Fetch job data
+
   useEffect(() => {
     const fetchJobData = async () => {
       if (!jobId) return;
@@ -164,7 +162,7 @@ const AppliedTutors = () => {
     // 1. City Match (25 points)
     if (tutor.city && job.city) {
       if (tutor.city.toLowerCase().trim() === job.city.toLowerCase().trim()) {
-        score += 25;
+        score += 20;
       }
     }
 
@@ -222,7 +220,7 @@ const AppliedTutors = () => {
       }
     }
 
-    // 5. Subject Match (20 points)
+    // 5. Subject Match (15 points)
     if (
       job.subjects &&
       Array.isArray(job.subjects) &&
@@ -241,7 +239,7 @@ const AppliedTutors = () => {
       );
 
       if (hasMatch) {
-        score += 20;
+        score += 15;
       }
     }
 
@@ -259,7 +257,25 @@ const AppliedTutors = () => {
       }
     }
 
-    // 7. Gender Match (5 points)
+    //7. Tuition Type (home,online)(10 points)
+     if (tutor.tuitionPreference && job.tuitionType) {
+      const tuitionPreference = tutor.tuitionPreference
+        .toLowerCase()
+        .split(",")
+        .map((cat) => cat.trim());
+
+      const tuitionType = job.tuitionType.toLowerCase().trim();
+
+      if (
+        tuitionPreference.some(
+          (cat) => cat.includes(tuitionType) || tuitionType.includes(cat)
+        )
+      ) {
+        score += 10;
+      }
+    }
+
+    // 8. Gender Match (5 points)
     if (job.tutorGenderPreference && tutor.gender) {
       if (
         job.tutorGenderPreference === "Any" ||
@@ -428,6 +444,7 @@ const AppliedTutors = () => {
     }
   };
 
+
   // Loading state
   if (isLoading) {
     return (
@@ -436,6 +453,8 @@ const AppliedTutors = () => {
       </div>
     );
   }
+
+
 
   // No applied tutors state
   if (!appliedTutorsFromAPI.length) {
@@ -455,7 +474,7 @@ const AppliedTutors = () => {
 
   // ---- MAIN UI ----
   return (
-    <div className="min-h-screen bg-base-200">
+    <div className=" bg-base-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Compact Header */}
         <div className="flex items-center justify-between mb-6">

@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 
 import toast from "react-hot-toast";
-import { AuthContext } from "../../../provider/AuthProvider";
-import bdDistricts from "../../utils/bdDistricts";
-import cityAreaMap from "../../utils/cityAreaMap";
-import subjects from "../../utils/subjects";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { AuthContext } from "../../../../provider/AuthProvider";
+import bdDistricts from "../../../utils/bdDistricts";
+import cityAreaMap from "../../../utils/cityAreaMap";
+import subjects from "../../../utils/subjects";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const TutorRequests = () => {
   const { user } = useContext(AuthContext);
@@ -139,9 +139,9 @@ const TutorRequests = () => {
                 onChange={handleChange}
                 className="w-full p-2 border rounded"
               >
-                <option value="Home Tutoring">Home Tutoring</option>
-                <option value="Online Tutoring">Online Tutoring</option>
-                <option value="Group Tutoring">Group Tutoring</option>
+                <option value="Home Tutoring">Home</option>
+                <option value="Online Tutoring">Online</option>
+                
               </select>
             </div>
 

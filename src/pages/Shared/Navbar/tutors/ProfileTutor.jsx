@@ -24,7 +24,13 @@ const ProfileTutor = () => {
   });
 
 
-  if (isLoading) return <p className="mt-24 text-center">Loading...</p>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center mt-20">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    );
+
   if (!tutor)
     return <p className="mt-24 text-center text-red-500">Tutor not found.</p>;
 
@@ -72,7 +78,7 @@ const ProfileTutor = () => {
     );
   }
 
-  // যদি rating থাকে → yellow star দেখাবে
+ 
   return (
     <div className="space-y-2 text-center">
       <div className="rating rating-sm rating-half">
@@ -219,7 +225,7 @@ const handleSubmit = (e) => {
               <InfoRow title="Type/Role" value={tutor.tutorType} />
               <InfoRow
                 title="Location"
-                value={`${tutor.city}, ${tutor.location}`}
+                value={`${tutor.location}, ${tutor.city}`}
               />
             </div>
           </div>

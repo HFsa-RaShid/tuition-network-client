@@ -269,7 +269,7 @@ const ProfileDetails = () => {
     watch("department") &&
     watch("gpa") &&
     watch("passingYear") &&
-    watch("tutorType");
+    watch("tutorType") &&
   currentUser.idImage;
 
   // const isStep2Valid = step2Fields.every((field) => field && field !== "");
@@ -344,6 +344,7 @@ const ProfileDetails = () => {
                   <input
                     {...register("name", { required: true })}
                     className="input input-bordered w-full"
+                    readOnly
                   />
                   {errors.name && (
                     <span className="text-red-500">Name is required</span>
@@ -354,6 +355,7 @@ const ProfileDetails = () => {
                   <input
                     {...register("phone", { required: true })}
                     className="input input-bordered w-full"
+                    readOnly
                   />
                   {errors.phone && (
                     <span className="text-red-500">Phone is required</span>

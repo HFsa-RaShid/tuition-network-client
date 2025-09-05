@@ -1,9 +1,10 @@
 import React from "react";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+
 import "react-tabs/style/react-tabs.css";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAllJobs from "../../../../hooks/useAllJobs";
+import toast from "react-hot-toast";
 
 const PendingRequest = () => {
   const { allJobs, refetch, isLoading } = useAllJobs();
@@ -19,19 +20,15 @@ const PendingRequest = () => {
         status: "approved",
       })
       .then(() => {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Approved!The tutor request has been approved.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+     
+        toast.success("Approved!The request has been approved.")
 
         refetch();
       })
       .catch((error) => {
         console.error("Approval error:", error);
-        Swal.fire("Error!", "Failed to approve the tutor request.", "error");
+        toast.error("Error!", "Failed to approve the tutor request.", "error")
+        
       });
   };
 

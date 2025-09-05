@@ -3,12 +3,21 @@ import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import { RiArrowLeftDoubleLine } from "react-icons/ri";
 import { VscGitStashApply } from "react-icons/vsc";
 import {
-  FaUser,FaEnvelope,FaBookOpen,FaHistory,FaUsers,FaCog,FaTachometerAlt,FaHourglassHalf,
+  FaUser,
+  FaEnvelope,
+  FaBookOpen,
+  FaHistory,
+  FaUsers,
+  FaCog,
+  FaTachometerAlt,
+  FaHourglassHalf,
 } from "react-icons/fa";
 import logo from "../../assets/TuitionNetwork_logo1.png";
 import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import useCurrentUser from "../../hooks/useCurrentUser";
+
+import DashBoardNav from "./DashBoardNav/DashBoardnav";
 
 const DashBoard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -16,7 +25,7 @@ const DashBoard = () => {
   const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
 
   if (isLoading) {
-     return (
+    return (
       <div className="flex justify-center items-center mt-20">
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
       </div>
@@ -50,7 +59,7 @@ const DashBoard = () => {
       icon: <FaBookOpen />,
       label: "Hired Tutors",
     },
-   
+
     {
       path: "settings",
       icon: <FaCog />,
@@ -70,8 +79,7 @@ const DashBoard = () => {
       icon: <FaUser />,
       label: "Profile Details",
     },
-  
-    
+
     {
       path: "myApplications",
       icon: <VscGitStashApply />,
@@ -107,11 +115,7 @@ const DashBoard = () => {
       icon: <FaEnvelope />,
       label: "Users",
     },
-    {
-      path: "chat",
-      icon: <FaEnvelope />,
-      label: "Chat",
-    },
+
     {
       path: "pending-request",
       icon: <FaHourglassHalf />,
@@ -149,17 +153,17 @@ const DashBoard = () => {
       >
         {/* Logo */}
         <NavLink to="/">
-          <div className="flex items-center space-x-2 mb-4 mt-2">
+          <div className=" mb-4 mt-2">
             <img
               src={logo}
               alt="Logo"
               className="w-10 h-10 bg-slate-100 rounded-md"
             />
-            {isSidebarOpen && (
+            {/* {isSidebarOpen && (
               <h1 className="text-2xl font-bold">
                 Tu<span className="text-[#DAA520]">T</span>oria
               </h1>
-            )}
+            )} */}
           </div>
         </NavLink>
 
@@ -187,10 +191,12 @@ const DashBoard = () => {
 
       {/* Main Content */}
       <div
-  className={`transition-all duration-300 ${
-    isSidebarOpen ? "w-4/5" : "w-full"
-  } bg-base-200 p-6 overflow-y-auto h-screen`}
->
+        className={`transition-all duration-300 ${
+          isSidebarOpen ? "w-4/5" : "w-full"
+        } bg-base-200 pt-20 pr-10 overflow-y-auto h-screen`}
+      >
+       <DashBoardNav isSidebarOpen={isSidebarOpen} />
+
         <Outlet />
       </div>
     </div>
@@ -198,5 +204,3 @@ const DashBoard = () => {
 };
 
 export default DashBoard;
-
-
