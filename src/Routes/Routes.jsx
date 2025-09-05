@@ -26,6 +26,7 @@ import HiredTutors from "../pages/DashBoard/DashBoardAllPages/HiredTutors/HiredT
 import Tutors from "../pages/Shared/Navbar/tutors/Tutors";
 import ProfileTutor from "../pages/Shared/Navbar/tutors/ProfileTutor";
 import OtherPaymentSuccess from "../pages/Shared/otherPaymentSuccess/OtherPaymentSuccess";
+import GetPremium from "../pages/DashBoard/DashBoardNav/GetPremium/GetPremium";
 
 export const router = createBrowserRouter([
   {
@@ -115,6 +116,7 @@ export const router = createBrowserRouter([
             element: <PaymentHistory></PaymentHistory>,
           },
           { path: "hired-tutors", element: <HiredTutors></HiredTutors> },
+          { path: "premium", element: <GetPremium></GetPremium> },
         ],
       },
     ],

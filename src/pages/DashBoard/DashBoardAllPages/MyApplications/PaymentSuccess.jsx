@@ -36,6 +36,9 @@ const PaymentSuccess = () => {
     else if(paymentData?.source === "advanceSalary") {
       navigate(`/${currentUser?.role}/hired-tutors`);
     }
+    else if(paymentData?.source === "getPremium") {
+      navigate(`/${currentUser?.role}/premium`);
+    }
    
   };
 

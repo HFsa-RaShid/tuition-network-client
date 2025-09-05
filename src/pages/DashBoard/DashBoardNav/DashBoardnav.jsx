@@ -1,10 +1,40 @@
-import React, { useContext } from "react";
+
+
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../provider/AuthProvider";
 import useCurrentUser from "../../../hooks/useCurrentUser";
+import { useNavigate } from "react-router-dom";
+
+import { IoChevronDownSharp } from "react-icons/io5";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const DashBoardNav = ({ isSidebarOpen }) => {
   const { user } = useContext(AuthContext);
-  const { currentUser } = useCurrentUser(user?.email);
+  const { currentUser, refetch } = useCurrentUser(user?.email);
+  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Toggle dropdown
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  
+ // Profile status update function
+const handleUpdateStatus = async (status) => {
+  try {
+    await axiosSecure.put(`/users/${user?.email}`, {
+      profileStatus: status,
+    });
+    refetch(); // reload user data
+    setIsOpen(false); // close dropdown after update
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
   return (
     <div
@@ -12,10 +42,50 @@ const DashBoardNav = ({ isSidebarOpen }) => {
         ${isSidebarOpen ? "w-4/5" : "w-full"}`}
     >
       <div className="navbar px-12">
-        <div className="navbar-start">
-          <h1 className="text-2xl font-bold ">
+        <div className="navbar-start flex items-center gap-1 ">
+          <h1 className="text-2xl font-bold">
             Tu<span className="text-[#DAA520]">T</span>oria
           </h1>
+
+          {/* Dropdown */}
+          <div className="relative">
+            {/* Dropdown button */}
+            <button onClick={toggleDropdown}>
+              <IoChevronDownSharp className="text-2xl pt-1 cursor-pointer" />
+            </button>
+
+            {/* Dropdown Content */}
+            {isOpen && (
+              <div className="absolute bg-white shadow-lg rounded mt-2 w-40 z-50">
+                <ul className="text-sm">
+                  {/* Free Option */}
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 flex justify-between cursor-pointer"
+                    onClick={() => handleUpdateStatus("Free")}
+                  >
+                    Free
+                    {currentUser?.profileStatus === "Free" && (
+                      <span className="text-green-600 font-bold">✔</span>
+                    )}
+                  </li>
+
+                  {/* Premium Option */}
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      navigate("premium");
+                      setIsOpen(false); // close dropdown after navigation
+                    }}
+                  >
+                    Premium
+                    {currentUser?.profileStatus === "Premium" && (
+                      <span className="text-green-600 font-bold">✔</span>
+                    )}
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="navbar-end">
