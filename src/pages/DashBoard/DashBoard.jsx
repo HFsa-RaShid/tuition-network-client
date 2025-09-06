@@ -59,6 +59,11 @@ const DashBoard = () => {
       icon: <FaBookOpen />,
       label: "Hired Tutors",
     },
+     {
+      path: "payment-history",
+      icon: <FaHistory />,
+      label: "Payment History",
+    },
 
     {
       path: "settings",

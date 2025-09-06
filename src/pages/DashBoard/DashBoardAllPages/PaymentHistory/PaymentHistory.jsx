@@ -10,7 +10,7 @@ import * as htmlToImage from "html-to-image";
 const PaymentHistory = () => {
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
-  const { paidJobs, isLoading } = usePaidJobs(currentUser?.email);
+  const { paidJobs,refetch, isLoading } = usePaidJobs(currentUser?.email);
 
   const handleDownloadInvoice = async (job) => {
     try {
@@ -243,7 +243,7 @@ const PaymentHistory = () => {
     );
 
   return (
-    <div className="max-w-5xl mx-auto mt-10 p-4 bg-white shadow rounded-xl">
+    <div className="max-w-5xl mx-auto mt-6 p-4 ml-8 bg-white shadow rounded-xl">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
         Payment History
       </h2>
@@ -304,3 +304,7 @@ const PaymentHistory = () => {
 };
 
 export default PaymentHistory;
+
+
+
+

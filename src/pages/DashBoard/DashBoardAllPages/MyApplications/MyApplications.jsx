@@ -34,7 +34,7 @@ const MyApplications = () => {
   const { paidJobsByJobIds, isLoading: paymentsLoading } =
     useMultipleJobPayments(jobIds);
 
-  const handlePaymentBkash = (jobId, name, email,tutorId, amount,studentEmail,studentName) => {
+  const handlePaymentBkash = (jobId, name, email,tutorId, amount,studentEmail,studentName,role) => {
     axiosSecure
       .post("/paymentBkash", {
         jobId,

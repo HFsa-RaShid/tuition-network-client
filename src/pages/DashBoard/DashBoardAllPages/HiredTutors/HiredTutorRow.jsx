@@ -6,13 +6,9 @@ import useAxisTutorByID from "../../../../hooks/useAxisTutorByID";
 
 const HiredTutorRow = ({ payment, currentUser }) => {
   const axiosSecure = useAxiosSecure();
-  const { paidJobsById } = useJobIdpayment(payment.jobId);
+  const { paidJobsById, isLoading } = useJobIdpayment(payment.jobId);
 
-  const {
-    tutorProfile: tutor,
-    refetch,
-    isLoading,
-  } = useAxisTutorByID(payment.tutorId);
+  const { tutorProfile: tutor, refetch } = useAxisTutorByID(payment.tutorId);
 
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [viewInfoTutor, setViewInfoTutor] = useState(null);
@@ -45,6 +41,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
         tutorId,
         amount: 250,
         source: "trialClassPayment",
+        role: currentUser.role,
       };
       const response = await axiosSecure.post("/paymentBkash", paymentData);
       if (response.data.url) window.location.href = response.data.url;
@@ -59,12 +56,12 @@ const HiredTutorRow = ({ payment, currentUser }) => {
         jobId,
         name: tutor?.name,
         email: tutor?.email,
-        tutorId: tutor?.customId, // ✅ ensure tutorId matches customId
+        tutorId: tutor?.customId,
         amount: salary,
         source: "advanceSalary",
         studentName: currentUser?.name,
         studentEmail: currentUser?.email,
-        role: currentUser?.role
+        role: currentUser?.role,
       };
       const response = await axiosSecure.post("/paymentBkash", paymentData);
       if (response.data.url) window.location.href = response.data.url;
@@ -94,9 +91,6 @@ const HiredTutorRow = ({ payment, currentUser }) => {
     }
   };
 
-
-
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center mt-20">
@@ -120,9 +114,10 @@ const HiredTutorRow = ({ payment, currentUser }) => {
       </div>
 
       <div className="flex gap-2">
+       
         <div className="flex gap-2">
-          {/* যদি advanceSalary already paid */}
-          {hasAdvanceSalaryPaid() ? (
+          {/* যদি trial class বা advance salary already paid হয় */}
+          {hasPaidTrial() || hasAdvanceSalaryPaid() ? (
             <button
               onClick={() =>
                 setViewInfoTutor({
@@ -137,7 +132,6 @@ const HiredTutorRow = ({ payment, currentUser }) => {
               View Info
             </button>
           ) : (
-            /* যদি advanceSalary paid না হয় */
             <button
               onClick={() =>
                 handleAdvanceSalaryPayment(
@@ -146,10 +140,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
                   payment.jobDetails?.salary
                 )
               }
-              disabled={hasPaidTrial()}
-              className={`bg-blue-200 text-blue-700 text-center px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1 ${
-                hasPaidTrial() ? "cursor-not-allowed opacity-50" : ""
-              }`}
+              className="bg-blue-200 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1"
             >
               Pay Advance
             </button>
@@ -160,9 +151,11 @@ const HiredTutorRow = ({ payment, currentUser }) => {
             onClick={() =>
               handleTrialClassPayment(payment.jobId, tutor?.customId)
             }
-            disabled={hasAdvanceSalaryPaid()}
+            disabled={hasPaidTrial() || hasAdvanceSalaryPaid()}
             className={`bg-blue-200 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1 ${
-              hasAdvanceSalaryPaid() ? "cursor-not-allowed opacity-50" : ""
+              hasPaidTrial() || hasAdvanceSalaryPaid()
+                ? "cursor-not-allowed opacity-50"
+                : ""
             }`}
           >
             Book Trial Class
