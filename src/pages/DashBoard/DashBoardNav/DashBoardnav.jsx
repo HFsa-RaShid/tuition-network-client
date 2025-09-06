@@ -21,19 +21,7 @@ const DashBoardNav = ({ isSidebarOpen }) => {
     setIsOpen((prev) => !prev);
   };
 
-  
- // Profile status update function
-const handleUpdateStatus = async (status) => {
-  try {
-    await axiosSecure.put(`/users/${user?.email}`, {
-      profileStatus: status,
-    });
-    refetch(); // reload user data
-    setIsOpen(false); // close dropdown after update
-  } catch (error) {
-    console.error(error);
-  }
-};
+
 
 
   return (
@@ -61,7 +49,7 @@ const handleUpdateStatus = async (status) => {
                   {/* Free Option */}
                   <li
                     className="px-4 py-2 hover:bg-gray-100 flex justify-between cursor-pointer"
-                    onClick={() => handleUpdateStatus("Free")}
+                    
                   >
                     Free
                     {currentUser?.profileStatus === "Free" && (
@@ -74,7 +62,7 @@ const handleUpdateStatus = async (status) => {
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => {
                       navigate("premium");
-                      setIsOpen(false); // close dropdown after navigation
+                      setIsOpen(false); 
                     }}
                   >
                     Premium

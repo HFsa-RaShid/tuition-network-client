@@ -136,6 +136,7 @@ const handlePaymentAndContact = async (
       source: "contactTutor",
       studentEmail,
       studentName,
+      role
     });
 
     // Redirect to payment page if URL received
@@ -182,7 +183,8 @@ const handleSubmit = (e) => {
     50,                     // amount
     formData.name,          // studentName
     formData.email,         // studentEmail
-    formData.details        // message
+    formData.details,        // message
+    currentUser?.role
   );
 };
 

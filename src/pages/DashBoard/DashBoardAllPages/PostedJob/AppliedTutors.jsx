@@ -38,6 +38,8 @@ const AppliedTutors = () => {
   const { paidJobsById: paidData = [], refetch: refetchPayments } =
     useJobIdpayment(jobId);
 
+  
+
   const [confirmedTutorEmail, setConfirmedTutorEmail] = useState(null);
   const [topMatchedTutors, setTopMatchedTutors] = useState([]);
   const [showTopMatches, setShowTopMatches] = useState(false);
@@ -45,18 +47,20 @@ const AppliedTutors = () => {
   const [appliedTutorsWithProfile, setAppliedTutorsWithProfile] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-
   const handleToggleAndRefresh = async () => {
+    if (currentUser?.profileStatus !== "Premium") {
+      toast.error("You need to purchase Premium to use this feature!");
+      navigate(`/${currentUser.role}/premium`);
+      return;
+    }
+
     if (!showTopMatches) {
-      // Switching to Best Match - refetch and recalculate
       setIsRefreshing(true);
 
       try {
-        // Clear existing data first to force re-render
         setAppliedTutorsWithProfile([]);
         setTopMatchedTutors([]);
 
-        // Refresh applied tutors data first
         const { data: refreshedData } = await refetchTutors();
 
         // Force immediate profile fetch with refreshed data
@@ -90,10 +94,8 @@ const AppliedTutors = () => {
             })
           );
 
-          // Update profiles immediately
           setAppliedTutorsWithProfile(profiles);
 
-          // Calculate top matches immediately with job data
           if (jobData) {
             const tutorsWithScore = profiles
               .filter((tutor) => tutor.profile)
@@ -122,11 +124,9 @@ const AppliedTutors = () => {
         setIsRefreshing(false);
       }
     } else {
-      
       setShowTopMatches(false);
     }
   };
-
 
   useEffect(() => {
     const fetchJobData = async () => {
@@ -258,7 +258,7 @@ const AppliedTutors = () => {
     }
 
     //7. Tuition Type (home,online)(10 points)
-     if (tutor.tuitionPreference && job.tuitionType) {
+    if (tutor.tuitionPreference && job.tuitionType) {
       const tuitionPreference = tutor.tuitionPreference
         .toLowerCase()
         .split(",")
@@ -444,17 +444,14 @@ const AppliedTutors = () => {
     }
   };
 
-
   // Loading state
-  if (isLoading) {
+  if (isLoading) 
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
       </div>
     );
-  }
-
-
+  
 
   // No applied tutors state
   if (!appliedTutorsFromAPI.length) {
@@ -471,6 +468,22 @@ const AppliedTutors = () => {
       </div>
     );
   }
+
+  // Sorting function
+  const sortedTutors = [...appliedTutorsFromAPI].sort((a, b) => {
+    const tutorA = appliedTutorsWithProfile.find((t) => t.email === a.email);
+    const tutorB = appliedTutorsWithProfile.find((t) => t.email === b.email);
+
+    // 1. Premium টিউটর সবসময় আগে আসবে
+    const isPremiumA = tutorA?.profile?.profileStatus === "Premium";
+    const isPremiumB = tutorB?.profile?.profileStatus === "Premium";
+
+    if (isPremiumA && !isPremiumB) return -1;
+    if (!isPremiumA && isPremiumB) return 1;
+
+    // 2. এরপর appliedAt (descending = latest first)
+    return new Date(b.appliedAt) - new Date(a.appliedAt);
+  });
 
   // ---- MAIN UI ----
   return (
@@ -731,7 +744,7 @@ const AppliedTutors = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {appliedTutorsFromAPI.map((tutor, index) => {
+                    {sortedTutors.map((tutor, index) => {
                       const isConfirmed = confirmedTutorEmail === tutor.email;
                       const isDisabled = confirmedTutorEmail && !isConfirmed;
                       const hasPaidJob = paidData.some(

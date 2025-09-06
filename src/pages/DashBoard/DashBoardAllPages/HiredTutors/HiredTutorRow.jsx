@@ -64,6 +64,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
         source: "advanceSalary",
         studentName: currentUser?.name,
         studentEmail: currentUser?.email,
+        role: currentUser?.role
       };
       const response = await axiosSecure.post("/paymentBkash", paymentData);
       if (response.data.url) window.location.href = response.data.url;

@@ -45,6 +45,7 @@ const MyApplications = () => {
         source: "myApplications",
         studentEmail,
         studentName,
+        role
       })
       .then((result) => {
         window.location.replace(result.data.url);
@@ -170,7 +171,8 @@ const MyApplications = () => {
                               currentUser?.customId,
                               100,
                               app.userEmail, // student email
-                              app.userName // student name
+                              app.userName, // student name
+                              currentUser?.role
                             )
                           }
                           className="bg-green-200 mb-2 text-green-700 font-medium px-2 py-2 rounded hover:bg-green-300 transition"
