@@ -4,13 +4,14 @@ import useAxiosPublic from "./useAxiosPublic";
 
 const useAppliedTutorForJobID = (jobId) => {
   const axiosPublic = useAxiosPublic();
-  const {refetch,data: appliedTutorForJobId = null,isLoading,isError,} = useQuery({
+  const {refetch,data: appliedTutorForJobId = [],isLoading,isError,} = useQuery({
     queryKey: ["AppliedTutorForJobID", jobId],
     queryFn: async () => {
       const res = await axiosPublic.get(`/appliedTutorForJobId/${jobId}`);
       return res.data;
     },
     enabled: !!jobId, 
+    // refetchInterval: 5000,
   });
   return { appliedTutorForJobId, refetch, isLoading, isError };
 };

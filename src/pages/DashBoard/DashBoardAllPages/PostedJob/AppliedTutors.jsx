@@ -24,6 +24,9 @@ const AppliedTutors = () => {
     jobId = localStorage.getItem("appliedTutorsJobId");
   }
 
+
+
+
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
   const axiosPublic = useAxiosPublic();
@@ -35,10 +38,12 @@ const AppliedTutors = () => {
     isLoading,
   } = useAppliedTutorForJobID(jobId);
 
+  
+
+
   const { paidJobsById: paidData = [], refetch: refetchPayments } =
     useJobIdpayment(jobId);
 
-  
 
   const [confirmedTutorEmail, setConfirmedTutorEmail] = useState(null);
   const [topMatchedTutors, setTopMatchedTutors] = useState([]);

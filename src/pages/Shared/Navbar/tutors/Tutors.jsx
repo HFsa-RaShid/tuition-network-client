@@ -38,13 +38,17 @@ const Tutors = () => {
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
       </div>
     );
-  if (isError) return <p>Something went wrong while fetching tutors.</p>;
+  
+
   if (!allTutors || allTutors.length === 0) {
     return (
-      <div className="container mx-auto p-4 mt-20">
+      <div>
+        <Navbar></Navbar>
+        <div className="container mx-auto p-4 mt-20">
         <p className="text-center text-red-500 font-medium">
           No tutors available right now.
         </p>
+      </div>
       </div>
     );
   }
