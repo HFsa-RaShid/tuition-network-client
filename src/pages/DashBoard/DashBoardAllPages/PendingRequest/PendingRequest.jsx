@@ -72,21 +72,21 @@ const PendingRequest = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className=" container mx-auto">
       {pendingRequests?.length === 0 ? (
         <p className="text-center mt-4">No pending requests found.</p>
       ) : (
-        <div className="my-6 grid grid-cols-1 lg:grid-cols-2  gap-10 px-1">
+        <div className="my-4 ml-6 grid grid-cols-1 lg:grid-cols-2  gap-10 px-1">
           {pendingRequests.map((request) => (
             <div key={request._id} className="card shadow-xl">
               <div className="card-body ">
                 <p className="text-gray-500">
                   📍 {request.city}, {request.location}
                 </p>
-                <h2 className="text-xl text-black font-bold mt-2">
+                <h2 className="text-xl text-black font-bold mt-1">
                   Tuition for {request.classCourse}
                 </h2>
-                <div className="flex gap-2 mt-2">
+                <div className="flex gap-2 mt-1">
                   <span className="bg-purple-600 text-white px-2 py-1 rounded text-sm">
                     {request.tuitionType}
                   </span>
@@ -131,26 +131,26 @@ const PendingRequest = () => {
                   </div>
                 </div>
 
-                <p className="mt-3 text-black">
+                <p className="mt-1 text-black">
                   <strong>💰 Salary:</strong>{" "}
                   <span className="text-blue-700 font-bold">
                     {request.salary} TK
                   </span>
                   /Month
                 </p>
-                <p className="text-gray-500 mt-2 text-sm">
+                <p className="text-gray-500 mt-1 text-sm">
                   Posted by: {request.userName} ({request.userEmail})
                 </p>
 
                 <div className="card-actions justify-end">
                   <button
-                    className="btn btn-outline hover:bg-green-600"
+                    className="px-4 py-2 border border-blue-400 hover:bg-green-600"
                     onClick={() => approveRequest(request)}
                   >
                     Approve
                   </button>
                   <button
-                    className="btn btn-outline btn-error"
+                    className="px-4 py-2 border border-red-400 hover:bg-red-500"
                     onClick={() => handleReject(request._id)}
                   >
                     Reject

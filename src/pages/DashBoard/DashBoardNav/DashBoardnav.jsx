@@ -29,7 +29,7 @@ const DashBoardNav = ({ isSidebarOpen }) => {
       className={`bg-white/80 shadow-md backdrop-blur font-serif text-black fixed top-0 z-50 transition-all duration-300 
         ${isSidebarOpen ? "w-4/5" : "w-full"}`}
     >
-      <div className="navbar px-12">
+      <div className="navbar px-14">
         <div className="navbar-start flex items-center gap-1 ">
           <h1 className="text-2xl font-bold">
             Tu<span className="text-[#DAA520]">T</span>oria
@@ -76,7 +76,7 @@ const DashBoardNav = ({ isSidebarOpen }) => {
           </div>
         </div>
 
-        <div className="navbar-end">
+        <div className="navbar-end pr-8">
           <div className="tooltip tooltip-bottom " data-tip={user?.displayName}>
             <label tabIndex={0}>
               <div className="w-8 h-8 rounded-full border border-black overflow-hidden flex items-center justify-center ">

@@ -146,48 +146,45 @@ const DashBoard = () => {
   return (
     <div className="flex min-h-screen transition-all duration-300 font-serif ">
       {/* Sidebar */}
-      <div
-        className={`${
-          isSidebarOpen ? "w-1/5" : "w-20"
-        } bg-[#082755] text-white p-5 flex flex-col items-center space-y-4 relative transition-all duration-300`}
-      >
-        {/* Logo */}
-        <NavLink to="/">
-          <div className=" mb-4 mt-2">
-            <img
-              src={logo}
-              alt="Logo"
-              className="w-10 h-10 bg-slate-100 rounded-md"
-            />
-            {/* {isSidebarOpen && (
-              <h1 className="text-2xl font-bold">
-                Tu<span className="text-[#DAA520]">T</span>oria
-              </h1>
-            )} */}
-          </div>
-        </NavLink>
 
-        {/* Sidebar Navigation */}
-        <div className="flex flex-col space-y-2 w-full">
-          {currentUser?.role === "student" && StudentRoutes.map(renderNavLink)}
+      
+     {/* Sidebar */}
+<div
+  className={`${
+    isSidebarOpen ? "w-1/5" : "w-20"
+  } bg-[#082755] text-white p-5 flex flex-col items-start space-y-4 relative transition-all duration-300`}
+>
+  {/* Logo */}
+  <NavLink to="/">
+    <div className="mb-4 mt-2">
+      <img
+        src={logo}
+        alt="Logo"
+        className="w-10 h-10 bg-slate-100 rounded-md"
+      />
+    </div>
+  </NavLink>
 
-          {currentUser?.role === "tutor" && tutorRoutes.map(renderNavLink)}
+  {/* Sidebar Navigation */}
+  <div className="flex flex-col space-y-2 w-full">
+    {currentUser?.role === "student" && StudentRoutes.map(renderNavLink)}
+    {currentUser?.role === "tutor" && tutorRoutes.map(renderNavLink)}
+    {currentUser?.role === "admin" && adminRoutes.map(renderNavLink)}
+  </div>
 
-          {currentUser?.role === "admin" && adminRoutes.map(renderNavLink)}
-        </div>
+  {/* Toggle Button */}
+  <button
+    className="absolute bottom-5 -right-4 bg-yellow-500 text-[#082755] p-2 rounded-full transition-all duration-300"
+    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+  >
+    {isSidebarOpen ? (
+      <RiArrowLeftDoubleLine size={22} />
+    ) : (
+      <MdOutlineKeyboardDoubleArrowRight size={22} />
+    )}
+  </button>
+</div>
 
-        {/* Toggle Button */}
-        <button
-          className="absolute bottom-5 -right-4 bg-yellow-500 text-[#082755] p-2 rounded-full transition-all duration-300"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        >
-          {isSidebarOpen ? (
-            <RiArrowLeftDoubleLine size={22} />
-          ) : (
-            <MdOutlineKeyboardDoubleArrowRight size={22} />
-          )}
-        </button>
-      </div>
 
       {/* Main Content */}
       <div
@@ -195,7 +192,7 @@ const DashBoard = () => {
           isSidebarOpen ? "w-4/5" : "w-full"
         } bg-base-200 pt-20 pr-10 overflow-y-auto h-screen`}
       >
-       <DashBoardNav isSidebarOpen={isSidebarOpen} />
+        <DashBoardNav isSidebarOpen={isSidebarOpen} />
 
         <Outlet />
       </div>

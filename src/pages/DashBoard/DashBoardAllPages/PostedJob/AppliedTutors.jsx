@@ -358,7 +358,7 @@ const AppliedTutors = () => {
     }
 
     const tutorsWithScore = appliedTutorsWithProfile
-      .filter((tutor) => tutor.profile) // Only include tutors with valid profiles
+      .filter((tutor) => tutor.profile && tutor.profile.tutorStatus === "available") // Only include tutors with valid profiles
       .filter((tutor) => {
         // City matching requirement for best match
         if (!tutor.profile.city || !jobData.city) return false;
