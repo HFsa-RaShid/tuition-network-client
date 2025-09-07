@@ -71,8 +71,8 @@ const PostedJobs = () => {
 
   return (
     <div className=" bg-base-200">
-      <div className="p-6 gap-4 container mx-auto mt-6">
-        <div className="w-full space-y-6 ">
+      <div className="p-6 gap-4 container mx-auto ">
+        <div className="w-full space-y-6 mx-5">
           {jobs.map((job) => (
             <div
               key={job._id}

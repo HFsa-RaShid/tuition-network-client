@@ -11,6 +11,7 @@ import {
   FaCog,
   FaTachometerAlt,
   FaHourglassHalf,
+  FaHandshake,
 } from "react-icons/fa";
 import logo from "../../assets/TuitionNetwork_logo1.png";
 import { NavLink, Outlet } from "react-router-dom";
@@ -56,7 +57,7 @@ const DashBoard = () => {
     },
     {
       path: "hired-tutors",
-      icon: <FaBookOpen />,
+      icon: <FaHandshake />,
       label: "Hired Tutors",
     },
      {

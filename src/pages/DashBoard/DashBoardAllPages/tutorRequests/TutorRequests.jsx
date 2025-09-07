@@ -18,7 +18,7 @@ const TutorRequests = () => {
     subjects: [],
     city: "",
     location: "",
-    studentGender: "Female",
+    studentGender: "",
     noOfStudents: "1",
     tutorGenderPreference: "Any",
     daysPerWeek: "",
@@ -32,6 +32,12 @@ const TutorRequests = () => {
     "English Version",
     "English Medium",
     "Madrasah",
+  ];
+
+  const studentGender = [
+    "Male",
+    "Female",
+    "Others",
   ];
 
   const classes = [
@@ -180,6 +186,26 @@ const TutorRequests = () => {
                 ))}
               </select>
             </div>
+
+
+            <div>
+              <label className="block font-medium">Student Gender *</label>
+              <select
+                name="studentGender"
+                value={formData.studentGender}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border rounded"
+              >
+                <option value="">Select...</option>
+                {studentGender.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
+
           </div>
 
           <div className="mt-2 flex justify-end">

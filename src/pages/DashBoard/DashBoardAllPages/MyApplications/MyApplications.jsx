@@ -93,6 +93,10 @@ const MyApplications = () => {
                 (p) => p.jobId === app._id
               );
 
+              const isAdvanceSalary = paymentsForThisJob.some(
+                (p) => p.source === "advanceSalary" && p.paidStatus === true
+              );
+
               const isTrialClassBooked = paymentsForThisJob.some(
                 (p) => p.source === "trialClassPayment" && p.paidStatus === true
               );
@@ -120,14 +124,22 @@ const MyApplications = () => {
                   <td className="relative text-center !overflow-visible">
                     <div className="flex justify-center items-center relative group">
                       {isTrialClassBooked ? (
-                        <span className="text-green-700 font-semibold px-3 py-1 rounded-xl bg-green-200">
+                        <span className="text-green-700  px-3 py-1 rounded-md bg-green-200">
                           Booked for <br /> Trial Class
                         </span>
                       ) : (
-                        <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-xl">
+                        <span >
+                          {isAdvanceSalary ?(
+                             <span className="text-green-700  px-3 py-1 rounded-md bg-green-200">
+                              Advance Paid
+                             </span>
+                          ):(
+                            <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-md">
                           {appliedTutor?.confirmationStatus === "confirmed"
                             ? "Confirmed"
                             : "Applied"}
+                        </span>
+                            )}
                         </span>
                       )}
                     </div>
@@ -152,7 +164,7 @@ const MyApplications = () => {
                     </div>
                   </td>
 
-                  <td>
+                  <td className="flex justify-center items-center">
                     {appliedTutor?.confirmationStatus === "confirmed" &&
                       (paidJobs?.some((p) => p.jobId === app._id) ? (
                         <button

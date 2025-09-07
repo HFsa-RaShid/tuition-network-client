@@ -73,7 +73,8 @@ const HiredTutors = () => {
   }
 
   return (
-    <div className="p-4 pl-10">
+    <div className="container mx-auto">
+      <div className="p-4 pl-10">
       <ul className="list bg-base-100 rounded-box shadow-md">
         <li className="p-4 pb-2 text-xs opacity-60 tracking-wide bg-base-200">
           Hired Tutors
@@ -86,6 +87,7 @@ const HiredTutors = () => {
           />
         ))}
       </ul>
+    </div>
     </div>
   );
 };
