@@ -35,11 +35,11 @@ const DashBoardNav = ({ isSidebarOpen }) => {
             Tu<span className="text-[#DAA520]">T</span>oria
           </h1>
 
-          {/* Dropdown */}
+        
           <div className="relative">
-            {/* Dropdown button */}
+            
             <button onClick={toggleDropdown}>
-              <IoChevronDownSharp className="text-2xl pt-1 cursor-pointer" />
+              <IoChevronDownSharp className="text-[18px] mt-3 cursor-pointer" />
             </button>
 
             {/* Dropdown Content */}
@@ -67,7 +67,7 @@ const DashBoardNav = ({ isSidebarOpen }) => {
                   >
                     Premium
                     {currentUser?.profileStatus === "Premium" && (
-                      <span className="text-green-600 font-bold">✔</span>
+                      <span className="text-green-600 font-bold space-x-2">✔</span>
                     )}
                   </li>
                 </ul>

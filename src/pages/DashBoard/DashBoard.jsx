@@ -60,7 +60,7 @@ const DashBoard = () => {
       label: "Hired Tutors",
     },
      {
-      path: "payment-history",
+      path: "pay-history",
       icon: <FaHistory />,
       label: "Payment History",
     },

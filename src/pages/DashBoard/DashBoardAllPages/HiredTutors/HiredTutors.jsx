@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
@@ -7,7 +6,11 @@ import HiredTutorRow from "./HiredTutorRow";
 
 const HiredTutors = () => {
   const { user } = useContext(AuthContext);
-  const { currentUser, refetch: refetchUser, isLoading: userLoading } = useCurrentUser(user?.email);
+  const {
+    currentUser,
+    refetch: refetchUser,
+    isLoading: userLoading,
+  } = useCurrentUser(user?.email);
   const {
     paidJobs,
     isLoading: jobsLoading,
@@ -47,7 +50,7 @@ const HiredTutors = () => {
     }
   }, [paidJobs, currentUser]);
 
-  if (loading || userLoading || jobsLoading) {
+  if (loading || userLoading) {
     return (
       <div className="flex justify-center items-center mt-20">
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
@@ -65,9 +68,7 @@ const HiredTutors = () => {
 
   if (!studentPaidJobs?.length) {
     return (
-      <p className="text-center text-gray-500 py-4">
-        No hired tutors found.
-      </p>
+      <p className="text-center text-gray-500 py-4">No hired tutors found.</p>
     );
   }
 

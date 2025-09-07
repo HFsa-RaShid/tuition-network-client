@@ -67,7 +67,7 @@ const GetPremium = () => {
             <ul className="mt-6 space-y-3 text-gray-600">
               <li>✨ request a tutor for tuition</li>
               <li>👀 View & select all applied tutors</li>
-              <li>Find nearby tuitions using map</li>
+              <li>🔍 Find nearby tuitions using map</li>
             </ul>
           </div>
           <button

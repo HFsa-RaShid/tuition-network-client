@@ -32,16 +32,18 @@ const HiredTutorRow = ({ payment, currentUser }) => {
         p.paidStatus
     );
 
-  const handleTrialClassPayment = async (jobId, tutorId) => {
+  const handleTrialClassPayment = async (jobId, tutorId, email, name) => {
     try {
       const paymentData = {
         jobId,
-        name: currentUser?.name,
-        email: currentUser?.email,
+        name,
+        email,
         tutorId,
         amount: 250,
         source: "trialClassPayment",
-        role: currentUser.role,
+        studentName: currentUser?.name,
+        studentEmail: currentUser?.email,
+        role: currentUser?.role,
       };
       const response = await axiosSecure.post("/paymentBkash", paymentData);
       if (response.data.url) window.location.href = response.data.url;
@@ -149,7 +151,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
           {/* Book Trial Class Button */}
           <button
             onClick={() =>
-              handleTrialClassPayment(payment.jobId, tutor?.customId)
+              handleTrialClassPayment(payment.jobId, tutor?.customId, tutor?.email, tutor?.name)
             }
             disabled={hasPaidTrial() || hasAdvanceSalaryPaid()}
             className={`bg-blue-200 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1 ${

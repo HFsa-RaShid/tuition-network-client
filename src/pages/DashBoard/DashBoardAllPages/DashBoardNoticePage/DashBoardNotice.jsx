@@ -3,7 +3,7 @@ import React from 'react';
 const DashBoardNotice = () => {
     return (
         <div>
-            hgfjd
+            <p>Dashboard</p>
         </div>
     );
 };

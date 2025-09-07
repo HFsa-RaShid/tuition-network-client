@@ -19,14 +19,15 @@ import JobDetails from "../pages/DashBoard/DashBoardAllPages/MyApplications/JobD
 import AppliedTutors from "../pages/DashBoard/DashBoardAllPages/PostedJob/AppliedTutors";
 import SearchByMap from "../pages/Shared/Navbar/SearchByMap/SearchByMap";
 import PaymentSuccess from "../pages/DashBoard/DashBoardAllPages/MyApplications/PaymentSuccess";
-import PaymentHistory from "../pages/DashBoard/DashBoardAllPages/PaymentHistory/PaymentHistory";
-
 import HiredTutors from "../pages/DashBoard/DashBoardAllPages/HiredTutors/HiredTutors";
-
 import Tutors from "../pages/Shared/Navbar/tutors/Tutors";
 import ProfileTutor from "../pages/Shared/Navbar/tutors/ProfileTutor";
 import OtherPaymentSuccess from "../pages/Shared/otherPaymentSuccess/OtherPaymentSuccess";
 import GetPremium from "../pages/DashBoard/DashBoardNav/GetPremium/GetPremium";
+import PaymentHistoryTutor from "../pages/DashBoard/DashBoardAllPages/PaymentHistoryTutor/PaymentHistoryTutor";
+import PaymentHistoryStudent from "../pages/DashBoard/DashBoardAllPages/PaymentHistoryStudent/PaymentHistoryStudent";
+
+
 
 export const router = createBrowserRouter([
   {
@@ -68,7 +69,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/payment/success/:tranId",
-        element:<OtherPaymentSuccess></OtherPaymentSuccess>
+        element: <OtherPaymentSuccess></OtherPaymentSuccess>,
       },
       {
         path: "/:role",
@@ -113,8 +114,13 @@ export const router = createBrowserRouter([
           },
           {
             path: "payment-history",
-            element: <PaymentHistory></PaymentHistory>,
+            element: <PaymentHistoryTutor></PaymentHistoryTutor>,
           },
+          {
+            path: "pay-history",
+            element: <PaymentHistoryStudent></PaymentHistoryStudent>,
+          },
+           
           { path: "hired-tutors", element: <HiredTutors></HiredTutors> },
           { path: "premium", element: <GetPremium></GetPremium> },
         ],

@@ -1,4 +1,3 @@
-
 import moment from "moment";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import usePaidJobs from "../../../../hooks/usePaidJobs";
@@ -7,10 +6,10 @@ import { useContext } from "react";
 import jsPDF from "jspdf";
 import * as htmlToImage from "html-to-image";
 
-const PaymentHistory = () => {
+const PaymentHistoryTutor = () => {
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
-  const { paidJobs,refetch, isLoading } = usePaidJobs(currentUser?.email);
+  const { paidJobs, refetch, isLoading } = usePaidJobs(currentUser?.email);
 
   const handleDownloadInvoice = async (job) => {
     try {
@@ -290,7 +289,7 @@ const PaymentHistory = () => {
                       className="bg-blue-200 hover:bg-blue-300 text-blue-700 font-bold py-1 px-3 rounded text-sm transition-colors duration-200"
                       disabled={!job.paidStatus}
                     >
-                      Download Invoice 
+                      Download Invoice
                     </button>
                   </td>
                 </tr>
@@ -303,8 +302,4 @@ const PaymentHistory = () => {
   );
 };
 
-export default PaymentHistory;
-
-
-
-
+export default PaymentHistoryTutor;
