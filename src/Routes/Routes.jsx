@@ -26,6 +26,7 @@ import OtherPaymentSuccess from "../pages/Shared/otherPaymentSuccess/OtherPaymen
 import GetPremium from "../pages/DashBoard/DashBoardNav/GetPremium/GetPremium";
 import PaymentHistoryTutor from "../pages/DashBoard/DashBoardAllPages/PaymentHistoryTutor/PaymentHistoryTutor";
 import PaymentHistoryStudent from "../pages/DashBoard/DashBoardAllPages/PaymentHistoryStudent/PaymentHistoryStudent";
+import Settings from "../pages/DashBoard/DashBoardAllPages/userSettings/Settings";
 
 
 
@@ -122,7 +123,8 @@ export const router = createBrowserRouter([
           },
            
           { path: "hired-tutors", element: <HiredTutors></HiredTutors> },
-          { path: "premium", element: <GetPremium></GetPremium> },
+          { path: "settings", element: <Settings></Settings> },
+          { path: "settings/premium", element: <GetPremium></GetPremium> },
         ],
       },
     ],

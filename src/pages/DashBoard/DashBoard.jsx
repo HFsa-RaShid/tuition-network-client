@@ -13,7 +13,7 @@ import {
   FaHourglassHalf,
   FaHandshake,
 } from "react-icons/fa";
-import logo from "../../assets/TuitionNetwork_logo1.png";
+import logo from "../../assets/dashLogo.png";
 import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import useCurrentUser from "../../hooks/useCurrentUser";
@@ -60,7 +60,7 @@ const DashBoard = () => {
       icon: <FaHandshake />,
       label: "Hired Tutors",
     },
-     {
+    {
       path: "pay-history",
       icon: <FaHistory />,
       label: "Payment History",
@@ -97,7 +97,7 @@ const DashBoard = () => {
       label: "Payment History",
     },
     {
-      path: "/settings",
+      path: "settings",
       icon: <FaCog />,
       label: "Settings",
     },
@@ -151,48 +151,43 @@ const DashBoard = () => {
 
   return (
     <div className="flex min-h-screen transition-all duration-300 font-serif ">
+    
+
       {/* Sidebar */}
+      <div
+        className={`${
+          isSidebarOpen ? "w-1/5" : "w-20"
+        }  text-white bg-gradient-to-t from-gray-950 via-gray-600 to-gray-400
+ p-5 flex flex-col items-start space-y-4 relative transition-all duration-300`}
+      >
+        
+        <NavLink to="/">
+          <div className="mb-4 mt-2">
+            <img src={logo} alt="Logo" className="w-10 h-10 rounded-md" />
+          </div>
+        </NavLink>
 
-      
-     {/* Sidebar */}
-<div
-  className={`${
-    isSidebarOpen ? "w-1/5" : "w-20"
-  } bg-[#082755] text-white p-5 flex flex-col items-start space-y-4 relative transition-all duration-300`}
->
-  {/* Logo */}
-  <NavLink to="/">
-    <div className="mb-4 mt-2">
-      <img
-        src={logo}
-        alt="Logo"
-        className="w-10 h-10 bg-slate-100 rounded-md"
-      />
-    </div>
-  </NavLink>
+     
+        <div className="flex flex-col space-y-2 w-full">
+          {currentUser?.role === "student" && StudentRoutes.map(renderNavLink)}
+          {currentUser?.role === "tutor" && tutorRoutes.map(renderNavLink)}
+          {currentUser?.role === "admin" && adminRoutes.map(renderNavLink)}
+        </div>
 
-  {/* Sidebar Navigation */}
-  <div className="flex flex-col space-y-2 w-full">
-    {currentUser?.role === "student" && StudentRoutes.map(renderNavLink)}
-    {currentUser?.role === "tutor" && tutorRoutes.map(renderNavLink)}
-    {currentUser?.role === "admin" && adminRoutes.map(renderNavLink)}
-  </div>
+        
+        <button
+          className="absolute bottom-5 -right-4 bg-yellow-500 text-[#082755] p-2 rounded-full transition-all duration-300"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          {isSidebarOpen ? (
+            <RiArrowLeftDoubleLine size={22} />
+          ) : (
+            <MdOutlineKeyboardDoubleArrowRight size={22} />
+          )}
+        </button>
+      </div>
 
-  {/* Toggle Button */}
-  <button
-    className="absolute bottom-5 -right-4 bg-yellow-500 text-[#082755] p-2 rounded-full transition-all duration-300"
-    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-  >
-    {isSidebarOpen ? (
-      <RiArrowLeftDoubleLine size={22} />
-    ) : (
-      <MdOutlineKeyboardDoubleArrowRight size={22} />
-    )}
-  </button>
-</div>
-
-
-      {/* Main Content */}
+    
       <div
         className={`transition-all duration-300 ${
           isSidebarOpen ? "w-4/5" : "w-full"
