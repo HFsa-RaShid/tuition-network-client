@@ -40,6 +40,12 @@ const TutorRequests = () => {
     "Others",
   ];
 
+  const tutorGenderPreference = [
+    "Male",
+    "Female",
+    "Any",
+  ];
+
   const classes = [
     "Play",
     "Nursery",
@@ -99,9 +105,9 @@ const TutorRequests = () => {
           subjects: [],
           city: "",
           location: "",
-          studentGender: "Female",
+          studentGender: "",
           noOfStudents: "1",
-          tutorGenderPreference: "Any",
+          tutorGenderPreference: "",
           daysPerWeek: "",
           salary: "",
           duration: "1 hour",
@@ -258,7 +264,8 @@ const TutorRequests = () => {
               </div>
             </div>
 
-            {/* City Selection */}
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+             {/* City Selection */}
             <div>
               <label className="block font-medium">City *</label>
               <select
@@ -299,6 +306,25 @@ const TutorRequests = () => {
                       {area}
                     </option>
                   ))}
+              </select>
+            </div>
+           </div>
+
+            <div>
+              <label className="block font-medium">Tutor Gender Preference*</label>
+              <select
+                name="tutorGenderPreference"
+                value={formData.tutorGenderPreference}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border rounded"
+              >
+                <option value="">Select...</option>
+                {tutorGenderPreference.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

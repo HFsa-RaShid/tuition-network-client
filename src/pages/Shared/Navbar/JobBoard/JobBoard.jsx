@@ -353,9 +353,13 @@ filteredJobs = filteredJobs.sort(
                   </div>
                 )}
 
-                <p className="text-gray-500">
-                  📍 {job.city}, {job.location}
-                </p>
+                 <div className="flex gap-10">
+                <p className="text-gray-500">Tuition ID: {job.TuitionID}</p>
+
+              <p className="text-gray-500">
+                📍 {job.city}, {job.location}
+              </p>
+              </div>
                 <h2 className="text-xl text-black font-bold mt-2">
                   Tuition for {job.classCourse}
                 </h2>

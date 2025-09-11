@@ -20,15 +20,13 @@ const PendingRequest = () => {
         status: "approved",
       })
       .then(() => {
-     
-        toast.success("Approved!The request has been approved.")
+        toast.success("Approved!The request has been approved.");
 
         refetch();
       })
       .catch((error) => {
         console.error("Approval error:", error);
-        toast.error("Error!", "Failed to approve the tutor request.", "error")
-        
+        toast.error("Error!", "Failed to approve the tutor request.", "error");
       });
   };
 
@@ -64,7 +62,7 @@ const PendingRequest = () => {
   };
 
   if (isLoading) {
-     return (
+    return (
       <div className="flex justify-center items-center mt-20">
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
       </div>
@@ -80,9 +78,15 @@ const PendingRequest = () => {
           {pendingRequests.map((request) => (
             <div key={request._id} className="card shadow-xl">
               <div className="card-body ">
-                <p className="text-gray-500">
-                  📍 {request.city}, {request.location}
-                </p>
+                <div className="flex gap-10">
+                  <p className="text-gray-500">
+                    Tuition ID: {request.TuitionID}
+                  </p>
+
+                  <p className="text-gray-500">
+                    📍 {request.city}, {request.location}
+                  </p>
+                </div>
                 <h2 className="text-xl text-black font-bold mt-1">
                   Tuition for {request.classCourse}
                 </h2>

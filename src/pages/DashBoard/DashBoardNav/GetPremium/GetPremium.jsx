@@ -129,7 +129,7 @@ const GetPremium = () => {
                   currentUser?.role
                 )
               }
-              className="mt-6 w-full rounded-2xl bg-indigo-600 text-white py-2 font-medium hover:bg-indigo-700 transition"
+              className="mt-6 w-full rounded-xl bg-blue-400 text-white py-2 font-medium hover:bg-blue-600 transition"
             >
               Get Premium
             </button>
