@@ -13,7 +13,7 @@ import {
   FaHourglassHalf,
   FaHandshake,
 } from "react-icons/fa";
-import logo from "../../assets/dashLogo.png";
+import logo from "../../assets/open-book.png";
 import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import useCurrentUser from "../../hooks/useCurrentUser";

@@ -1,11 +1,11 @@
-import logo from "../../../assets/TuitionNetwork_logo1.png";
+import logo from "../../../assets/open-book.png";
 
 const Footer = () => {
   return (
     <footer className=" bg-base-200 text-black px-10 pt-10 pb-6 rounded-t-3xl border-t-4">
       <div className="footer pb-6">
         <div className="flex flex-col items-start space-y-4">
-          <img src={logo} alt="logo" className="h-20 mx-auto" />
+          <img src={logo} alt="logo" className="h-14 mx-auto" />
           <h1 className="text-3xl font-bold">
             Tu<span className="text-[#DAA520]">T</span>oria
           </h1>

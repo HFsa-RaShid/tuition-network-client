@@ -37,11 +37,11 @@ const SignupPage = () => {
         body: imageFile,
       });
       const imgData = await uploadRes.json();
-      const idImageURL = imgData.data.display_url;
+      const NidImageURL = imgData.data.display_url;
 
       // ✅ Create user in Firebase
       const result = await createUser(data.email, data.password);
-      console.log(result.user);
+      // console.log(result.user);
 
       // ✅ Update Firebase profile with default avatar
       await updateUserProfile(
@@ -58,7 +58,7 @@ const SignupPage = () => {
         profileStatus: "Free",
         banned: "no",
         photoURL: "https://i.ibb.co.com/SXLvbnWL/manpp.png",
-        idImage: idImageURL,
+        NidImage: NidImageURL,
       };
 
       const tutorInfo = {
@@ -68,7 +68,7 @@ const SignupPage = () => {
         profileStatus: "Free",
         banned: "no",
         photoURL: "https://i.ibb.co.com/SXLvbnWL/manpp.png",
-        idImage: idImageURL,
+        NidImage: NidImageURL,
       };
 
       const res = await axiosPublic.post("/users", userInfo);
@@ -201,20 +201,20 @@ const SignupPage = () => {
               </p>
             )}
 
-            {/* ✅ NID/Student ID Upload */}
+            {/* ✅ NID Upload */}
             <div>
               <label className="block text-gray-700 font-medium mb-1">
-                Upload NID / Student ID *
+                Upload NID *
               </label>
               <input
-                {...register("idImage", { required: "ID image is required" })}
+                {...register("idImage", { required: "NID image is required" })}
                 type="file"
                 accept="image/*"
                 className="w-full border  rounded-md"
                 required
               />
-              {errors.idImage && (
-                <p className="text-red-500 text-sm">{errors.idImage.message}</p>
+              {errors.NidImage && (
+                <p className="text-red-500 text-sm">{errors.NidImage.message}</p>
               )}
             </div>
 

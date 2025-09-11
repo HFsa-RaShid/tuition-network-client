@@ -79,8 +79,8 @@ const Settings = () => {
             Profile Verification
           </h2>
           <p className="text-gray-600 text-sm mb-4">
-            Verify your tutor profile after confirming at least{" "}
-            <span className="font-bold">one job</span>.
+            Verify your profile after <span className="font-bold">100% update</span> your profile 
+        
           </p>
           <button
             onClick={handleVerificationSubmit}

@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../../provider/AuthProvider";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaEye, FaDownload } from "react-icons/fa";
 import { toast } from "react-hot-toast";
-
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
@@ -22,6 +21,7 @@ const ProfileDetails = () => {
   const [availableDays, setAvailableDays] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
   const [studentIdUrl, setStudentIdUrl] = useState(currentUser?.idImage || "");
+  const [showNidModal, setShowNidModal] = useState(false);
 
   const [tutorStatus, setTutorStatus] = useState(
     currentUser?.tutorStatus || "available"
@@ -128,30 +128,6 @@ const ProfileDetails = () => {
     }
   };
 
-  // const onSubmit = async (data) => {
-  //   try {
-  //     const updatedData = {
-  //       ...data,
-  //       preferredSubjects: preferredSubjects.join(","),
-  //       preferredClass: preferredClasses.join(","),
-  //       preferredCategories: preferredCategories.join(","),
-  //       preferredLocations: dataPreferredLocations.join(","),
-  //       availableDays,
-  //       availableTimes,
-  //       idImage: data.idImage,
-  //       tutorStatus,
-  //     };
-
-  //   await axiosSecure.put(`/users/${currentUser?.email}`, updatedData);
-  //     await axiosSecure.put(`/tutors/${currentUser?.email}`, updatedData);
-  //     refetch();
-  //     toast.success("Profile updated successfully!");
-  //   } catch (err) {
-  //     console.error(err);
-  //     toast.error("Failed to update profile!");
-  //   }
-  // };
-
   const onSubmit = async (data) => {
     const payload = {
       ...data,
@@ -162,7 +138,7 @@ const ProfileDetails = () => {
       availableDays,
       availableTimes,
       tutorStatus,
-      idImage: data.idImage || currentUser?.idImage, // ✅ fallback to old one
+      idImage: data.idImage || currentUser?.idImage,
     };
 
     try {
@@ -177,7 +153,6 @@ const ProfileDetails = () => {
     }
   };
 
- 
   const handleStudentIdChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -253,16 +228,6 @@ const ProfileDetails = () => {
   ]);
   const isStep1Valid = step1Fields.every((field) => field && field !== "");
 
-  // Step 2 fields
-  // const step2Fields = watch([
-  //   "education",
-  //   "institute",
-  //   "department",
-  //   "gpa",
-  //   "passingYear",
-  //   "tutorType",
-  //   "studentIdImage",
-  // ]);
   const isStep2Valid =
     watch("education") &&
     watch("institute") &&
@@ -270,9 +235,7 @@ const ProfileDetails = () => {
     watch("gpa") &&
     watch("passingYear") &&
     watch("tutorType") &&
-  currentUser.idImage;
-
-  // const isStep2Valid = step2Fields.every((field) => field && field !== "");
+    currentUser.idImage;
 
   // Step 3 fields
   const isStep3Valid =
@@ -337,7 +300,7 @@ const ProfileDetails = () => {
           {/* Step 1 - Personal Info */}
           {step === 1 && (
             <>
-              <h2 className="text-2xl font-semibold pb-6">Personal Info</h2>
+              <h2 className="text-2xl font-semibold pb-2">Personal Info</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label>Name</label>
@@ -379,7 +342,7 @@ const ProfileDetails = () => {
                   )}
                 </div>
 
-                 {/* Religion */}
+                {/* Religion */}
                 <div>
                   <label>Religion</label>
                   <select
@@ -436,25 +399,64 @@ const ProfileDetails = () => {
                   </select>
                 </div>
 
-               
+                {/* NID Image (View Only with Icons) */}
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700">
+                    NID Image
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={
+                        currentUser?.NidImage ? "Uploaded" : "Not Uploaded"
+                      }
+                      disabled
+                      className="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-100 cursor-not-allowed pr-16"
+                    />
+                    {currentUser?.NidImage && (
+                      <div className="absolute inset-y-0 right-3 flex items-center gap-3">
+                        {/* Eye Icon for Modal */}
+                        <FaEye
+                          onClick={() => setShowNidModal(true)}
+                          className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                          size={18}
+                        />
 
-                
-              </div>
-              {/* Tutor Type */}
-              <div>
-                <label className="block font-medium ">Tutor Type</label>
-                <select
-                  {...register("tutorType")}
-                  className="select select-bordered w-full"
-                >
-                  <option value="">Select </option>
-                  <option value="Government Institution">Govt. Employee</option>
-                  <option value="Private Institution">Private Employee</option>
-                  <option value="Job Seeker">Job Seeker</option>
-                  <option value="University Student">University Student</option>
+                        {/* Download Icon */}
+                        <a
+                          href={currentUser?.NidImage}
+                          download="nid-image.jpg"
+                          
+                        >
+                          <FaDownload size={18} />
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
 
-                  <option value="College Student">College Student</option>
-                </select>
+                {/* Tutor Type */}
+                <div>
+                  <label className="block font-medium ">Tutor Type</label>
+                  <select
+                    {...register("tutorType")}
+                    className="select select-bordered w-full"
+                  >
+                    <option value="">Select </option>
+                    <option value="Government Institution">
+                      Govt. Employee
+                    </option>
+                    <option value="Private Institution">
+                      Private Employee
+                    </option>
+                    <option value="Job Seeker">Job Seeker</option>
+                    <option value="University Student">
+                      University Student
+                    </option>
+
+                    <option value="College Student">College Student</option>
+                  </select>
+                </div>
               </div>
             </>
           )}
@@ -536,7 +538,7 @@ const ProfileDetails = () => {
                 </div>{" "}
                 <div>
                   <label className="block font-medium mb-1">
-                    Update NID/ Student ID
+                    Teacher ID/ Student ID(optional)
                   </label>
                   <input
                     type="file"
@@ -544,13 +546,13 @@ const ProfileDetails = () => {
                     className="file-input file-input-bordered w-full"
                     onChange={handleStudentIdChange}
                   />
-                  {studentIdUrl && (
+                  {/* {studentIdUrl && (
                     <img
                       src={studentIdUrl}
                       alt="Student ID"
                       className="mt-2 w-60 h-24 border rounded object-cover"
                     />
-                  )}
+                  )} */}
                 </div>
               </div>{" "}
             </>
@@ -944,6 +946,25 @@ const ProfileDetails = () => {
           </div>
         </form>
       </div>
+
+      {showNidModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative">
+            <button
+              onClick={() => setShowNidModal(false)}
+              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+            >
+              ✖
+            </button>
+            <h2 className="text-lg font-semibold mb-4">NID Image</h2>
+            <img
+              src={currentUser?.NidImage}
+              alt="NID"
+              className="w-full rounded-lg border"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
