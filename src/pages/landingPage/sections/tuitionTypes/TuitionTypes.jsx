@@ -8,7 +8,7 @@ const TuitionTypes = () => {
         <h2 className="text-3xl font-bold mb-1 text-black">Find the Best Tuition Type</h2>
         <h2 className="text-3xl font-bold mb-1 text-black">which suits you most</h2>
 
-        <div className="flex justify-evenly items-center py-16 ">
+        {/* <div className="flex justify-evenly items-center py-16 ">
           {[
             { id: 1, text: "Home" },
             { id: 2, text: "Online" },
@@ -18,19 +18,48 @@ const TuitionTypes = () => {
               key={type.id}
               className="relative w-[200px] h-[180px] rounded-[30px_30px_60px_60px] flex flex-col justify-center items-center  shadow-sm  shadow-[#f9d045] bg-base-100 "
             >
-              {/* Circle Number */}
+              
               <div className="absolute -top-6 flex justify-center items-center w-12 h-12 rounded-full bg-[#f9d045]  font-bold text-black ">
                 {type.id}
               </div>
 
-              {/* Card Text */}
+             
               <p className="text-center text-2xl  font-medium px-4 leading-6 pb-4">
                 {type.text}
               </p>
               <p className="text-center text-2xl  font-medium px-4 leading-6">Tutoring</p>
             </div>
           ))}
-        </div>
+        </div> */}
+<div className="flex justify-evenly items-center py-16">
+  <ul className="timeline">
+  <li>
+    <div className="timeline-start timeline-box">Home Tutoring</div>
+    <hr />
+  </li>
+  <li>
+    <hr />
+    <div className="timeline-end timeline-box">Online Tutoring</div>
+    <hr />
+  </li>
+  <li>
+    <hr />
+    <div className="timeline-start timeline-box">Group Tutoring</div>
+    <hr />
+  </li>
+   <li>
+    <hr />
+    <div className="timeline-end timeline-box">Batch Tutoring</div>
+    <hr />
+  </li>
+  {/*
+  <li>
+    <hr />
+    <div className="timeline-start timeline-box">Apple Watch</div>
+  </li> */}
+</ul>
+</div>
+        
       </div>
     </div>
   );

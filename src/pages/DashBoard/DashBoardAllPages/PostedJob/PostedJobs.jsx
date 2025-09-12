@@ -86,8 +86,8 @@ const PostedJobs = () => {
               >
                 <FaListUl className="text-gray-600 text-xl cursor-pointer hover:text-black transition duration-200" />
               </NavLink>
-              <div className="flex gap-10">
-                <p className="text-gray-500">Tuition ID: {job.TuitionID}</p>
+              <div className="flex gap-24">
+                <p className="text-gray-500">Tuition ID: {job.tuitionId}</p>
 
               <p className="text-gray-500">
                 📍 {job.city}, {job.location}

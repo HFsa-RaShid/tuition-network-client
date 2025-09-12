@@ -197,7 +197,7 @@ filteredJobs = filteredJobs.sort(
 
             {/* Tuition Type */}
             <div className="mb-4">
-              <label className="block font-semibold mb-1">Tuition Type</label>
+              <label className="block font-medium mb-1">Tuition Type</label>
               <select
                 className="w-full border p-2 rounded bg-white"
                 onChange={(e) =>
@@ -212,7 +212,7 @@ filteredJobs = filteredJobs.sort(
 
             {/* Preferred Tutor */}
             <div className="mb-4">
-              <label className="block font-semibold mb-1">
+              <label className="block font-medium mb-1">
                 Preferred Tutor
               </label>
               <select
@@ -230,7 +230,7 @@ filteredJobs = filteredJobs.sort(
 
             {/* Preferred Medium */}
             <div className="mb-4">
-              <label className="block font-semibold mb-1">
+              <label className="block font-medium mb-1">
                 Preferred Medium
               </label>
               <select
@@ -247,7 +247,7 @@ filteredJobs = filteredJobs.sort(
 
             {/* Preferred City */}
             <div className="mb-4">
-              <label className="block font-semibold mb-1">Preferred City</label>
+              <label className="block font-medium mb-1">Preferred City</label>
               <select
                 className="w-full border p-2 rounded bg-white"
                 value={filter.city}
@@ -264,7 +264,7 @@ filteredJobs = filteredJobs.sort(
 
             {/* Preferred Area */}
             <div className="mb-4">
-              <label className="block font-semibold mb-1">Preferred Area</label>
+              <label className="block font-medium mb-1">Preferred Area</label>
               <select
                 className="w-full border p-2 rounded bg-white"
                 value={filter.area}
@@ -283,7 +283,7 @@ filteredJobs = filteredJobs.sort(
 
             {/* Preferred Class */}
             <div className="mb-4">
-              <label className="block font-semibold mb-1">
+              <label className="block font-medium mb-1">
                 Preferred Class
               </label>
               <select
@@ -304,7 +304,7 @@ filteredJobs = filteredJobs.sort(
 
             {/* Search by Date */}
             <div className="mb-4">
-              <label className="block font-semibold mb-1">Search by Date</label>
+              <label className="block font-medium mb-1">Search by Date</label>
               <DatePicker
                 selected={filter.selectedDate}
                 onChange={(date) =>
@@ -353,8 +353,8 @@ filteredJobs = filteredJobs.sort(
                   </div>
                 )}
 
-                 <div className="flex gap-10">
-                <p className="text-gray-500">Tuition ID: {job.TuitionID}</p>
+                 <div className="flex gap-24">
+                <p className="text-gray-500">Tuition ID: {job.tuitionId}</p>
 
               <p className="text-gray-500">
                 📍 {job.city}, {job.location}

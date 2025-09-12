@@ -123,12 +123,12 @@ const Tutors = () => {
         <div className="container mx-auto p-4   min-h-screen flex gap-6">
           {/* Sidebar Filter */}
           <div className="w-[30%] bg-white/80 mt-28 border p-4 rounded-md shadow-md">
-            <h2 className="font-bold mb-3 text-lg text-blue-600">
-              Advance Filter
+             <h2 className="text-[24px] font-semibold mb-4">
+              🔍 Advanced Filter
             </h2>
 
             {/* District */}
-            <label className="block mb-2">Select District</label>
+            <label className="block mb-2 font-medium">Select District</label>
             <select
               className="w-full border p-2 rounded mb-4"
               value={selectedCity}
@@ -146,7 +146,7 @@ const Tutors = () => {
             </select>
 
             {/* Area */}
-            <label className="block mb-2">Select Area</label>
+            <label className="block mb-2 font-medium">Select Area</label>
             <select
               className="w-full border p-2 rounded mb-4"
               value={selectedArea}
@@ -162,7 +162,7 @@ const Tutors = () => {
             </select>
 
             {/* Medium */}
-            <label className="block mb-2">Select Medium</label>
+            <label className="block mb-2 font-medium">Select Medium</label>
             <select
               className="w-full border p-2 rounded mb-4"
               value={selectedMedium}
@@ -176,7 +176,7 @@ const Tutors = () => {
             </select>
 
             {/* Class */}
-            <label className="block mb-2">Select Class</label>
+            <label className="block mb-2 font-medium">Select Class</label>
             <select
               className="w-full border p-2 rounded mb-4"
               value={selectedClass}
@@ -205,7 +205,7 @@ const Tutors = () => {
             </select>
 
             {/* Tuition Type */}
-            <label className="block mb-2">Tuition Type</label>
+            <label className="block mb-2 font-medium">Tuition Type</label>
             <select
               className="w-full border p-2 rounded mb-4"
               value={selectedTuitionType}
@@ -218,7 +218,7 @@ const Tutors = () => {
             </select>
 
             {/* Gender */}
-            <label className="block mb-2">Gender</label>
+            <label className="block mb-2 font-medium">Gender</label>
             <select
               className="w-full border p-2 rounded mb-4"
               value={selectedGender}
@@ -230,7 +230,7 @@ const Tutors = () => {
             </select>
 
             {/* Religion */}
-            <label className="block mb-2">Religion</label>
+            <label className="block mb-2 font-medium">Religion</label>
             <select
               className="w-full border p-2 rounded"
               value={selectedReligion}

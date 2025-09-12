@@ -112,39 +112,6 @@ const SearchByMap = () => {
     }
   }, [currentUser, userLoading]);
 
-  // 🔹 Load all job markers (skip paid jobs)
-  // useEffect(() => {
-  //   if (!jobsLoading && allJobs?.length) {
-  //     const visibleJobs =
-  //       allJobs?.filter(
-  //         (job) =>
-  //           !paidJobsByJobIds?.some(
-  //             (p) =>
-  //               p.jobId === job._id &&
-  //               p.source === "myApplications" &&
-  //               p.paidStatus === true
-  //           )
-  //       ) || [];
-
-  //     Promise.all(
-  //       visibleJobs.map(async (request) => {
-  //         const coords = await geocodeLocation(
-  //           request.location,
-  //           "",
-  //           request.city
-  //         );
-  //         if (coords) {
-  //           return { id: request._id, coords, ...request };
-  //         }
-  //         return null;
-  //       })
-  //     ).then((markers) => {
-  //       setTutorRequestMarkers(markers.filter(Boolean));
-  //     });
-  //   } else {
-  //     setTutorRequestMarkers([]);
-  //   }
-  // }, [allJobs, jobsLoading, paidJobsByJobIds]);
   useEffect(() => {
   if (!jobsLoading && allJobs?.length) {
     const visibleJobs =
@@ -297,7 +264,7 @@ const SearchByMap = () => {
 
               <button
                 onClick={handleSearch}
-                className="bg-blue-600 text-white px-3 rounded hover:bg-blue-700"
+                className="bg-blue-200 text-black px-3 rounded hover:bg-blue-300"
               >
                 Search
               </button>

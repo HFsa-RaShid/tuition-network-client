@@ -80,7 +80,7 @@ const PendingRequest = () => {
               <div className="card-body ">
                 <div className="flex gap-10">
                   <p className="text-gray-500">
-                    Tuition ID: {request.TuitionID}
+                    Tuition ID: {request.tuitionId}
                   </p>
 
                   <p className="text-gray-500">
@@ -90,7 +90,7 @@ const PendingRequest = () => {
                 <h2 className="text-xl text-black font-bold mt-1">
                   Tuition for {request.classCourse}
                 </h2>
-                <div className="flex gap-2 mt-1">
+                <div className="flex gap-2 ">
                   <span className="bg-purple-600 text-white px-2 py-1 rounded text-sm">
                     {request.tuitionType}
                   </span>
@@ -99,7 +99,7 @@ const PendingRequest = () => {
                   </span>
                 </div>
 
-                <div className="mt-4 grid grid-cols-2 justify-between gap-2 text-black">
+                <div className="mt-2 grid grid-cols-2 justify-between gap-2 text-black">
                   <p>
                     <strong>👨‍🏫 No. of Students:</strong> {request.noOfStudents}
                   </p>
@@ -121,7 +121,7 @@ const PendingRequest = () => {
                   </p>
                 </div>
 
-                <div className="mt-2 text-black">
+                <div className="mt-1 text-black">
                   <strong>📖 Subjects:</strong>
                   <div className="flex gap-2 mt-1 flex-wrap">
                     {request.subjects?.map((subj, idx) => (
@@ -142,8 +142,19 @@ const PendingRequest = () => {
                   </span>
                   /Month
                 </p>
-                <p className="text-gray-500 mt-1 text-sm">
+                <p className="text-gray-500  text-sm">
                   Posted by: {request.userName} ({request.userEmail})
+                </p>
+                <p className="text-gray-500  text-sm">
+                  Posted Date:{" "}
+                  {new Date(request.postedAt).toLocaleString("en-US", {
+                    timeZone: "Asia/Dhaka",
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </p>
 
                 <div className="card-actions justify-end">

@@ -30,8 +30,8 @@ const TutoringWithUs = () => {
               students' lives.
             </p>
             <NavLink to='/signUp'>
-            <button className="bg-[#f9d045] py-3 px-6 rounded-3xl shadow-md shadow-blue-500 text-black font-semibold">
-                  Apply Now
+            <button className="bg-blue-200 py-3 px-6 rounded-xl shadow-md shadow-blue-500 text-black font-semibold">
+                  Join Us
                 </button>
             </NavLink>
           </div>
