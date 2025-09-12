@@ -66,7 +66,7 @@ const Settings = () => {
             <span className="font-bold">one-time premium membership</span>.
           </p>
           <NavLink to="premium">
-            <button className="bg-blue-300 hover:bg-blue-400 border-blue-500 px-5 py-2 rounded-md font-medium transition">
+            <button className="bg-blue-300 hover:bg-blue-400 text-blue-800 px-5 py-2 rounded-md font-medium transition">
               Get Premium
             </button>
           </NavLink>

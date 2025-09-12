@@ -7,6 +7,8 @@ import { AuthContext } from "../../../../provider/AuthProvider";
 import Footer from "../../Footer/Footer";
 import Navbar from "../Navbar";
 import useAxisTutorByID from "../../../../hooks/useAxisTutorByID";
+import useCurrentUser from "../../../../hooks/useCurrentUser";
+import toast from "react-hot-toast";
 
 const ProfileTutor = () => {
   const { id } = useParams();
@@ -14,12 +16,13 @@ const ProfileTutor = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useContext(AuthContext); 
+    const { user } = useContext(AuthContext);
+  const { currentUser, refetch,  } = useCurrentUser(user?.email);
   const { tutorProfile: tutor, isLoading, isError } = useAxisTutorByID(id);
 
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
+    phone: "",
     details: "",
   });
 
@@ -110,10 +113,6 @@ const ProfileTutor = () => {
 };
 
 
-
-
-
-
 // -------- Contact + Payment Function ----------
 const handlePaymentAndContact = async (
   jobId,
@@ -121,36 +120,39 @@ const handlePaymentAndContact = async (
   tutorName,
   tutorEmail,
   amount,
+  tutorAmount,
+  tuToriaAmount,
   studentName,
   studentEmail,
+  role,
+  studentPhone,
   message
 ) => {
   try {
-    // 1️⃣ Initiate Bkash payment
     const paymentResponse = await axiosSecure.post("/paymentBkash", {
       jobId,
       tutorId,
       name: tutorName,
       email: tutorEmail,
       amount,
+      tutorAmount,
+      tuToriaAmount,
       source: "contactTutor",
-      studentEmail,
       studentName,
-      role
+      studentEmail,
+      role,
     });
 
-    // Redirect to payment page if URL received
     if (paymentResponse.data.url) {
       window.location.href = paymentResponse.data.url;
     }
 
-    // 2️⃣ After successful payment, send email automatically
-    // NOTE: This assumes your backend triggers this after payment success
     await axiosSecure.post("/contact", {
       tutorName,
       studentName,
       tutorEmail,
       studentEmail,
+      studentPhone,
       message,
     });
 
@@ -161,11 +163,12 @@ const handlePaymentAndContact = async (
   }
 };
 
+
 // -------- Form Submit Handler ----------
 const handleSubmit = (e) => {
   e.preventDefault();
 
-  if (!formData.name || !formData.email || !formData.details) {
+  if (!formData.name || !formData.phone || !formData.details) {
     toast.error("Please fill all fields!");
     return;
   }
@@ -176,15 +179,18 @@ const handleSubmit = (e) => {
   }
 
   handlePaymentAndContact(
-    tutor._id,
-    tutor.customId,         // tutorId
-    tutor.name,             // tutorName
-    tutor.email,            // tutorEmail
-    50,                     // amount
-    formData.name,          // studentName
-    formData.email,         // studentEmail
-    formData.details,        // message
-    currentUser?.role
+   tutor._id,              // jobId
+  tutor.customId,         // tutorId
+  tutor.name,             // tutorName
+  tutor.email,            // tutorEmail
+  100,                    // amount
+  0,                      // tutorAmount
+  100,                    // tuToriaAmount
+  formData.name,          // studentName
+  currentUser?.email,     // studentEmail 
+  currentUser?.role,      // role
+  formData.phone,         // studentPhone
+  formData.details        // message
   );
 };
 
@@ -399,7 +405,7 @@ const handleSubmit = (e) => {
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium">Email</label>
                 <input
                   type="email"
@@ -411,7 +417,21 @@ const handleSubmit = (e) => {
                     setFormData({ ...formData, email: e.target.value })
                   }
                 />
-              </div>
+              </div> */}
+              <div>
+  <label className="block text-sm font-medium">Phone</label>
+  <input
+    type="tel"
+    className="input input-bordered w-full"
+    placeholder="Your phone number"
+    required
+    value={formData.phone}
+    onChange={(e) =>
+      setFormData({ ...formData, phone: e.target.value })
+    }
+  />
+</div>
+
 
               <div>
                 <label className="block text-sm font-medium">Details</label>
@@ -427,7 +447,7 @@ const handleSubmit = (e) => {
 
               <button
                 type="submit"
-                className="btn bg-sky-500 w-full text-white"
+                className="btn bg-blue-200 w-full text-blue-800 hover:bg-blue-300"
               >
                 Submit & Pay
               </button>

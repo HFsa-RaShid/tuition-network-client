@@ -9,13 +9,16 @@ const GetPremium = () => {
   const axiosSecure = useAxiosSecure();
 
   // 🔹 Payment handler
-  const handlePaymentBkash = async (name, email, tutorId, amount, role) => {
+  const handlePaymentBkash = async (name, email, tutorId, amount,tutorAmount,
+        tuToriaAmount, role) => {
     try {
       const result = await axiosSecure.post("/paymentBkash", {
         name,
         email,
         tutorId,
         amount,
+        tutorAmount,
+        tuToriaAmount,
         source: "getPremium",
         role,
       });
@@ -92,7 +95,7 @@ const GetPremium = () => {
               More access to advanced intelligence
             </p>
             <p className="mt-4 text-3xl font-bold">
-              TK 150 <span className="text-base font-normal">/month</span>
+              TK 200 <span className="text-base font-normal">/month</span>
             </p>
             <ul className="mt-6 space-y-3 text-gray-600">
               {currentUser?.role === "student" ? (
@@ -105,7 +108,6 @@ const GetPremium = () => {
                 <>
                   <li>✨ Nearby tuition Email notifications alert</li>
                   <li>📂 Prioritized during selection process</li>
-
                   <li>📈 Increase chances of being hired</li>
                 </>
               )}
@@ -125,11 +127,13 @@ const GetPremium = () => {
                   currentUser?.name,
                   currentUser?.email,
                   currentUser?.customId,
-                  150,
+                  200,
+                  0,
+                  200,
                   currentUser?.role
                 )
               }
-              className="mt-6 w-full rounded-xl bg-blue-400 text-white py-2 font-medium hover:bg-blue-600 transition"
+              className="mt-6 w-full rounded-xl bg-blue-200 text-blue-800 py-2 font-medium hover:bg-blue-300 transition"
             >
               Get Premium
             </button>

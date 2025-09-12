@@ -264,7 +264,7 @@ const SearchByMap = () => {
 
               <button
                 onClick={handleSearch}
-                className="bg-blue-200 text-black px-3 rounded hover:bg-blue-300"
+                className="bg-blue-200 text-blue-800 px-3 rounded hover:bg-blue-300"
               >
                 Search
               </button>

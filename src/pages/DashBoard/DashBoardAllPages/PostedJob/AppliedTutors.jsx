@@ -55,7 +55,7 @@ const AppliedTutors = () => {
   const handleToggleAndRefresh = async () => {
     if (currentUser?.profileStatus !== "Premium") {
       toast.error("You need to purchase Premium to use this feature!");
-      navigate(`/${currentUser.role}/premium`);
+      navigate(`/${currentUser.role}/settings/premium`);
       return;
     }
 
@@ -479,14 +479,14 @@ const AppliedTutors = () => {
     const tutorA = appliedTutorsWithProfile.find((t) => t.email === a.email);
     const tutorB = appliedTutorsWithProfile.find((t) => t.email === b.email);
 
-    // 1. Premium টিউটর সবসময় আগে আসবে
+    
     const isPremiumA = tutorA?.profile?.profileStatus === "Premium";
     const isPremiumB = tutorB?.profile?.profileStatus === "Premium";
 
     if (isPremiumA && !isPremiumB) return -1;
     if (!isPremiumA && isPremiumB) return 1;
 
-    // 2. এরপর appliedAt (descending = latest first)
+   
     return new Date(b.appliedAt) - new Date(a.appliedAt);
   });
 
@@ -545,7 +545,7 @@ const AppliedTutors = () => {
             // Top 5 Matches View
             <div className="p-6">
               {topMatchedTutors.length === 0 ? (
-                // Fallback message when no city-matched tutors found
+                
                 <div className="text-center py-12">
                   <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                     <FaEyeSlash className="w-8 h-8 text-gray-400" />

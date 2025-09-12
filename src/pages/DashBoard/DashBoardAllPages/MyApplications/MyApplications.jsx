@@ -34,7 +34,17 @@ const MyApplications = () => {
   const { paidJobsByJobIds, isLoading: paymentsLoading } =
     useMultipleJobPayments(jobIds);
 
-  const handlePaymentBkash = (jobId, name, email,tutorId, amount,studentEmail,studentName,role) => {
+  const handlePaymentBkash = (
+    jobId,
+    name,
+    email,
+    tutorId,
+    amount,
+    tutorAmount,
+    studentEmail,
+    studentName,
+    role
+  ) => {
     axiosSecure
       .post("/paymentBkash", {
         jobId,
@@ -42,10 +52,12 @@ const MyApplications = () => {
         email,
         tutorId,
         amount,
+        tutorAmount,
+        tuToriaAmount: amount,
         source: "myApplications",
         studentEmail,
         studentName,
-        role
+        role,
       })
       .then((result) => {
         window.location.replace(result.data.url);
@@ -128,18 +140,18 @@ const MyApplications = () => {
                           Booked for <br /> Trial Class
                         </span>
                       ) : (
-                        <span >
-                          {isAdvanceSalary ?(
-                             <span className="text-green-700  px-3 py-1 rounded-md bg-green-200">
+                        <span>
+                          {isAdvanceSalary ? (
+                            <span className="text-green-700  px-3 py-1 rounded-md bg-green-200">
                               Advance Paid
-                             </span>
-                          ):(
+                            </span>
+                          ) : (
                             <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-md">
-                          {appliedTutor?.confirmationStatus === "confirmed"
-                            ? "Confirmed"
-                            : "Applied"}
-                        </span>
-                            )}
+                              {appliedTutor?.confirmationStatus === "confirmed"
+                                ? "Confirmed"
+                                : "Applied"}
+                            </span>
+                          )}
                         </span>
                       )}
                     </div>
@@ -174,23 +186,31 @@ const MyApplications = () => {
                           Paid
                         </button>
                       ) : (
-                        <button
-                          onClick={() =>
-                            handlePaymentBkash(
-                              app._id,
-                              currentUser?.name,
-                              currentUser?.email,
-                              currentUser?.customId,
-                              100,
-                              app.userEmail, // student email
-                              app.userName, // student name
-                              currentUser?.role
-                            )
-                          }
-                          className="bg-green-200 mb-2 text-green-700 font-medium px-2 py-2 rounded hover:bg-green-300 transition"
-                        >
-                          Pay Now
-                        </button>
+                        <div className="relative group inline-block">
+                          <button
+                            onClick={() =>
+                              handlePaymentBkash(
+                                app._id,
+                                currentUser?.name,
+                                currentUser?.email,
+                                currentUser?.customId,
+                                app.salary * 0.06, // 6% of salary
+                                0,
+                                app.userEmail, // student email
+                                app.userName, // student name
+                                currentUser?.role
+                              )
+                            }
+                            className="bg-green-200 mb-2 text-green-700 font-medium px-2 py-2 rounded hover:bg-green-300 transition"
+                          >
+                            Pay Now
+                          </button>
+
+                          {/* Tooltip */}
+                          <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 -mb-2 px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                            Pay 6% of the salary
+                          </span>
+                        </div>
                       ))}
                   </td>
                 </tr>

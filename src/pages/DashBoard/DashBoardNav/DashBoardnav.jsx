@@ -67,7 +67,7 @@ const DashBoardNav = ({ isSidebarOpen }) => {
                   >
                     Premium
                     {currentUser?.profileStatus === "Premium" && (
-                      <span className="text-green-600 font-bold space-x-2">✔</span>
+                      <span className="text-green-600 font-bold pl-14">✔</span>
                     )}
                   </li>
                 </ul>

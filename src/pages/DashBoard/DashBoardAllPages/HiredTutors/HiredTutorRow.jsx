@@ -32,14 +32,24 @@ const HiredTutorRow = ({ payment, currentUser }) => {
         p.paidStatus
     );
 
-  const handleTrialClassPayment = async (jobId, tutorId, email, name) => {
+  const handleTrialClassPayment = async (
+    jobId,
+    tutorId,
+    email,
+    name,
+    amount,
+    tutorAmount,
+    tuToriaAmount
+  ) => {
     try {
       const paymentData = {
         jobId,
         name,
         email,
         tutorId,
-        amount: 250,
+        amount,
+        tutorAmount,
+        tuToriaAmount,
         source: "trialClassPayment",
         studentName: currentUser?.name,
         studentEmail: currentUser?.email,
@@ -52,14 +62,22 @@ const HiredTutorRow = ({ payment, currentUser }) => {
     }
   };
 
-  const handleAdvanceSalaryPayment = async (jobId, tutor, salary) => {
+  const handleAdvanceSalaryPayment = async (
+    jobId,
+    tutor,
+    amount,
+    tutorAmount,
+    tuToriaAmount
+  ) => {
     try {
       const paymentData = {
         jobId,
         name: tutor?.name,
         email: tutor?.email,
         tutorId: tutor?.customId,
-        amount: salary,
+        amount,
+        tutorAmount,
+        tuToriaAmount,
         source: "advanceSalary",
         studentName: currentUser?.name,
         studentEmail: currentUser?.email,
@@ -116,7 +134,6 @@ const HiredTutorRow = ({ payment, currentUser }) => {
       </div>
 
       <div className="flex gap-2">
-       
         <div className="flex gap-2">
           {/* যদি trial class বা advance salary already paid হয় */}
           {hasPaidTrial() || hasAdvanceSalaryPaid() ? (
@@ -135,13 +152,19 @@ const HiredTutorRow = ({ payment, currentUser }) => {
             </button>
           ) : (
             <button
-              onClick={() =>
+              onClick={() => {
+                const salary = Number(payment.jobDetails?.salary || 0); 
+                const extraFee = +(salary * 0.06).toFixed(2); // 6% fee
+                const totalAmount = +(salary + extraFee).toFixed(2); // total to pay
+
                 handleAdvanceSalaryPayment(
                   payment.jobId,
                   tutor,
-                  payment.jobDetails?.salary
-                )
-              }
+                  totalAmount,
+                  salary,
+                  extraFee
+                );
+              }}
               className="bg-blue-200 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1"
             >
               Pay Advance
@@ -151,7 +174,15 @@ const HiredTutorRow = ({ payment, currentUser }) => {
           {/* Book Trial Class Button */}
           <button
             onClick={() =>
-              handleTrialClassPayment(payment.jobId, tutor?.customId, tutor?.email, tutor?.name)
+              handleTrialClassPayment(
+                payment.jobId,
+                tutor?.customId,
+                tutor?.email,
+                tutor?.name,
+                payment.jobDetails?.salary * 0.08,
+                payment.jobDetails?.salary * 0.05,
+                payment.jobDetails?.salary * 0.03
+              )
             }
             disabled={hasPaidTrial() || hasAdvanceSalaryPaid()}
             className={`bg-blue-200 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1 ${
