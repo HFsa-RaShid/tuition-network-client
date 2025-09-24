@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaEyeSlash, FaTimes, FaCheck, FaDownload } from "react-icons/fa";
@@ -26,25 +24,25 @@ const VerifyUser = () => {
     );
   }
 
- const handleDownload = async (nidImage, name) => {
-  try {
-    const response = await fetch(nidImage, { mode: "cors" });
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
+  const handleDownload = async (nidImage, name) => {
+    try {
+      const response = await fetch(nidImage, { mode: "cors" });
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${name}_NID.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${name}_NID.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-    // memory clear
-    window.URL.revokeObjectURL(url);
-  } catch (error) {
-    console.error("Download failed:", error);
-  }
-};
+      // memory clear
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+  };
 
   const handleZoomIn = () => setZoom((prev) => prev + 0.2);
   const handleZoomOut = () => setZoom((prev) => Math.max(1, prev - 0.2));
@@ -161,87 +159,87 @@ const VerifyUser = () => {
       </div>
 
       {/* Zoomable Identity Viewer */}
-      {selectedTutor && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-[90%] h-[90%] flex flex-col">
-            {/* Header */}
-            <div className="flex justify-between items-center p-4 border-b">
-              <h3 className="font-bold text-xl">Identity Info</h3>
-              <button
-                onClick={() => setSelectedTutor(null)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                ✕
-              </button>
-            </div>
+     {/* Zoomable Identity Viewer */}
+{selectedTutor && (
+  <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg shadow-lg w-[90%] h-[90%] flex flex-col">
+      {/* Header */}
+      <div className="flex justify-between items-center p-4 border-b">
+        <h3 className="font-bold text-xl">Identity Info</h3>
+        <button
+          onClick={() => setSelectedTutor(null)}
+          className="text-gray-500 hover:text-gray-700"
+        >
+          ✕
+        </button>
+      </div>
 
-            {/* Info */}
-            <div className="p-4 flex-shrink-0">
-              <p className="text-lg">
-                <span className="font-semibold">Name:</span>{" "}
-                {selectedTutor.name}
-              </p>
-              <p className="text-lg">
-                <span className="font-semibold">Email:</span>{" "}
-                {selectedTutor.email}
-              </p>
-              <p className="text-lg">
-                <span className="font-semibold">Phone:</span>{" "}
-                {selectedTutor.phone}
-              </p>
-              <p className="text-lg">
-                <span className="font-semibold">ID:</span>{" "}
-                {selectedTutor.customId}
-              </p>
-            </div>
+      {/* Content (responsive layout) */}
+      <div className="flex-1 flex flex-col lg:flex-row">
+        {/* Info Section (left on lg, top on sm/md) */}
+        <div className="p-4 lg:w-[28%] border-b lg:border-b-0 lg:border-r">
+          <p className="text-lg">
+            <span className="font-semibold">Name:</span> {selectedTutor.name}
+          </p>
+          <p className="text-lg">
+            <span className="font-semibold">Email:</span> {selectedTutor.email}
+          </p>
+          <p className="text-lg">
+            <span className="font-semibold">Phone:</span> {selectedTutor.phone}
+          </p>
+          <p className="text-lg">
+            <span className="font-semibold">ID:</span> {selectedTutor.customId}
+          </p>
 
-            {/* Controls */}
-            <div className="flex gap-2 px-4">
-              <button
-                onClick={handleZoomIn}
-                className="px-3 py-1 bg-green-500 text-white rounded"
-              >
-                +
-              </button>
-              <button
-                onClick={handleZoomOut}
-                className="px-3 py-1 bg-red-500 text-white rounded"
-              >
-                -
-              </button>
-              {selectedTutor.NidImage && (
-                <button
-                  onClick={() =>
-                    handleDownload(selectedTutor.NidImage, selectedTutor.name)
-                  }
-                  className="px-3 py-1 bg-blue-500 text-white rounded"
-                >
-                  <FaDownload className="inline w-4 h-4 " /> 
-                </button>
-              )}
-            </div>
-
-            {/* Image Container */}
+          {/* Controls */}
+          <div className="flex gap-2 mt-4">
+            <button
+              onClick={handleZoomIn}
+              className="px-3 py-1 bg-green-500 text-white rounded"
+            >
+              +
+            </button>
+            <button
+              onClick={handleZoomOut}
+              className="px-3 py-1 bg-red-500 text-white rounded"
+            >
+              -
+            </button>
             {selectedTutor.NidImage && (
-              <div className="flex-1 overflow-auto m-4 lg:mx-20 border rounded-lg bg-gray-50">
-                <div
-                  style={{
-                    transform: `scale(${zoom})`,
-                    transformOrigin: "top left",
-                    display: "inline-block",
-                  }}
-                >
-                  <img
-                    src={selectedTutor.NidImage}
-                    alt="NID"
-                    className="block"
-                  />
-                </div>
-              </div>
+              <button
+                onClick={() =>
+                  handleDownload(selectedTutor.NidImage, selectedTutor.name)
+                }
+                className="px-3 py-1 bg-blue-500 text-white rounded"
+              >
+                <FaDownload className="inline w-4 h-4 " />
+              </button>
             )}
           </div>
         </div>
-      )}
+
+        {/* Image Section (right on lg, bottom on sm/md) */}
+        {selectedTutor.NidImage && (
+          <div className="flex-1 overflow-auto m-4 border rounded-lg bg-gray-50 flex items-center justify-center">
+            <div
+              style={{
+                transform: `scale(${zoom})`,
+                transformOrigin: "center center",
+              }}
+            >
+              <img
+                src={selectedTutor.NidImage}
+                alt="NID"
+                className="block max-h-full"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
