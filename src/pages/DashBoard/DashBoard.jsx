@@ -10,6 +10,7 @@ import {
   FaHistory,
   FaUsers,
   FaCog,
+FaUserCheck,
   FaTachometerAlt,
   FaHourglassHalf,
   FaHandshake,
@@ -57,8 +58,9 @@ const DashBoard = () => {
   const adminRoutes = [
     { path: "dashboard", icon: <FaTachometerAlt />, label: "DashBoard" },
     { path: "profile-details", icon: <FaUser />, label: "Profile Details" },
-    { path: "users", icon: <FaEnvelope />, label: "Users" },
+    { path: "users", icon: <FaEnvelope />, label: "All User" },
     { path: "pending-request", icon: <FaHourglassHalf />, label: "Pending Request" },
+    { path: "verify-user", icon: <FaUserCheck />, label: "Verify User" },
     { path: "settings", icon: <FaCog />, label: "Settings" },
   ];
 
@@ -69,7 +71,7 @@ const DashBoard = () => {
       to={route.path}
       className={({ isActive }) =>
         isActive
-          ? "relative group bg-yellow-500 p-2 rounded-lg flex items-center space-x-3 text-black"
+          ? "relative group bg-yellow-500 p-1 rounded-lg flex items-center space-x-3 text-black"
           : "relative group p-2 rounded-lg flex items-center space-x-3"
       }
     >

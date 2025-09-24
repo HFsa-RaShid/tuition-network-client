@@ -9,8 +9,6 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 const Settings = () => {
   const { user } = useContext(AuthContext);
   const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
-
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
 
@@ -22,35 +20,54 @@ const Settings = () => {
     );
   }
 
-  const handleVerificationSubmit = async () => {
-    if (!currentUser) return;
+const handleVerificationSubmit = async () => {
+  if (!currentUser) return;
 
-    setLoading(true);
-    try {
-      const response = await axiosSecure.post("/verification", {
-        name: currentUser.name,
-        email: currentUser.email,
-        phone: currentUser.phone,
-        customId: currentUser.customId,
-        idImage: currentUser.idImage,
-        professionalId: currentUser.professionalId,
-        city: currentUser.city,
-        location: currentUser.location,
+  // আগেই submit করলে ব্লক করবো
+  if (currentUser.verificationStatus === "pending") {
+    toast.error("You have already submitted a request!");
+    return;
+  }
+
+  setLoading(true);
+  try {
+    // 1️⃣ verification insert
+    const res1 = await axiosSecure.post("/verification", {
+      name: currentUser.name,
+      email: currentUser.email,
+      phone: currentUser.phone,
+      customId: currentUser.customId,
+      idImage: currentUser.idImage,
+      NidImage: currentUser.NidImage,
+      city: currentUser.city,
+      location: currentUser.location,
+      verificationStatus: "pending",
+    });
+
+    
+    if (res1.status === 200 || res1.status === 201) {
+      await axiosSecure.put(`/users/${currentUser?.email}`, {
+        verificationStatus: "pending",
       });
 
-      if (response.status === 201) {
-        toast.success("Verification request submitted successfully!");
-        setIsSubmitted(true);
+      if (currentUser.role === "tutor") {
+        await axiosSecure.put(`/tutors/${currentUser?.email}`, {
+          verificationStatus: "pending",
+        });
       }
-    } catch (error) {
-      console.error(error);
-      toast.error(
-        error.response?.data?.message || "Failed to submit verification"
-      );
-    } finally {
-      setLoading(false);
+
+      toast.success("Verification request submitted successfully!");
+      refetch();
     }
-  };
+
+  } catch (error) {
+    console.error("Verification error:", error);
+    toast.error(error.response?.data?.message || "Failed to submit verification");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="p-6 container mx-auto">
@@ -84,14 +101,14 @@ const Settings = () => {
           </p>
           <button
             onClick={handleVerificationSubmit}
-            disabled={isSubmitted || loading}
+            disabled={currentUser.verificationStatus==='pending' || loading}
             className={`px-5 py-2 rounded-md font-medium transition ${
-              isSubmitted
+              currentUser.verificationStatus==='pending'
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-yellow-400 hover:bg-yellow-500"
             }`}
           >
-            {isSubmitted ? "Submitted" : loading ? "Submitting..." : "Submit Request"}
+            {currentUser.verificationStatus==='pending' ? "Submitted" : loading ? "Submitting..." : "Submit Request"}
           </button>
         </div>
       </div>

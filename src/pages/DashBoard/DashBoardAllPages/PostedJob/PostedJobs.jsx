@@ -3,7 +3,7 @@ import useAllJobs from "../../../../hooks/useAllJobs";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
-import { FaListUl } from "react-icons/fa";
+import { FaEyeSlash, FaListUl } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
@@ -62,6 +62,9 @@ const PostedJobs = () => {
     return (
       <div className="container mx-auto mt-6">
         <div className="p-6 text-center">
+          <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+            <FaEyeSlash className="w-8 h-8 text-gray-400" />
+          </div>
           <h2 className="text-xl font-semibold">No jobs found</h2>
           <p className="text-gray-500">You have not posted any jobs yet.</p>
         </div>
@@ -89,9 +92,9 @@ const PostedJobs = () => {
               <div className="flex gap-24">
                 <p className="text-gray-500">Tuition ID: {job.tuitionId}</p>
 
-              <p className="text-gray-500">
-                📍 {job.city}, {job.location}
-              </p>
+                <p className="text-gray-500">
+                  📍 {job.city}, {job.location}
+                </p>
               </div>
               <h2 className="text-xl text-black font-bold mt-2">
                 Tuition for {job.classCourse}

@@ -234,8 +234,8 @@ const ProfileDetails = () => {
     watch("department") &&
     watch("gpa") &&
     watch("passingYear") &&
-    watch("tutorType") &&
-    currentUser.idImage;
+    watch("tutorType") 
+    
 
   // Step 3 fields
   const isStep3Valid =
@@ -546,6 +546,8 @@ const ProfileDetails = () => {
                     className="file-input file-input-bordered w-full"
                     onChange={handleStudentIdChange}
                   />
+    
+
                   {/* {studentIdUrl && (
                     <img
                       src={studentIdUrl}

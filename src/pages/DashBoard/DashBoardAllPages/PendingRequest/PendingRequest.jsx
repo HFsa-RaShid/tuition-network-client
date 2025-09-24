@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAllJobs from "../../../../hooks/useAllJobs";
 import toast from "react-hot-toast";
+import { FaEyeSlash } from "react-icons/fa";
 
 const PendingRequest = () => {
   const { allJobs, refetch, isLoading } = useAllJobs();
@@ -69,10 +70,18 @@ const PendingRequest = () => {
     );
   }
 
+    
+
+
   return (
     <div className=" container mx-auto">
       {pendingRequests?.length === 0 ? (
+         <div>
+          <div className="mx-auto w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+              <FaEyeSlash className="w-8 h-8 text-gray-500" />
+            </div>
         <p className="text-center mt-4">No pending requests found.</p>
+        </div>
       ) : (
         <div className="my-4 ml-6 grid grid-cols-1 lg:grid-cols-2  gap-10 px-1">
           {pendingRequests.map((request) => (
@@ -142,9 +151,9 @@ const PendingRequest = () => {
                   </span>
                   /Month
                 </p>
-                <p className="text-gray-500  text-sm">
+                {/* <p className="text-gray-500  text-sm">
                   Posted by: {request.userName} ({request.userEmail})
-                </p>
+                </p> */}
                 <p className="text-gray-500  text-sm">
                   Posted Date:{" "}
                   {new Date(request.postedAt).toLocaleString("en-US", {
