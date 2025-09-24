@@ -42,6 +42,7 @@ const handleVerificationSubmit = async () => {
       city: currentUser.city,
       location: currentUser.location,
       verificationStatus: "pending",
+      userRole: currentUser.role,
     });
 
     
