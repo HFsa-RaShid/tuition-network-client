@@ -14,6 +14,7 @@ FaUserCheck,
   FaTachometerAlt,
   FaHourglassHalf,
   FaHandshake,
+  FaCreditCard,
 } from "react-icons/fa";
 import logo from "../../assets/open-book.png";
 import { NavLink, Outlet } from "react-router-dom";
@@ -61,7 +62,7 @@ const DashBoard = () => {
     { path: "users", icon: <FaEnvelope />, label: "All User" },
     { path: "pending-request", icon: <FaHourglassHalf />, label: "Pending Request" },
     { path: "verify-user", icon: <FaUserCheck />, label: "Verify User" },
-    { path: "settings", icon: <FaCog />, label: "Settings" },
+    { path: "allPayment", icon: <FaCreditCard />, label: "Payments" },
   ];
 
   // Render NavLink with tooltip

@@ -19,6 +19,7 @@ const ViewUsers = () => {
 
   const {
     data: users = [],
+    isLoading,
     refetch,
   } = useQuery({
     queryKey: ["users", searchTerm],
@@ -158,6 +159,15 @@ const ViewUsers = () => {
     }
   };
 
+
+    if (isLoading) {
+    return (
+      <div className="flex justify-center items-center mt-20">
+        <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen mb-2">
       <Helmet>
@@ -189,7 +199,7 @@ const ViewUsers = () => {
 
       <table className="w-[80%] mx-auto text-[9px] md:text-[16px] text-center md:min-w-full">
         <thead>
-          <tr>
+          <tr className="bg-gray-200">
             <th className="py-2">Photo</th>
             <th className="py-2">Name</th>
             <th className="py-2">Identity</th>
@@ -229,7 +239,7 @@ const ViewUsers = () => {
                 <div className="flex justify-around items-center">
                   <button
                     onClick={() => openUpdateModalHandler(user)}
-                    className="px-4 py-2 bg-[#f9d045] rounded hover:bg-[#e7bd34] text-[9px] md:text-[16px]"
+                    className="px-4 bg-[#f9d045] rounded hover:bg-[#e7bd34] text-[9px] md:text-[16px]"
                   >
                     Update Role
                   </button>
@@ -279,7 +289,7 @@ const ViewUsers = () => {
               <div className="py-4">
                 <label htmlFor="role">Select Role:</label>
                 <select
-                  className="m-4 border px-3 py-2"
+                  className="m-4 border px-3 py-1"
                   name="role"
                   value={selectedRole}
                   onChange={(event) => setSelectedRole(event.target.value)}
@@ -291,7 +301,7 @@ const ViewUsers = () => {
 
                 <button
                   type="button"
-                  className="btn px-4  bg-[#f9d045] rounded hover:bg-[#e7bd34]"
+                  className="py-1 px-4  bg-[#f9d045] rounded hover:bg-[#e7bd34]"
                   onClick={() => {
                     updateUserRole(selectedUser.email);
                     setOpenUpdateModal(false);
@@ -328,6 +338,14 @@ const ViewUsers = () => {
                 <p className="text-lg">
                   <span className="font-semibold">Email:</span>{" "}
                   {selectedUser.email}
+                </p>
+                <p className="text-lg">
+                  <span className="font-semibold">phone:</span>{" "}
+                  {selectedUser.phone}
+                </p>
+                <p className="text-lg">
+                  <span className="font-semibold">ID:</span>{" "}
+                  {selectedUser.customId}
                 </p>
                 <p className="text-lg">
                   <span className="font-semibold">Role:</span>{" "}
