@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import { FaTrash, FaCircle, FaBan } from "react-icons/fa";
+import { FaTrash, FaCircle, FaBan, FaDownload } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const ViewUsers = () => {
@@ -11,12 +11,14 @@ const ViewUsers = () => {
   const [selectedRole, setSelectedRole] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filterRole, setFilterRole] = useState("all");
+  const [zoom, setZoom] = useState(1);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [openIdentityModal, setOpenIdentityModal] = useState(false);
+
   const axiosSecure = useAxiosSecure();
 
   const {
     data: users = [],
-    isLoading,
-    isError,
     refetch,
   } = useQuery({
     queryKey: ["users", searchTerm],
@@ -119,14 +121,41 @@ const ViewUsers = () => {
     });
   };
 
-  const openModal = (user) => {
+  const openUpdateModalHandler = (user) => {
     setSelectedUser(user);
     setSelectedRole(user.role);
-    document.getElementById("my_modal_3").showModal();
+    setOpenUpdateModal(true);
+  };
+
+  const openIdentityModalHandler = (user) => {
+    setSelectedUser(user);
+    setZoom(1);
+    setOpenIdentityModal(true);
   };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleZoomIn = () => setZoom((prev) => prev + 0.2);
+  const handleZoomOut = () => setZoom((prev) => Math.max(1, prev - 0.2));
+
+  const handleDownload = async (nidImage, name) => {
+    try {
+      const response = await fetch(nidImage, { mode: "cors" });
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${name}_NID.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
   };
 
   return (
@@ -134,7 +163,7 @@ const ViewUsers = () => {
       <Helmet>
         <title>Users | TuToria</title>
       </Helmet>
-      <h1 className="pt-10 text-center font-bold text-3xl">Users</h1>
+      <h1 className="pt-6 text-center font-bold text-3xl">Users</h1>
 
       <div className="relative w-full flex justify-center items-center mt-4 mb-4">
         <input
@@ -163,7 +192,7 @@ const ViewUsers = () => {
           <tr>
             <th className="py-2">Photo</th>
             <th className="py-2">Name</th>
-            <th className="py-2">Email</th>
+            <th className="py-2">Identity</th>
             <th className="py-2">Role</th>
             <th className="py-2">Profile Status</th>
             <th className="py-2">Action</th>
@@ -182,14 +211,24 @@ const ViewUsers = () => {
                 </div>
               </td>
               <td className="border py-2">{user.name}</td>
-              <td className="border py-2 text-blue-700">{user.email}</td>
+
+              {/* Identity Button */}
+              <td className="border py-2">
+                <button
+                  className="px-3 py-1 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  onClick={() => openIdentityModalHandler(user)}
+                >
+                  Identity
+                </button>
+              </td>
+
               <td className="border py-2">{user.role}</td>
               <td className="border py-2">{user.profileStatus}</td>
 
               <td className="border py-2">
                 <div className="flex justify-around items-center">
                   <button
-                    onClick={() => openModal(user)}
+                    onClick={() => openUpdateModalHandler(user)}
                     className="px-4 py-2 bg-[#f9d045] rounded hover:bg-[#e7bd34] text-[9px] md:text-[16px]"
                   >
                     Update Role
@@ -225,14 +264,14 @@ const ViewUsers = () => {
         </tbody>
       </table>
 
-      {/* Modal */}
-      <dialog id="my_modal_3" className="modal">
-        <div className="modal-box">
-          {selectedUser && (
+      {/* Update Role Modal */}
+      {openUpdateModal && selectedUser && (
+        <dialog open className="modal">
+          <div className="modal-box">
             <form method="dialog">
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                onClick={() => document.getElementById("my_modal_3").close()}
+                onClick={() => setOpenUpdateModal(false)}
               >
                 ✕
               </button>
@@ -252,21 +291,98 @@ const ViewUsers = () => {
 
                 <button
                   type="button"
-                  className="btn px-4 py-2 bg-[#f9d045] rounded hover:bg-[#e7bd34]"
+                  className="btn px-4  bg-[#f9d045] rounded hover:bg-[#e7bd34]"
                   onClick={() => {
                     updateUserRole(selectedUser.email);
-                    document.getElementById("my_modal_3").close();
+                    setOpenUpdateModal(false);
                   }}
                 >
                   Update Role
                 </button>
               </div>
             </form>
-          )}
+          </div>
+        </dialog>
+      )}
+
+      {/* Identity Viewer Modal */}
+      {openIdentityModal && selectedUser && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg w-[90%] h-[90%] flex flex-col">
+            <div className="flex justify-between items-center p-4 border-b">
+              <h3 className="font-bold text-xl">Identity Info</h3>
+              <button
+                onClick={() => setOpenIdentityModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="flex-1 flex flex-col lg:flex-row">
+              <div className="p-4 lg:w-[28%] border-b lg:border-b-0 lg:border-r">
+                <p className="text-lg">
+                  <span className="font-semibold">Name:</span>{" "}
+                  {selectedUser.name}
+                </p>
+                <p className="text-lg">
+                  <span className="font-semibold">Email:</span>{" "}
+                  {selectedUser.email}
+                </p>
+                <p className="text-lg">
+                  <span className="font-semibold">Role:</span>{" "}
+                  {selectedUser.role}
+                </p>
+
+                <div className="flex gap-2 mt-4">
+                  <button
+                    onClick={handleZoomIn}
+                    className="px-3 py-1 bg-green-500 text-white rounded"
+                  >
+                    +
+                  </button>
+                  <button
+                    onClick={handleZoomOut}
+                    className="px-3 py-1 bg-red-500 text-white rounded"
+                  >
+                    -
+                  </button>
+                  {selectedUser.NidImage && (
+                    <button
+                      onClick={() =>
+                        handleDownload(selectedUser.NidImage, selectedUser.name)
+                      }
+                      className="px-3 py-1 bg-blue-500 text-white rounded"
+                    >
+                      <FaDownload className="inline w-4 h-4 " />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {selectedUser.NidImage && (
+                <div className="flex-1 overflow-auto m-4 border rounded-lg bg-gray-50 flex items-center justify-center">
+                  <div
+                    style={{
+                      transform: `scale(${zoom})`,
+                      transformOrigin: "center center",
+                    }}
+                  >
+                    <img
+                      src={selectedUser.NidImage}
+                      alt="NID"
+                      className="block max-h-full"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-      </dialog>
+      )}
     </div>
   );
 };
 
 export default ViewUsers;
+
