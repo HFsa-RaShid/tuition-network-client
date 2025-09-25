@@ -10,8 +10,13 @@ const AllPaymentTabs = () => {
   if (isLoading) return <p className="text-center mt-10">Loading payments...</p>;
   if (isError) return <p className="text-center mt-10 text-red-600">Error loading payments!</p>;
 
-  const tutoriaPayments = allPayment.filter(p => p.tuToriaAmount > 0);
-  const tutorPayments = allPayment.filter(p => p.tutorAmount > 0);
+ const sortedPayments = [...allPayment].sort(
+  (a, b) => new Date(b.paymentTime) - new Date(a.paymentTime)
+);
+
+const tutoriaPayments = sortedPayments.filter(p => p.tuToriaAmount > 0);
+const tutorPayments = sortedPayments.filter(p => p.tutorAmount > 0);
+
 
   const totalTutoriaAmount = tutoriaPayments.reduce((sum, p) => sum + p.tuToriaAmount, 0);
   const totalTutorAmount = tutorPayments.reduce((sum, p) => sum + p.tutorAmount, 0);
@@ -42,7 +47,7 @@ const AllPaymentTabs = () => {
 
       {/* Total */}
       <div className="mb-4 font-semibold">
-        {activeTab === "tutoria" ? `Total TuToria Amount: ${totalTutoriaAmount}` : `Total Tutor Amount: ${totalTutorAmount}`}
+        {activeTab === "tutoria" ? `Total TuToria Amount: ${totalTutoriaAmount} BDT` : `Total Tutor Amount: ${totalTutorAmount} BDT`}
       </div>
 
       {/* Tab Contents */}
@@ -53,24 +58,24 @@ const AllPaymentTabs = () => {
               <thead>
                 <tr className="bg-gray-200 text-center">
                   <th className="border px-3 py-2">Transaction ID</th>
-                  <th className="border px-3 py-2">Name</th>
+                 
                   <th className="border px-3 py-2">Email</th>
                   <th className="border px-3 py-2">Role</th>
                   <th className="border px-3 py-2">Source</th>
-                  <th className="border px-3 py-2">TuToria Amount</th>
+                  <th className="border px-3 py-2">Amount</th>
                   <th className="border px-3 py-2">Payment Time</th>
                 </tr>
               </thead>
               <tbody>
                 {tutoriaPayments.map(p => (
                   <tr key={p._id} className="text-center">
-                    <td className="border px-2 py-2">{p.transactionId}</td>
-                    <td className="border px-2 py-2">{p.name}</td>
-                    <td className="border px-2 py-2">{p.email}</td>
-                    <td className="border px-2 py-2">{p.role}</td>
-                    <td className="border px-2 py-2">{p.source}</td>
-                    <td className="border px-2 py-2">{p.tuToriaAmount}</td>
-                    <td className="border px-2 py-2">{new Date(p.paymentTime).toLocaleString()}</td>
+                    <td className="border px-2 py-3">{p.transactionId}</td>
+                 
+                    <td className="border px-2 py-3">{p.email}</td>
+                    <td className="border px-2 py-3">{p.role}</td>
+                    <td className="border px-2 py-3">{p.source}</td>
+                    <td className="border px-2 py-3">{p.tuToriaAmount}</td>
+                    <td className="border px-2 py-3">{new Date(p.paymentTime).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -84,9 +89,9 @@ const AllPaymentTabs = () => {
               <thead>
                 <tr className="bg-gray-200 text-center">
                   <th className="border px-3 py-2">Transaction ID</th>
-                  <th className="border px-3 py-2">Name</th>
+                
                   <th className="border px-3 py-2">Email</th>
-                  <th className="border px-3 py-2">Role</th>
+                  
                   <th className="border px-3 py-2">Source</th>
                   <th className="border px-3 py-2">Tutor Amount</th>
                  
@@ -96,14 +101,14 @@ const AllPaymentTabs = () => {
               <tbody>
                 {tutorPayments.map(p => (
                   <tr key={p._id} className="text-center">
-                    <td className="border px-2 py-2">{p.transactionId}</td>
-                    <td className="border px-2 py-2">{p.name}</td>
-                    <td className="border px-2 py-2">{p.email}</td>
-                    <td className="border px-2 py-2">{p.role}</td>
-                    <td className="border px-2 py-2">{p.source}</td>
-                    <td className="border px-2 py-2">{p.tutorAmount}</td>
+                    <td className="border px-2 py-3">{p.transactionId}</td>
+                   
+                    <td className="border px-2 py-3">{p.email}</td>
+                  
+                    <td className="border px-2 py-3">{p.source}</td>
+                    <td className="border px-2 py-3">{p.tutorAmount}</td>
                     
-                    <td className="border px-2 py-2">{new Date(p.paymentTime).toLocaleString()}</td>
+                    <td className="border px-2 py-3">{new Date(p.paymentTime).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>

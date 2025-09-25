@@ -241,7 +241,7 @@ const PaymentHistoryStudent = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="w-full mt-6 p-4 mx-5 bg-white shadow rounded-xl">
+      <div className="w-full mt-6 p-4 mx-5 ">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
           Payment History
         </h2>
