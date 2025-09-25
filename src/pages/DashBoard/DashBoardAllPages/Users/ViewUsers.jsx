@@ -1,19 +1,17 @@
-import {  useState } from "react";
+
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import { FaTrash } from "react-icons/fa";
-import { FaPlus } from "react-icons/fa";
-import { FaCircle, FaBan } from "react-icons/fa";
+import { FaTrash, FaCircle, FaBan } from "react-icons/fa";
 import Swal from "sweetalert2";
-
 
 const ViewUsers = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedRole, setSelectedRole] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [filterRole, setFilterRole] = useState("all");
   const axiosSecure = useAxiosSecure();
-  
 
   const {
     data: users = [],
@@ -31,22 +29,35 @@ const ViewUsers = () => {
     },
   });
 
+  // === Filtering Logic ===
+  const filteredUsers = users.filter((user) => {
+    if (filterRole === "all") return true;
+    if (filterRole === "tutor") return user.role === "tutor";
+    if (filterRole === "student") return user.role === "student";
+    if (filterRole === "premium-tutor")
+      return user.role === "tutor" && user.profileStatus === "Premium";
+    if (filterRole === "premium-student")
+      return user.role === "student" && user.profileStatus === "Premium";
+    return true;
+  });
+
   const updateUserRole = (email) => {
     axiosSecure
       .put(`/users/${email}`, { role: selectedRole })
       .then(() => {
-        refetch();   
+        refetch();
       })
       .catch((error) => {
         console.error("Error updating user role:", error);
       });
   };
 
-
-const toggleBanStatus = (email, currentStatus) => {
+  const toggleBanStatus = (email, currentStatus) => {
     const isBanning = currentStatus === "no";
     Swal.fire({
-      title: `Are you sure you want to ${isBanning ? "ban" : "unban"} this user?`,
+      title: `Are you sure you want to ${
+        isBanning ? "ban" : "unban"
+      } this user?`,
       text: `This action can be reversed later.`,
       icon: "warning",
       showCancelButton: true,
@@ -76,7 +87,7 @@ const toggleBanStatus = (email, currentStatus) => {
       }
     });
   };
-  
+
   const deleteUser = async (email) => {
     Swal.fire({
       title: "Are you sure?",
@@ -89,9 +100,8 @@ const toggleBanStatus = (email, currentStatus) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axiosSecure.delete(`/users/${email}`);
+          await axiosSecure.delete(`/users/${email}`);
           refetch();
-
           Swal.fire({
             title: "Deleted!",
             text: "The user has been deleted.",
@@ -134,32 +144,33 @@ const toggleBanStatus = (email, currentStatus) => {
           value={searchTerm}
           onChange={handleSearch}
         />
-        <button
-          className="absolute right-5 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm flex items-center gap-1"
-          onClick={() => {
-            Swal.fire(
-              "Info",
-              "Add User functionality not implemented yet",
-              "info"
-            );
-          }}
+
+        <select
+          value={filterRole}
+          onChange={(e) => setFilterRole(e.target.value)}
+          className="absolute right-5 border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none"
         >
-          <FaPlus /> Add User
-        </button>
+          <option value="all">All</option>
+          <option value="tutor">Tutors</option>
+          <option value="student">Students</option>
+          <option value="premium-tutor">Premium Tutors</option>
+          <option value="premium-student">Premium Students</option>
+        </select>
       </div>
 
       <table className="w-[80%] mx-auto text-[9px] md:text-[16px] text-center md:min-w-full">
         <thead>
           <tr>
-            <th className=" py-2 ">Photo</th>
-            <th className=" py-2 ">Name</th>
-            <th className=" py-2 ">Email</th>
-            <th className=" py-2 ">Role</th>
-            <th className=" py-2 ">Action</th>
+            <th className="py-2">Photo</th>
+            <th className="py-2">Name</th>
+            <th className="py-2">Email</th>
+            <th className="py-2">Role</th>
+            <th className="py-2">Profile Status</th>
+            <th className="py-2">Action</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <tr key={user._id}>
               <td className="border py-4">
                 <div className="flex justify-center items-center">
@@ -170,10 +181,10 @@ const toggleBanStatus = (email, currentStatus) => {
                   />
                 </div>
               </td>
-
               <td className="border py-2">{user.name}</td>
-              <td className="border  py-2 text-blue-700">{user.email}</td>
-              <td className="border  py-2">{user.role}</td>
+              <td className="border py-2 text-blue-700">{user.email}</td>
+              <td className="border py-2">{user.role}</td>
+              <td className="border py-2">{user.profileStatus}</td>
 
               <td className="border py-2">
                 <div className="flex justify-around items-center">
@@ -183,20 +194,21 @@ const toggleBanStatus = (email, currentStatus) => {
                   >
                     Update Role
                   </button>
-       
 
-
-<button
-  type="button"
-  className={`border-2 border-green-400 rounded-full ${
-    user.banned === "yes" ? " text-red-600 border-none text-xl" : "text-white"
-  }  flex items-center justify-center transition`}
-  title={user.banned === "yes" ? "Click to Unban" : "Click to Ban"}
-  onClick={() => toggleBanStatus(user.email, user.banned)}
->
-  {user.banned === "yes" ? <FaBan /> : <FaCircle />}
-</button>
-
+                  <button
+                    type="button"
+                    className={`border-2 border-green-400 rounded-full ${
+                      user.banned === "yes"
+                        ? " text-red-600 border-none text-xl"
+                        : "text-white"
+                    } flex items-center justify-center transition`}
+                    title={
+                      user.banned === "yes" ? "Click to Unban" : "Click to Ban"
+                    }
+                    onClick={() => toggleBanStatus(user.email, user.banned)}
+                  >
+                    {user.banned === "yes" ? <FaBan /> : <FaCircle />}
+                  </button>
 
                   <button
                     type="button"
@@ -213,6 +225,7 @@ const toggleBanStatus = (email, currentStatus) => {
         </tbody>
       </table>
 
+      {/* Modal */}
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           {selectedUser && (
@@ -239,7 +252,7 @@ const toggleBanStatus = (email, currentStatus) => {
 
                 <button
                   type="button"
-                  className="btn px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34]"
+                  className="btn px-4 py-2 bg-[#f9d045] rounded hover:bg-[#e7bd34]"
                   onClick={() => {
                     updateUserRole(selectedUser.email);
                     document.getElementById("my_modal_3").close();

@@ -103,7 +103,7 @@ const VerifyUser = () => {
                   <option value="tutor">Tutor</option>
                   <option value="student">Student</option>
                 </select>
-              </div>
+           </div>
           {filteredData.length === 0 ? (
             <div className="p-6 text-center py-12">
               <div className="mx-auto w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-4">

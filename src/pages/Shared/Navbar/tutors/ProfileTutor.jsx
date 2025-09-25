@@ -16,8 +16,8 @@ const ProfileTutor = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const location = useLocation();
-    const { user } = useContext(AuthContext);
-  const { currentUser, refetch,  } = useCurrentUser(user?.email);
+  const { user } = useContext(AuthContext);
+  const { currentUser, refetch } = useCurrentUser(user?.email);
   const { tutorProfile: tutor, isLoading, isError } = useAxisTutorByID(id);
 
   const [formData, setFormData] = useState({
@@ -25,7 +25,6 @@ const ProfileTutor = () => {
     phone: "",
     details: "",
   });
-
 
   if (isLoading)
     return (
@@ -58,148 +57,143 @@ const ProfileTutor = () => {
     );
   };
 
- const RatingStars = ({ rating, totalRatings = 0, name }) => {
-  
-  if (!rating || totalRatings === 0) {
+  const RatingStars = ({ rating, totalRatings = 0, name }) => {
+    if (!rating || totalRatings === 0) {
+      return (
+        <div className="space-y-2 text-center">
+          <div className="rating rating-sm rating-half">
+            {[...Array(10)].map((_, i) => (
+              <input
+                key={i}
+                type="radio"
+                name={`${name}-no-rating`}
+                className={`mask mask-star-2 ${
+                  i % 2 === 0 ? "mask-half-1" : "mask-half-2"
+                } bg-gray-300`}
+                readOnly
+              />
+            ))}
+          </div>
+          <p className="text-gray-500 text-sm">No Ratings Yet</p>
+        </div>
+      );
+    }
+
     return (
       <div className="space-y-2 text-center">
         <div className="rating rating-sm rating-half">
-          {[...Array(10)].map((_, i) => (
-            <input
-              key={i}
-              type="radio"
-              name={`${name}-no-rating`}
-              className={`mask mask-star-2 ${
-                i % 2 === 0 ? "mask-half-1" : "mask-half-2"
-              } bg-gray-300`} 
-              readOnly
-            />
-          ))}
+          <input
+            type="radio"
+            name={`${name}-avg-rating`}
+            className="rating-hidden"
+            readOnly
+          />
+          {[...Array(10)].map((_, i) => {
+            const value = (i + 1) / 2;
+            return (
+              <input
+                key={i}
+                type="radio"
+                name={`${name}-avg-rating`}
+                className={`mask mask-star-2 ${
+                  i % 2 === 0 ? "mask-half-1" : "mask-half-2"
+                } bg-yellow-500`}
+                aria-label={`${value} star`}
+                checked={rating >= value}
+                readOnly
+              />
+            );
+          })}
         </div>
-        <p className="text-gray-500 text-sm">No Ratings Yet</p>
       </div>
     );
-  }
+  };
 
- 
-  return (
-    <div className="space-y-2 text-center">
-      <div className="rating rating-sm rating-half">
-        <input
-          type="radio"
-          name={`${name}-avg-rating`}
-          className="rating-hidden"
-          readOnly
-        />
-        {[...Array(10)].map((_, i) => {
-          const value = (i + 1) / 2;
-          return (
-            <input
-              key={i}
-              type="radio"
-              name={`${name}-avg-rating`}
-              className={`mask mask-star-2 ${
-                i % 2 === 0 ? "mask-half-1" : "mask-half-2"
-              } bg-yellow-500`}
-              aria-label={`${value} star`}
-              checked={rating >= value}
-              readOnly
-            />
-          );
-        })}
-      </div>
-    </div>
-  );
-};
+  // -------- Contact + Payment Function ----------
+  const handlePaymentAndContact = async (
+    jobId,
+    tutorId,
+    tutorName,
+    tutorEmail,
+    amount,
+    tutorAmount,
+    tuToriaAmount,
+    studentName,
+    studentEmail,
+    role,
+    studentPhone,
+    message
+  ) => {
+    try {
+      const paymentResponse = await axiosSecure.post("/paymentBkash", {
+        jobId,
+        tutorId,
+        name: tutorName,
+        email: tutorEmail,
+        amount,
+        tutorAmount,
+        tuToriaAmount,
+        source: "contactTutor",
+        studentName,
+        studentEmail,
+        role,
+      });
 
+      if (paymentResponse.data.url) {
+        window.location.href = paymentResponse.data.url;
+      }
 
-// -------- Contact + Payment Function ----------
-const handlePaymentAndContact = async (
-  jobId,
-  tutorId,
-  tutorName,
-  tutorEmail,
-  amount,
-  tutorAmount,
-  tuToriaAmount,
-  studentName,
-  studentEmail,
-  role,
-  studentPhone,
-  message
-) => {
-  try {
-    const paymentResponse = await axiosSecure.post("/paymentBkash", {
-      jobId,
-      tutorId,
-      name: tutorName,
-      email: tutorEmail,
-      amount,
-      tutorAmount,
-      tuToriaAmount,
-      source: "contactTutor",
-      studentName,
-      studentEmail,
-      role,
-    });
+      await axiosSecure.post("/contact", {
+        tutorName,
+        studentName,
+        tutorEmail,
+        studentEmail,
+        studentPhone,
+        message,
+      });
 
-    if (paymentResponse.data.url) {
-      window.location.href = paymentResponse.data.url;
+      toast.success("Email sent to the tutor successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Payment or email sending failed!");
+    }
+  };
+
+  // -------- Form Submit Handler ----------
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!formData.name || !formData.phone || !formData.details) {
+      toast.error("Please fill all fields!");
+      return;
     }
 
-    await axiosSecure.post("/contact", {
-      tutorName,
-      studentName,
-      tutorEmail,
-      studentEmail,
-      studentPhone,
-      message,
-    });
+    if (!user) {
+      navigate("/login", { state: { from: location } });
+      return;
+    }
 
-    toast.success("Email sent to the tutor successfully!");
-  } catch (err) {
-    console.error(err);
-    toast.error("Payment or email sending failed!");
-  }
-};
-
-
-// -------- Form Submit Handler ----------
-const handleSubmit = (e) => {
-  e.preventDefault();
-
-  if (!formData.name || !formData.phone || !formData.details) {
-    toast.error("Please fill all fields!");
-    return;
-  }
-
-  if (!user) {
-    navigate("/login", { state: { from: location } });
-    return;
-  }
-
-  handlePaymentAndContact(
-   tutor._id,              // jobId
-  tutor.customId,         // tutorId
-  tutor.name,             // tutorName
-  tutor.email,            // tutorEmail
-  100,                    // amount
-  0,                      // tutorAmount
-  100,                    // tuToriaAmount
-  formData.name,          // studentName
-  currentUser?.email,     // studentEmail 
-  currentUser?.role,      // role
-  formData.phone,         // studentPhone
-  formData.details        // message
-  );
-};
-
+    handlePaymentAndContact(
+      tutor._id, // jobId
+      tutor.customId, // tutorId
+      tutor.name, // tutorName
+      tutor.email, // tutorEmail
+      100, // amount
+      0, // tutorAmount
+      100, // tuToriaAmount
+      formData.name, // studentName
+      currentUser?.email, // studentEmail
+      currentUser?.role, // role
+      formData.phone, // studentPhone
+      formData.details // message
+    );
+  };
 
   // Main Return
 
   return (
     <div>
-        <Navbar></Navbar>
+      <Navbar></Navbar>
       <div className="bg-base-200 min-h-screen">
         <div className="flex p-6 gap-6 container mx-auto">
           {/* Left Side - Profile Card */}
@@ -220,7 +214,6 @@ const handleSubmit = (e) => {
               rating={tutor.averageRating}
               totalRatings={tutor.ratings?.length}
               name="profile"
-             
             />
 
             {/* CV Format Info */}
@@ -324,9 +317,15 @@ const handleSubmit = (e) => {
                   <InfoRow
                     title="Teacher ID/ Student ID/ NID"
                     value={
-                      <span className="flex items-center gap-1 text-green-600 font-semibold">
-                        Verified <MdVerified className="text-blue-500" />
-                      </span>
+                      tutor.verificationStatus === "approved" ? (
+                        <span className="flex items-center gap-1 text-green-600 font-semibold">
+                          Verified <MdVerified className="text-blue-500" />
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 text-red-500 font-semibold">
+                          Not Verified
+                        </span>
+                      )
                     }
                   />
                 </div>
@@ -387,7 +386,9 @@ const handleSubmit = (e) => {
 
           {/* Right Side - Contact Card */}
           <div className="w-[25%] mt-20 bg-white shadow-md rounded-xl p-4">
-            <h2 className="text-[18px] font-bold mb-4">Tuition Request to this Tutor</h2>
+            <h2 className="text-[18px] font-bold mb-4">
+              Tuition Request to this Tutor
+            </h2>
 
             {/* Contact Form */}
             <form onSubmit={handleSubmit} className="space-y-3">
@@ -405,33 +406,19 @@ const handleSubmit = (e) => {
                 />
               </div>
 
-              {/* <div>
-                <label className="block text-sm font-medium">Email</label>
+              <div>
+                <label className="block text-sm font-medium">Phone</label>
                 <input
-                  type="email"
+                  type="tel"
                   className="input input-bordered w-full"
-                  placeholder="Your email address"
+                  placeholder="Your phone number"
                   required
-                  value={formData.email}
+                  value={formData.phone}
                   onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
+                    setFormData({ ...formData, phone: e.target.value })
                   }
                 />
-              </div> */}
-              <div>
-  <label className="block text-sm font-medium">Phone</label>
-  <input
-    type="tel"
-    className="input input-bordered w-full"
-    placeholder="Your phone number"
-    required
-    value={formData.phone}
-    onChange={(e) =>
-      setFormData({ ...formData, phone: e.target.value })
-    }
-  />
-</div>
-
+              </div>
 
               <div>
                 <label className="block text-sm font-medium">Details</label>

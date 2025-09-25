@@ -14,7 +14,7 @@ const LandingPage = () => {
   return (
     <div className="bg-base-100 min-h-screen font-serif">
       <Helmet>
-        <title>TuitionNetwork</title>
+        <title>TuToria</title>
       </Helmet>
       <Navbar></Navbar>
       {/* <ContactSection></ContactSection> */}
