@@ -1,14 +1,52 @@
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaEyeSlash, FaTimes, FaCheck, FaDownload } from "react-icons/fa";
 import useVerify from "../../../../hooks/useVerify";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const VerifyUser = () => {
-  const { verification, isLoading, isError } = useVerify();
+  
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [zoom, setZoom] = useState(1);
-  const [filterRole, setFilterRole] = useState("all"); // filter state
+  const [filterRole, setFilterRole] = useState("all");
+
+  const { verification: initialVerification, isLoading, isError } = useVerify();
+const [verification, setVerification] = useState(initialVerification);
+useEffect(() => {
+  if (initialVerification) {
+    setVerification(initialVerification);
+  }
+}, [initialVerification]);
+  const axiosSecure = useAxiosSecure();
+
+  const handleApprove = async (id) => {
+  try {
+    const { data } = await axiosSecure.put(`/verification/approve/${id}`);
+    if (data.success) {
+      toast.success("Approved successfully ✅");
+      setVerification((prev) => prev.filter((item) => item._id !== id));
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Approval failed ❌");
+  }
+};
+
+
+  const handleReject = async (id) => {
+  try {
+    const { data } = await axiosSecure.delete(`/verification/reject/${id}`);
+    if (data.success) {
+      toast.error("Rejected and email sent ✉️");
+      setVerification((prev) => prev.filter((item) => item._id !== id));
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Rejection failed ❌");
+  }
+};
+
 
   if (isLoading) {
     return (
@@ -67,7 +105,7 @@ const VerifyUser = () => {
                 No Verification Requests
               </h3>
               <p className="text-sm text-gray-500 max-w-sm mx-auto">
-                Currently, no tutors have submitted verification requests.
+                Currently, no users have submitted verification requests.
               </p>
             </div>
           ) : (
@@ -160,10 +198,17 @@ const VerifyUser = () => {
                             >
                               Details
                             </NavLink>
-                            <button className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md bg-green-500 text-white hover:bg-green-600">
+                            <button
+                              onClick={() => handleApprove(tutor._id)}
+                              className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md bg-green-500 text-white hover:bg-green-600"
+                            >
                               <FaCheck className="w-3 h-3 mr-1" /> Approve
                             </button>
-                            <button className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md bg-red-500 text-white hover:bg-red-600">
+
+                            <button
+                              onClick={() => handleReject(tutor._id)}
+                              className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md bg-red-500 text-white hover:bg-red-600"
+                            >
                               <FaTimes className="w-3 h-3 mr-1" /> Reject
                             </button>
                           </div>
@@ -198,16 +243,20 @@ const VerifyUser = () => {
               {/* Info Section (left on lg, top on sm/md) */}
               <div className="p-4 lg:w-[28%] border-b lg:border-b-0 lg:border-r">
                 <p className="text-lg">
-                  <span className="font-semibold">Name:</span> {selectedTutor.name}
+                  <span className="font-semibold">Name:</span>{" "}
+                  {selectedTutor.name}
                 </p>
                 <p className="text-lg">
-                  <span className="font-semibold">Email:</span> {selectedTutor.email}
+                  <span className="font-semibold">Email:</span>{" "}
+                  {selectedTutor.email}
                 </p>
                 <p className="text-lg">
-                  <span className="font-semibold">Phone:</span> {selectedTutor.phone}
+                  <span className="font-semibold">Phone:</span>{" "}
+                  {selectedTutor.phone}
                 </p>
                 <p className="text-lg">
-                  <span className="font-semibold">ID:</span> {selectedTutor.customId}
+                  <span className="font-semibold">ID:</span>{" "}
+                  {selectedTutor.customId}
                 </p>
 
                 {/* Controls */}
@@ -227,7 +276,10 @@ const VerifyUser = () => {
                   {selectedTutor.NidImage && (
                     <button
                       onClick={() =>
-                        handleDownload(selectedTutor.NidImage, selectedTutor.name)
+                        handleDownload(
+                          selectedTutor.NidImage,
+                          selectedTutor.name
+                        )
                       }
                       className="px-3 py-1 bg-blue-500 text-white rounded"
                     >
