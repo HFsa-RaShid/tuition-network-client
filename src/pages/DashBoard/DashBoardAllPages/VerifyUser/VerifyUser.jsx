@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaEyeSlash, FaTimes, FaCheck, FaDownload } from "react-icons/fa";
@@ -11,10 +10,14 @@ const VerifyUser = () => {
   const [zoom, setZoom] = useState(1);
   const [filterRole, setFilterRole] = useState("all");
 
-  const { verification: initialVerification, isLoading, isError, refetch } = useVerify();
+  const {
+    verification: initialVerification,
+    isLoading,
+    isError,
+    refetch,
+  } = useVerify();
   const axiosSecure = useAxiosSecure();
 
- 
   const pendingVerification = initialVerification?.filter(
     (item) => item.verificationStatus === "pending"
   );
@@ -56,7 +59,6 @@ const VerifyUser = () => {
       const response = await fetch(nidImage, { mode: "cors" });
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-
       const link = document.createElement("a");
       link.href = url;
       link.download = `${name}_NID.png`;
@@ -93,17 +95,17 @@ const VerifyUser = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="overflow-hidden">
           <div className="flex justify-between items-center mb-2 px-6">
-                <h2 className="text-xl font-semibold">Verification Requests</h2>
-                <select
-                  value={filterRole}
-                  onChange={(e) => setFilterRole(e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none"
-                >
-                  <option value="all">All</option>
-                  <option value="tutor">Tutor</option>
-                  <option value="student">Student</option>
-                </select>
-           </div>
+            <h2 className="text-xl font-semibold">Verification Requests</h2>
+            <select
+              value={filterRole}
+              onChange={(e) => setFilterRole(e.target.value)}
+              className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none"
+            >
+              <option value="all">All</option>
+              <option value="tutor">Tutor</option>
+              <option value="student">Student</option>
+            </select>
+          </div>
           {filteredData.length === 0 ? (
             <div className="p-6 text-center py-12">
               <div className="mx-auto w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-4">
@@ -119,7 +121,6 @@ const VerifyUser = () => {
           ) : (
             <div className="p-6">
               {/* Header + Filter */}
-              
 
               <div className="overflow-hidden rounded-lg border border-gray-200">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -168,11 +169,14 @@ const VerifyUser = () => {
                           </div>
                         </td>
                         <td className="px-4 py-4 text-sm text-gray-500">
-                          {new Date(tutor.createdAt).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          })}
+                          {new Date(tutor.createdAt).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            }
+                          )}
                         </td>
                         <td className="px-4 py-4">
                           <div className="flex items-center justify-center space-x-2">
@@ -186,9 +190,19 @@ const VerifyUser = () => {
                               Identity
                             </button>
 
-                            <NavLink
+                            {/* <NavLink
                               to={`/tutors/tutor-profile/${tutor.customId}`}
                               className="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                            >
+                              Details
+                            </NavLink> */}
+                            <NavLink
+                              to={`/tutors/tutor-profile/${tutor.customId}`}
+                              className={`inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md ${
+                                tutor.userRole === "student"
+                                  ? "bg-gray-200 text-gray-400 cursor-not-allowed pointer-events-none"
+                                  : "text-gray-700 bg-white hover:bg-gray-50"
+                              }`}
                             >
                               Details
                             </NavLink>
@@ -235,17 +249,40 @@ const VerifyUser = () => {
             <div className="flex-1 flex flex-col lg:flex-row">
               <div className="p-4 lg:w-[28%] border-b lg:border-b-0 lg:border-r">
                 <p className="text-lg">
-                  <span className="font-semibold">Name:</span> {selectedTutor.name}
+                  <span className="font-semibold">Name:</span>{" "}
+                  {selectedTutor.name}
                 </p>
                 <p className="text-lg">
-                  <span className="font-semibold">Email:</span> {selectedTutor.email}
+                  <span className="font-semibold">Email:</span>{" "}
+                  {selectedTutor.email}
                 </p>
                 <p className="text-lg">
-                  <span className="font-semibold">Phone:</span> {selectedTutor.phone}
+                  <span className="font-semibold">Phone:</span>{" "}
+                  {selectedTutor.phone}
                 </p>
                 <p className="text-lg">
-                  <span className="font-semibold">ID:</span> {selectedTutor.customId}
+                  <span className="font-semibold">ID:</span>{" "}
+                  {selectedTutor.customId}
                 </p>
+
+                {/* Student হলে extra fields */}
+                {selectedTutor.userRole === "student" && (
+                  <>
+                    <p className="text-lg">
+                      <span className="font-semibold">Role:</span>{" "}
+                      {selectedTutor.userRole}
+                    </p>
+                    <p className="text-lg">
+                      <span className="font-semibold">City:</span>{" "}
+                      {selectedTutor.city || 'N/A'} 
+                    </p>
+                    <p className="text-lg">
+                      <span className="font-semibold">Location:</span>{" "}
+                      {selectedTutor.location || 'N/A'} 
+                    </p>
+                  
+                  </>
+                )}
 
                 <div className="flex gap-2 mt-4">
                   <button
@@ -263,7 +300,10 @@ const VerifyUser = () => {
                   {selectedTutor.NidImage && (
                     <button
                       onClick={() =>
-                        handleDownload(selectedTutor.NidImage, selectedTutor.name)
+                        handleDownload(
+                          selectedTutor.NidImage,
+                          selectedTutor.name
+                        )
                       }
                       className="px-3 py-1 bg-blue-500 text-white rounded"
                     >
@@ -281,7 +321,11 @@ const VerifyUser = () => {
                       transformOrigin: "center center",
                     }}
                   >
-                    <img src={selectedTutor.NidImage} alt="NID" className="block max-h-full" />
+                    <img
+                      src={selectedTutor.NidImage}
+                      alt="NID"
+                      className="block max-h-full"
+                    />
                   </div>
                 </div>
               )}
