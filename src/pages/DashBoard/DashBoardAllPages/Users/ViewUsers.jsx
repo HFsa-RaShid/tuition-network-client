@@ -17,31 +17,36 @@ const ViewUsers = () => {
 
   const axiosSecure = useAxiosSecure();
 
+  // === Fetch all users (not on every keystroke) ===
   const {
     data: users = [],
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users", searchTerm],
+    queryKey: ["users"],
     queryFn: async () => {
-      const url = searchTerm
-        ? `/searchUsers?q=${encodeURIComponent(searchTerm)}`
-        : "/users";
-      const res = await axiosSecure.get(url);
+      const res = await axiosSecure.get("/users");
       return res.data;
     },
+    refetchInterval: 30000, 
   });
 
-  // === Filtering Logic ===
+  // === Filtering + Searching (client side) ===
   const filteredUsers = users.filter((user) => {
-    if (filterRole === "all") return true;
-    if (filterRole === "tutor") return user.role === "tutor";
-    if (filterRole === "student") return user.role === "student";
+    const matchesSearch =
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.customId?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    let matchesRole = true;
+    if (filterRole === "tutor") matchesRole = user.role === "tutor";
+    if (filterRole === "student") matchesRole = user.role === "student";
     if (filterRole === "premium-tutor")
-      return user.role === "tutor" && user.profileStatus === "Premium";
+      matchesRole = user.role === "tutor" && user.profileStatus === "Premium";
     if (filterRole === "premium-student")
-      return user.role === "student" && user.profileStatus === "Premium";
-    return true;
+      matchesRole = user.role === "student" && user.profileStatus === "Premium";
+
+    return matchesSearch && matchesRole;
   });
 
   const updateUserRole = (email) => {
@@ -159,8 +164,7 @@ const ViewUsers = () => {
     }
   };
 
-
-    if (isLoading) {
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center mt-20">
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
@@ -175,11 +179,11 @@ const ViewUsers = () => {
       </Helmet>
       <h1 className="pt-6 text-center font-bold text-3xl">Users</h1>
 
-      <div className="relative w-full flex justify-center items-center mt-4 mb-4">
+      <div className="relative flex justify-center items-center mt-4 mb-4">
         <input
           type="text"
-          className="border px-4 py-2"
-          placeholder="Search by name or email"
+          className="border px-4 py-2 w-[250px] "
+          placeholder="Search by name,email or ID"
           value={searchTerm}
           onChange={handleSearch}
         />
@@ -340,7 +344,7 @@ const ViewUsers = () => {
                   {selectedUser.email}
                 </p>
                 <p className="text-lg">
-                  <span className="font-semibold">phone:</span>{" "}
+                  <span className="font-semibold">Phone:</span>{" "}
                   {selectedUser.phone}
                 </p>
                 <p className="text-lg">
@@ -403,4 +407,3 @@ const ViewUsers = () => {
 };
 
 export default ViewUsers;
-
