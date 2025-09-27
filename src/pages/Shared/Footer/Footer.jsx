@@ -50,7 +50,7 @@ const Footer = () => {
           <div className="mt-4 flex space-x-4">
             <a href="#" className="text-2xl text-[#123d7e] opacity-80">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
+                xmlns="https://www.w3.org/2000/svg"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -61,7 +61,7 @@ const Footer = () => {
             </a>
             <a href="#" className="text-2xl text-red-500">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
+                xmlns="https://www.w3.org/2000/svg"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -72,7 +72,7 @@ const Footer = () => {
             </a>
             <a href="#" className="text-2xl text-[#123d7e] opacity-80">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
+                xmlns="https://www.w3.org/2000/svg"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"

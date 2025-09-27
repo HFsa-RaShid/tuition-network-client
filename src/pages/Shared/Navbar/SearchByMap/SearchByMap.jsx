@@ -1,5 +1,3 @@
-
-
 import React, { useContext, useEffect, useState } from "react";
 import {
   MapContainer,
@@ -17,12 +15,10 @@ import Navbar from "../Navbar";
 import Footer from "../../../Shared/Footer/Footer";
 import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
-
 import axios from "axios";
 import useMultipleJobPayments from "../../../../hooks/useMultipleJobPayments";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-
 
 const createColoredIcon = (color) =>
   new L.Icon({
@@ -62,7 +58,12 @@ const SearchByMap = () => {
     isLoading: userLoading,
     isError: userError,
   } = useCurrentUser(user?.email);
-  const { allJobs, isLoading: jobsLoading, isError: jobsError ,refetch} = useAllJobs();
+  const {
+    allJobs,
+    isLoading: jobsLoading,
+    isError: jobsError,
+    refetch,
+  } = useAllJobs();
 
   const [userCoords, setUserCoords] = useState(null);
   const [mapCenter, setMapCenter] = useState(null);
@@ -86,7 +87,9 @@ const SearchByMap = () => {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/geocode?q=${encodeURIComponent(query)}`
+        `https://tutoria-server.vercel.app/geocode?q=${encodeURIComponent(
+          query
+        )}`
       );
       const data = res.data;
       if (data && data.length > 0) {
@@ -101,50 +104,50 @@ const SearchByMap = () => {
   // 🔹 Load user coords
   useEffect(() => {
     if (!userLoading && currentUser?.location) {
-      geocodeLocation(currentUser.location, currentUser.city || "Barishal").then(
-        (coords) => {
-          if (coords) {
-            setUserCoords(coords);
-            setMapCenter(coords);
-          }
+      geocodeLocation(
+        currentUser.location,
+        currentUser.city || "Barishal"
+      ).then((coords) => {
+        if (coords) {
+          setUserCoords(coords);
+          setMapCenter(coords);
         }
-      );
+      });
     }
   }, [currentUser, userLoading]);
 
   useEffect(() => {
-  if (!jobsLoading && allJobs?.length) {
-    const visibleJobs =
-      allJobs?.filter(
-        (job) =>
-          !paidJobsByJobIds?.some(
-            (p) =>
-              p.jobId === job._id &&
-              p.source === "myApplications" &&
-              p.paidStatus === true
-          )
-      ) || [];
+    if (!jobsLoading && allJobs?.length) {
+      const visibleJobs =
+        allJobs?.filter(
+          (job) =>
+            !paidJobsByJobIds?.some(
+              (p) =>
+                p.jobId === job._id &&
+                p.source === "myApplications" &&
+                p.paidStatus === true
+            )
+        ) || [];
 
-    Promise.all(
-      visibleJobs.map(async (request) => {
-        const coords = await geocodeLocation(
-          request.location,
-          "",
-          request.city
-        );
-        if (coords) {
-          return { id: request._id, coords, ...request };
-        }
-        return null;
-      })
-    ).then((markers) => {
-      setTutorRequestMarkers(markers.filter(Boolean));
-    });
-  } else {
-    setTutorRequestMarkers([]);
-  }
-}, [allJobs, jobsLoading, JSON.stringify(paidJobsByJobIds)]);
-
+      Promise.all(
+        visibleJobs.map(async (request) => {
+          const coords = await geocodeLocation(
+            request.location,
+            "",
+            request.city
+          );
+          if (coords) {
+            return { id: request._id, coords, ...request };
+          }
+          return null;
+        })
+      ).then((markers) => {
+        setTutorRequestMarkers(markers.filter(Boolean));
+      });
+    } else {
+      setTutorRequestMarkers([]);
+    }
+  }, [allJobs, jobsLoading, JSON.stringify(paidJobsByJobIds)]);
 
   // 🔹 Handle search
   const handleSearch = async () => {
@@ -156,47 +159,44 @@ const SearchByMap = () => {
       alert("Location not found!");
     }
   };
-
-
-
   const handleApply = (jobId) => {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, apply for this request!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          axiosSecure
-            .put(`/tutorRequests/${jobId}`, {
-              email: user.email,
-              name: currentUser?.name || user?.displayName,
-              tutorId: currentUser?.customId,
-            })
-            .then((res) => {
-              Swal.fire(
-                res.data?.message === "Applied successfully."
-                  ? "Applied!"
-                  : "Note",
-                res.data?.message || "Something happened.",
-                res.data?.message === "Applied successfully." ? "success" : "info"
-              );
-              refetch();
-            })
-            .catch((error) => {
-              console.error("Apply error:", error);
-              Swal.fire(
-                "Error!",
-                "Failed to apply for the tutor request.",
-                "error"
-              );
-            });
-        }
-      });
-    };
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, apply for this request!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .put(`/tutorRequests/${jobId}`, {
+            email: user.email,
+            name: currentUser?.name || user?.displayName,
+            tutorId: currentUser?.customId,
+          })
+          .then((res) => {
+            Swal.fire(
+              res.data?.message === "Applied successfully."
+                ? "Applied!"
+                : "Note",
+              res.data?.message || "Something happened.",
+              res.data?.message === "Applied successfully." ? "success" : "info"
+            );
+            refetch();
+          })
+          .catch((error) => {
+            console.error("Apply error:", error);
+            Swal.fire(
+              "Error!",
+              "Failed to apply for the tutor request.",
+              "error"
+            );
+          });
+      }
+    });
+  };
 
   if (userLoading || jobsLoading) {
     return (
@@ -364,8 +364,8 @@ const SearchByMap = () => {
                 </p>
 
                 {/* ✅ Tutor Apply Button */}
-               
-                    {currentUser?.role === "tutor" &&
+
+                {currentUser?.role === "tutor" &&
                   selectedRequest.tutorStatus !== "selected" &&
                   selectedRequest.tutorStatus !== "Not Available" && (
                     <button
@@ -397,7 +397,7 @@ const SearchByMap = () => {
             <MapContainer
               center={mapCenter || userCoords || [23.8103, 90.4125]}
               zoom={13}
-              style={{ height: "100%", width: "100%", zIndex: 0}}
+              style={{ height: "100%", width: "100%", zIndex: 0 }}
               className="leaflet-container"
             >
               <TileLayer
