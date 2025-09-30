@@ -71,8 +71,6 @@ const PendingRequest = () => {
   }
 
     
-
-
   return (
     <div className=" container mx-auto">
       {pendingRequests?.length === 0 ? (

@@ -145,7 +145,7 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   isActive ? " text-[#123d7e] underline" : " "
                 }
-                to="/Tuitions"
+                to="/tuitions"
               >
                 Tuitions
               </NavLink>
