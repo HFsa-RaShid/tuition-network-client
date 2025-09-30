@@ -95,7 +95,7 @@ const SignupPage = () => {
       <Helmet>
         <title>Sign_Up | TiToria</title>
       </Helmet>
-      <div className="flex w-4/5 max-w-5xl my-8">
+      <div className="flex flex-col lg:flex-row w-4/5 max-w-5xl my-2 lg:my-8">
         {/* Left Section - Image */}
         <div className="w-full lg:w-1/2 flex justify-center items-center bg-gray-100 p-8">
           <img
@@ -106,7 +106,7 @@ const SignupPage = () => {
         </div>
 
         {/* Right Section - Form */}
-        <div className="w-full lg:w-1/2 bg-white px-10 py-6">
+        <div className="w-full lg:w-1/2 bg-white px-4 lg:px-10 py-4 lg:py-6">
           <h2 className="text-3xl font-bold text-[#123d7e]">
             Create an Account
           </h2>
