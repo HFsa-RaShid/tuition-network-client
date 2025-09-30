@@ -17,11 +17,11 @@ const TutoringWithUs = () => {
   
 
       <div className="px-20 flex items-center h-full container mx-auto text-white ">
-        <div className="flex justify-between items-center gap-8 mt-[3%] ">
-          <div className="w-[50%]">
+        <div className="md:flex justify-between items-center gap-8 mt-[3%] ">
+          <div className="md:w-[50%]">
             <img src={withUs} alt="withUs" className="h-[300px]" />
           </div>
-          <div className="w-[50%] text-white">
+          <div className="md:w-[50%] text-white mt-4 md:mt-0">
             <p className="text-[#DAA520] font-bold py-2">TEAM OF EXPERT TUTORS</p>
             <h1 className="text-4xl font-bold mb-4">Start Tutoring With Us</h1>
             <p className="text-lg mb-8 text-gray-200">

@@ -27,7 +27,7 @@ const WhyChooseUs = () => {
         <MdOutlineAttachMoney className="text-[#FF1493] bg-[#eedae5] p-2 rounded-md" />
       ),
       title: "Affordable Prices",
-      description: "Choose an expert tutor based on your budget and per hour.",
+      description: "Choose an expert tutor based on your budget,location and per hour.",
     },
   ];
 
