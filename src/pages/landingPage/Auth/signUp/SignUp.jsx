@@ -97,16 +97,16 @@ const SignupPage = () => {
       </Helmet>
       <div className="flex flex-col md:flex-row w-11/12 max-w-6xl my-4 md:my-8 gap-6 md:gap-12">
         {/* Left Section - Image */}
-        <div className="w-full md:w-5/12 lg:w-2/5 flex justify-center items-center bg-gray-100 p-6 md:p-8 rounded-md">
+        <div className="w-full md:w-6/12 lg:w-1/2 flex justify-center items-center bg-gray-100 p-6 md:p-8 rounded-md">
           <img
             src={userType === "student" ? studentImage : tutorImage}
             alt={userType === "student" ? "Parent and Student" : "Tutor"}
-            className="h-40 sm:h-56 md:h-80 object-contain"
+            className="h-40 sm:h-56 md:h-80 lg:h-96 object-contain"
           />
         </div>
 
         {/* Right Section - Form */}
-        <div className="w-full md:w-7/12 lg:w-3/5 bg-white px-6 sm:px-10 py-6 rounded-md shadow">
+        <div className="w-full md:w-6/12 lg:w-1/2 bg-white px-6 sm:px-10 py-6 rounded-md shadow">
           <h2 className="text-3xl font-bold text-[#123d7e]">
             Create an Account
           </h2>
