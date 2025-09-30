@@ -3,14 +3,14 @@ import faq from "../../../../assets/faq.png";
 
 const FAQ = () => {
   return (
-    <div className="flex justify-between items-center container mx-auto pt-20 pb-10 gap-20 px-10 lg:px-20">
+    <div className="flex flex-col lg:flex-row justify-between items-center container mx-auto pt-16 md:pt-20 pb-10 gap-10 md:gap-16 lg:gap-20 px-6 md:px-10 lg:px-20">
       {/* Left Side Image */}
-      <div className="w-[50%] flex justify-center">
-        <img src={faq} alt="FAQ illustration" className="h-[500px] object-contain" />
+      <div className="w-full lg:w-1/2 flex justify-center mb-8 lg:mb-0">
+        <img src={faq} alt="FAQ illustration" className="h-48 sm:h-72 md:h-[420px] lg:h-[480px] object-contain" />
       </div>
 
       {/* Right Side FAQ */}
-      <div className="w-[50%]">
+      <div className="w-full lg:w-1/2">
         {/* Heading */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-[#1E293B]">Frequently Asked Questions</h1>

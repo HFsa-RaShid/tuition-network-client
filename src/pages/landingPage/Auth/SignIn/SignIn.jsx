@@ -54,7 +54,7 @@ const SignIn = () => {
       </Helmet>
       <div className="flex flex-col md:flex-row w-11/12 max-w-6xl my-4 md:my-8 overflow-hidden gap-6 md:gap-12 p-4 sm:p-6 md:p-8">
         {/* Left Image Section */}
-        <img src={signInImage} className="w-full md:w-1/2 h-40 sm:h-56 md:h-auto object-contain md:object-cover md:mt-0" />
+        <img src={signInImage} className="w-full md:w-5/12 lg:w-2/5 h-40 sm:h-56 md:h-auto object-contain md:object-cover md:mt-0" />
 
         {/* Right Form Section */}
         <div className="w-full md:w-1/2 px-6 sm:px-10 md:px-14 py-6 bg-white rounded-md shadow">

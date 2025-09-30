@@ -2,8 +2,8 @@ import logo from "../../../assets/open-book.png";
 
 const Footer = () => {
   return (
-    <footer className=" bg-base-200 text-black px-10 pt-10 pb-6 rounded-t-3xl border-t-4">
-      <div className="footer pb-6">
+    <footer className=" bg-base-200 text-black px-6 sm:px-8 md:px-10 pt-10 pb-6 rounded-t-3xl border-t-4">
+      <div className="footer pb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <div className="flex flex-col items-start space-y-4">
           <img src={logo} alt="logo" className="h-14 mx-auto" />
           <h1 className="text-3xl font-bold">
@@ -32,15 +32,15 @@ const Footer = () => {
         </nav>
         <form>
           <h6 className="footer-title">Newsletter</h6>
-          <fieldset className="form-control w-80">
+          <fieldset className="form-control w-full sm:w-80">
             {/* <label className="label">
               <span className="label-text">Enter your email address</span>
             </label> */}
-            <div className="join">
+            <div className="join w-full">
               <input
                 type="text"
                 placeholder="username@site.com"
-                className="input input-bordered join-item"
+                className="input input-bordered join-item w-full"
               />
               <button className="bg-[#f9d045] px-4 join-item font-semibold">
                 Subscribe
