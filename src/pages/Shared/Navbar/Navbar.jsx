@@ -278,9 +278,7 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     logOut()
-      .then(() => {
-        navigate("/");
-      })
+      .then(() => navigate("/"))
       .catch((error) => console.error(error));
   };
 
@@ -303,107 +301,160 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-white/80 shadow-md backdrop-blur font-serif text-black fixed top-0 left-0 right-0 z-50 overflow-x-hidden">
-      <div className="navbar container mx-auto px-4 min-h-[64px] flex items-center justify-between">
-        {/* ---------- Navbar Start ---------- */}
-        <div className="navbar-start flex items-center gap-4">
-          {/* Mobile Menu */}
-          <div className="dropdown lg:hidden">
-            <div tabIndex={0} className="btn btn-ghost p-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
-              </svg>
-            </div>
-            <ul className="menu menu-sm dropdown-content absolute mt-2 right-0 z-50 p-2 shadow bg-white rounded-box w-52 font-semibold text-[18px]">
-              <li><NavLink to="/">Home</NavLink></li>
-              <li><NavLink to="/tutors">Tutors</NavLink></li>
-              <li><NavLink to="/tuitions">Tuitions</NavLink></li>
-              <li><NavLink to="/search-by-map">Find on Map</NavLink></li>
-            </ul>
-          </div>
+    <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 shadow-md backdrop-blur font-serif text-black h-16">
+      <div className="max-w-[1200px] mx-auto h-full flex items-center justify-between px-4">
+        {/* ---------- Logo ---------- */}
+        <NavLink to="/" className="flex items-center gap-2 h-full">
+          <img src={logo} alt="logo" className="h-10" />
+          <h1 className="text-2xl sm:text-3xl font-bold">
+            Tu<span className="text-[#DAA520]">T</span>oria
+          </h1>
+        </NavLink>
 
-          {/* Logo */}
-          <NavLink to="/">
-            <div className="flex items-center gap-2">
-              <img src={logo} alt="logo" className="h-10" />
-              <h1 className="text-3xl font-bold">
-                Tu<span className="text-[#DAA520]">T</span>oria
-              </h1>
-            </div>
-          </NavLink>
-        </div>
-
-        {/* ---------- Navbar Center ---------- */}
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 font-semibold text-[18px] gap-4">
-            <li><NavLink to="/">Home</NavLink></li>
-            <li><NavLink to="/tutors">Tutors</NavLink></li>
-            <li><NavLink to="/tuitions">Tuitions</NavLink></li>
-            <li><NavLink to="/search-by-map">Find on Map</NavLink></li>
-          </ul>
-        </div>
-
-        {/* ---------- Navbar End ---------- */}
-        <div className="navbar-end flex items-center gap-4">
-          {/* Theme Switcher */}
-          <div className="dropdown relative">
-            <div
-              tabIndex={0}
-              role="button"
-              className="p-1 cursor-pointer"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        {/* ---------- Menu ---------- */}
+        <ul className="hidden lg:flex gap-6 font-semibold text-[18px] h-full items-center">
+          <li>
+            <NavLink
+              className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")}
+              to="/"
             >
-              {theme === "light" && <BsSunFill className="text-2xl" />}
-              {theme === "dark" && <BiSolidMoon className="text-2xl" />}
-              {theme === "device" && <PiCloudSunFill className="text-2xl" />}
-            </div>
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")}
+              to="/tutors"
+            >
+              Tutors
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")}
+              to="/tuitions"
+            >
+              Tuitions
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")}
+              to="/search-by-map"
+            >
+              Find on Map
+            </NavLink>
+          </li>
+        </ul>
+
+        {/* ---------- Right Side ---------- */}
+        <div className="flex items-center gap-4">
+          {/* Theme Switcher */}
+          <div className="relative">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-200"
+            >
+              {theme === "light" && <BsSunFill className="text-xl" />}
+              {theme === "dark" && <BiSolidMoon className="text-xl" />}
+              {theme === "device" && <PiCloudSunFill className="text-xl" />}
+            </button>
             {isDropdownOpen && (
-              <ul className="dropdown-content absolute right-0 mt-2 z-50 w-32 p-2 shadow-2xl bg-slate-100 rounded-box">
-                <li onClick={() => handleThemeChange("light")} className="flex items-center gap-1 hover:bg-slate-300 rounded-xl py-1 font-semibold">
-                  <BsSunFill className="text-2xl" /> Light
+              <ul className="absolute right-0 mt-2 w-32 bg-slate-100 rounded-lg shadow-lg z-50">
+                <li
+                  onClick={() => handleThemeChange("light")}
+                  className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"
+                >
+                  <BsSunFill /> Light
                 </li>
-                <li onClick={() => handleThemeChange("dark")} className="flex items-center gap-1 hover:bg-slate-300 rounded-xl py-1 font-semibold">
-                  <BiSolidMoon className="text-2xl" /> Dark
+                <li
+                  onClick={() => handleThemeChange("dark")}
+                  className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"
+                >
+                  <BiSolidMoon /> Dark
                 </li>
-                <li onClick={() => handleThemeChange("device")} className="flex items-center gap-1 hover:bg-slate-300 rounded-xl py-1 font-semibold">
-                  <PiCloudSunFill className="text-2xl" /> Device
+                <li
+                  onClick={() => handleThemeChange("device")}
+                  className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"
+                >
+                  <PiCloudSunFill /> Device
                 </li>
               </ul>
             )}
           </div>
 
-          {/* User / SignUp */}
+          {/* User / Sign Up */}
           {user ? (
-            <div className="relative dropdown dropdown-end">
-              <div className="tooltip tooltip-bottom" data-tip={user?.displayName}>
-                <label tabIndex={0} className="cursor-pointer">
-                  <div className="w-10 h-10 rounded-full border border-black overflow-hidden flex items-center justify-center">
-                    <img
-                      src={currentUser?.photoURL}
-                      alt="User"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </label>
-              </div>
-              <ul tabIndex={0} className="menu menu-sm dropdown-content absolute right-0 mt-2 z-50 p-2 shadow bg-slate-100 rounded-box w-52">
-                <li><NavLink to={`/${currentUser?.role}/dashboard`}>Dashboard</NavLink></li>
-                <li><button onClick={handleSignOut} className="text-left w-full">Sign Out</button></li>
+            <div className="relative">
+              <button className="w-10 h-10 rounded-full border overflow-hidden flex items-center justify-center">
+                <img
+                  src={currentUser?.photoURL}
+                  alt="User"
+                  className="w-full h-full object-cover"
+                />
+              </button>
+              <ul className="absolute right-0 mt-2 w-40 bg-slate-100 rounded-lg shadow-lg z-50">
+                <li>
+                  <NavLink
+                    to={`/${currentUser?.role}/dashboard`}
+                    className="block px-4 py-2 hover:bg-slate-300"
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+                <li>
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full text-left px-4 py-2 hover:bg-slate-300"
+                  >
+                    Sign Out
+                  </button>
+                </li>
               </ul>
             </div>
           ) : (
             <NavLink to="/signIn">
-              <button className="bg-blue-200 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 font-semibold shadow-sm">
+              <button className="bg-blue-200 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 font-semibold h-10">
                 Sign Up
               </button>
             </NavLink>
           )}
+
+          {/* Mobile Hamburger */}
+          <div className="lg:hidden">
+            <div className="dropdown">
+              <label tabIndex={0} className="btn btn-ghost p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </label>
+              <ul className="dropdown-content mt-2 w-40 bg-white rounded-lg shadow-lg z-50 p-2">
+                <li>
+                  <NavLink to="/">Home</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/tutors">Tutors</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/tuitions">Tuitions</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/search-by-map">Find on Map</NavLink>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
