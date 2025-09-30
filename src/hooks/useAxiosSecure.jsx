@@ -5,6 +5,7 @@ import { AuthContext } from "../provider/AuthProvider";
 
 const axiosSecure = axios.create({
   baseURL: "https://tutoria-server.vercel.app",
+  // https://tutoria-server.vercel.app
 });
 const useAxiosSecure = () => {
   const navigate = useNavigate();
