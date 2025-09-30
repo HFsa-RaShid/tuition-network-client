@@ -62,29 +62,28 @@ const TuitionTypes = () => {
           which suits you most
         </h2>
 
-        <div className="flex flex-wrap justify-center items-center py-16 gap-6">
-          <div className="w-full sm:w-1/2 md:w-1/4 timeline">
-            <div className="timeline-start timeline-box mb-4">Home Tutoring</div>
-            <hr />
-          </div>
-
-          <div className="w-full sm:w-1/2 md:w-1/4 timeline">
-            <hr />
-            <div className="timeline-end timeline-box my-4">Online Tutoring</div>
-            <hr />
-          </div>
-
-          <div className="w-full sm:w-1/2 md:w-1/4 timeline">
-            <hr />
-            <div className="timeline-start timeline-box my-4">Group Tutoring</div>
-            <hr />
-          </div>
-
-          <div className="w-full sm:w-1/2 md:w-1/4 timeline">
-            <hr />
-            <div className="timeline-end timeline-box my-4">Batch Tutoring</div>
-            <hr />
-          </div>
+        <div className="flex flex-wrap justify-evenly items-center py-16 gap-6">
+          <ul className="timeline w-full sm:w-1/2 md:w-full">
+            <li>
+              <div className="timeline-start timeline-box">Home Tutoring</div>
+              <hr />
+            </li>
+            <li>
+              <hr />
+              <div className="timeline-end timeline-box">Online Tutoring</div>
+              <hr />
+            </li>
+            <li>
+              <hr />
+              <div className="timeline-start timeline-box">Group Tutoring</div>
+              <hr />
+            </li>
+            <li>
+              <hr />
+              <div className="timeline-end timeline-box">Batch Tutoring</div>
+              <hr />
+            </li>
+          </ul>
         </div>
       </div>
     </div>
