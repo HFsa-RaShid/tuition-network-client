@@ -21,7 +21,7 @@ const LandingPage = () => {
       <Banner></Banner>
       <CountDown></CountDown>
       <WhyChooseUs></WhyChooseUs>
-      <TuitionTypes></TuitionTypes>
+      {/* <TuitionTypes></TuitionTypes> */}
       <TutoringWithUs></TutoringWithUs>
       <FAQ></FAQ>
       <Footer></Footer>
