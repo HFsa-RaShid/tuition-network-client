@@ -244,8 +244,8 @@ const Banner = () => {
               100% SATISFACTION GUARANTEE
             </p>
             <div className="my-4 font-bold">
-              <h1 className="text-4xl md:text-5xl">Find Your</h1>
-              <h1 className="text-4xl md:text-5xl py-4">
+              <h1 className="text-4xl md:text-3xl">Find Your</h1>
+              <h1 className="text-4xl md:text-3xl py-4">
                 Perfect{" "}
                 <span className="inline-flex items-center relative">
                   Tutor
@@ -292,12 +292,12 @@ const Banner = () => {
             </p>
 
             {/* ---------- SEARCH FORM ---------- */}
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="mt-10 flex flex-wrap gap-4 ">
               {/* Class Input */}
               <select
                 value={className}
                 onChange={(e) => setClassName(e.target.value)}
-                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-32 md:w-40 
+                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 
                 ${!className ? "text-gray-400" : "text-black"}`}
               >
                 <option value="" disabled>
@@ -317,7 +317,7 @@ const Banner = () => {
                   setDistrict(e.target.value);
                   setCity("");
                 }}
-                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-32 md:w-40
+                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28
                 ${!district ? "text-gray-400" : "text-black"}`}
               >
                 <option value="" disabled>
@@ -335,7 +335,7 @@ const Banner = () => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 disabled={!district}
-                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-32 md:w-40 
+                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 
                 ${!city ? "text-gray-400" : "text-black"}`}
               >
                 <option value="" disabled>
