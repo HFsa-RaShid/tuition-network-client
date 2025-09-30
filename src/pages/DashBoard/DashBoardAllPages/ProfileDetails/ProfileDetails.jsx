@@ -96,37 +96,81 @@ const ProfileDetails = () => {
     "Masters",
   ];
 
+  // const handleImageChange = async (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
+
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => setImagePreview(reader.result);
+  //   reader.readAsDataURL(file);
+
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("image", file);
+
+  //     const res = await fetch(
+  //       `https://api.imgbb.com/1/upload?key=${
+  //         import.meta.env.VITE_IMAGE_HOSTING_KEY
+  //       }`,
+  //       {
+  //         method: "POST",
+  //         body: formData,
+  //       }
+  //     );
+  //     const imgData = await res.json();
+  //     const photoURL = imgData.data.url;
+
+  //     await axiosSecure.put(`/users/${currentUser?.email}`, { photoURL });
+  //     await axiosSecure.put(`/tutors/${currentUser?.email}`, { photoURL });
+  //     refetch();
+  //   } catch (err) {
+  //     console.error("Image upload failed:", err);
+  //   }
+  // };
+
+
+
   const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const reader = new FileReader();
-    reader.onloadend = () => setImagePreview(reader.result);
-    reader.readAsDataURL(file);
+  const reader = new FileReader();
+  reader.onloadend = () => setImagePreview(reader.result);
+  reader.readAsDataURL(file);
 
-    try {
-      const formData = new FormData();
-      formData.append("image", file);
+  try {
+    const formData = new FormData();
+    formData.append("image", file);
 
-      const res = await fetch(
-        `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_IMAGE_HOSTING_KEY
-        }`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      const imgData = await res.json();
-      const photoURL = imgData.data.url;
+    const res = await fetch(
+      `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_HOSTING_KEY}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
-      await axiosSecure.put(`/users/${currentUser?.email}`, { photoURL });
-      await axiosSecure.put(`/tutors/${currentUser?.email}`, { photoURL });
-      refetch();
-    } catch (err) {
-      console.error("Image upload failed:", err);
+    const imgData = await res.json();
+    console.log("ImgBB response:", imgData); 
+
+    const photoURL = imgData?.data?.display_url; 
+
+    if (!photoURL) {
+      toast.error("Image upload failed!");
+      return;
     }
-  };
+
+    // Update database
+    await axiosSecure.put(`/users/${currentUser?.email}`, { photoURL });
+    await axiosSecure.put(`/tutors/${currentUser?.email}`, { photoURL });
+
+    refetch();
+    toast.success("Profile picture updated!");
+  } catch (err) {
+    console.error("Image upload failed:", err);
+    toast.error("Failed to upload profile picture!");
+  }
+};
 
   const onSubmit = async (data) => {
     const payload = {
