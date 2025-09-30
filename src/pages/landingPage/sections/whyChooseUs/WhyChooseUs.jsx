@@ -33,7 +33,7 @@ const WhyChooseUs = () => {
 
   return (
     <div className="bg-base-200 py-16">
-      <div className="container mx-auto text-center px-20">
+      <div className="container mx-auto text-center px-16">
         <div className="w-full mx-auto">
           <h4 className="text-[#DAA520] font-bold mb-2">WHY CHOOSE US</h4>
           <h2 className="text-3xl font-bold mb-1 text-black">
