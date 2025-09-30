@@ -174,11 +174,11 @@ const Banner = () => {
               />
               <img
                 src={grayCircle}
-                className="absolute top-[150px] -right-28 z-0 opacity-50"
+                className="absolute top-[150px] -right-18 z-0 opacity-50"
               />
               <img
                 src={yellowShape}
-                className="absolute top-[132px] -right-24 z-0 h-[40px]"
+                className="absolute top-[132px] -right-8 z-0 h-[40px]"
               />
               <img
                 src={blueCircle}
