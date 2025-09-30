@@ -1,8 +1,8 @@
 import React from "react";
 const CountDown = () => {
   return (
-    <div className=" h-[130px] ">
-      <div className="container mx-auto h-full">
+    <div className=" h-[130px] w-full">
+
         <div className="h-full bg-gray-500 flex items-center justify-around text-white container mx-auto">
         <div>
           <h1 className="text-3xl">5000</h1>
@@ -24,7 +24,7 @@ const CountDown = () => {
         </div>
       </div>
       </div>
-    </div>
+ 
   );
 };
 

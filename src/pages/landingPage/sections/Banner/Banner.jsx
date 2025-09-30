@@ -239,7 +239,7 @@ const Banner = () => {
   return (
     <div className="bg-base-100 py-12 mt-20">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-20 gap-10">
+        <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-20 gap-10 px-20">
           {/* ---------- LEFT SIDE ---------- */}
           <div className="w-full lg:w-1/2 text-center lg:text-left">
             <p className="text-[#DAA520] font-bold text-sm sm:text-base">
