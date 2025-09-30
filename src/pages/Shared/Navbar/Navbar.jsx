@@ -263,7 +263,7 @@
 import { BsSunFill } from "react-icons/bs";
 import { BiSolidMoon } from "react-icons/bi";
 import { PiCloudSunFill } from "react-icons/pi";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import logo from "../../../assets/open-book.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../provider/AuthProvider";
@@ -273,14 +273,24 @@ const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { currentUser } = useCurrentUser(user?.email);
 
+  const themeRef = useRef();
+  const userRef = useRef();
+  const mobileRef = useRef();
+
   const handleSignOut = () => {
     logOut()
       .then(() => navigate("/"))
-      .catch((error) => console.error(error));
+      .catch((err) => console.error(err));
+  };
+
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+    setIsThemeDropdownOpen(false);
   };
 
   useEffect(() => {
@@ -296,10 +306,22 @@ const Navbar = () => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const handleThemeChange = (newTheme) => {
-    setTheme(newTheme);
-    setIsThemeDropdownOpen(false);
-  };
+  // Close dropdowns if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (themeRef.current && !themeRef.current.contains(e.target)) {
+        setIsThemeDropdownOpen(false);
+      }
+      if (userRef.current && !userRef.current.contains(e.target)) {
+        setIsUserDropdownOpen(false);
+      }
+      if (mobileRef.current && !mobileRef.current.contains(e.target)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 shadow-md backdrop-blur font-serif text-black h-16">
@@ -339,7 +361,7 @@ const Navbar = () => {
         {/* Right Side */}
         <div className="flex items-center gap-4">
           {/* Theme Dropdown */}
-          <div className="relative">
+          <div className="relative" ref={themeRef}>
             <button
               onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
               className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-200"
@@ -372,34 +394,39 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* User */}
+          {/* User Dropdown */}
           {user ? (
-            <div className="relative">
-              <button className="w-10 h-10 rounded-full border overflow-hidden flex items-center justify-center">
+            <div className="relative" ref={userRef}>
+              <button
+                onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                className="w-10 h-10 rounded-full border overflow-hidden flex items-center justify-center"
+              >
                 <img
                   src={currentUser?.photoURL}
                   alt="User"
                   className="w-full h-full object-cover"
                 />
               </button>
-              <ul className="absolute right-0 mt-2 w-40 bg-slate-100 rounded-lg shadow-lg z-50 hidden group-hover:block">
-                <li>
-                  <NavLink
-                    to={`/${currentUser?.role}/dashboard`}
-                    className="block px-4 py-2 hover:bg-slate-300"
-                  >
-                    Dashboard
-                  </NavLink>
-                </li>
-                <li>
-                  <button
-                    onClick={handleSignOut}
-                    className="w-full text-left px-4 py-2 hover:bg-slate-300"
-                  >
-                    Sign Out
-                  </button>
-                </li>
-              </ul>
+              {isUserDropdownOpen && (
+                <ul className="absolute right-0 mt-2 w-40 bg-slate-100 rounded-lg shadow-lg z-50">
+                  <li>
+                    <NavLink
+                      to={`/${currentUser?.role}/dashboard`}
+                      className="block px-4 py-2 hover:bg-slate-300"
+                    >
+                      Dashboard
+                    </NavLink>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleSignOut}
+                      className="w-full text-left px-4 py-2 hover:bg-slate-300"
+                    >
+                      Sign Out
+                    </button>
+                  </li>
+                </ul>
+              )}
             </div>
           ) : (
             <NavLink to="/signIn">
@@ -410,10 +437,10 @@ const Navbar = () => {
           )}
 
           {/* Mobile Menu */}
-          <div className="lg:hidden relative">
+          <div className="lg:hidden relative" ref={mobileRef}>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="btn btn-ghost p-2"
+              className="p-2"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

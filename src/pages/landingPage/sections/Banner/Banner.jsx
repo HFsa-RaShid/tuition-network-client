@@ -157,7 +157,7 @@ const Banner = () => {
           </div>
 
           {/* ---------- RIGHT SIDE IMAGE ---------- */}
-          <div className="w-full lg:w-[45%] flex justify-center  lg:justify-end">
+          <div className="w-full lg:w-[45%] flex justify-center  lg:justify-end mr-32">
             <div className="relative w-[280px] md:w-[350px] lg:w-[400px]">
               <img
                 src={banner}
