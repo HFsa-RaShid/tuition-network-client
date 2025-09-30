@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className=" bg-base-200 text-black px-6 sm:px-8 md:px-10 pt-10 pb-6 rounded-t-3xl border-t-4">
       <div className="footer pb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div className="flex flex-col items-start space-y-4">
+        <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-4">
           <img src={logo} alt="logo" className="h-14 mx-auto" />
           <h1 className="text-3xl font-bold">
             Tu<span className="text-[#DAA520]">T</span>oria
@@ -30,18 +30,18 @@ const Footer = () => {
             {/* <label className="label">
               <span className="label-text">Enter your email address</span>
             </label> */}
-            <div className="join w-full">
+            <div className="join join-vertical sm:join w-full">
               <input
                 type="text"
                 placeholder="username@site.com"
                 className="input input-bordered join-item w-full"
               />
-              <button className="bg-[#f9d045] px-4 join-item font-semibold">
+              <button className="bg-[#f9d045] px-4 join-item font-semibold w-full sm:w-auto">
                 Subscribe
               </button>
             </div>
           </fieldset>
-          <div className="mt-4 flex space-x-4">
+          <div className="mt-4 flex space-x-4 justify-center sm:justify-start">
             <a href="#" className="text-2xl text-[#123d7e] opacity-80">
               <svg
                 xmlns="https://www.w3.org/2000/svg"

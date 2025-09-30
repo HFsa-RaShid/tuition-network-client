@@ -95,7 +95,7 @@ const SignupPage = () => {
       <Helmet>
         <title>Sign_Up | TiToria</title>
       </Helmet>
-      <div className="flex flex-col md:flex-row w-11/12 max-w-6xl my-4 md:my-8 gap-6 md:gap-12">
+      <div className="flex flex-col md:flex-row w-11/12 max-w-6xl my-4 md:my-8 gap-6">
         {/* Left Section - Image */}
         <div className="w-full md:w-7/12 lg:w-3/5 flex justify-center items-center bg-gray-100 p-6 md:p-8 rounded-md">
           <img
