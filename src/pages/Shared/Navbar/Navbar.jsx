@@ -1,7 +1,9 @@
+
+
 // import { BsSunFill } from "react-icons/bs";
 // import { BiSolidMoon } from "react-icons/bi";
 // import { PiCloudSunFill } from "react-icons/pi";
-// import React, { useState, useEffect, useContext } from "react";
+// import React, { useState, useEffect, useContext, useRef } from "react";
 // import logo from "../../../assets/open-book.png";
 // import { NavLink, useNavigate } from "react-router-dom";
 // import { AuthContext } from "../../../provider/AuthProvider";
@@ -10,25 +12,31 @@
 // const Navbar = () => {
 //   const { user, logOut } = useContext(AuthContext);
 //   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-//   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+//   const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
+//   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+//   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 //   const navigate = useNavigate();
-//   const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
+//   const { currentUser } = useCurrentUser(user?.email);
+
+//   const themeRef = useRef();
+//   const userRef = useRef();
+//   const mobileRef = useRef();
 
 //   const handleSignOut = () => {
 //     logOut()
-//       .then(() => {
-//         navigate("/");
-//       })
-//       .catch((error) => {
-//         console.error("Error during sign out:", error);
-//       });
+//       .then(() => navigate("/"))
+//       .catch((err) => console.error(err));
+//   };
+
+//   const handleThemeChange = (newTheme) => {
+//     setTheme(newTheme);
+//     setIsThemeDropdownOpen(false);
 //   };
 
 //   useEffect(() => {
 //     const root = document.documentElement;
 //     if (theme === "device") {
-//       const deviceTheme = window.matchMedia("(prefers-color-scheme: dark)")
-//         .matches
+//       const deviceTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
 //         ? "dark"
 //         : "light";
 //       root.setAttribute("data-theme", deviceTheme);
@@ -38,21 +46,145 @@
 //     localStorage.setItem("theme", theme);
 //   }, [theme]);
 
-//   const handleThemeChange = (newTheme) => {
-//     setTheme(newTheme);
-//     setIsDropdownOpen(false);
-//   };
+//   // Close dropdowns if clicked outside
+//   useEffect(() => {
+//     const handleClickOutside = (e) => {
+//       if (themeRef.current && !themeRef.current.contains(e.target)) {
+//         setIsThemeDropdownOpen(false);
+//       }
+//       if (userRef.current && !userRef.current.contains(e.target)) {
+//         setIsUserDropdownOpen(false);
+//       }
+//       if (mobileRef.current && !mobileRef.current.contains(e.target)) {
+//         setIsMobileMenuOpen(false);
+//       }
+//     };
+//     document.addEventListener("mousedown", handleClickOutside);
+//     return () => document.removeEventListener("mousedown", handleClickOutside);
+//   }, []);
 
+//   return (
+//     <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 shadow-md backdrop-blur font-serif text-black h-16">
+//       <div className="max-w-[1200px] mx-auto h-full flex items-center justify-between px-4">
+//         {/* Logo */}
+//         <NavLink to="/" className="flex items-center gap-2 h-full">
+//           <img src={logo} alt="logo" className="h-10" />
+//           <h1 className="text-2xl sm:text-3xl font-bold">
+//             Tu<span className="text-[#DAA520]">T</span>oria
+//           </h1>
+//         </NavLink>
 
-//  return (
-// <div className="bg-white/80 shadow-md backdrop-blur font-serif text-black fixed top-0 left-0 right-0 z-50 overflow-x-hidden">
-//   <div className="navbar container mx-auto px-4">
-//     <div className="navbar-start">
-//           <div className="dropdown">
-//             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+//         {/* Desktop Menu */}
+//         <ul className="hidden lg:flex gap-6 font-semibold text-[18px] h-full items-center">
+//           <li>
+//             <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/">
+//               Home
+//             </NavLink>
+//           </li>
+//           <li>
+//             <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/tutors">
+//               Tutors
+//             </NavLink>
+//           </li>
+//           <li>
+//             <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/tuitions">
+//               Tuitions
+//             </NavLink>
+//           </li>
+//           <li>
+//             <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/search-by-map">
+//               Find on Map
+//             </NavLink>
+//           </li>
+//         </ul>
+
+//         {/* Right Side */}
+//         <div className="flex items-center gap-4">
+//           {/* Theme Dropdown */}
+//           <div className="relative" ref={themeRef}>
+//             <button
+//               onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
+//               className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-200"
+//             >
+//               {theme === "light" && <BsSunFill className="text-xl" />}
+//               {theme === "dark" && <BiSolidMoon className="text-xl" />}
+//               {theme === "device" && <PiCloudSunFill className="text-xl" />}
+//             </button>
+//             {isThemeDropdownOpen && (
+//               <ul className="absolute right-0 mt-2 w-32 bg-slate-100 rounded-lg shadow-lg z-50">
+//                 <li
+//                   onClick={() => handleThemeChange("light")}
+//                   className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"
+//                 >
+//                   <BsSunFill /> Light
+//                 </li>
+//                 <li
+//                   onClick={() => handleThemeChange("dark")}
+//                   className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"
+//                 >
+//                   <BiSolidMoon /> Dark
+//                 </li>
+//                 <li
+//                   onClick={() => handleThemeChange("device")}
+//                   className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"
+//                 >
+//                   <PiCloudSunFill /> Device
+//                 </li>
+//               </ul>
+//             )}
+//           </div>
+
+//           {/* User Dropdown */}
+//           {user ? (
+//             <div className="relative" ref={userRef}>
+//               <button
+//                 onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+//                 className="w-10 h-10 rounded-full border overflow-hidden flex items-center justify-center"
+//               >
+//                 <img
+//                   src={currentUser?.photoURL}
+//                   alt="User"
+//                   className="w-full h-full object-cover"
+//                 />
+//               </button>
+//               {isUserDropdownOpen && (
+//                 <ul className="absolute right-0 mt-2 w-40 bg-slate-100 rounded-lg shadow-lg z-50">
+//                   <li>
+//                     <NavLink
+//                       to={`/${currentUser?.role}/dashboard`}
+//                       className="block px-4 py-2 hover:bg-slate-300"
+//                     >
+//                       Dashboard
+//                     </NavLink>
+//                   </li>
+//                   <li>
+//                     <button
+//                       onClick={handleSignOut}
+//                       className="w-full text-left px-4 py-2 hover:bg-slate-300"
+//                     >
+//                       Sign Out
+//                     </button>
+//                   </li>
+//                 </ul>
+//               )}
+//             </div>
+//           ) : (
+//             <NavLink to="/signIn">
+//               <button className="bg-blue-200 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 font-semibold h-10">
+//                 Sign Up
+//               </button>
+//             </NavLink>
+//           )}
+
+//           {/* Mobile Menu */}
+//           <div className="lg:hidden relative" ref={mobileRef}>
+//             <button
+//               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+//               className="p-2"
+//             >
 //               <svg
-//                 xmlns="https://www.w3.org/2000/svg"
-//                 className="h-5 w-5"
+//                 xmlns="http://www.w3.org/2000/svg"
+//                 className="h-6 w-6"
 //                 fill="none"
 //                 viewBox="0 0 24 24"
 //                 stroke="currentColor"
@@ -61,203 +193,35 @@
 //                   strokeLinecap="round"
 //                   strokeLinejoin="round"
 //                   strokeWidth="2"
-//                   d="M4 6h16M4 12h8m-8 6h16"
+//                   d="M4 6h16M4 12h16M4 18h16"
 //                 />
 //               </svg>
-//             </div>
-//             <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52 font-semibold text-[18px] animate__animated animate__fadeInDown text-black bg-white">
-//               <li>
-//                 <NavLink
-//                   className={({ isActive }) =>
-//                     isActive ? "text-[#123d7e]" : " "
-//                   }
-//                   to="/"
-//                 >
-//                   Home
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   className={({ isActive }) =>
-//                     isActive ? "text-black bg-white " : " "
-//                   }
-//                   to="/tutors"
-//                 >
-//                   Tutors
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   className={({ isActive }) =>
-//                     isActive ? "text-black bg-white " : " "
-//                   }
-//                   to="/tuitions"
-//                 >
-//                   Tuitions
-//                 </NavLink>
-//               </li>
-//               <li>
-//                 <NavLink
-//                   className={({ isActive }) =>
-//                     isActive ? " text-[#123d7e] underline" : " "
-//                   }
-//                   to="/search-by-map"
-//                 >
-//                   Find on Map
-//                 </NavLink>
-//               </li>
-//             </ul>
-//           </div>
-//           <NavLink to="/">
-//             <div className="flex items-center gap-2">
-//               <img src={logo} alt="logo" className="h-10" />
-//               <h1 className="text-3xl font-bold ">
-//                 Tu<span className="text-[#DAA520]">T</span>oria
-//               </h1>
-//             </div>
-//           </NavLink>
-//         </div>
-
-//         <div className="navbar-center hidden lg:flex">
-//           <ul className="menu menu-horizontal px-1 font-semibold text-[18px]">
-//             <li>
-//               <NavLink
-//                 className={({ isActive }) =>
-//                   isActive ? "text-[#123d7e] underline" : " "
-//                 }
-//                 to="/"
-//               >
-//                 Home
-//               </NavLink>
-//             </li>
-//             <li>
-//               <NavLink
-//                 className={({ isActive }) =>
-//                   isActive ? " text-[#123d7e] underline" : " "
-//                 }
-//                 to="/tutors"
-//               >
-//                 Tutors
-//               </NavLink>
-//             </li>
-//             <li>
-//               <NavLink
-//                 className={({ isActive }) =>
-//                   isActive ? " text-[#123d7e] underline" : " "
-//                 }
-//                 to="/tuitions"
-//               >
-//                 Tuitions
-//               </NavLink>
-//             </li>
-//             <li>
-//               <NavLink
-//                 className={({ isActive }) =>
-//                   isActive ? " text-[#123d7e] underline" : " "
-//                 }
-//                 to="/search-by-map"
-//               >
-//                 Find on Map
-//               </NavLink>
-//             </li>
-//           </ul>
-//         </div>
-
-//         <div className="navbar-end">
-//           <div className="dropdown ">
-//             <div
-//               tabIndex={0}
-//               role="button"
-//               className="m-1 "
-//               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-//             >
-//               {theme === "light" && <BsSunFill className="text-2xl mr-3" />}
-//               {theme === "dark" && <BiSolidMoon className="text-2xl mr-3" />}
-//               {theme === "device" && (
-//                 <PiCloudSunFill className="text-2xl mr-3" />
-//               )}
-//             </div>
-//             {isDropdownOpen && (
-//               <ul className="dropdown-content bg-slate-100 rounded-box z-10 w-32 p-2 shadow-2xl">
-//                 <li
-//                   onClick={() => handleThemeChange("light")}
-//                   className="flex items-center gap-1 hover:bg-slate-300 hover:rounded-xl py-1 font-semibold "
-//                 >
-//                   <BsSunFill className="text-2xl pl-2" />
-//                   <button>Light</button>
+//             </button>
+//             {isMobileMenuOpen && (
+//               <ul className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg z-50 p-2">
+//                 <li>
+//                   <NavLink to="/">Home</NavLink>
 //                 </li>
-//                 <li
-//                   onClick={() => handleThemeChange("dark")}
-//                   className="flex items-center gap-1 hover:bg-slate-300 hover:rounded-xl py-1 font-semibold "
-//                 >
-//                   <BiSolidMoon className="text-2xl pl-2" />
-//                   <button>Dark</button>
+//                 <li>
+//                   <NavLink to="/tutors">Tutors</NavLink>
 //                 </li>
-//                 <li
-//                   onClick={() => handleThemeChange("device")}
-//                   className="flex items-center gap-1 hover:bg-slate-300 hover:rounded-xl py-1 font-semibold"
-//                 >
-//                   <PiCloudSunFill className="text-2xl pl-2" />
-//                   <button>Device</button>
+//                 <li>
+//                   <NavLink to="/tuitions">Tuitions</NavLink>
+//                 </li>
+//                 <li>
+//                   <NavLink to="/search-by-map">Find on Map</NavLink>
 //                 </li>
 //               </ul>
 //             )}
 //           </div>
-
-//           {user ? (
-//             <div className="relative dropdown dropdown-end">
-//               <div
-//                 className="tooltip tooltip-bottom"
-//                 data-tip={user?.displayName}
-//               >
-//                 <label tabIndex={0}>
-//                   <div className="w-10 h-10 rounded-full border border-black overflow-hidden flex items-center justify-center">
-//                     <img
-//                       src={currentUser?.photoURL}
-//                       alt="User"
-//                       className="w-full h-full object-cover p-[2px]"
-//                     />
-//                   </div>
-//                 </label>
-//               </div>
-
-//               <ul
-//                 tabIndex={0}
-//                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-100 rounded-box w-52"
-//               >
-//                 <li>
-//                   <NavLink
-//                     to={`/${currentUser?.role}/dashboard`}
-//                     className={({ isActive }) =>
-//                       isActive ? "text-[#123d7e] bg-slate-300" : " "
-//                     }
-//                   >
-//                     Dashboard
-//                   </NavLink>
-//                 </li>
-//                 <li>
-//                   <button
-//                     onClick={handleSignOut}
-//                     className="hover:bg-slate-300 text-left w-full"
-//                   >
-//                     Sign Out
-//                   </button>
-//                 </li>
-//               </ul>
-//             </div>
-//           ) : (
-//             <NavLink to="/signIn">
-//               <button className="bg-blue-200 mb-2 mt-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 font-semibold shadow-sm">
-//                 Sign Up
-//               </button>
-//             </NavLink>
-//           )}
 //         </div>
-//   </div>
-// </div>
-//  );
+//       </div>
+//     </div>
+//   );
 // };
+
 // export default Navbar;
+
 
 
 import { BsSunFill } from "react-icons/bs";
@@ -306,28 +270,21 @@ const Navbar = () => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Close dropdowns if clicked outside
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (themeRef.current && !themeRef.current.contains(e.target)) {
-        setIsThemeDropdownOpen(false);
-      }
-      if (userRef.current && !userRef.current.contains(e.target)) {
-        setIsUserDropdownOpen(false);
-      }
-      if (mobileRef.current && !mobileRef.current.contains(e.target)) {
-        setIsMobileMenuOpen(false);
-      }
+      if (themeRef.current && !themeRef.current.contains(e.target)) setIsThemeDropdownOpen(false);
+      if (userRef.current && !userRef.current.contains(e.target)) setIsUserDropdownOpen(false);
+      if (mobileRef.current && !mobileRef.current.contains(e.target)) setIsMobileMenuOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 shadow-md backdrop-blur font-serif text-black h-16">
-      <div className="max-w-[1200px] mx-auto h-full flex items-center justify-between px-4">
+    <div className="fixed top-0 left-0 w-full z-50 bg-white/80 shadow-md backdrop-blur font-serif text-black">
+      <div className="flex justify-between items-center max-w-[1200px] mx-auto px-4 h-16">
         {/* Logo */}
-        <NavLink to="/" className="flex items-center gap-2 h-full">
+        <NavLink to="/" className="flex items-center gap-2">
           <img src={logo} alt="logo" className="h-10" />
           <h1 className="text-2xl sm:text-3xl font-bold">
             Tu<span className="text-[#DAA520]">T</span>oria
@@ -335,61 +292,27 @@ const Navbar = () => {
         </NavLink>
 
         {/* Desktop Menu */}
-        <ul className="hidden lg:flex gap-6 font-semibold text-[18px] h-full items-center">
-          <li>
-            <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/">
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/tutors">
-              Tutors
-            </NavLink>
-          </li>
-          <li>
-            <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/tuitions">
-              Tuitions
-            </NavLink>
-          </li>
-          <li>
-            <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/search-by-map">
-              Find on Map
-            </NavLink>
-          </li>
+        <ul className="hidden lg:flex gap-6 font-semibold text-[18px]">
+          <li><NavLink to="/" className={({ isActive }) => isActive ? "text-[#123d7e] underline" : ""}>Home</NavLink></li>
+          <li><NavLink to="/tutors" className={({ isActive }) => isActive ? "text-[#123d7e] underline" : ""}>Tutors</NavLink></li>
+          <li><NavLink to="/tuitions" className={({ isActive }) => isActive ? "text-[#123d7e] underline" : ""}>Tuitions</NavLink></li>
+          <li><NavLink to="/search-by-map" className={({ isActive }) => isActive ? "text-[#123d7e] underline" : ""}>Find on Map</NavLink></li>
         </ul>
 
         {/* Right Side */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {/* Theme Dropdown */}
           <div className="relative" ref={themeRef}>
-            <button
-              onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
-              className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-200"
-            >
+            <button onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200">
               {theme === "light" && <BsSunFill className="text-xl" />}
               {theme === "dark" && <BiSolidMoon className="text-xl" />}
               {theme === "device" && <PiCloudSunFill className="text-xl" />}
             </button>
             {isThemeDropdownOpen && (
               <ul className="absolute right-0 mt-2 w-32 bg-slate-100 rounded-lg shadow-lg z-50">
-                <li
-                  onClick={() => handleThemeChange("light")}
-                  className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"
-                >
-                  <BsSunFill /> Light
-                </li>
-                <li
-                  onClick={() => handleThemeChange("dark")}
-                  className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"
-                >
-                  <BiSolidMoon /> Dark
-                </li>
-                <li
-                  onClick={() => handleThemeChange("device")}
-                  className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"
-                >
-                  <PiCloudSunFill /> Device
-                </li>
+                <li onClick={() => handleThemeChange("light")} className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"><BsSunFill /> Light</li>
+                <li onClick={() => handleThemeChange("dark")} className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"><BiSolidMoon /> Dark</li>
+                <li onClick={() => handleThemeChange("device")} className="flex items-center gap-2 px-2 py-1 hover:bg-slate-300 cursor-pointer"><PiCloudSunFill /> Device</li>
               </ul>
             )}
           </div>
@@ -397,80 +320,35 @@ const Navbar = () => {
           {/* User Dropdown */}
           {user ? (
             <div className="relative" ref={userRef}>
-              <button
-                onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                className="w-10 h-10 rounded-full border overflow-hidden flex items-center justify-center"
-              >
-                <img
-                  src={currentUser?.photoURL}
-                  alt="User"
-                  className="w-full h-full object-cover"
-                />
+              <button onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)} className="w-10 h-10 rounded-full border overflow-hidden flex items-center justify-center">
+                <img src={currentUser?.photoURL} alt="User" className="w-full h-full object-cover" />
               </button>
               {isUserDropdownOpen && (
                 <ul className="absolute right-0 mt-2 w-40 bg-slate-100 rounded-lg shadow-lg z-50">
-                  <li>
-                    <NavLink
-                      to={`/${currentUser?.role}/dashboard`}
-                      className="block px-4 py-2 hover:bg-slate-300"
-                    >
-                      Dashboard
-                    </NavLink>
-                  </li>
-                  <li>
-                    <button
-                      onClick={handleSignOut}
-                      className="w-full text-left px-4 py-2 hover:bg-slate-300"
-                    >
-                      Sign Out
-                    </button>
-                  </li>
+                  <li><NavLink to={`/${currentUser?.role}/dashboard`} className="block px-4 py-2 hover:bg-slate-300">Dashboard</NavLink></li>
+                  <li><button onClick={handleSignOut} className="w-full text-left px-4 py-2 hover:bg-slate-300">Sign Out</button></li>
                 </ul>
               )}
             </div>
           ) : (
             <NavLink to="/signIn">
-              <button className="bg-blue-200 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 font-semibold h-10">
-                Sign Up
-              </button>
+              <button className="bg-blue-200 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 font-semibold h-10">Sign Up</button>
             </NavLink>
           )}
 
           {/* Mobile Menu */}
           <div className="lg:hidden relative" ref={mobileRef}>
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
             {isMobileMenuOpen && (
-              <ul className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg z-50 p-2">
-                <li>
-                  <NavLink to="/">Home</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/tutors">Tutors</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/tuitions">Tuitions</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/search-by-map">Find on Map</NavLink>
-                </li>
+              <ul className="absolute top-full right-0 w-full bg-white shadow-lg z-50 flex flex-col">
+                <li className="border-b"><NavLink to="/">Home</NavLink></li>
+                <li className="border-b"><NavLink to="/tutors">Tutors</NavLink></li>
+                <li className="border-b"><NavLink to="/tuitions">Tuitions</NavLink></li>
+                <li className="border-b"><NavLink to="/search-by-map">Find on Map</NavLink></li>
               </ul>
             )}
           </div>
