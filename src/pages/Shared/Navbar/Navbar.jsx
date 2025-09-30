@@ -91,21 +91,21 @@ const Navbar = () => {
                   className={({ isActive }) =>
                     isActive ? "text-black bg-white " : " "
                   }
-                  to="/JobBoard"
+                  to="/Tuitions"
                 >
                   Tuitions
                 </NavLink>
               </li>
-               <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? " text-[#123d7e] underline" : " "
-                }
-                to="/search-by-map"
-              >
-                Find on Map
-              </NavLink>
-            </li>
+              <li>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? " text-[#123d7e] underline" : " "
+                  }
+                  to="/search-by-map"
+                >
+                  Find on Map
+                </NavLink>
+              </li>
             </ul>
           </div>
           <NavLink to="/">
@@ -130,7 +130,7 @@ const Navbar = () => {
                 Home
               </NavLink>
             </li>
-             <li>
+            <li>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? " text-[#123d7e] underline" : " "
@@ -145,7 +145,7 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   isActive ? " text-[#123d7e] underline" : " "
                 }
-                to="/JobBoard"
+                to="/Tuitions"
               >
                 Tuitions
               </NavLink>

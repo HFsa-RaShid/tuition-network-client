@@ -13,7 +13,7 @@ const FAQ = () => {
       <div className="w-[50%]">
         {/* Heading */}
         <div className="mb-6">
-          <h1 className="text-4xl font-bold text-[#1E293B]">Frequently Asked Questions</h1>
+          <h1 className="text-3xl font-bold text-[#1E293B]">Frequently Asked Questions</h1>
           <p className="text-gray-500 font-medium pt-4">
             Here are some common questions students and tutors ask about Tutoria.  
             Hopefully these will clear your confusion!

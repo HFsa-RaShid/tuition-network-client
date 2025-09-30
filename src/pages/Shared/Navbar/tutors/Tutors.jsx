@@ -12,11 +12,8 @@ import { MdLocationOn } from "react-icons/md";
 const Tutors = () => {
   const { allTutors, isLoading, isError } = useAllTutors();
   const location = useLocation();
-
-  // Banner থেকে আসা data
   const { className, district, city } = location.state || {};
 
-  // Filter States (default Banner data)
   const [selectedCity, setSelectedCity] = useState(district || "All");
   const [selectedArea, setSelectedArea] = useState(city || "All");
   const [selectedMedium, setSelectedMedium] = useState("All");
@@ -25,7 +22,6 @@ const Tutors = () => {
   const [selectedGender, setSelectedGender] = useState("All");
   const [selectedReligion, setSelectedReligion] = useState("All");
 
-  // Banner state change হলে filters আপডেট হবে
   useEffect(() => {
     if (district) setSelectedCity(district);
     if (city) setSelectedArea(city);
@@ -38,17 +34,19 @@ const Tutors = () => {
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
       </div>
     );
-  
 
   if (!allTutors || allTutors.length === 0) {
     return (
       <div>
         <Navbar></Navbar>
         <div className="container mx-auto p-4 mt-20">
-        <p className="text-center text-red-500 font-medium">
-          No tutors available right now.
-        </p>
-      </div>
+          <div>
+            <div className="mx-auto w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+              <FaEyeSlash className="w-8 h-8 text-gray-500" />
+            </div>
+            <p className="text-center mt-4">No tutors available right now.</p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -123,7 +121,7 @@ const Tutors = () => {
         <div className="container mx-auto p-4   min-h-screen flex gap-6">
           {/* Sidebar Filter */}
           <div className="w-[30%] bg-white/80 mt-28 border p-4 rounded-md shadow-md">
-             <h2 className="text-[24px] font-semibold mb-4">
+            <h2 className="text-[24px] font-semibold mb-4">
               🔍 Advanced Filter
             </h2>
 
@@ -272,7 +270,7 @@ const Tutors = () => {
                         <div className="text-black font-medium text-lg">
                           {tutor.name}
                         </div>
-                       
+
                         <div className="flex items-center text-xs text-gray-500 gap-1">
                           <MdLocationOn className="text-blue-400" />
                           <span>{tutor.city}</span>

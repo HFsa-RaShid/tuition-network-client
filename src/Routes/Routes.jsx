@@ -9,7 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import ProfileDetails from "../pages/DashBoard/DashBoardAllPages/ProfileDetails/ProfileDetails";
 import DashBoardNotice from "../pages/DashBoard/DashBoardAllPages/DashBoardNoticePage/DashBoardNotice";
 import ViewUsers from "../pages/DashBoard/DashBoardAllPages/Users/ViewUsers";
-import JobBoard from "../pages/Shared/Navbar/JobBoard/JobBoard";
+import Tuitions from "../pages/Shared/Navbar/Tuitions/Tuitions";
 import PendingRequest from "../pages/DashBoard/DashBoardAllPages/PendingRequest/PendingRequest";
 import PostedJobs from "../pages/DashBoard/DashBoardAllPages/PostedJob/PostedJobs";
 import AppliedTutorProfile from "../pages/DashBoard/DashBoardAllPages/PostedJob/AppliedTutorProfile";
@@ -30,8 +30,6 @@ import Settings from "../pages/DashBoard/DashBoardAllPages/userSettings/Settings
 import VerifyUser from "../pages/DashBoard/DashBoardAllPages/VerifyUser/VerifyUser";
 import AllPayment from "../pages/DashBoard/DashBoardAllPages/AllPayment/AllPayment";
 
-
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -51,8 +49,8 @@ export const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path: "/JobBoard",
-        element: <JobBoard></JobBoard>,
+        path: "/Tuitions",
+        element: <Tuitions></Tuitions>,
       },
       {
         path: "/search-by-map",
@@ -123,7 +121,7 @@ export const router = createBrowserRouter([
             path: "pay-history",
             element: <PaymentHistoryStudent></PaymentHistoryStudent>,
           },
-           { path: "verify-user", element: <VerifyUser></VerifyUser> },
+          { path: "verify-user", element: <VerifyUser></VerifyUser> },
           { path: "hired-tutors", element: <HiredTutors></HiredTutors> },
           { path: "settings", element: <Settings></Settings> },
           { path: "settings/premium", element: <GetPremium></GetPremium> },

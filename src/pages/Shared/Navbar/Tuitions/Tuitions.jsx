@@ -15,7 +15,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useMultipleJobPayments from "../../../../hooks/useMultipleJobPayments";
 
-const JobBoard = () => {
+const Tuitions = () => {
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const { allJobs, refetch, isLoading } = useAllJobs();
@@ -161,9 +161,9 @@ const JobBoard = () => {
     );
   });
   // Sort so latest jobs show first
-filteredJobs = filteredJobs.sort(
-  (a, b) => new Date(b.postedAt) - new Date(a.postedAt)
-);
+  filteredJobs = filteredJobs.sort(
+    (a, b) => new Date(b.postedAt) - new Date(a.postedAt)
+  );
 
   // Pagination
   const indexOfLastJob = currentPage * jobsPerPage;
@@ -212,9 +212,7 @@ filteredJobs = filteredJobs.sort(
 
             {/* Preferred Tutor */}
             <div className="mb-4">
-              <label className="block font-medium mb-1">
-                Preferred Tutor
-              </label>
+              <label className="block font-medium mb-1">Preferred Tutor</label>
               <select
                 className="w-full border p-2 rounded bg-white"
                 onChange={(e) =>
@@ -230,9 +228,7 @@ filteredJobs = filteredJobs.sort(
 
             {/* Preferred Medium */}
             <div className="mb-4">
-              <label className="block font-medium mb-1">
-                Preferred Medium
-              </label>
+              <label className="block font-medium mb-1">Preferred Medium</label>
               <select
                 className="w-full border p-2 rounded bg-white"
                 onChange={(e) =>
@@ -283,9 +279,7 @@ filteredJobs = filteredJobs.sort(
 
             {/* Preferred Class */}
             <div className="mb-4">
-              <label className="block font-medium mb-1">
-                Preferred Class
-              </label>
+              <label className="block font-medium mb-1">Preferred Class</label>
               <select
                 className="w-full border p-2 rounded bg-white"
                 value={filter.classCourse}
@@ -325,14 +319,16 @@ filteredJobs = filteredJobs.sort(
                 key={job._id}
                 className="bg-white/80 shadow-md rounded-lg p-6 relative"
               >
-               {paidJobsByJobIds?.some(
-  (p) => p.jobId === job._id && p.source === "myApplications" && p.paidStatus === true
-) && (
-  <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-    Selected
-  </div>
-)}
-
+                {paidJobsByJobIds?.some(
+                  (p) =>
+                    p.jobId === job._id &&
+                    p.source === "myApplications" &&
+                    p.paidStatus === true
+                ) && (
+                  <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                    Selected
+                  </div>
+                )}
 
                 {job.tutorStatus === "Not Available" && (
                   <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
@@ -353,13 +349,13 @@ filteredJobs = filteredJobs.sort(
                   </div>
                 )}
 
-                 <div className="flex gap-24">
-                <p className="text-gray-500">Tuition ID: {job.tuitionId}</p>
+                <div className="flex gap-24">
+                  <p className="text-gray-500">Tuition ID: {job.tuitionId}</p>
 
-              <p className="text-gray-500">
-                📍 {job.city}, {job.location}
-              </p>
-              </div>
+                  <p className="text-gray-500">
+                    📍 {job.city}, {job.location}
+                  </p>
+                </div>
                 <h2 className="text-xl text-black font-bold mt-2">
                   Tuition for {job.classCourse}
                 </h2>
@@ -484,4 +480,4 @@ filteredJobs = filteredJobs.sort(
   );
 };
 
-export default JobBoard;
+export default Tuitions;
