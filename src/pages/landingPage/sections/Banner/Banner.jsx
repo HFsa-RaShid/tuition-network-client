@@ -174,7 +174,7 @@ const Banner = () => {
               />
               <img
                 src={grayCircle}
-                className="absolute top-[150px] -right-18 z-0 opacity-50"
+                className="absolute top-[150px] -right-12 z-0 opacity-50"
               />
               <img
                 src={yellowShape}
