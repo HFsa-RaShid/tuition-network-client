@@ -272,7 +272,8 @@ import useCurrentUser from "../../../hooks/useCurrentUser";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { currentUser } = useCurrentUser(user?.email);
 
@@ -297,13 +298,13 @@ const Navbar = () => {
 
   const handleThemeChange = (newTheme) => {
     setTheme(newTheme);
-    setIsDropdownOpen(false);
+    setIsThemeDropdownOpen(false);
   };
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 shadow-md backdrop-blur font-serif text-black h-16">
       <div className="max-w-[1200px] mx-auto h-full flex items-center justify-between px-4">
-        {/* ---------- Logo ---------- */}
+        {/* Logo */}
         <NavLink to="/" className="flex items-center gap-2 h-full">
           <img src={logo} alt="logo" className="h-10" />
           <h1 className="text-2xl sm:text-3xl font-bold">
@@ -311,55 +312,43 @@ const Navbar = () => {
           </h1>
         </NavLink>
 
-        {/* ---------- Menu ---------- */}
+        {/* Desktop Menu */}
         <ul className="hidden lg:flex gap-6 font-semibold text-[18px] h-full items-center">
           <li>
-            <NavLink
-              className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")}
-              to="/"
-            >
+            <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/">
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink
-              className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")}
-              to="/tutors"
-            >
+            <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/tutors">
               Tutors
             </NavLink>
           </li>
           <li>
-            <NavLink
-              className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")}
-              to="/tuitions"
-            >
+            <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/tuitions">
               Tuitions
             </NavLink>
           </li>
           <li>
-            <NavLink
-              className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")}
-              to="/search-by-map"
-            >
+            <NavLink className={({ isActive }) => (isActive ? "text-[#123d7e] underline" : "")} to="/search-by-map">
               Find on Map
             </NavLink>
           </li>
         </ul>
 
-        {/* ---------- Right Side ---------- */}
+        {/* Right Side */}
         <div className="flex items-center gap-4">
-          {/* Theme Switcher */}
+          {/* Theme Dropdown */}
           <div className="relative">
             <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
               className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-200"
             >
               {theme === "light" && <BsSunFill className="text-xl" />}
               {theme === "dark" && <BiSolidMoon className="text-xl" />}
               {theme === "device" && <PiCloudSunFill className="text-xl" />}
             </button>
-            {isDropdownOpen && (
+            {isThemeDropdownOpen && (
               <ul className="absolute right-0 mt-2 w-32 bg-slate-100 rounded-lg shadow-lg z-50">
                 <li
                   onClick={() => handleThemeChange("light")}
@@ -383,7 +372,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* User / Sign Up */}
+          {/* User */}
           {user ? (
             <div className="relative">
               <button className="w-10 h-10 rounded-full border overflow-hidden flex items-center justify-center">
@@ -393,7 +382,7 @@ const Navbar = () => {
                   className="w-full h-full object-cover"
                 />
               </button>
-              <ul className="absolute right-0 mt-2 w-40 bg-slate-100 rounded-lg shadow-lg z-50">
+              <ul className="absolute right-0 mt-2 w-40 bg-slate-100 rounded-lg shadow-lg z-50 hidden group-hover:block">
                 <li>
                   <NavLink
                     to={`/${currentUser?.role}/dashboard`}
@@ -420,26 +409,29 @@ const Navbar = () => {
             </NavLink>
           )}
 
-          {/* Mobile Hamburger */}
-          <div className="lg:hidden">
-            <div className="dropdown">
-              <label tabIndex={0} className="btn btn-ghost p-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </label>
-              <ul className="dropdown-content mt-2 w-40 bg-white rounded-lg shadow-lg z-50 p-2">
+          {/* Mobile Menu */}
+          <div className="lg:hidden relative">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="btn btn-ghost p-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+            {isMobileMenuOpen && (
+              <ul className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg z-50 p-2">
                 <li>
                   <NavLink to="/">Home</NavLink>
                 </li>
@@ -453,7 +445,7 @@ const Navbar = () => {
                   <NavLink to="/search-by-map">Find on Map</NavLink>
                 </li>
               </ul>
-            </div>
+            )}
           </div>
         </div>
       </div>
