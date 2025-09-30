@@ -34,7 +34,7 @@ const Banner = () => {
   return (
     <div className="bg-base-100 py-16 mt-20">
       <div className="container mx-auto">
-        <div className="flex flex-col-reverse md:flex-col-reverse lg:flex-row gap-10 lg:gap-24 justify-between px-14 ">
+        <div className="flex flex-col-reverse md:flex-col-reverse lg:flex-row gap-10 lg:gap-28 justify-between px-14">
           {/* ---------- LEFT SIDE ---------- */}
           <div className="w-full lg:w-[55%] mt-8">
             <p className="text-[#DAA520] font-bold">
@@ -157,7 +157,7 @@ const Banner = () => {
           </div>
 
           {/* ---------- RIGHT SIDE IMAGE ---------- */}
-          <div className="w-full lg:w-[45%] flex justify-center  lg:justify-end mr-28">
+          <div className="w-full lg:w-[45%] flex justify-center  lg:justify-end mr-20">
             <div className="relative w-[280px] md:w-[350px] lg:w-[400px]">
               <img
                 src={banner}
