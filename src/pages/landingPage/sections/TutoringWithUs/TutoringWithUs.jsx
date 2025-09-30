@@ -17,7 +17,7 @@ const TutoringWithUs = () => {
   
 
       <div className="px-20 flex items-center h-full container mx-auto text-white ">
-        <div className="flex justify-between items-center mt-[3%] ">
+        <div className="flex justify-between items-center gap-8 mt-[3%] ">
           <div className="w-[50%]">
             <img src={withUs} alt="withUs" className="h-[300px]" />
           </div>
