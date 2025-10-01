@@ -83,7 +83,94 @@ const MyApplications = () => {
   return (
     <div className="p-4 max-w-4xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4">All Applications</h2>
-      <div className="overflow-visible rounded-lg shadow border">
+      {/* Mobile (cards) */}
+      <div className="md:hidden space-y-3">
+        {paginatedApps.map((app, index) => {
+          const appliedTutor = app.appliedTutors?.find(
+            (t) => t.email === currentUser?.email
+          );
+
+          const paymentsForThisJob = paidJobsByJobIds.filter(
+            (p) => p.jobId === app._id
+          );
+
+          const isAdvanceSalary = paymentsForThisJob.some(
+            (p) => p.source === "advanceSalary" && p.paidStatus === true
+          );
+
+          const isTrialClassBooked = paymentsForThisJob.some(
+            (p) => p.source === "trialClassPayment" && p.paidStatus === true
+          );
+
+          return (
+            <div key={index} className="border rounded-lg shadow p-3 bg-white">
+              <div className="flex items-center justify-between">
+                <div className="font-semibold">Class: {app.classCourse}</div>
+                <NavLink
+                  to={`/${currentUser?.role}/myApplications/job-details/${app._id}`}
+                  title="View Job Details"
+                >
+                  <MdSendToMobile className="text-blue-700 text-xl" />
+                </NavLink>
+              </div>
+              <div className="text-sm text-gray-600 mt-1">
+                Applied On: {appliedTutor ? moment(appliedTutor.appliedAt).format("DD MMM, YYYY") : "N/A"}
+              </div>
+
+              <div className="mt-2">
+                {isTrialClassBooked ? (
+                  <span className="text-green-700 px-2 py-1 rounded bg-green-200 text-xs">Booked for Trial Class</span>
+                ) : isAdvanceSalary ? (
+                  <span className="text-green-700 px-2 py-1 rounded bg-green-200 text-xs">Advance Paid</span>
+                ) : (
+                  <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">
+                    {appliedTutor?.confirmationStatus === "confirmed" ? "Confirmed" : "Applied"}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between mt-3">
+                <div className="text-blue-700">
+                  <FaRegQuestionCircle className="text-lg" />
+                </div>
+                <div>
+                  {appliedTutor?.confirmationStatus === "confirmed" &&
+                    (paidJobs?.some((p) => p.jobId === app._id) ? (
+                      <button
+                        disabled
+                        className="bg-blue-200 text-blue-700 px-3 py-1 rounded text-sm"
+                      >
+                        Paid
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() =>
+                          handlePaymentBkash(
+                            app._id,
+                            currentUser?.name,
+                            currentUser?.email,
+                            currentUser?.customId,
+                            app.salary * 0.06,
+                            0,
+                            app.userEmail,
+                            app.userName,
+                            currentUser?.role
+                          )
+                        }
+                        className="bg-green-200 text-green-700 font-medium px-3 py-1 rounded text-sm"
+                      >
+                        Pay Now
+                      </button>
+                    ))}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Desktop/Tablet (table) */}
+      <div className="hidden md:block overflow-x-auto rounded-lg shadow border mt-3">
         <table className="table w-full border border-gray-300 text-center">
           <thead className="bg-gray-200 text-center text-[16px]">
             <tr>

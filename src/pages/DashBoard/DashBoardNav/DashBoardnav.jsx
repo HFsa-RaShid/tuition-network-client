@@ -31,7 +31,7 @@ const DashBoardNav = ({ isSidebarOpen }) => {
     >
       <div className="navbar px-14">
         <div className="navbar-start flex items-center gap-1 ">
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-xl md:text-2xl font-bold">
             Tu<span className="text-[#DAA520]">T</span>oria
           </h1>
 
