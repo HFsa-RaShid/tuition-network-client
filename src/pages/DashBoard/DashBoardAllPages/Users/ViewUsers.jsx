@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Helmet } from "react-helmet-async";
+
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { FaTrash, FaCircle, FaBan, FaDownload } from "react-icons/fa";
 import Swal from "sweetalert2";
@@ -174,9 +174,7 @@ const ViewUsers = () => {
 
   return (
     <div className="min-h-screen mb-2 ml-6">
-      <Helmet>
-        <title>Users | TuToria</title>
-      </Helmet>
+      
       <h1 className="pt-6 text-center font-bold text-3xl">Users</h1>
 
       <div className="relative flex justify-center items-center mt-4 mb-4">

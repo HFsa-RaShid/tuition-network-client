@@ -9,7 +9,7 @@ import cityAreaMap from "../../../utils/cityAreaMap";
 import subjects from "../../../utils/subjects";
 import { RxCross2 } from "react-icons/rx";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
-import { Helmet } from "react-helmet-async";
+
 
 const ProfileDetails = () => {
   const { user } = useContext(AuthContext);
@@ -272,9 +272,7 @@ const ProfileDetails = () => {
 
   return (
     <div className="max-w-5xl mx-auto mt-6 ml-6 flex flex-col md:flex-row gap-10">
-      <Helmet>
-              <title>Profile | TuToria</title>
-            </Helmet>
+     
       {/* Left Side - Profile Image and Info */}
       <div className="w-full md:w-1/3 text-center relative">
         <div className="relative inline-block">
