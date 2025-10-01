@@ -14,6 +14,7 @@ import cityAreaMap from "../../../utils/cityAreaMap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useMultipleJobPayments from "../../../../hooks/useMultipleJobPayments";
+import { Helmet } from "react-helmet-async";
 
 const Tuitions = () => {
   const axiosPublic = useAxiosPublic();
@@ -186,7 +187,11 @@ const Tuitions = () => {
   return (
     <div className="font-serif bg-base-200">
       <Navbar />
+     
 
+      <Helmet>
+        <title>Tuitions | TuToria</title>
+      </Helmet>
       <div className="container mx-auto  ">
         <div className="flex p-6 gap-4">
           {/* Left Sidebar */}

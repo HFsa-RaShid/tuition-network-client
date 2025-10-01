@@ -19,6 +19,7 @@ import axios from "axios";
 import useMultipleJobPayments from "../../../../hooks/useMultipleJobPayments";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const createColoredIcon = (color) =>
   new L.Icon({
@@ -74,11 +75,11 @@ const SearchByMap = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const axiosSecure = useAxiosSecure();
 
-  // ✅ Paid jobs hook
+  //  Paid jobs hook
   const jobIds = allJobs?.map((job) => job._id) || [];
   const { paidJobsByJobIds } = useMultipleJobPayments(jobIds);
 
-  // ✅ Geocode function
+  //  Geocode function
   const geocodeLocation = async (location = "", district = "", city = "") => {
     const parts = [location, city, district].filter(Boolean);
     if (parts.length === 0) return null;
@@ -101,7 +102,7 @@ const SearchByMap = () => {
     return null;
   };
 
-  // 🔹 Load user coords
+  //  Load user coords
   useEffect(() => {
     if (!userLoading && currentUser?.location) {
       geocodeLocation(
@@ -149,7 +150,7 @@ const SearchByMap = () => {
     }
   }, [allJobs, jobsLoading, JSON.stringify(paidJobsByJobIds)]);
 
-  // 🔹 Handle search
+  //  Handle search
   const handleSearch = async () => {
     const coords = await geocodeLocation("", district, city);
     if (coords) {
@@ -212,6 +213,10 @@ const SearchByMap = () => {
   return (
     <div>
       <Navbar />
+
+       <Helmet>
+        <title>Search Map | TuToria</title>
+      </Helmet>
 
       <div className="container mx-auto px-4 py-6 mt-20 min-h-screen">
         <div className="flex w-full min-h-[500px]">
