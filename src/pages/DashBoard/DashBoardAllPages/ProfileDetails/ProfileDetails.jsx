@@ -306,8 +306,8 @@ const ProfileDetails = () => {
       </div>
 
       {/* Right Side - Multi-Step Form */}
-      <div className="w-full md:w-2/3">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 ">
+      <div className="w-full flex justify-center ">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 w-full md:w-2/3">
           {/* Step 1 - Personal Info */}
           {step === 1 && (
             <>
