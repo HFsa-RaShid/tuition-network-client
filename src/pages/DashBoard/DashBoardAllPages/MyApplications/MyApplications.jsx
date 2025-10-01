@@ -81,7 +81,7 @@ const MyApplications = () => {
   };
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
+    <div className="p-4 max-w-4xl mx-auto ml-7">
       <h2 className="text-2xl font-semibold mb-4">All Applications</h2>
       {/* Mobile (cards) */}
       <div className="md:hidden space-y-3">
@@ -107,24 +107,34 @@ const MyApplications = () => {
               <div className="flex items-center justify-between">
                 <div className="font-semibold">Class: {app.classCourse}</div>
                 <NavLink
-                  to={`/${currentUser?.role}/myApplications/job-details/${app._id}`}
+                  to={`job-details/${app._id}`}
                   title="View Job Details"
+                  end
                 >
                   <MdSendToMobile className="text-blue-700 text-xl" />
                 </NavLink>
               </div>
               <div className="text-sm text-gray-600 mt-1">
-                Applied On: {appliedTutor ? moment(appliedTutor.appliedAt).format("DD MMM, YYYY") : "N/A"}
+                Applied On:{" "}
+                {appliedTutor
+                  ? moment(appliedTutor.appliedAt).format("DD MMM, YYYY")
+                  : "N/A"}
               </div>
 
               <div className="mt-2">
                 {isTrialClassBooked ? (
-                  <span className="text-green-700 px-2 py-1 rounded bg-green-200 text-xs">Booked for Trial Class</span>
+                  <span className="text-green-700 px-2 py-1 rounded bg-green-200 text-xs">
+                    Booked for Trial Class
+                  </span>
                 ) : isAdvanceSalary ? (
-                  <span className="text-green-700 px-2 py-1 rounded bg-green-200 text-xs">Advance Paid</span>
+                  <span className="text-green-700 px-2 py-1 rounded bg-green-200 text-xs">
+                    Advance Paid
+                  </span>
                 ) : (
                   <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">
-                    {appliedTutor?.confirmationStatus === "confirmed" ? "Confirmed" : "Applied"}
+                    {appliedTutor?.confirmationStatus === "confirmed"
+                      ? "Confirmed"
+                      : "Applied"}
                   </span>
                 )}
               </div>
@@ -172,7 +182,7 @@ const MyApplications = () => {
       {/* Desktop/Tablet (table) */}
       <div className="hidden md:block overflow-x-auto rounded-lg shadow border mt-3">
         <table className="table w-full border border-gray-300 text-center">
-          <thead className="bg-gray-200 text-center text-[16px]">
+          <thead className="bg-gray-200 text-center text-[16px] py-1">
             <tr>
               <th>Profile</th>
               <th></th>
