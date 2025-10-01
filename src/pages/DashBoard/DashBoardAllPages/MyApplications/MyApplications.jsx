@@ -81,8 +81,9 @@ const MyApplications = () => {
   };
 
   return (
-    <div className="container mx-auto w-full px-4 mt-6 mb-10 ml-8 ">
-      <h2 className="text-2xl font-semibold mb-4">All Applications</h2>
+    <div className="container mx-auto">
+      <div className="w-full mt-6 p-4 mx-5">
+        <h2 className="text-2xl font-semibold mb-4 text-center text-gray-700">All Applications</h2>
       {/* Mobile (cards) */}
       <div className="md:hidden space-y-3">
         {paginatedApps.map((app, index) => {
@@ -179,9 +180,9 @@ const MyApplications = () => {
         })}
       </div>
 
-      {/* Desktop/Tablet (table) */}
-      <div className="hidden md:block overflow-x-auto overflow-visible bg-white rounded-xl  shadow border mt-3">
-        <table className="min-w-full border border-gray-200 text-center">
+        {/* Desktop/Tablet (table) */}
+        <div className="hidden md:block overflow-x-auto overflow-visible bg-white rounded-xl shadow border mt-3">
+          <table className="min-w-full border border-gray-200 text-center">
           <thead>
             <tr className="bg-gray-100 text-gray-700 text-center">
               <th className="p-3 border">Profile</th>
@@ -316,13 +317,13 @@ const MyApplications = () => {
               );
             })}
           </tbody>
-        </table>
-        {appliedJobs.length === 0 && (
-          <p className="text-center text-gray-500 py-4">
-            No applications found.
-          </p>
-        )}
-      </div>
+          </table>
+          {appliedJobs.length === 0 && (
+            <p className="text-center text-gray-500 py-4">
+              No applications found.
+            </p>
+          )}
+        </div>
 
       {totalPages > 1 && (
         <div className="flex justify-center mt-6 items-center gap-4">
@@ -348,7 +349,8 @@ const MyApplications = () => {
         </div>
       )}
 
-      <Outlet />
+        <Outlet />
+      </div>
     </div>
   );
 };

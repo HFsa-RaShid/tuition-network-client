@@ -213,7 +213,7 @@ const handleDownloadInvoice = async (job) => {
     );
 
   return (
-    <div className=" mx-auto mt-6 p-4 ml-8 bg-white shadow rounded-xl">
+    <div className=" mx-auto mt-6 p-4 ml-7 bg-white shadow rounded-xl">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
         Payment History
       </h2>

@@ -271,7 +271,8 @@ const ProfileDetails = () => {
     );
 
   return (
-    <div className="container mx-auto w-full px-4 mt-6 flex flex-col md:flex-row gap-10 ml-8">
+    <div className="container mx-auto">
+      <div className="w-full mt-6 p-4 mx-5 flex flex-col md:flex-row gap-8">
      
       {/* Left Side - Profile Image and Info */}
       <div className="w-full md:w-1/3 text-center relative">
@@ -980,6 +981,7 @@ const ProfileDetails = () => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };
