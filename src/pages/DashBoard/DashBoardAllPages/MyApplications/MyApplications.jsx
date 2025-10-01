@@ -81,7 +81,7 @@ const MyApplications = () => {
   };
 
   return (
-    <div className="container mx-auto w-full px-4 mt-6 mb-10">
+    <div className="container mx-auto w-full px-4 mt-6 mb-10 ml-8 ">
       <h2 className="text-2xl font-semibold mb-4">All Applications</h2>
       {/* Mobile (cards) */}
       <div className="md:hidden space-y-3">
@@ -180,7 +180,7 @@ const MyApplications = () => {
       </div>
 
       {/* Desktop/Tablet (table) */}
-      <div className="hidden md:block overflow-x-auto overflow-visible rounded-lg shadow border mt-3">
+      <div className="hidden md:block overflow-x-auto overflow-visible bg-white rounded-xl  shadow border mt-3">
         <table className="min-w-full border border-gray-200 text-center">
           <thead>
             <tr className="bg-gray-100 text-gray-700 text-center">
