@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { ImProfile } from "react-icons/im";
@@ -116,6 +117,9 @@ const Tutors = () => {
 
   return (
     <div className="font-serif">
+      <Helmet>
+        <title>Tutors | TuToria</title>
+      </Helmet>
       <Navbar />
       <div className="bg-base-200">
         <div className="container mx-auto p-4   min-h-screen flex gap-6">

@@ -173,7 +173,7 @@ const ViewUsers = () => {
   }
 
   return (
-    <div className="min-h-screen mb-2">
+    <div className="min-h-screen mb-2 ml-6">
       <Helmet>
         <title>Users | TuToria</title>
       </Helmet>

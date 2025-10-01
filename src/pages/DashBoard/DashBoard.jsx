@@ -1,5 +1,6 @@
 
 import React, { useState, useContext, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import { RiArrowLeftDoubleLine } from "react-icons/ri";
 import { VscGitStashApply } from "react-icons/vsc";
@@ -102,6 +103,9 @@ const DashBoard = () => {
 
   return (
     <div className="flex min-h-screen transition-all duration-300 font-serif ">
+      <Helmet>
+        <title>Dashboard | TuToria</title>
+      </Helmet>
       {/* Sidebar */}
       <div
         className={`${
