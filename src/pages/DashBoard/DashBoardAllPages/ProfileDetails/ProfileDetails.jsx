@@ -271,7 +271,7 @@ const ProfileDetails = () => {
     );
 
   return (
-    <div className="max-w-5xl mx-auto mt-6 ml-6 flex flex-col md:flex-row gap-10">
+    <div className="w-11/12 max-w-5xl mx-auto mt-6 flex flex-col md:flex-row gap-10 ml-7">
      
       {/* Left Side - Profile Image and Info */}
       <div className="w-full md:w-1/3 text-center relative">
