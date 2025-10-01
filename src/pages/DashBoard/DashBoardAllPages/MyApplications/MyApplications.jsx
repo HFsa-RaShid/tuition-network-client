@@ -180,16 +180,16 @@ const MyApplications = () => {
       </div>
 
       {/* Desktop/Tablet (table) */}
-      <div className="hidden md:block overflow-x-auto rounded-lg shadow border mt-3">
-        <table className="min-w-full border border-gray-300 text-center">
-          <thead className="bg-gray-200 text-center text-[16px] py-1">
-            <tr>
-              <th>Profile</th>
-              <th></th>
-              <th>Applied On</th>
-              <th>Application Status</th>
-              <th></th>
-              <th>Action</th>
+      <div className="hidden md:block overflow-x-auto overflow-visible rounded-lg shadow border mt-3">
+        <table className="min-w-full border border-gray-200 text-center">
+          <thead>
+            <tr className="bg-gray-100 text-gray-700 text-center">
+              <th className="p-3 border">Profile</th>
+              <th className="p-3 border"></th>
+              <th className="p-3 border">Applied On</th>
+              <th className="p-3 border">Application Status</th>
+              <th className="p-3 border"></th>
+              <th className="p-3 border">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -213,10 +213,10 @@ const MyApplications = () => {
               return (
                 <tr
                   key={index}
-                  className="hover:bg-gray-50 text-[17px] text-center border-b-gray-300"
+                  className="hover:bg-gray-50 text-[17px] text-center"
                 >
-                  <td>Class: {app.classCourse} </td>
-                  <td>
+                  <td className="p-3 border">Class: {app.classCourse} </td>
+                  <td className="p-3 border">
                     <NavLink
                       to={`/${currentUser?.role}/myApplications/job-details/${app._id}`}
                       title="View Job Details"
@@ -224,13 +224,13 @@ const MyApplications = () => {
                       <MdSendToMobile className="inline ml-2 text-blue-700 cursor-pointer text-[20px]" />
                     </NavLink>
                   </td>
-                  <td>
+                  <td className="p-3 border">
                     {appliedTutor
                       ? moment(appliedTutor.appliedAt).format("DD MMM, YYYY")
                       : "N/A"}
                   </td>
 
-                  <td className="relative text-center !overflow-visible">
+                  <td className="relative text-center !overflow-visible p-3 border">
                     <div className="flex justify-center items-center relative group">
                       {isTrialClassBooked ? (
                         <span className="text-green-700  px-3 py-1 rounded-md bg-green-200">
@@ -254,10 +254,10 @@ const MyApplications = () => {
                     </div>
                   </td>
 
-                  <td>
+                  <td className="p-3 border">
                     <div className="relative group">
                       <FaRegQuestionCircle className="text-blue-700 cursor-pointer text-xl" />
-                      <div className="absolute bottom-full transform -translate-x-1/2 -mb-2 w-72 p-3 bg-gray-800 text-white text-sm rounded-md shadow-lg z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-2 w-72 p-3 bg-gray-800 text-white text-sm rounded-md shadow-lg z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                         {appliedTutor?.confirmationStatus === "confirmed" ? (
                           <>
                             You got confirmation <br /> from Guardian.
@@ -273,42 +273,44 @@ const MyApplications = () => {
                     </div>
                   </td>
 
-                  <td className="flex justify-center items-center">
-                    {appliedTutor?.confirmationStatus === "confirmed" &&
-                      (paidJobs?.some((p) => p.jobId === app._id) ? (
-                        <button
-                          disabled
-                          className="bg-blue-200 mb-2 text-blue-700 px-2 py-2 rounded hover:bg-blue-300 flex items-center gap-1"
-                        >
-                          Paid
-                        </button>
-                      ) : (
-                        <div className="relative group inline-block">
+                  <td className="p-3 border">
+                    <div className="flex justify-center items-center">
+                      {appliedTutor?.confirmationStatus === "confirmed" &&
+                        (paidJobs?.some((p) => p.jobId === app._id) ? (
                           <button
-                            onClick={() =>
-                              handlePaymentBkash(
-                                app._id,
-                                currentUser?.name,
-                                currentUser?.email,
-                                currentUser?.customId,
-                                app.salary * 0.06, // 6% of salary
-                                0,
-                                app.userEmail, // student email
-                                app.userName, // student name
-                                currentUser?.role
-                              )
-                            }
-                            className="bg-green-200 mb-2 text-green-700 font-medium px-2 py-2 rounded hover:bg-green-300 transition"
+                            disabled
+                            className="bg-blue-200 mb-2 text-blue-700 px-2 py-2 rounded hover:bg-blue-300 flex items-center gap-1"
                           >
-                            Pay Now
+                            Paid
                           </button>
+                        ) : (
+                          <div className="relative group inline-block">
+                            <button
+                              onClick={() =>
+                                handlePaymentBkash(
+                                  app._id,
+                                  currentUser?.name,
+                                  currentUser?.email,
+                                  currentUser?.customId,
+                                  app.salary * 0.06, // 6% of salary
+                                  0,
+                                  app.userEmail, // student email
+                                  app.userName, // student name
+                                  currentUser?.role
+                                )
+                              }
+                              className="bg-green-200 mb-2 text-green-700 font-medium px-2 py-2 rounded hover:bg-green-300 transition"
+                            >
+                              Pay Now
+                            </button>
 
-                          {/* Tooltip */}
-                          <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 -mb-2 px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
-                            Pay 6% of the salary
-                          </span>
-                        </div>
-                      ))}
+                            {/* Tooltip */}
+                            <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 -mb-2 px-2 py-1 text-sm text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                              Pay 6% of the salary
+                            </span>
+                          </div>
+                        ))}
+                    </div>
                   </td>
                 </tr>
               );
