@@ -135,7 +135,7 @@ const TutorRequests = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-12 p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-2xl mx-auto mt-12 ml-7 p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-semibold text-center mb-2">
         Tuition Information
       </h2>

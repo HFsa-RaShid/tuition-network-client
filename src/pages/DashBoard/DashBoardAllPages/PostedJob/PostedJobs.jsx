@@ -108,7 +108,7 @@ const PostedJobs = () => {
                 </span>
               </div>
 
-              <div className="mt-4 grid grid-cols-2 justify-between gap-2 text-black">
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 justify-between gap-2 text-black">
                 <p>
                   <strong>👨‍🏫 No. of Students:</strong> {job.noOfStudents}
                 </p>
@@ -144,7 +144,7 @@ const PostedJobs = () => {
                 </div>
               </div>
 
-              <div className="flex justify-between">
+              <div className="md:flex justify-between">
                 <div>
                   <p className="mt-3 text-black">
                     <strong>💰 Salary:</strong>{" "}
