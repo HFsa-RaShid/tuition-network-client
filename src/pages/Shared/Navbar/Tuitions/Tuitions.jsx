@@ -476,7 +476,7 @@ const Tuitions = () => {
           )}
 
           {/* Right Content (Job Cards) */}
-          <div className="w-full md:w-[70%]mt-2 md:mt-28">
+          <div className="w-full md:w-[70%] md:mt-28 space-y-6">
             {currentJobs.map((job) => (
               <div
                 key={job._id}
@@ -512,7 +512,7 @@ const Tuitions = () => {
                   </div>
                 )}
 
-                <div className="flex gap-24">
+                <div className="md:flex gap-24">
                   <p className="text-gray-500">Tuition ID: {job.tuitionId}</p>
 
                   <p className="text-gray-500">
