@@ -332,7 +332,7 @@ const Tuitions = () => {
             } transition-transform duration-300 ease-in-out shadow-lg`}
           >
             <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-lg font-semibold">Advance Filter</h2>
+              <h2 className="text-lg font-semibold">🔍 Advance Filter</h2>
               <button
                 onClick={() => setIsFilterOpen(false)}
                 className="text-xl"
@@ -342,10 +342,6 @@ const Tuitions = () => {
             </div>
 
             <div className="p-4 overflow-y-auto">
-              <h2 className="text-[24px] font-semibold mb-4">
-                🔍 Advanced Filter
-              </h2>
-
               {/* Tuition Type */}
               <div className="mb-4">
                 <label className="block font-medium mb-1">Tuition Type</label>
@@ -480,7 +476,7 @@ const Tuitions = () => {
           )}
 
           {/* Right Content (Job Cards) */}
-          <div className="w-[70%]  mt-20 space-y-6">
+          <div className="w-full md:w-[70%]mt-2 md:mt-28">
             {currentJobs.map((job) => (
               <div
                 key={job._id}

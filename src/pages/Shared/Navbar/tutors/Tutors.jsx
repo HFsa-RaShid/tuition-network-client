@@ -131,7 +131,7 @@ const Tutors = () => {
             <span>Filter</span>
           </button>
         </div>
-        <div className="container mx-auto p-4   min-h-screen flex gap-6">
+        <div className="container mx-auto p-4  min-h-screen flex gap-6">
           {/* Sidebar Filter */}
           <div className="hidden md:block w-[30%] bg-white/80 mt-28 border p-4 rounded-md shadow-md">
             <h2 className="text-[24px] font-semibold mb-4">
@@ -263,7 +263,7 @@ const Tutors = () => {
             } transition-transform duration-300 ease-in-out shadow-lg`}
           >
             <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-lg font-semibold">Advance Filter</h2>
+              <h2 className="text-lg font-semibold">🔍 Advance Filter</h2>
               <button
                 onClick={() => setIsFilterOpen(false)}
                 className="text-xl"
@@ -273,10 +273,6 @@ const Tutors = () => {
             </div>
 
             <div className="p-4 overflow-y-auto">
-              <h2 className="text-[24px] font-semibold mb-4">
-                🔍 Advanced Filter
-              </h2>
-
               {/* District */}
               <label className="block mb-2 font-medium">Select District</label>
               <select
@@ -403,7 +399,7 @@ const Tutors = () => {
           )}
 
           {/* Tutor List */}
-          <div className="w-full md:w-[70%] mt-10  md:mt-28">
+          <div className="w-full md:w-[70%] mt-2 md:mt-28">
             <ul className="list bg-white/80 rounded-box shadow-md">
               <li className="p-4 pb-2 text-xs opacity-60 tracking-wide bg-base-200">
                 Showing Tutors ({filteredTutors.length})
