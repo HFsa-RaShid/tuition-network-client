@@ -123,10 +123,10 @@ const Tutors = () => {
       <Navbar />
       <div className="">
         {/* Mobile Filter Button */}
-        <div className="md:hidden flex justify-end mt-24 px-4">
+        <div className="md:hidden flex justify-end pt-24 px-4">
           <button
             onClick={() => setIsFilterOpen(true)}
-            className="bg-blue-200 border-blue-500 text-blue-800 px-4 py-1 rounded-md shadow-md flex items-center gap-2"
+            className="bg-blue-200 border-blue-500 text-blue-700 px-4 py-1 rounded-md shadow-md flex items-center gap-2"
           >
             <span>Filter</span>
           </button>

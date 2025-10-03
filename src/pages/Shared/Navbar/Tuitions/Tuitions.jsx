@@ -3,7 +3,6 @@ import { useEffect, useState, useContext } from "react";
 import { FaTrash } from "react-icons/fa";
 import useAllJobs from "../../../../hooks/useAllJobs";
 import Navbar from "../Navbar";
-
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
@@ -22,9 +21,8 @@ const Tuitions = () => {
   const { allJobs, refetch, isLoading } = useAllJobs();
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
-
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [jobs, setJobs] = useState([]);
-
   const jobIds = jobs.map((job) => job._id);
   const { paidJobsByJobIds } = useMultipleJobPayments(jobIds);
 
@@ -187,15 +185,25 @@ const Tuitions = () => {
   return (
     <div className="font-serif bg-base-200">
       <Navbar />
-     
 
       <Helmet>
         <title>Tuitions | TuToria</title>
       </Helmet>
+
+      {/* Mobile Filter Button */}
+      <div className="md:hidden flex justify-end pt-24 px-4">
+        <button
+          onClick={() => setIsFilterOpen(true)}
+          className="bg-blue-200 border-blue-500 text-blue-700 px-4 py-1 rounded-md shadow-md flex items-center gap-2"
+        >
+          <span>Filter</span>
+        </button>
+      </div>
+
       <div className="container mx-auto  ">
         <div className="flex p-6 gap-4">
           {/* Left Sidebar */}
-          <div className="w-[30%] mt-20 bg-white/80 shadow-md rounded-lg p-4 text-black">
+          <div className="hidden md:block w-[30%] bg-white/80 mt-28 border p-4 rounded-md shadow-md">
             <h2 className="text-[24px] font-semibold mb-4">
               🔍 Advanced Filter
             </h2>
@@ -316,6 +324,160 @@ const Tuitions = () => {
               />
             </div>
           </div>
+
+          {/* Mobile Drawer */}
+          <div
+            className={`fixed top-0 left-0 h-full w-72 bg-white z-50 transform ${
+              isFilterOpen ? "translate-x-0" : "-translate-x-full"
+            } transition-transform duration-300 ease-in-out shadow-lg`}
+          >
+            <div className="flex justify-between items-center p-4 border-b">
+              <h2 className="text-lg font-semibold">Advance Filter</h2>
+              <button
+                onClick={() => setIsFilterOpen(false)}
+                className="text-xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="p-4 overflow-y-auto">
+              <h2 className="text-[24px] font-semibold mb-4">
+                🔍 Advanced Filter
+              </h2>
+
+              {/* Tuition Type */}
+              <div className="mb-4">
+                <label className="block font-medium mb-1">Tuition Type</label>
+                <select
+                  className="w-full border p-2 rounded bg-white"
+                  onChange={(e) =>
+                    setFilter({ ...filter, tutoringType: e.target.value })
+                  }
+                >
+                  <option value="">All</option>
+                  <option value="Home Tutoring">Home Tutoring</option>
+                  <option value="Online Tutoring">Online Tutoring</option>
+                </select>
+              </div>
+
+              {/* Preferred Tutor */}
+              <div className="mb-4">
+                <label className="block font-medium mb-1">
+                  Preferred Tutor
+                </label>
+                <select
+                  className="w-full border p-2 rounded bg-white"
+                  onChange={(e) =>
+                    setFilter({ ...filter, gender: e.target.value })
+                  }
+                >
+                  <option value="">All</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Any">Any</option>
+                </select>
+              </div>
+
+              {/* Preferred Medium */}
+              <div className="mb-4">
+                <label className="block font-medium mb-1">
+                  Preferred Medium
+                </label>
+                <select
+                  className="w-full border p-2 rounded bg-white"
+                  onChange={(e) =>
+                    setFilter({ ...filter, medium: e.target.value })
+                  }
+                >
+                  <option value="">All</option>
+                  <option value="Bangla Medium">Bangla Medium</option>
+                  <option value="English Medium">English Version</option>
+                </select>
+              </div>
+
+              {/* Preferred City */}
+              <div className="mb-4">
+                <label className="block font-medium mb-1">Preferred City</label>
+                <select
+                  className="w-full border p-2 rounded bg-white"
+                  value={filter.city}
+                  onChange={(e) => handleCityChange(e.target.value)}
+                >
+                  <option value="">All</option>
+                  {bdDistricts.map((district) => (
+                    <option key={district} value={district}>
+                      {district}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Preferred Area */}
+              <div className="mb-4">
+                <label className="block font-medium mb-1">Preferred Area</label>
+                <select
+                  className="w-full border p-2 rounded bg-white"
+                  value={filter.area}
+                  onChange={(e) =>
+                    setFilter({ ...filter, area: e.target.value })
+                  }
+                  disabled={!filter.city}
+                >
+                  <option value="">All</option>
+                  {filter.city &&
+                    cityAreaMap[filter.city]?.map((area) => (
+                      <option key={area} value={area}>
+                        {area}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              {/* Preferred Class */}
+              <div className="mb-4">
+                <label className="block font-medium mb-1">
+                  Preferred Class
+                </label>
+                <select
+                  className="w-full border p-2 rounded bg-white"
+                  value={filter.classCourse}
+                  onChange={(e) =>
+                    setFilter({ ...filter, classCourse: e.target.value })
+                  }
+                >
+                  <option value="">All</option>
+                  {classes.map((cls) => (
+                    <option key={cls} value={cls}>
+                      {cls}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Search by Date */}
+              <div className="mb-4">
+                <label className="block font-medium mb-1">Search by Date</label>
+                <DatePicker
+                  selected={filter.selectedDate}
+                  onChange={(date) =>
+                    setFilter({ ...filter, selectedDate: date })
+                  }
+                  dateFormat="yyyy-MM-dd"
+                  placeholderText="yyyy-mm-dd 📅"
+                  className="w-full border p-2 rounded bg-white"
+                  isClearable
+                />
+              </div>
+            </div>
+          </div>
+
+          {isFilterOpen && (
+            <div
+              onClick={() => setIsFilterOpen(false)}
+              className="fixed inset-0 z-40"
+            />
+          )}
 
           {/* Right Content (Job Cards) */}
           <div className="w-[70%]  mt-20 space-y-6">
