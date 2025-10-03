@@ -24,8 +24,17 @@ const MyApplications = () => {
       job.appliedTutors?.some((t) => t.email === currentUser?.email)
     ) || [];
 
-  const totalPages = Math.ceil(appliedJobs.length / itemsPerPage);
-  const paginatedApps = appliedJobs.slice(
+  // Sort by latest application date (current user's application) descending
+  const appliedJobsSorted = [...appliedJobs].sort((a, b) => {
+    const aAppliedAt = a.appliedTutors?.find((t) => t.email === currentUser?.email)?.appliedAt;
+    const bAppliedAt = b.appliedTutors?.find((t) => t.email === currentUser?.email)?.appliedAt;
+    const aTime = aAppliedAt ? new Date(aAppliedAt).getTime() : 0;
+    const bTime = bAppliedAt ? new Date(bAppliedAt).getTime() : 0;
+    return bTime - aTime;
+  });
+
+  const totalPages = Math.ceil(appliedJobsSorted.length / itemsPerPage);
+  const paginatedApps = appliedJobsSorted.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );

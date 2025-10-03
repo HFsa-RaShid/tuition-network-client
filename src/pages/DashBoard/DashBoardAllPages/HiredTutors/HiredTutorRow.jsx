@@ -120,7 +120,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
   }
 
   return (
-    <li className="list-row flex items-center justify-between p-4 border-b">
+    <li className="list-row flex flex-col md:flex-row md:items-center md:justify-between gap-3 p-4 border-b">
       <div className="flex items-center gap-3">
         <img
           className="w-10 h-10 rounded-md"
@@ -133,9 +133,9 @@ const HiredTutorRow = ({ payment, currentUser }) => {
         </div>
       </div>
 
-      <div className="flex gap-2">
-        <div className="flex gap-2">
-          {/* যদি trial class বা advance salary already paid হয় */}
+      <div className="flex flex-col md:flex-row gap-2 md:items-center md:justify-end w-full md:w-auto">
+        <div className="flex flex-col sm:flex-row gap-2 sm:flex-wrap w-full md:w-auto">
+        
           {hasPaidTrial() || hasAdvanceSalaryPaid() ? (
             <button
               onClick={() =>
@@ -146,7 +146,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
                   studentIdImage: tutor?.studentIdImage,
                 })
               }
-              className="bg-green-200 text-green-700 px-2 py-1 rounded hover:bg-green-300 flex items-center gap-1"
+              className="bg-green-200 text-green-700 px-2 py-2 rounded hover:bg-green-300 flex items-center justify-center gap-1 w-full sm:w-auto"
             >
               View Info
             </button>
@@ -165,7 +165,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
                   extraFee
                 );
               }}
-              className="bg-blue-200 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1"
+              className="bg-blue-200 text-blue-700 px-2 py-2 rounded hover:bg-blue-300 flex items-center justify-center gap-1 w-full sm:w-auto"
             >
               Pay Advance
             </button>
@@ -185,7 +185,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
               )
             }
             disabled={hasPaidTrial() || hasAdvanceSalaryPaid()}
-            className={`bg-blue-200 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1 ${
+            className={`bg-blue-200 text-blue-700 px-2 py-2 rounded hover:bg-blue-300 flex items-center justify-center gap-1 w-full sm:w-auto ${
               hasPaidTrial() || hasAdvanceSalaryPaid()
                 ? "cursor-not-allowed opacity-50"
                 : ""
@@ -204,7 +204,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
                 jobId: payment.jobId,
               })
             }
-            className="btn btn-ghost"
+            className="btn btn-ghost w-full md:w-auto"
           >
             Rating
           </button>
