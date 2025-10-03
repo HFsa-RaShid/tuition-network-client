@@ -123,17 +123,15 @@ const Tutors = () => {
       <Navbar />
       <div className="bg-base-200">
         {/* Mobile Filter Button */}
-          <div className="md:hidden flex justify-end mt-24 px-4">
-            <button
-              onClick={() => setIsFilterOpen(true)}
-              className="bg-blue-200 border-blue-500 text-white px-4 py-2 rounded-md shadow-md flex items-center gap-2"
-            >
-              <span>Filter</span>
-            </button>
-          </div>
+        <div className="md:hidden flex justify-end px-4">
+          <button
+            onClick={() => setIsFilterOpen(true)}
+            className="bg-blue-200 border-blue-500 text-blue-800 px-4 py-1 rounded-md shadow-md flex items-center gap-2"
+          >
+            <span>Filter</span>
+          </button>
+        </div>
         <div className="container mx-auto p-4   min-h-screen flex gap-6">
-          
-
           {/* Sidebar Filter */}
           <div className="hidden md:block w-[30%] bg-white/80 mt-28 border p-4 rounded-md shadow-md">
             <h2 className="text-[24px] font-semibold mb-4">
@@ -263,7 +261,7 @@ const Tutors = () => {
             className={`fixed top-0 left-0 h-full w-72 bg-white z-50 transform ${
               isFilterOpen ? "translate-x-0" : "-translate-x-full"
             } transition-transform duration-300 ease-in-out shadow-lg`}
-           >
+          >
             <div className="flex justify-between items-center p-4 border-b">
               <h2 className="text-lg font-semibold">Advance Filter</h2>
               <button
@@ -398,15 +396,14 @@ const Tutors = () => {
             </div>
           </div>
           {isFilterOpen && (
-  <div
-    onClick={() => setIsFilterOpen(false)}
-    className="fixed inset-0 z-40"
-  />
-)}
-
+            <div
+              onClick={() => setIsFilterOpen(false)}
+              className="fixed inset-0 z-40"
+            />
+          )}
 
           {/* Tutor List */}
-          <div className="w-[70%]  mt-28">
+          <div className="w-full md:w-[70%] mt-10  md:mt-28">
             <ul className="list bg-white/80 rounded-box shadow-md">
               <li className="p-4 pb-2 text-xs opacity-60 tracking-wide bg-base-200">
                 Showing Tutors ({filteredTutors.length})
