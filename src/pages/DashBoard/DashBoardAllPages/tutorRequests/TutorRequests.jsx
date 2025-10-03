@@ -135,7 +135,7 @@ const TutorRequests = () => {
   };
 
   return (
-    <div className="min-h-screen ml-7">
+    <div className="ml-7">
       <div className="w-full mx-auto mt-12  px-4 py-4 md:px-10 lg:px-20 max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-semibold text-center mb-2">
         Tuition Information
