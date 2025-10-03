@@ -7,6 +7,7 @@ import jsPDF from "jspdf";
 import * as htmlToImage from "html-to-image";
 import useAllHiredByAStudent from "../../../../hooks/useAllHiredByAStudent";
 import PaymentRow from "./PaymentRow"; 
+import useAxisTutorByID from "../../../../hooks/useAxisTutorByID";
 
 const PaymentHistoryStudent = () => {
   const { user } = useContext(AuthContext);
@@ -231,6 +232,37 @@ const PaymentHistoryStudent = () => {
     }
   };
 
+  // Small-screen card component (uses hook internally per card)
+  const PaymentCardSmall = ({ job, index }) => {
+    const { tutorProfile: tutor } = useAxisTutorByID(job.tutorId);
+    const statusClass = job.paidStatus
+      ? "bg-green-200 text-green-800"
+      : "bg-red-100 text-red-800";
+    return (
+      <div className="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm text-gray-500">#{index + 1}</span>
+          <span className={`text-xs px-2 py-1 rounded-full font-medium ${statusClass}`}>
+            {job.paidStatus ? "Paid" : "Unpaid"}
+          </span>
+        </div>
+        <div className="mb-2">
+          <p className="text-base font-semibold text-gray-800">{job.jobDetails?.classCourse || "N/A"}</p>
+          <p className="text-sm text-gray-600">Amount: {job.amount} BDT</p>
+          <p className="text-sm text-gray-600">Status: {job.paidStatus ? "Paid" : "Unpaid"}</p>
+          <p className="text-sm text-gray-600">Date: {moment(job.paymentTime).format("DD MMM YYYY")}</p>
+        </div>
+        <button
+          onClick={() => handleDownloadInvoice(job, tutor)}
+          className="w-full bg-blue-200 hover:bg-blue-300 text-blue-700 font-semibold py-2 rounded text-sm transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          disabled={!job.paidStatus}
+        >
+          Download Invoice
+        </button>
+      </div>
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center mt-20">
@@ -248,31 +280,45 @@ const PaymentHistoryStudent = () => {
         {filteredJobs?.length === 0 ? (
           <p className="text-center text-gray-500">No payment history found.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full border border-gray-200 text-center">
-              <thead>
-                <tr className="bg-gray-100 text-gray-700 text-center">
-                  <th className="p-3 border">#</th>
-                  <th className="p-3 border">Course Name</th>
-                  <th className="p-3 border">Amount</th>
-                  <th className="p-3 border">Status</th>
-                  <th className="p-3 border">Payment Time</th>
-                  <th className="p-3 border">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredJobs.map((job, index) => (
-                  <PaymentRow
-                    key={job._id}
-                    job={job}
-                    index={index}
-                    currentUser={currentUser}
-                    handleDownloadInvoice={handleDownloadInvoice}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <>
+            {/* Mobile: stacked cards */}
+            <div className="md:hidden space-y-3">
+              {filteredJobs.map((job, index) => (
+                <PaymentCardSmall
+                  key={job._id}
+                  job={job}
+                  index={index}
+                />
+              ))}
+            </div>
+
+            {/* Desktop/Tablet: table */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="min-w-full border border-gray-200 text-center">
+                <thead>
+                  <tr className="bg-gray-100 text-gray-700 text-center">
+                    <th className="p-3 border">#</th>
+                    <th className="p-3 border">Course Name</th>
+                    <th className="p-3 border">Amount</th>
+                    <th className="p-3 border">Status</th>
+                    <th className="p-3 border">Payment Time</th>
+                    <th className="p-3 border">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredJobs.map((job, index) => (
+                    <PaymentRow
+                      key={job._id}
+                      job={job}
+                      index={index}
+                      currentUser={currentUser}
+                      handleDownloadInvoice={handleDownloadInvoice}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
     </div>
