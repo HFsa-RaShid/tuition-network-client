@@ -116,14 +116,14 @@ const Tutors = () => {
   });
 
   return (
-    <div className="font-serif">
+    <div className="font-serif bg-base-200">
       <Helmet>
         <title>Tutors | TuToria</title>
       </Helmet>
       <Navbar />
-      <div className="bg-base-200">
+      <div className="">
         {/* Mobile Filter Button */}
-        <div className="md:hidden flex justify-end px-4">
+        <div className="md:hidden flex justify-end mt-24 px-4">
           <button
             onClick={() => setIsFilterOpen(true)}
             className="bg-blue-200 border-blue-500 text-blue-800 px-4 py-1 rounded-md shadow-md flex items-center gap-2"
