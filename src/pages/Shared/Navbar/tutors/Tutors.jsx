@@ -122,16 +122,17 @@ const Tutors = () => {
       </Helmet>
       <Navbar />
       <div className="bg-base-200">
-        <div className="container mx-auto p-4   min-h-screen flex gap-6">
-          {/* Mobile Filter Button */}
+        {/* Mobile Filter Button */}
           <div className="md:hidden flex justify-end mt-24 px-4">
             <button
               onClick={() => setIsFilterOpen(true)}
-              className="bg-pink-600 text-white px-4 py-2 rounded-md shadow-md flex items-center gap-2"
+              className="bg-blue-200 border-blue-500 text-white px-4 py-2 rounded-md shadow-md flex items-center gap-2"
             >
               <span>Filter</span>
             </button>
           </div>
+        <div className="container mx-auto p-4   min-h-screen flex gap-6">
+          
 
           {/* Sidebar Filter */}
           <div className="hidden md:block w-[30%] bg-white/80 mt-28 border p-4 rounded-md shadow-md">
