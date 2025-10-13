@@ -88,7 +88,9 @@ const SearchByMap = () => {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/geocode?q=${encodeURIComponent(query)}`
+        `https://tutoria-server.vercel.app/geocode?q=${encodeURIComponent(
+          query
+        )}`
       );
       const data = res.data;
       if (data && data.length > 0) {
