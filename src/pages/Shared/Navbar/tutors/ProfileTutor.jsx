@@ -197,7 +197,7 @@ const ProfileTutor = () => {
       <div className="bg-base-100 min-h-screen">
         <div className="flex p-6 gap-6 container mx-auto">
           {/* Left Side - Profile Card */}
-          <div className="w-[28%] mt-20 bg-white shadow-md rounded-xl p-4 flex flex-col items-center">
+          <div className="w-[28%] mt-20 bg-[#F9F9FF] shadow-md rounded-xl p-4 flex flex-col items-center">
             {/* Profile Picture */}
             <img
               src={
@@ -232,7 +232,7 @@ const ProfileTutor = () => {
           </div>
 
           {/* Middle Section - Tabs */}
-          <div className="w-[52%] mt-20 bg-white shadow-md rounded-xl p-4">
+          <div className="w-[52%] mt-20 bg-[#F9F9FF] shadow-md rounded-xl p-4">
             {/* Tabs */}
             <div className="flex border-b mb-4">
               <button
@@ -385,7 +385,7 @@ const ProfileTutor = () => {
           </div>
 
           {/* Right Side - Contact Card */}
-          <div className="w-[25%] mt-20 bg-white shadow-md rounded-xl p-4">
+          <div className="w-[25%] mt-20 bg-[#F9F9FF] shadow-md rounded-xl p-4">
             <h2 className="text-[18px] font-bold mb-4">
               Tuition Request to this Tutor
             </h2>
