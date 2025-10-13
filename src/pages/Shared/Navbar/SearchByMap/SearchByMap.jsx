@@ -368,7 +368,7 @@ const SearchByMap = () => {
                   })}
                 </p>
 
-                {/* ✅ Tutor Apply Button */}
+                {/* Tutor Apply Button */}
 
                 {currentUser?.role === "tutor" &&
                   selectedRequest.tutorStatus !== "selected" &&
@@ -383,7 +383,7 @@ const SearchByMap = () => {
                           (tutor) => tutor?.email === user?.email
                         )
                           ? "bg-gray-300 cursor-not-allowed"
-                          : "bg-[#f9d045] hover:bg-[#f9d045]"
+                          : "bg-blue-200 hover:bg-blue-300 text-blue-800"
                       }`}
                     >
                       {selectedRequest.appliedTutors?.some(

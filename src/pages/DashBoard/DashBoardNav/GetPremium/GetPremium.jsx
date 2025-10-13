@@ -88,7 +88,7 @@ const GetPremium = () => {
         </div>
 
         {/* Premium Plan Card */}
-        <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-6 flex flex-col justify-between">
+        <div className="rounded-2xl border border-gray-200 bg-[#F9F9FF] shadow-sm p-6 flex flex-col justify-between">
           <div>
             <h3 className="text-xl font-semibold">Premium</h3>
             <p className="mt-2 text-gray-500">

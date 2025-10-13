@@ -1,6 +1,6 @@
 import React from "react";
 import withUs from "../../../../assets/call.png";
-import withUsBg from "../../../../assets/tutoringbg.jpg";
+import withUsBg from "../../../../assets/bg.jpg";
 import { NavLink } from "react-router-dom";
 
 const TutoringWithUs = () => {
