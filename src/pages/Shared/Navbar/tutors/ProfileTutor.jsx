@@ -194,7 +194,7 @@ const ProfileTutor = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div className="bg-base-200 min-h-screen">
+      <div className="bg-base-100 min-h-screen">
         <div className="flex p-6 gap-6 container mx-auto">
           {/* Left Side - Profile Card */}
           <div className="w-[28%] mt-20 bg-white shadow-md rounded-xl p-4 flex flex-col items-center">

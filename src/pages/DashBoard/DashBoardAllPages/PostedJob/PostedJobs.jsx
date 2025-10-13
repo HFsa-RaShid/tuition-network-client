@@ -6,6 +6,8 @@ import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { FaEyeSlash, FaListUl } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import emptyData from "../../../../assets/emptyData.gif";
+import { PiSmileySadBold } from "react-icons/pi";
 
 const PostedJobs = () => {
   const axiosPublic = useAxiosPublic();
@@ -58,28 +60,48 @@ const PostedJobs = () => {
       </div>
     );
   }
+
+  // if (jobs.length === 0) {
+  //   return (
+  //     <div className="flex flex-col items-center justify-center min-h-[60vh] ">
+  //       <div className="relative w-28 h-28 flex items-center justify-center mb-4">
+  //         <div className="absolute inset-0 bg-gray-700 rounded-full"></div>
+  //         <PiSmileySadBold className="relative text-gray-300 text-5xl" />
+  //       </div>
+  //       <h2 className="text-2xl font-semibold mb-1">No Jobs Found</h2>
+  //       <p className="text-gray-400 text-sm">
+  //         You haven't posted any jobs yet.
+  //       </p>
+  //     </div>
+  //   );
+  // }
+
   if (jobs.length === 0) {
     return (
-      <div className="container mx-auto mt-6">
-        <div className="p-6 text-center">
-          <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-            <FaEyeSlash className="w-8 h-8 text-gray-400" />
-          </div>
-          <h2 className="text-xl font-semibold">No jobs found</h2>
-          <p className="text-gray-500">You have not posted any jobs yet.</p>
-        </div>
+      <div className="flex flex-col items-center justify-center min-h-[60vh]">
+        <img
+          src={emptyData}
+          alt="No data"
+          className="w-72 h-72 object-contain mb-2"
+        />
+        <h2 className="text-2xl font-semibold text-gray-800 mb-1">
+          No Jobs Found
+        </h2>
+        <p className="text-gray-500 text-sm">
+          You haven’t posted any jobs yet.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className=" bg-base-200">
+    <div className=" bg-base-100">
       <div className="p-6 gap-4 container mx-auto ">
         <div className="w-full space-y-6 mx-5">
           {jobs.map((job) => (
             <div
               key={job._id}
-              className="bg-white/80 shadow-md rounded-lg p-6 relative "
+              className="bg-[#F9F9FF] shadow-md rounded-lg p-6 relative "
             >
               <NavLink
                 to={`/${role}/posted-jobs/applied-tutors`}

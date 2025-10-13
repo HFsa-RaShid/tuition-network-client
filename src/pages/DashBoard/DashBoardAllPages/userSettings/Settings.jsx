@@ -23,8 +23,6 @@ const Settings = () => {
 
   const handleVerificationSubmit = async () => {
     if (!currentUser) return;
-
-    // আগেই submit করলে ব্লক করবো
     if (currentUser.verificationStatus === "pending" || currentUser.verificationStatus === "approved") {
       toast.error(
         currentUser.verificationStatus === "pending"
@@ -36,7 +34,7 @@ const Settings = () => {
 
     setLoading(true);
     try {
-      // 1️⃣ verification insert
+      //  verification insert
       const res1 = await axiosSecure.post("/verification", {
         name: currentUser.name,
         email: currentUser.email,
@@ -103,8 +101,8 @@ const Settings = () => {
         </div>
 
         {/* Profile Verification */}
-        <div className="bg-yellow-50 rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:scale-105 transition mx-20">
-          <FaUserCheck className="text-yellow-400 text-4xl mb-3" />
+        <div className="bg-[#F9F9FF] rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:scale-105 transition mx-20">
+          <FaUserCheck className="text-blue-400 text-4xl mb-3" />
           <h2 className="text-lg font-semibold text-gray-800 mb-2">
             Profile Verification
           </h2>
@@ -117,7 +115,7 @@ const Settings = () => {
             className={`px-5 py-2 rounded-md font-medium transition ${
               isButtonDisabled()
                 ? "bg-gray-300 cursor-not-allowed"
-                : "bg-yellow-400 hover:bg-yellow-500"
+                : "bg-[#b9b9e6] hover:bg-[#a0a0f3]"
             }`}
           >
             {getButtonText()}

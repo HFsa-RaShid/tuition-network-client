@@ -76,7 +76,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       unSubscribe();
     };
-  }, [axiosPublic, user?.email]);
+  }, [axiosPublic]);
 
 
    //Role check: Log out if banned

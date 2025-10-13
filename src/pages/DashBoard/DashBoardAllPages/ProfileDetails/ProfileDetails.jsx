@@ -272,7 +272,7 @@ const ProfileDetails = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="w-full mt-6 p-4 mx-5 flex flex-col md:flex-row gap-8">
+      <div className="w-full mt-6 p-4 mx-5 flex flex-col md:flex-row gap-8 bg-[#F9F9FF] shadow-lg rounded-lg">
      
       {/* Left Side - Profile Image and Info */}
       <div className="w-full md:w-1/3 text-center relative">

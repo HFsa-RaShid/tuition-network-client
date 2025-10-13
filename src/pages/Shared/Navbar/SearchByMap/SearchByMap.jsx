@@ -88,9 +88,7 @@ const SearchByMap = () => {
 
     try {
       const res = await axios.get(
-        `https://tutoria-server.vercel.app/geocode?q=${encodeURIComponent(
-          query
-        )}`
+        `http://localhost:5000/geocode?q=${encodeURIComponent(query)}`
       );
       const data = res.data;
       if (data && data.length > 0) {
@@ -214,7 +212,7 @@ const SearchByMap = () => {
     <div>
       <Navbar />
 
-       <Helmet>
+      <Helmet>
         <title>Search Map | TuToria</title>
       </Helmet>
 
@@ -278,7 +276,7 @@ const SearchByMap = () => {
             {selectedRequest && (
               <div
                 key={selectedRequest._id}
-                className="bg-white/80 shadow-md rounded-lg p-6 relative "
+                className="bg-[#F9F9FF] shadow-md rounded-lg p-6 relative "
               >
                 {selectedRequest.appliedTutors?.some(
                   (tutor) =>

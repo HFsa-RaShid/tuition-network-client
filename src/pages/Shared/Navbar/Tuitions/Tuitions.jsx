@@ -183,7 +183,7 @@ const Tuitions = () => {
   }
 
   return (
-    <div className="font-serif bg-base-200">
+    <div className="font-serif bg-base-100">
       <Navbar />
 
       <Helmet>
@@ -203,7 +203,7 @@ const Tuitions = () => {
       <div className="container mx-auto  ">
         <div className="flex p-6 gap-4">
           {/* Left Sidebar */}
-          <div className="hidden md:block w-[30%] bg-white/80 mt-28 border p-4 rounded-md shadow-md">
+          <div className="hidden md:block w-[30%] bg-[#F9F9FF] mt-28 border p-4 rounded-md shadow-md">
             <h2 className="text-[24px] font-semibold mb-4">
               🔍 Advanced Filter
             </h2>
@@ -480,7 +480,7 @@ const Tuitions = () => {
             {currentJobs.map((job) => (
               <div
                 key={job._id}
-                className="bg-white/80 shadow-md rounded-lg p-6 relative"
+                className="bg-[#F9F9FF] shadow-md rounded-lg p-6 relative"
               >
                 {paidJobsByJobIds?.some(
                   (p) =>

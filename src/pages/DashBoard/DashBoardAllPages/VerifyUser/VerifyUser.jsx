@@ -91,7 +91,7 @@ const VerifyUser = () => {
   }
 
   return (
-    <div className="bg-base-200">
+    <div className="bg-base-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="overflow-hidden">
           <div className="flex justify-between items-center mb-2 px-6">
@@ -274,13 +274,12 @@ const VerifyUser = () => {
                     </p>
                     <p className="text-lg">
                       <span className="font-semibold">City:</span>{" "}
-                      {selectedTutor.city || 'N/A'} 
+                      {selectedTutor.city || "N/A"}
                     </p>
                     <p className="text-lg">
                       <span className="font-semibold">Location:</span>{" "}
-                      {selectedTutor.location || 'N/A'} 
+                      {selectedTutor.location || "N/A"}
                     </p>
-                  
                   </>
                 )}
 

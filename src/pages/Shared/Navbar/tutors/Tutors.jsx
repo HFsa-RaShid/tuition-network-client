@@ -116,7 +116,7 @@ const Tutors = () => {
   });
 
   return (
-    <div className="font-serif bg-base-200">
+    <div className="font-serif bg-base-100">
       <Helmet>
         <title>Tutors | TuToria</title>
       </Helmet>
@@ -133,7 +133,7 @@ const Tutors = () => {
         </div>
         <div className="container mx-auto p-4  min-h-screen flex gap-6">
           {/* Sidebar Filter */}
-          <div className="hidden md:block w-[30%] bg-white/80 mt-28 border p-4 rounded-md shadow-md">
+          <div className="hidden md:block w-[30%] bg-[#F9F9FF] mt-28 border p-4 rounded-md shadow-md">
             <h2 className="text-[24px] font-semibold mb-4">
               🔍 Advanced Filter
             </h2>
@@ -400,8 +400,8 @@ const Tutors = () => {
 
           {/* Tutor List */}
           <div className="w-full md:w-[70%] mt-2 md:mt-28">
-            <ul className="list bg-white/80 rounded-box shadow-md">
-              <li className="p-4 pb-2 text-xs opacity-60 tracking-wide bg-base-200">
+            <ul className="list bg-[#F9F9FF] rounded-box shadow-md">
+              <li className="p-4 pb-2 text-xs opacity-60 tracking-wide bg-base-100">
                 Showing Tutors ({filteredTutors.length})
               </li>
 

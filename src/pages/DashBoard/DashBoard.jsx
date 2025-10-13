@@ -1,4 +1,3 @@
-
 // import React, { useState, useContext, useEffect } from "react";
 // import { Helmet } from "react-helmet-async";
 // import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
@@ -28,7 +27,6 @@
 //   const { user } = useContext(AuthContext);
 //   const { currentUser, refetch, isLoading } = useCurrentUser(user?.email);
 
- 
 //   useEffect(() => {
 //     const handleResize = () => {
 //       if (window.innerWidth < 1024) {
@@ -36,7 +34,7 @@
 //       }
 //     };
 
-//     handleResize(); 
+//     handleResize();
 //     window.addEventListener("resize", handleResize);
 
 //     return () => window.removeEventListener("resize", handleResize);
@@ -125,7 +123,6 @@
 //           {currentUser?.role === "admin" && adminRoutes.map(renderNavLink)}
 //         </div>
 
-    
 //         <button
 //           className="absolute bottom-5 -right-4 bg-yellow-500 text-[#082755] p-2 rounded-full transition-all duration-300 hidden lg:block"
 //           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -142,7 +139,7 @@
 //       <div
 //         className={`transition-all duration-300 ${
 //           isSidebarOpen ? "w-4/5" : "w-full"
-//         } bg-base-200 pt-20 pr-10 overflow-y-auto h-screen`}
+//         } bg-base-100 pt-20 pr-10 overflow-y-auto h-screen`}
 //       >
 //         <DashBoardNav isSidebarOpen={isSidebarOpen} />
 //         <Outlet />
@@ -152,8 +149,6 @@
 // };
 
 // export default DashBoard;
-
-
 
 import React, { useState, useContext, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
@@ -219,7 +214,11 @@ const DashBoard = () => {
   const tutorRoutes = [
     { path: "dashboard", icon: <FaTachometerAlt />, label: "DashBoard" },
     { path: "profile-details", icon: <FaUser />, label: "Profile Details" },
-    { path: "myApplications", icon: <VscGitStashApply />, label: "My Applications" },
+    {
+      path: "myApplications",
+      icon: <VscGitStashApply />,
+      label: "My Applications",
+    },
     { path: "payment-history", icon: <FaHistory />, label: "Payment History" },
     { path: "settings", icon: <FaCog />, label: "Settings" },
   ];
@@ -229,14 +228,17 @@ const DashBoard = () => {
     { path: "dashboard", icon: <FaTachometerAlt />, label: "DashBoard" },
     { path: "profile-details", icon: <FaUser />, label: "Profile Details" },
     { path: "users", icon: <FaEnvelope />, label: "All User" },
-    { path: "pending-request", icon: <FaHourglassHalf />, label: "Pending Request" },
+    {
+      path: "pending-request",
+      icon: <FaHourglassHalf />,
+      label: "Pending Request",
+    },
     { path: "verify-user", icon: <FaUserCheck />, label: "Verify User" },
     { path: "allPayment", icon: <FaCreditCard />, label: "Payments" },
   ];
 
-  // সব routes একত্র করা
   const allRoutes = [...StudentRoutes, ...tutorRoutes, ...adminRoutes];
-  const currentRoute = allRoutes.find(route =>
+  const currentRoute = allRoutes.find((route) =>
     location.pathname.includes(route.path)
   );
   const pageTitle = currentRoute?.label || "Dashboard";
@@ -248,7 +250,7 @@ const DashBoard = () => {
       to={route.path}
       className={({ isActive }) =>
         isActive
-          ? "relative group bg-yellow-500 p-1 rounded-lg flex items-center space-x-3 text-black"
+          ? "relative group bg-blue-200 p-1 rounded-lg flex items-center space-x-3 text-black"
           : "relative group p-2 rounded-lg flex items-center space-x-3"
       }
     >
@@ -270,14 +272,12 @@ const DashBoard = () => {
 
       {/* Sidebar */}
       <div
-        className={`${
-          isSidebarOpen ? "w-1/5" : "w-20"
-        } text-white bg-gradient-to-t from-gray-950 via-gray-600 to-gray-400
+        className={`${isSidebarOpen ? "w-1/5" : "w-20"} bg-[#EDEDF4]
         p-5 flex flex-col items-start space-y-4 relative transition-all duration-300`}
       >
         <NavLink to="/">
           <div className="mb-4 mt-2">
-            <img src={logo} alt="Logo" className="w-10 h-10 rounded-md" />
+            <img src={logo} alt="Logo" className="w-14 h-14 rounded-md" />
           </div>
         </NavLink>
 
@@ -289,7 +289,7 @@ const DashBoard = () => {
 
         {/* Sidebar Toggle (only lg+) */}
         <button
-          className="absolute bottom-5 -right-4 bg-yellow-500 text-[#082755] p-2 rounded-full transition-all duration-300 hidden lg:block"
+          className="absolute bottom-5 -right-4 bg-blue-200 text-[#082755] p-2 rounded-full transition-all duration-300 hidden lg:block"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
           {isSidebarOpen ? (
@@ -304,7 +304,7 @@ const DashBoard = () => {
       <div
         className={`transition-all duration-300 ${
           isSidebarOpen ? "w-4/5" : "w-full"
-        } bg-base-200 pt-20 pr-10 overflow-y-auto h-screen`}
+        } bg-white pt-20 pr-10 overflow-y-auto h-screen`}
       >
         <DashBoardNav isSidebarOpen={isSidebarOpen} />
         <Outlet />

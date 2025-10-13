@@ -2,7 +2,7 @@
 
 // const TuitionTypes = () => {
 //   return (
-//     <div className="bg-base-200">
+//     <div className="bg-base-100">
 //       <div className="container mx-auto px-0 md:px-20 text-center py-8">
 //         <h4 className="text-[#DAA520] font-bold mb-2 ">TUITION TYPES</h4>
 //         <h2 className="text-3xl font-bold mb-1 text-black">
@@ -47,12 +47,11 @@
 
 // export default TuitionTypes;
 
-
 import React from "react";
 
 const TuitionTypes = () => {
   return (
-    <div className="bg-base-200">
+    <div className="bg-base-100">
       <div className="container mx-auto px-4 md:px-20 text-center py-8">
         <h4 className="text-[#DAA520] font-bold mb-2">TUITION TYPES</h4>
         <h2 className="text-2xl md:text-3xl font-bold mb-1 text-black">

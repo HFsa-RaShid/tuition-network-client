@@ -6,7 +6,6 @@ import signInImage from "../../../../assets/tutor-student.png";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
-import useCurrentUser from "../../../../hooks/useCurrentUser";
 import { Helmet } from "react-helmet-async";
 
 const SignIn = () => {
@@ -14,38 +13,44 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
-  const { user } = useContext(AuthContext);
-  const { currentUser } = useCurrentUser(user?.email);
+  
 
   const handleSignIn = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
+  e.preventDefault();
+  const form = e.target;
+  const email = form.email.value;
+  const password = form.password.value;
 
-    try {
-      const result = await signInUser(email, password);
-      const res = await axiosPublic.get(`/users/${result.user.email}`);
+  try {
+    const result = await signInUser(email, password);
 
-      if (currentUser.banned === "yes") {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-          footer: '<a href="#">Why do I have this issue?</a>',
-        });
-        toast.error(
-          "🚫 Access restricted: Your account has been banned for violating our community guidelines."
-        );
-        return;
-      }
-      toast.success("Successfully Signed In!!");
-      navigate(`/${res.data.role}/dashboard`);
-    } catch (error) {
-      toast.error("Invalid email or password.");
-      form.reset();
+    //Fetch user data from backend
+    const res = await axiosPublic.get(`/users/${result.user.email}`);
+    const loggedUser = res.data;
+
+    if (loggedUser?.banned === "yes") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Your account has been banned.",
+      });
+      toast.error(
+        "🚫 Access restricted: Your account has been banned for violating our community guidelines."
+      );
+      return;
     }
-  };
+
+    toast.success("Successfully Signed In!!");
+
+
+    navigate(`/${loggedUser.role}/dashboard`);
+  } catch (error) {
+    console.error(error);
+    toast.error("Invalid email or password.");
+    form.reset();
+  }
+};
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

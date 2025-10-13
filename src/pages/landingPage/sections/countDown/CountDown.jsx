@@ -2,7 +2,7 @@ import React from "react";
 
 const CountDown = () => {
   return (
-    <div className="h-[130px] w-full bg-gray-500 text-white flex items-center">
+    <div className="h-[130px] w-full bg-[#e6e6f3] text-black shadow-md  flex items-center">
       <div className="container mx-auto flex items-center justify-around">
         <div>
           <h1 className="text-3xl">5000</h1>

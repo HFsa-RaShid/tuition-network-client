@@ -55,12 +55,12 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-white/80 shadow-md backdrop-blur font-serif text-black">
+    <div className="fixed top-0 left-0 w-full z-50 bg-[#F9F9FF]/80 shadow-md backdrop-blur font-serif text-black">
       <div className="flex justify-between items-center max-w-[1200px] mx-auto px-4 h-16">
         {/* Logo */}
-        <NavLink to="/" className="flex items-center gap-2">
-          <img src={logo} alt="logo" className="h-10" />
-          <h1 className="text-2xl sm:text-3xl font-bold">
+        <NavLink to="/" className="flex items-center gap-2 justify-center">
+          <img src={logo} alt="logo" className="h-12" />
+          <h1 className="text-2xl sm:text-3xl font-bold pt-1">
             Tu<span className="text-[#DAA520]">T</span>oria
           </h1>
         </NavLink>

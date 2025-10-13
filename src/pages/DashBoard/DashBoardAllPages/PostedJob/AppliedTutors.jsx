@@ -24,9 +24,6 @@ const AppliedTutors = () => {
     jobId = localStorage.getItem("appliedTutorsJobId");
   }
 
-
-
-
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
   const axiosPublic = useAxiosPublic();
@@ -38,12 +35,8 @@ const AppliedTutors = () => {
     isLoading,
   } = useAppliedTutorForJobID(jobId);
 
-  
-
-
   const { paidJobsById: paidData = [], refetch: refetchPayments } =
     useJobIdpayment(jobId);
-
 
   const [confirmedTutorEmail, setConfirmedTutorEmail] = useState(null);
   const [topMatchedTutors, setTopMatchedTutors] = useState([]);
@@ -358,7 +351,9 @@ const AppliedTutors = () => {
     }
 
     const tutorsWithScore = appliedTutorsWithProfile
-      .filter((tutor) => tutor.profile && tutor.profile.tutorStatus === "available") // Only include tutors with valid profiles
+      .filter(
+        (tutor) => tutor.profile && tutor.profile.tutorStatus === "available"
+      ) // Only include tutors with valid profiles
       .filter((tutor) => {
         // City matching requirement for best match
         if (!tutor.profile.city || !jobData.city) return false;
@@ -450,13 +445,12 @@ const AppliedTutors = () => {
   };
 
   // Loading state
-  if (isLoading) 
+  if (isLoading)
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
       </div>
     );
-  
 
   // No applied tutors state
   if (!appliedTutorsFromAPI.length) {
@@ -479,20 +473,18 @@ const AppliedTutors = () => {
     const tutorA = appliedTutorsWithProfile.find((t) => t.email === a.email);
     const tutorB = appliedTutorsWithProfile.find((t) => t.email === b.email);
 
-    
     const isPremiumA = tutorA?.profile?.profileStatus === "Premium";
     const isPremiumB = tutorB?.profile?.profileStatus === "Premium";
 
     if (isPremiumA && !isPremiumB) return -1;
     if (!isPremiumA && isPremiumB) return 1;
 
-   
     return new Date(b.appliedAt) - new Date(a.appliedAt);
   });
 
   // ---- MAIN UI ----
   return (
-    <div className=" bg-base-200">
+    <div className=" bg-base-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Compact Header */}
         <div className="flex items-center justify-between mb-6">
@@ -545,7 +537,6 @@ const AppliedTutors = () => {
             // Top 5 Matches View
             <div className="p-6">
               {topMatchedTutors.length === 0 ? (
-                
                 <div className="text-center py-12">
                   <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                     <FaEyeSlash className="w-8 h-8 text-gray-400" />

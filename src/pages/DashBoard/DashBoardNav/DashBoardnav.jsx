@@ -26,7 +26,7 @@ const DashBoardNav = ({ isSidebarOpen }) => {
 
   return (
     <div
-      className={`bg-white/80 shadow-md backdrop-blur font-serif text-black fixed top-0 z-50 transition-all duration-300 
+      className={`bg-[#F9F9FF] shadow-md backdrop-blur font-serif text-black fixed top-0 z-50 transition-all duration-300 
         ${isSidebarOpen ? "w-4/5" : "w-full"}`}
     >
       <div className="navbar px-14">

@@ -2,7 +2,7 @@ import logo from "../../../assets/open-book.png";
 
 const Footer = () => {
   return (
-    <footer className=" bg-base-200 text-black px-6 sm:px-8 md:px-10 pt-10 pb-6 rounded-t-3xl border-t-4">
+    <footer className=" bg-base-100 text-black px-6 sm:px-8 md:px-10 pt-10 pb-6 rounded-t-3xl border-t-4">
       <div className="container mx-auto">
         <div className="footer pb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="flex flex-col items-start space-y-4">
