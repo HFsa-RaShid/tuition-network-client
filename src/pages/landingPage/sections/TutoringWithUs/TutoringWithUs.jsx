@@ -14,7 +14,7 @@ const TutoringWithUs = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="px-4 sm:px-8 md:px-12 flex items-center h-full container mx-auto text-white py-10">
+      <div className="px-4 sm:px-8 md:px-16 flex items-center h-full container mx-auto text-white py-10">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 w-full">
           
           {/* Left: Image */}

@@ -32,7 +32,7 @@ const Banner = () => {
   ];
 
   return (
-    <div className="bg-base-100 py-16 mt-20">
+    <div className="bg-[#111827] py-20 mt-20">
       <div className="container mx-auto">
         <div className="flex flex-col-reverse md:flex-col-reverse lg:flex-row gap-10 lg:gap-28 justify-between px-14">
           {/* ---------- LEFT SIDE ---------- */}
@@ -40,7 +40,7 @@ const Banner = () => {
             <p className="text-[#DAA520] font-bold">
               100% SATISFACTION GUARANTEE
             </p>
-            <div className="my-4 font-bold">
+            <div className="my-4 font-bold text-[#A855F7]">
               <h1 className="text-4xl md:text-3xl">Find Your</h1>
               <h1 className="text-4xl md:text-3xl py-4">
                 Perfect{" "}

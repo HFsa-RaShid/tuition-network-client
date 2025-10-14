@@ -55,7 +55,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-[#F9F9FF]/80 shadow-md backdrop-blur font-serif text-black">
+    <div className="fixed top-0 left-0 w-full z-50 bg-[#030712] shadow-md backdrop-blur font-serif text-[#FEFEFE] py-2">
       <div className="flex justify-between items-center max-w-[1200px] mx-auto px-4 h-16">
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-2 justify-center">
@@ -68,7 +68,7 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <ul className="hidden lg:flex gap-6 font-semibold text-[18px]">
           <li>
-            <NavLink to="/" className={({ isActive }) => isActive ? "text-[#123d7e] underline" : ""}>
+            <NavLink to="/" className={({ isActive }) => isActive ? "text-[#7a97c4] underline" : ""}>
               Home
             </NavLink>
           </li>
