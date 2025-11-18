@@ -6,10 +6,12 @@ import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
 import subjects from "../../../utils/subjects";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useCurrentUser from "../../../../hooks/useCurrentUser";
 
 const TutorRequests = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
+  const { currentUser, isLoading: isUserLoading } = useCurrentUser(user?.email);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     tuitionType: "Home Tutoring",
@@ -84,37 +86,74 @@ const TutorRequests = () => {
   const prevStep = () => setStep(step - 1);
 
   const handleSubmit = async () => {
-    if (user) {
-      const tutorRequestData = {
-        ...formData,
-        status: "pending",
-        userEmail: user?.email,
-        userName: user?.displayName || user?.email,
-        postedAt: new Date(),
-      };
+    if (!user) {
+      toast.error("Please sign in to submit a request");
+      return;
+    }
 
-      try {
-        const res = await axiosSecure.post("/tutorRequests", tutorRequestData);
-        console.log("Tutor request submitted:", res.data);
-        toast.success("Tutor request submitted successfully!");
-        // Reset form data and go back to step 1
-        setFormData({
-          tuitionType: "Home Tutoring",
-          category: "",
-          classCourse: "",
-          subjects: [],
-          city: "",
-          location: "",
-          studentGender: "",
-          noOfStudents: "1",
-          tutorGenderPreference: "",
-          daysPerWeek: "",
-          salary: "",
-          duration: "1 hour",
-        });
-        setStep(1);
-      } catch (error) {
-        console.error("Error submitting tutor request:", error);
+    if (isUserLoading) {
+      toast.error("Loading your profile, please wait");
+      return;
+    }
+
+    const studentEmail = currentUser?.email || user?.email;
+    const studentName =
+      currentUser?.name || user?.displayName || user?.email || "";
+    const phone =
+      currentUser?.phone ||
+      currentUser?.guardianPhone ||
+      currentUser?.contactNumber ||
+      "";
+
+    if (!studentEmail || !studentName || !phone) {
+      toast.error(
+        "Missing profile details. Please update your name and phone in profile settings."
+      );
+      return;
+    }
+
+    const tutorRequestData = {
+      ...formData,
+      status: "pending",
+      userEmail: user?.email,
+      userName: user?.displayName || user?.email,
+      postedAt: new Date(),
+      studentEmail,
+      studentName,
+      phone,
+      description: formData.description || "",
+      createdAt: new Date(),
+    };
+
+    try {
+      const res = await axiosSecure.post("/tutorRequests", tutorRequestData);
+      console.log("Tutor request submitted:", res.data);
+      toast.success("Tutor request submitted successfully!");
+      // Reset form data and go back to step 1
+      setFormData({
+        tuitionType: "Home Tutoring",
+        category: "",
+        classCourse: "",
+        subjects: [],
+        city: "",
+        location: "",
+        studentGender: "",
+        noOfStudents: "1",
+        tutorGenderPreference: "",
+        daysPerWeek: "",
+        salary: "",
+        duration: "1 hour",
+      });
+      setStep(1);
+    } catch (error) {
+      console.error("Error submitting tutor request:", error);
+      const backendMessage =
+        error?.response?.data?.errors?.join(", ") ||
+        error?.response?.data?.message;
+      if (backendMessage) {
+        toast.error(backendMessage);
+      } else {
+        toast.error("Submission failed. Please try again.");
       }
     }
   };

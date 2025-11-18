@@ -35,7 +35,7 @@ const HiredTutors = () => {
     } else {
       setLoading(false);
     }
-  }, [currentUser?.email, refetchUser, refetchJobs]);
+  }, [currentUser?.email]);
 
   // Filter paid jobs after data loaded
   useEffect(() => {

@@ -2,6 +2,7 @@ import React from "react";
 import withUs from "../../../../assets/call.png";
 import withUsBg from "../../../../assets/bg.jpg";
 import { NavLink } from "react-router-dom";
+import GlassButton from "../../../Shared/button/GlassButton";
 
 const TutoringWithUs = () => {
   return (
@@ -38,9 +39,10 @@ const TutoringWithUs = () => {
               students' lives.
             </p>
             <NavLink to="/signUp">
-              <button className="bg-blue-200 py-2 sm:py-3 px-5 sm:px-6 rounded-xl shadow-md shadow-blue-500 text-black font-semibold hover:bg-blue-300 transition">
+            <GlassButton text="Join Us" />
+              {/* <button className="bg-blue-200 py-2 sm:py-3 px-5 sm:px-6 rounded-xl shadow-md shadow-blue-500 text-black font-semibold hover:bg-blue-300 transition">
                 Join Us
-              </button>
+              </button> */}
             </NavLink>
           </div>
         </div>

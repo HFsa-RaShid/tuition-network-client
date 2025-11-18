@@ -55,7 +55,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-[#030712] shadow-md backdrop-blur font-serif text-[#FEFEFE] py-2">
+    <div className="fixed top-0 left-0 w-full z-50 shadow-md backdrop-blur font-serif text-black py-2">
       <div className="flex justify-between items-center max-w-[1200px] mx-auto px-4 h-16">
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-2 justify-center">
@@ -68,22 +68,22 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <ul className="hidden lg:flex gap-6 font-semibold text-[18px]">
           <li>
-            <NavLink to="/" className={({ isActive }) => isActive ? "text-[#7a97c4] underline" : ""}>
+            <NavLink to="/" className={({ isActive }) => isActive ? "text-[#5282ca] underline" : ""}>
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink to="/tutors" className={({ isActive }) => isActive ? "text-[#123d7e] underline" : ""}>
+            <NavLink to="/tutors" className={({ isActive }) => isActive ? "text-[#5282ca] underline" : ""}>
               Tutors
             </NavLink>
           </li>
           <li>
-            <NavLink to="/tuitions" className={({ isActive }) => isActive ? "text-[#123d7e] underline" : ""}>
+            <NavLink to="/tuitions" className={({ isActive }) => isActive ? "text-[#5282ca] underline" : ""}>
               Tuitions
             </NavLink>
           </li>
           <li>
-            <NavLink to="/search-by-map" className={({ isActive }) => isActive ? "text-[#123d7e] underline" : ""}>
+            <NavLink to="/search-by-map" className={({ isActive }) => isActive ? "text-[#5282ca] underline" : ""}>
               Find on Map
             </NavLink>
           </li>
@@ -130,12 +130,12 @@ const Navbar = () => {
             <div className="relative" ref={userRef}>
               <button
                 onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                className="w-10 h-10 rounded-full border overflow-hidden flex items-center justify-center"
+                className="bg-white w-10 h-10 rounded-full border overflow-hidden flex items-center justify-center"
               >
-                <img src={currentUser?.photoURL} alt="User" className="w-full h-full object-cover" />
+                <img src={currentUser?.photoURL} alt="User" title={currentUser?.name} className="w-full h-full object-cover" />
               </button>
               {isUserDropdownOpen && (
-                <ul className="absolute right-0 mt-2 w-40 bg-slate-100 rounded-lg shadow-lg z-50">
+                <ul className="absolute right-0 mt-2 w-40 bg-slate-100 text-black rounded-lg shadow-lg z-50">
                   <li>
                     <NavLink
                       to={`/${currentUser?.role}/dashboard`}
@@ -185,7 +185,7 @@ const Navbar = () => {
               </svg>
             </button>
             {isMobileMenuOpen && (
-              <ul className="absolute top-full right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50 flex flex-col text-base font-medium">
+              <ul className="absolute top-full right-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg z-50 flex flex-col text-base font-medium">
                 <li className="border-b px-4 py-2 hover:bg-gray-100">
                   <NavLink to="/">Home</NavLink>
                 </li>

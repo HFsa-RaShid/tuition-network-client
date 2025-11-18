@@ -233,7 +233,7 @@ const DashBoard = () => {
       icon: <FaHourglassHalf />,
       label: "Pending Request",
     },
-    { path: "verify-user", icon: <FaUserCheck />, label: "Verify User" },
+    // { path: "verify-user", icon: <FaUserCheck />, label: "Verify User" },
     { path: "allPayment", icon: <FaCreditCard />, label: "Payments" },
   ];
 

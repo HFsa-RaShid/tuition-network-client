@@ -708,7 +708,7 @@ const AppliedTutors = () => {
                                     }`}
                                   >
                                     <FaCheck className="w-3 h-3 mr-1" />
-                                    Confirm
+                                    Select
                                   </button>
                                 )}
                               </div>
@@ -839,7 +839,7 @@ const AppliedTutors = () => {
                                   }`}
                                 >
                                   <FaCheck className="w-3 h-3 mr-1" />
-                                  Confirm
+                                  Select
                                 </button>
                               )}
                             </div>

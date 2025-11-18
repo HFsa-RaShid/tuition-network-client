@@ -10,8 +10,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 
-const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
 const SignupPage = () => {
   const [userType, setUserType] = useState("student");
@@ -26,74 +24,30 @@ const SignupPage = () => {
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
 
-  const onSubmit = async (data) => {
-    try {
-      // ✅ Upload NID/Student ID image to imgbb
-      const imageFile = new FormData();
-      imageFile.append("image", data.idImage[0]);
 
-      const uploadRes = await fetch(imageHostingApi, {
-        method: "POST",
-        body: imageFile,
-      });
-      const imgData = await uploadRes.json();
-      const NidImageURL = imgData.data.display_url;
+const onSubmit = async (data) => {
+  try {
+    // 1️⃣ Send verification code first
+    await axiosPublic.post("/send-verification", { email: data.email });
+    toast.success("Verification code sent to your email!");
 
-      // ✅ Create user in Firebase
-      const result = await createUser(data.email, data.password);
-      // console.log(result.user);
-
-      // ✅ Update Firebase profile with default avatar
-      await updateUserProfile(
-        data.name,
-        "https://i.ibb.co.com/SXLvbnWL/manpp.png"
-      );
-
-      // ✅ Prepare user info for database
-      const userInfo = {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
+    // 2️⃣ Navigate to verify page with form data (temp store)
+    navigate("/verify-email", {
+      state: {
+        userData: data,
         role: userType,
-        profileStatus: "Free",
-        banned: "no",
-        photoURL: "https://i.ibb.co.com/SXLvbnWL/manpp.png",
-        NidImage: NidImageURL,
-      };
+      },
+    });
+  } catch (error) {
+    toast.error("Error sending verification code. Please try again.");
+  }
+};
 
-      const tutorInfo = {
-        name: data.name,
-        email: data.email,
-        role: userType,
-        profileStatus: "Free",
-        banned: "no",
-        photoURL: "https://i.ibb.co.com/SXLvbnWL/manpp.png",
-        NidImage: NidImageURL,
-      };
-
-      const res = await axiosPublic.post("/users", userInfo);
-
-      if (userType === "tutor") {
-        await axiosPublic.post("/tutors", tutorInfo);
-      }
-
-      if (res.data.insertedId) {
-        // toast.success("Account created successfully!");
-        toast.success("Successfully Signed Up!!!");
-          navigate(`/${userType}/dashboard`);
-        
-      }
-    } catch (error) {
-      // console.error(error);
-      toast.error("Error during registration. Please try again.");
-      reset();
-    }
-  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Helmet>
-        <title>Sign_Up | TiToria</title>
+        <title>Sign_Up | TuToria</title>
       </Helmet>
       <div className="flex flex-col lg:flex-row w-4/5 max-w-5xl my-2 lg:my-8">
         {/* Left Section - Image */}
@@ -201,22 +155,7 @@ const SignupPage = () => {
               </p>
             )}
 
-            {/* ✅ NID Upload */}
-            <div>
-              <label className="block text-gray-700 font-medium mb-1">
-                Upload NID *
-              </label>
-              <input
-                {...register("idImage", { required: "NID image is required" })}
-                type="file"
-                accept="image/*"
-                className="w-full border  rounded-md"
-                required
-              />
-              {errors.NidImage && (
-                <p className="text-red-500 text-sm">{errors.NidImage.message}</p>
-              )}
-            </div>
+
 
             {/* Submit Button */}
             <button

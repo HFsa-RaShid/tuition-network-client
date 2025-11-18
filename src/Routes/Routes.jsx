@@ -27,8 +27,9 @@ import GetPremium from "../pages/DashBoard/DashBoardNav/GetPremium/GetPremium";
 import PaymentHistoryTutor from "../pages/DashBoard/DashBoardAllPages/PaymentHistoryTutor/PaymentHistoryTutor";
 import PaymentHistoryStudent from "../pages/DashBoard/DashBoardAllPages/PaymentHistoryStudent/PaymentHistoryStudent";
 import Settings from "../pages/DashBoard/DashBoardAllPages/userSettings/Settings";
-import VerifyUser from "../pages/DashBoard/DashBoardAllPages/VerifyUser/VerifyUser";
+
 import AllPayment from "../pages/DashBoard/DashBoardAllPages/AllPayment/AllPayment";
+import VerifyEmailPage from "../pages/landingPage/Auth/signUp/VerifyEmailPage";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
       {
         path: "/signUp",
         element: <SignUp />,
+      },
+      {
+        path: "/verify-email",
+        element: <VerifyEmailPage></VerifyEmailPage>,
       },
       {
         path: "/tuitions",
@@ -121,7 +126,7 @@ export const router = createBrowserRouter([
             path: "pay-history",
             element: <PaymentHistoryStudent></PaymentHistoryStudent>,
           },
-          { path: "verify-user", element: <VerifyUser></VerifyUser> },
+          // { path: "verify-user", element: <VerifyUser></VerifyUser> },
           { path: "hired-tutors", element: <HiredTutors></HiredTutors> },
           { path: "settings", element: <Settings></Settings> },
           { path: "settings/premium", element: <GetPremium></GetPremium> },

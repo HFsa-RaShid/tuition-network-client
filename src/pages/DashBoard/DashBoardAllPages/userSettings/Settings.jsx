@@ -101,7 +101,7 @@ const Settings = () => {
         </div>
 
         {/* Profile Verification */}
-        <div className="bg-[#F9F9FF] rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:scale-105 transition mx-20">
+        {/* <div className="bg-[#F9F9FF] rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:scale-105 transition mx-20">
           <FaUserCheck className="text-blue-400 text-4xl mb-3" />
           <h2 className="text-lg font-semibold text-gray-800 mb-2">
             Profile Verification
@@ -120,7 +120,7 @@ const Settings = () => {
           >
             {getButtonText()}
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

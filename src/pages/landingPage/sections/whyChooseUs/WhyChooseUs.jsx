@@ -119,7 +119,7 @@ const WhyChooseUs = () => {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="relative border bg-[#111824] rounded-xl p-6 py-20 text-center overflow-hidden group transition-all duration-700 
+                className="relative border border-white/20 bg-[#111824] rounded-xl p-6 py-20 text-center overflow-hidden group transition-all duration-700 
                            shadow-[0_0_20px_rgba(0,255,255,0.05)] hover:shadow-[0_0_5px_rgba(0,255,255,0)]"
               >
                 {/* Light beam from top */}

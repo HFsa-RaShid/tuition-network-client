@@ -12,7 +12,7 @@ import Footer from "../Shared/Footer/Footer";
 
 const LandingPage = () => {
   return (
-    <div className="bg-base-100 min-h-screen font-serif">
+    <div className="bg-black min-h-screen font-serif">
       <Helmet>
         <title>TuToria</title>
       </Helmet>

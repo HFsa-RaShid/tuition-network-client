@@ -213,12 +213,13 @@ const handleDownloadInvoice = async (job) => {
     );
 
   return (
-    <div className=" mx-auto mt-6 p-4 ml-7 bg-white shadow rounded-xl">
+    <div className="container mx-auto ">
+      <div className=" p-4 ml-7 bg-[#F9F9FF] shadow rounded-xl min-h-[calc(100vh-100px)]">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
         Payment History
       </h2>
       {paidJobs?.length === 0 ? (
-        <p className="text-center text-gray-500">No payment history found.</p>
+        <p className="text-center  text-gray-500">No payment history found.</p>
       ) : (
         <>
           {/* Mobile: stacked cards */}
@@ -252,7 +253,7 @@ const handleDownloadInvoice = async (job) => {
 
           {/* Desktop/Tablet: table */}
           <div className="hidden md:block overflow-x-auto">
-            <table className="min-w-full border border-gray-200 text-center">
+            <table className="min-w-full border bg-white border-gray-200 text-center">
               <thead>
                 <tr className="bg-gray-100 text-gray-700 text-center">
                   <th className="p-3 border">#</th>
@@ -301,6 +302,7 @@ const handleDownloadInvoice = async (job) => {
           </div>
         </>
       )}
+    </div>
     </div>
   );
 };

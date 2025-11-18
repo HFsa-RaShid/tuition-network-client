@@ -95,7 +95,7 @@ const PostedJobs = () => {
   }
 
   return (
-    <div className=" bg-base-100">
+    <div className=" ">
       <div className="p-6 gap-4 container mx-auto ">
         <div className="w-full space-y-6 mx-5">
           {jobs.map((job) => (
