@@ -9,7 +9,7 @@ import studentImage from "../../../../assets/parentauth.jpg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
-
+import logo from "../../../../assets/logo.png";
 
 const SignupPage = () => {
   const [userType, setUserType] = useState("student");
@@ -61,10 +61,13 @@ const onSubmit = async (data) => {
 
         {/* Right Section - Form */}
         <div className="w-full lg:w-1/2 bg-white px-4 lg:px-10 py-4 lg:py-6">
-          <h2 className="text-3xl font-bold text-[#123d7e]">
+        <div className="mb-2 flex justify-center">
+            <img src={logo} alt="Logo" className="w-9 h-9 rounded-md" />
+          </div>
+          <h2 className=" text-2xl font-semibold text-gray-700 text-center">
             Create an Account
           </h2>
-          <p className="text-gray-600">Let's get started on a new journey!</p>
+          <p className="text-gray-600 text-center">Let's get started on a new journey!</p>
 
           {/* User Type Selection */}
           <div className="flex gap-4 my-4">

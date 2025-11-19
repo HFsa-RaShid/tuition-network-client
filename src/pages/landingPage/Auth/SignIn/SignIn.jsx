@@ -7,6 +7,7 @@ import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
+import logo from "../../../../assets/logo.png";
 
 const SignIn = () => {
   const { signInUser } = useContext(AuthContext);
@@ -55,7 +56,7 @@ const SignIn = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Helmet>
-        <title>Sign_In | TuiToria</title>
+        <title>Sign_In | TuToria</title>
       </Helmet>
       <div className="flex flex-col lg:flex-row w-4/5 max-w-5xl  my-2 overflow-hidden gap-2 lg:gap-20 p-2 md:p-6">
         {/* Left Image Section */}
@@ -63,6 +64,9 @@ const SignIn = () => {
 
         {/* Right Form Section */}
         <div className="w-full lg:w-1/2 px-4 md:px-14 py-6 bg-white">
+        <div className="mb-2 flex justify-center">
+            <img src={logo} alt="Logo" className="w-9 h-9 rounded-md" />
+          </div>
           <h2 className="text-2xl font-semibold text-gray-700 text-center">
             Welcome <span className="text-[#123d7e]">Back</span>
           </h2>

@@ -14,13 +14,13 @@ import usePaidJobs from "../../../../hooks/usePaidJobs";
 import useDashboardNotices from "../../../../hooks/useDashboardNotices";
 
 const StatTile = ({ icon, label, value, helper, color }) => (
-  <div className="bg-[#F9F9FF] border border-gray-100 rounded-2xl p-5 shadow-sm flex items-center gap-4">
-    <span className={`text-blue-500 text-xl p-3 rounded-xl bg-blue-200`}>
+  <div className="bg-[#F9F9FF] border border-gray-100 rounded-xl p-5 shadow-lg flex items-center gap-4">
+    <span className={`text-blue-500 text-sm p-3 rounded-xl bg-blue-200`}>
       {icon}
     </span>
     <div>
       <p className="text-sm text-gray-500">{label}</p>
-      <p className="text-2xl font-semibold text-gray-800">{value}</p>
+      <p className="text-xl font-semibold text-gray-800">{value}</p>
       {helper && <p className="text-xs text-gray-400 mt-1">{helper}</p>}
     </div>
   </div>
@@ -65,7 +65,7 @@ const ActivityChart = ({ data }) => {
             >
               <div className="flex items-end gap-2 h-48 w-full justify-center">
                 <div
-                  className="w-6 rounded-md bg-indigo-100 flex items-end justify-center"
+                  className="w-6 rounded-md bg-indigo-300 flex items-end justify-center"
                   style={{ height: `${appHeight}%` }}
                 >
                   <span className="text-[11px] text-indigo-700 font-semibold mb-1">
@@ -73,7 +73,7 @@ const ActivityChart = ({ data }) => {
                   </span>
                 </div>
                 <div
-                  className="w-6 rounded-md bg-emerald-100 flex items-end justify-center"
+                  className="w-6 rounded-md bg-emerald-400 flex items-end justify-center"
                   style={{ height: `${hireHeight}%` }}
                 >
                   <span className="text-[11px] text-emerald-700 font-semibold mb-1">
@@ -266,7 +266,7 @@ const TutorDashboard = () => {
   }
 
   return (
-    <div className="container mx-auto">
+   
         <div className="ml-10 lg:px-0 pb-10">
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-gray-800 pt-2">
@@ -309,16 +309,16 @@ const TutorDashboard = () => {
       </div>
 
       <div className="grid gap-6 mt-8 lg:grid-cols-3">
-        <div className="lg:col-span-2 bg-[#F9F9FF] rounded-xl border border-gray-100 p-6 shadow-sm">
+        <div className="lg:col-span-2 bg-[#F9F9FF] rounded-xl border border-gray-100 p-6 shadow-lg">
           <ActivityChart data={chartData} />
         </div>
-        <div className="bg-[#F9F9FF] rounded-xl border border-gray-100 p-6 shadow-sm">
+        <div className="bg-[#F9F9FF] rounded-xl border border-gray-100 p-6 shadow-lg">
           <NoticePanel notices={notices.slice(0, 6)} loading={noticeLoading} />
         </div>
       </div>
 
       <div className="grid gap-6 mt-8 lg:grid-cols-2">
-        <div className="bg-[#F9F9FF] rounded-xl border border-gray-100 p-6 shadow-sm">
+        <div className="bg-[#F9F9FF] rounded-xl border border-gray-100 p-6 shadow-lg">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-lg font-semibold text-gray-800">
@@ -338,7 +338,7 @@ const TutorDashboard = () => {
               {latestApplications.map((job) => (
                 <div
                   key={job._id}
-                  className="border bg-white border-gray-100 rounded-xl p-4 flex justify-between items-center"
+                  className="border bg-white border-gray-200 rounded-xl p-4 flex justify-between items-center"
                 >
                   <div>
                     <p className="font-semibold text-gray-800">
@@ -398,7 +398,7 @@ const TutorDashboard = () => {
         </div>
       </div>
     </div>
-    </div>
+   
   );
 };
 

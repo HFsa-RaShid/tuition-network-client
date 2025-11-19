@@ -12,8 +12,8 @@ import useAllJobs from "../../../../hooks/useAllJobs";
 import useAllHiredByAStudent from "../../../../hooks/useAllHiredByAStudent";
 import useDashboardNotices from "../../../../hooks/useDashboardNotices";
 
-const StatCard = ({ icon, label, value, subLabel, accent }) => (
-  <div className="bg-[#F9F9FF] border border-gray-100 rounded-xl p-5 shadow-sm flex items-center gap-4">
+const StatCard = ({ icon, label, value, subLabel }) => (
+  <div className="bg-[#F9F9FF] border border-gray-100 rounded-xl p-5 shadow-lg flex items-center gap-4">
     <span
       className={`text-blue-500 text-xl p-3 rounded-xl bg-blue-200 bg-opacity-90`}
     >
@@ -64,7 +64,7 @@ const PerformanceChart = ({ data }) => {
             >
               <div className="flex items-end gap-2 h-48 w-full justify-center">
                 <div
-                  className="w-6 rounded-md bg-blue-100 flex items-end justify-center"
+                  className="w-6 rounded-md bg-blue-300 flex items-end justify-center"
                   style={{ height: `${requestHeight}%` }}
                 >
                   <span className="text-[11px] text-blue-800 font-semibold mb-1">
@@ -72,7 +72,7 @@ const PerformanceChart = ({ data }) => {
                   </span>
                 </div>
                 <div
-                  className="w-6 rounded-md bg-emerald-100 flex items-end justify-center"
+                  className="w-6 rounded-md bg-emerald-400 flex items-end justify-center"
                   style={{ height: `${hireHeight}%` }}
                 >
                   <span className="text-[11px] text-emerald-700 font-semibold mb-1">
@@ -247,8 +247,8 @@ const StudentDashboard = () => {
   }
 
   return (
-    <div className="container mx-auto">
-        <div className=" lg:px-0 pb-10 container ml-6">
+
+    <div className=" lg:px-0 pb-10 ml-10">
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-gray-800 pt-2">
           Welcome back, {currentUser?.name?.split(" ")[0] || "Student"} 👋
@@ -264,42 +264,42 @@ const StudentDashboard = () => {
           label="Total Tutor Requests"
           value={totalPosted}
           subLabel={`${approvedPosts} approved`}
-          accent="bg-blue-500"
+    
         />
         <StatCard
           icon={<FaClock />}
           label="Pending Reviews"
           value={pendingPosts}
           subLabel="Waiting for admin approval"
-          accent="bg-amber-500"
+         
         />
         <StatCard
           icon={<FaChalkboardTeacher />}
           label="Tutors Hired"
           value={hireCount}
           subLabel="Includes trial & confirmed"
-          accent="bg-emerald-500"
+        
         />
         <StatCard
           icon={<FaAward />}
           label="Engagement Points"
           value={points}
           subLabel="Earn 25 pts per hire"
-          accent="bg-purple-500"
+         
         />
       </div>
 
       <div className="grid gap-6 mt-8 lg:grid-cols-3">
-        <div className="lg:col-span-2 bg-[#F9F9FF]  rounded-xl border border-gray-100 p-6 shadow-sm">
+        <div className="lg:col-span-2 bg-[#F9F9FF]  rounded-xl border border-gray-100 p-6 shadow-lg">
           <PerformanceChart data={chartData} />
         </div>
-        <div className="bg-[#F9F9FF]  rounded-xl border border-gray-100 p-6 shadow-sm">
+        <div className="bg-[#F9F9FF]  rounded-xl border border-gray-100 p-6 shadow-lg">
           <NoticeBoard notices={notices.slice(0, 6)} loading={noticeLoading} />
         </div>
       </div>
 
       <div className="grid gap-6 mt-8 lg:grid-cols-2">
-        <div className="bg-[#F9F9FF]  rounded-xl border border-gray-100 p-6 shadow-sm">
+        <div className="bg-[#F9F9FF]  rounded-xl border border-gray-100 p-6 shadow-lg">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-lg font-semibold text-gray-800">
@@ -319,7 +319,7 @@ const StudentDashboard = () => {
               {recentRequests.map((request) => (
                 <div
                   key={request._id}
-                  className="border border-gray-100 bg-white rounded-xl p-4 flex justify-between items-center"
+                  className="border border-gray-200 bg-white rounded-xl p-4 flex justify-between items-center"
                 >
                   <div>
                     <p className="font-semibold text-gray-800">
@@ -377,7 +377,7 @@ const StudentDashboard = () => {
         </div>
       </div>
     </div>
-    </div>
+ 
   );
 };
 
