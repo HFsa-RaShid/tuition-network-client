@@ -30,6 +30,11 @@ import Settings from "../pages/DashBoard/DashBoardAllPages/userSettings/Settings
 
 import AllPayment from "../pages/DashBoard/DashBoardAllPages/AllPayment/AllPayment";
 import VerifyEmailPage from "../pages/landingPage/Auth/signUp/VerifyEmailPage";
+import AboutUs from "../pages/Shared/Footer/AboutUs";
+import ContactUs from "../pages/Shared/Footer/ContactUs";
+import TermsOfUse from "../pages/Shared/Footer/TermsOfUse";
+import PrivacyPolicy from "../pages/Shared/Footer/PrivacyPolicy";
+import CookiePolicy from "../pages/Shared/Footer/CookiePolicy";
 
 export const router = createBrowserRouter([
   {
@@ -56,6 +61,26 @@ export const router = createBrowserRouter([
       {
         path: "/tuitions",
         element: <Tuitions></Tuitions>,
+      },
+      {
+        path: "/about-us",
+        element: <AboutUs></AboutUs>,
+      },
+      {
+        path: "/terms-of-use",
+        element: <TermsOfUse></TermsOfUse>,
+      },
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy></PrivacyPolicy>,
+      },
+      {
+        path: "/cookie-policy",
+        element: <CookiePolicy></CookiePolicy>,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs></ContactUs>,
       },
       {
         path: "/search-by-map",

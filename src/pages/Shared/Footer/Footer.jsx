@@ -1,29 +1,29 @@
-import logo from "../../../assets/open-book.png";
+import { NavLink } from "react-router-dom";
+import logo from "../../../assets/logo.png";
 
 const Footer = () => {
   return (
-    <footer className=" bg-[#080E1C] text-[#7ACCF9] px-6 sm:px-8 md:px-10 pt-10 pb-6">
+    <footer className="bg-white   sm:px-8 md:px-10 pt-10 pb-6">
       <div className="container mx-auto">
         <div className="footer pb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="flex flex-col items-start space-y-4">
             <img src={logo} alt="logo" className="h-14 mx-auto" />
-            <h1 className="text-3xl font-bold text-white">
+            <h1 className="text-3xl font-bold">
               Tu<span className="text-[#DAA520]">T</span>oria
             </h1>
           </div>
 
           <nav>
             <h6 className="footer-title">Company</h6>
-            <a className="link link-hover">About us</a>
-            <a className="link link-hover">Contact</a>
-            <a className="link link-hover">Jobs</a>
+            <NavLink to="/about-us">About us</NavLink>
+            <NavLink to="/contact-us">Contact us</NavLink>
             <a className="link link-hover">Press kit</a>
           </nav>
           <nav>
             <h6 className="footer-title">Legal</h6>
-            <a className="link link-hover">Terms of use</a>
-            <a className="link link-hover">Privacy policy</a>
-            <a className="link link-hover">Cookie policy</a>
+            <NavLink to="/terms-of-use">Terms of use</NavLink>
+            <NavLink to="/privacy-policy">Privacy policy</NavLink>
+            <NavLink to="/cookie-policy">Cookie policy</NavLink>
           </nav>
           <form>
             <h6 className="footer-title">Newsletter</h6>

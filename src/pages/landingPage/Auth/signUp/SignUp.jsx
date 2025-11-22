@@ -23,26 +23,25 @@ const SignupPage = () => {
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
 
-
   const onSubmit = async (data) => {
-  try {
-    await axiosPublic.post("/send-verification", {
-      email: data.email,
-      phone: data.phone,
-    });
+    try {
+      await axiosPublic.post("/send-verification", {
+        email: data.email,
+        phone: data.phone,
+      });
 
-    toast.success("Verification code sent to your email!");
+      toast.success("Verification code sent to your email!");
 
-    navigate("/verify-email", {
-      state: {
-        userData: data,
-        role: userType,
-      },
-    });
-  } catch (error) {
-    toast.error(error.response?.data?.message || "Something went wrong");
-  }
-};
+      navigate("/verify-email", {
+        state: {
+          userData: data,
+          role: userType,
+        },
+      });
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
