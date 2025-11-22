@@ -1,4 +1,3 @@
-
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
@@ -25,13 +24,15 @@ const SignupPage = () => {
   const axiosPublic = useAxiosPublic();
 
 
-const onSubmit = async (data) => {
+  const onSubmit = async (data) => {
   try {
-    // 1️⃣ Send verification code first
-    await axiosPublic.post("/send-verification", { email: data.email });
+    await axiosPublic.post("/send-verification", {
+      email: data.email,
+      phone: data.phone,
+    });
+
     toast.success("Verification code sent to your email!");
 
-    // 2️⃣ Navigate to verify page with form data (temp store)
     navigate("/verify-email", {
       state: {
         userData: data,
@@ -39,10 +40,9 @@ const onSubmit = async (data) => {
       },
     });
   } catch (error) {
-    toast.error("Error sending verification code. Please try again.");
+    toast.error(error.response?.data?.message || "Something went wrong");
   }
 };
-
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -61,13 +61,15 @@ const onSubmit = async (data) => {
 
         {/* Right Section - Form */}
         <div className="w-full lg:w-1/2 bg-white px-4 lg:px-10 py-4 lg:py-6">
-        <div className="mb-2 flex justify-center">
+          <div className="mb-2 flex justify-center">
             <img src={logo} alt="Logo" className="w-9 h-9 rounded-md" />
           </div>
           <h2 className=" text-2xl font-semibold text-gray-700 text-center">
             Create an Account
           </h2>
-          <p className="text-gray-600 text-center">Let's get started on a new journey!</p>
+          <p className="text-gray-600 text-center">
+            Let's get started on a new journey!
+          </p>
 
           {/* User Type Selection */}
           <div className="flex gap-4 my-4">
@@ -157,8 +159,6 @@ const onSubmit = async (data) => {
                 Password must be at least 6 characters
               </p>
             )}
-
-
 
             {/* Submit Button */}
             <button

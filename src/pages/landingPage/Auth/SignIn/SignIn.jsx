@@ -14,40 +14,41 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
-  
+
 
   const handleSignIn = async (e) => {
   e.preventDefault();
   const form = e.target;
-  const email = form.email.value;
+  let loginId = form.loginId.value; // email or phone
   const password = form.password.value;
 
   try {
-    const result = await signInUser(email, password);
+    // Check if input is phone
+    const isPhone = /^[0-9]{11}$/.test(loginId);
 
-    //Fetch user data from backend
-    const res = await axiosPublic.get(`/users/${result.user.email}`);
-    const loggedUser = res.data;
+    if (isPhone) {
+      // fetch email by phone
+      const res = await axiosPublic.get(`/find-email-by-phone/${loginId}`);
+      loginId = res.data.email; // converted to email
+    }
+
+    // Firebase login with found email
+    const result = await signInUser(loginId, password);
+
+    // get user data
+    const userRes = await axiosPublic.get(`/users/${result.user.email}`);
+    const loggedUser = userRes.data;
 
     if (loggedUser?.banned === "yes") {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Your account has been banned.",
-      });
-      toast.error(
-        "🚫 Access restricted: Your account has been banned for violating our community guidelines."
-      );
+      toast.error("Your account has been banned.");
       return;
     }
 
-    toast.success("Successfully Signed In!!");
-
-
+    toast.success("Successfully Signed In!");
     navigate(`/${loggedUser.role}/dashboard`);
   } catch (error) {
     console.error(error);
-    toast.error("Invalid email or password.");
+    toast.error("Invalid login credentials.");
     form.reset();
   }
 };
@@ -60,11 +61,14 @@ const SignIn = () => {
       </Helmet>
       <div className="flex flex-col lg:flex-row w-4/5 max-w-5xl  my-2 overflow-hidden gap-2 lg:gap-20 p-2 md:p-6">
         {/* Left Image Section */}
-        <img src={signInImage} className="w-full lg:w-1/2 h-80 mt-2 lg:mt-6 object-contain" />
+        <img
+          src={signInImage}
+          className="w-full lg:w-1/2 h-80 mt-2 lg:mt-6 object-contain"
+        />
 
         {/* Right Form Section */}
         <div className="w-full lg:w-1/2 px-4 md:px-14 py-6 bg-white">
-        <div className="mb-2 flex justify-center">
+          <div className="mb-2 flex justify-center">
             <img src={logo} alt="Logo" className="w-9 h-9 rounded-md" />
           </div>
           <h2 className="text-2xl font-semibold text-gray-700 text-center">
@@ -77,13 +81,20 @@ const SignIn = () => {
           {/* Sign In Form */}
           <form className="mt-4" onSubmit={handleSignIn}>
             <label className="block text-gray-700">
-              Email<span className="text-red-600">*</span>
+              Email or Phone<span className="text-red-600">*</span>
             </label>
-            <input
+            {/* <input
               type="email"
               name="email"
               className="w-full p-2 border rounded mt-1"
               placeholder="Enter your email"
+              required
+            /> */}
+            <input
+              type="text"
+              name="loginId"
+              className="w-full p-2 border rounded mt-1"
+              placeholder="Enter email or phone"
               required
             />
 
