@@ -35,6 +35,8 @@ import ContactUs from "../pages/Shared/Footer/ContactUs";
 import TermsOfUse from "../pages/Shared/Footer/TermsOfUse";
 import PrivacyPolicy from "../pages/Shared/Footer/PrivacyPolicy";
 import CookiePolicy from "../pages/Shared/Footer/CookiePolicy";
+import CategoryExplorer from "../pages/categories/CategoryExplorer";
+import ClassDetails from "../pages/categories/ClassDetails";
 
 export const router = createBrowserRouter([
   {
@@ -62,6 +64,15 @@ export const router = createBrowserRouter([
         path: "/tuitions",
         element: <Tuitions></Tuitions>,
       },
+      {
+        path: "/categories",
+        element: <CategoryExplorer />,
+      },
+      {
+        path: "/categories/:categoryId/:classId",
+        element: <ClassDetails />,
+      },
+     
       {
         path: "/about-us",
         element: <AboutUs></AboutUs>,

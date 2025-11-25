@@ -1,88 +1,67 @@
-// import React from "react";
-
-// const TuitionTypes = () => {
-//   return (
-//     <div className="bg-base-100">
-//       <div className="container mx-auto px-0 md:px-20 text-center py-8">
-//         <h4 className="text-[#DAA520] font-bold mb-2 ">TUITION TYPES</h4>
-//         <h2 className="text-3xl font-bold mb-1 text-black">
-//           Find the Best Tuition Type
-//         </h2>
-//         <h2 className="text-3xl font-bold mb-1 text-black">
-//           which suits you most
-//         </h2>
-
-//         <div className="flex justify-evenly items-center py-16">
-//           <ul className="timeline">
-//             <li>
-//               <div className="timeline-start timeline-box">Home Tutoring</div>
-//               <hr />
-//             </li>
-//             <li>
-//               <hr />
-//               <div className="timeline-end timeline-box">Online Tutoring</div>
-//               <hr />
-//             </li>
-//             <li>
-//               <hr />
-//               <div className="timeline-start timeline-box">Group Tutoring</div>
-//               <hr />
-//             </li>
-//             <li>
-//               <hr />
-//               <div className="timeline-end timeline-box">Batch Tutoring</div>
-//               <hr />
-//             </li>
-//             {/*
-//   <li>
-//     <hr />
-//     <div className="timeline-start timeline-box">Apple Watch</div>
-//   </li> */}
-//           </ul>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default TuitionTypes;
-
 import React from "react";
+import { BookOpen, Laptop, Users, Layers } from "lucide-react";
 
 const TuitionTypes = () => {
+  const types = [
+    {
+      title: "Home Tutoring",
+      desc: "One-to-one personalized learning at your home.",
+      icon: <BookOpen className="w-10 h-10" />,
+    },
+    {
+      title: "Online Tutoring",
+      desc: "Flexible learning from anywhere with expert tutors.",
+      icon: <Laptop className="w-10 h-10" />,
+    },
+    {
+      title: "Group Tutoring",
+      desc: "Learn together and improve through collaboration.",
+      icon: <Users className="w-10 h-10" />,
+    },
+    {
+      title: "Batch Tutoring",
+      desc: "Structured and syllabus-oriented batch classes.",
+      icon: <Layers className="w-10 h-10" />,
+    },
+  ];
+
   return (
-    <div className="bg-base-100">
-      <div className="container mx-auto px-4 md:px-20 text-center py-8">
-        <h4 className="text-[#DAA520] font-bold mb-2">TUITION TYPES</h4>
-        <h2 className="text-2xl md:text-3xl font-bold mb-1 text-black">
+    <div className="bg-gray-50 py-16 px-4">
+      <div className="max-w-6xl mx-auto text-center">
+        <h4 className="text-[#DAA520] font-semibold mb-3 tracking-wide">
+          TUITION TYPES
+        </h4>
+
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
           Find the Best Tuition Type
         </h2>
-        <h2 className="text-2xl md:text-3xl font-bold mb-1 text-black">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12">
           which suits you most
         </h2>
 
-        <div className="flex flex-wrap justify-evenly items-center py-16 gap-6">
-          <ul className="timeline w-full sm:w-1/2 md:w-full">
-            <li>
-              <div className="timeline-start timeline-box">Home Tutoring</div>
-              <hr />
-            </li>
-            <li>
-              <hr />
-              <div className="timeline-end timeline-box">Online Tutoring</div>
-              <hr />
-            </li>
-            <li>
-              <hr />
-              <div className="timeline-start timeline-box">Group Tutoring</div>
-              <hr />
-            </li>
-            <li>
-              <hr />
-              <div className="timeline-end timeline-box">Batch Tutoring</div>
-              <hr />
-            </li>
-          </ul>
+        {/* Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
+          {types.map((item, index) => (
+            <div
+              key={index}
+              className="
+                bg-white rounded-2xl shadow-md p-8
+                border border-gray-100
+                hover:shadow-xl hover:-translate-y-1 transition-all duration-300
+                flex flex-col items-center text-center
+              "
+            >
+              <div className="p-4 bg-green-100 text-green-600 rounded-full mb-4">
+                {item.icon}
+              </div>
+
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                {item.title}
+              </h3>
+
+              <p className="text-gray-600 text-sm">{item.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

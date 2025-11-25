@@ -35,17 +35,17 @@ const VerifyEmailPage = () => {
     try {
       setLoading(true);
 
-      // 1️⃣ Check code validity on backend
+      //  Check code validity on backend
       await axiosPublic.post("/verify-code", { email: userData.email, code });
 
-      // 2️⃣ Create user in Firebase
+      // Create user in Firebase
       const firebaseUser = await createUser(userData.email, userData.password);
       await updateUserProfile(
         userData.name,
         "https://i.ibb.co.com/SXLvbnWL/manpp.png"
       );
 
-      // 3️⃣ Create verified user in MongoDB
+      // Create verified user in MongoDB
       const userInfo = {
         name: userData.name,
         email: userData.email,
@@ -58,6 +58,7 @@ const VerifyEmailPage = () => {
       };
 
       const res = await axiosPublic.post("/users", userInfo);
+      const res2 = await axiosPublic.post("/tutors", userInfo);
 
       if (res.data.insertedId) {
         toast.success("Account created successfully!");

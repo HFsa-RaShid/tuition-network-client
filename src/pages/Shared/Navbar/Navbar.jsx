@@ -55,7 +55,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 shadow-md backdrop-blur font-serif text-black py-2">
+    <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-lg backdrop-blur font-serif text-black py-2">
       <div className="flex justify-between items-center max-w-[1200px] mx-auto px-4 h-16">
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-2 justify-center">
@@ -185,7 +185,7 @@ const Navbar = () => {
               </svg>
             </button>
             {isMobileMenuOpen && (
-              <ul className="absolute top-full right-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg z-50 flex flex-col text-base font-medium">
+              <ul className="absolute top-full right-0 mt-2 w-48 bg-white text-black rounded-lg z-50 flex flex-col text-base font-medium">
                 <li className="border-b px-4 py-2 hover:bg-gray-100">
                   <NavLink to="/">Home</NavLink>
                 </li>

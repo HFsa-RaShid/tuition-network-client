@@ -134,7 +134,7 @@
 //         </div>
 //         <div className="container mx-auto p-4  min-h-screen flex gap-6">
 //           {/* Sidebar Filter */}
-//           <div className="relative hidden md:block w-[30%]  mt-28  p-4 rounded-md border border-white/20 bg-[#111824] py-8 text-white overflow-hidden group transition-all duration-700 
+//           <div className="relative hidden md:block w-[30%]  mt-28  p-4 rounded-md border border-white/20 bg-[#111824] py-8 text-white overflow-hidden group transition-all duration-700
 //                            shadow-[0_0_20px_rgba(0,255,255,0.05)] hover:shadow-[0_0_5px_rgba(0,255,255,0)]">
 
 //                             <div className="absolute top-[-50%] left-1/2 -translate-x-1/2 w-[120%] h-[200%]
@@ -407,7 +407,7 @@
 
 //           {/* Tutor List */}
 //           <div className="w-full md:w-[70%] mt-2 md:mt-28">
-//             <ul className="list border border-white/20 bg-[#111824] text-white relative overflow-hidden group transition-all duration-700 
+//             <ul className="list border border-white/20 bg-[#111824] text-white relative overflow-hidden group transition-all duration-700
 //                            shadow-[0_0_20px_rgba(0,255,255,0.05)] hover:shadow-[0_0_5px_rgba(0,255,255,0)]">
 //                             <div className="absolute top-[-50%] left-1/2 -translate-x-1/2 w-[120%] h-[200%]
 //                                 opacity-50 group-hover:opacity-0 transition-opacity duration-700
@@ -470,22 +470,43 @@
 
 // export default Tutors;
 
-
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { IoBookmarksOutline } from "react-icons/io5";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ImProfile } from "react-icons/im";
 import useAllTutors from "../../../../hooks/useAllTutors";
 import Footer from "../../../Shared/Footer/Footer";
 import Navbar from "../Navbar";
 import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
-import { MdLocationOn } from "react-icons/md";
+import {
+  MdLocationOn,
+  MdOutlineFilterAlt,
+  MdOutlineNavigateBefore,
+  MdOutlineNavigateNext,
+  MdVerified,
+} from "react-icons/md";
+import { FaEyeSlash } from "react-icons/fa";
+
+const quickDistricts = [
+  "All",
+  "Dhaka",
+  "Chittagong",
+  "Khulna",
+  "Gazipur",
+  "Narayanganj",
+  "Sylhet",
+  "Cumilla",
+  "Barishal",
+  "Rajshahi",
+  "Rangpur",
+  "Mymensingh",
+];
 
 const Tutors = () => {
-  const { allTutors, isLoading, isError } = useAllTutors();
+  const { allTutors, isLoading } = useAllTutors();
   const location = useLocation();
+  const navigate = useNavigate();
   const { className, district, city } = location.state || {};
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState(district || "All");
@@ -495,6 +516,8 @@ const Tutors = () => {
   const [selectedTuitionType, setSelectedTuitionType] = useState("All");
   const [selectedGender, setSelectedGender] = useState("All");
   const [selectedReligion, setSelectedReligion] = useState("All");
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
 
   useEffect(() => {
     if (district) setSelectedCity(district);
@@ -511,28 +534,30 @@ const Tutors = () => {
 
   if (!allTutors || allTutors.length === 0) {
     return (
-      <div>
-        <Navbar></Navbar>
-        <div className="container mx-auto p-4 mt-20">
-          <div>
-            <div className="mx-auto w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-              <FaEyeSlash className="w-8 h-8 text-gray-500" />
+      <div className="bg-[#f6f8ff] min-h-screen font-serif">
+        <Navbar />
+        <div className="container mx-auto px-4 pt-32">
+          <div className="bg-white rounded-3xl p-10 text-center shadow-sm">
+            <div className="mx-auto w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+              <FaEyeSlash className="text-3xl text-blue-400" />
             </div>
-            <p className="text-center mt-4">No tutors available right now.</p>
+            <p className="text-lg font-semibold text-gray-800">
+              No tutors available right now.
+            </p>
+            <p className="text-gray-500">
+              নতুন tutor যুক্ত হতে থাকলে এখানেই দেখতে পাবেন।
+            </p>
           </div>
         </div>
       </div>
     );
   }
 
-  // Filtering tutors
   const filteredTutors = allTutors.filter((tutor) => {
-    // City match
     const cityMatch =
       selectedCity === "All" ||
       tutor.city?.toLowerCase() === selectedCity.toLowerCase();
 
-    // Area match (preferredLocations থেকে)
     const preferredLocations = tutor.preferredLocations
       ? tutor.preferredLocations
           .split(",")
@@ -543,7 +568,6 @@ const Tutors = () => {
       selectedArea === "All" ||
       preferredLocations.includes(selectedArea.toLowerCase());
 
-    // Medium match
     const categories = tutor.preferredCategories
       ? tutor.preferredCategories.split(",").map((c) => c.trim().toLowerCase())
       : [];
@@ -552,7 +576,6 @@ const Tutors = () => {
       selectedMedium === "All" ||
       categories.includes(selectedMedium.toLowerCase());
 
-    // Class match (preferredClass থেকে)
     const preferredClasses = tutor.preferredClass
       ? tutor.preferredClass.split(",").map((cls) => cls.trim().toLowerCase())
       : [];
@@ -561,18 +584,15 @@ const Tutors = () => {
       selectedClass === "All" ||
       preferredClasses.includes(selectedClass.toLowerCase());
 
-    // Tuition type match
     const tuitionMatch =
       selectedTuitionType === "All" ||
       tutor.tuitionPreference === selectedTuitionType ||
       tutor.tuitionPreference === "Both";
 
-    // Gender match
     const genderMatch =
       selectedGender === "All" ||
       tutor.gender?.toLowerCase() === selectedGender.toLowerCase();
 
-    // Religion match
     const religionMatch =
       selectedReligion === "All" ||
       tutor.religion?.toLowerCase() === selectedReligion.toLowerCase();
@@ -588,340 +608,330 @@ const Tutors = () => {
     );
   });
 
+  const totalPages = Math.max(1, Math.ceil(filteredTutors.length / pageSize));
+  const pagedTutors = filteredTutors
+    .sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0))
+    .slice((page - 1) * pageSize, page * pageSize);
+
+  const goToPage = (p) => {
+    setPage(Math.max(1, Math.min(totalPages, p)));
+    window.scrollTo({ top: 200, behavior: "smooth" });
+  };
+
+  const handleQuickDistrict = (district) => {
+    setSelectedCity(district === "All" ? "All" : district);
+    setSelectedArea("All");
+    setPage(1);
+  };
+
+  const showingFrom =
+    filteredTutors.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingTo = Math.min(page * pageSize, filteredTutors.length);
+
   return (
-    <div className="font-serif bg-base-100">
+    <div className="font-serif bg-white min-h-screen">
       <Helmet>
         <title>Tutors | TuToria</title>
       </Helmet>
       <Navbar />
-      <div className="">
-        {/* Mobile Filter Button */}
-        <div className="md:hidden flex justify-end pt-24 px-4">
-          <button
-            onClick={() => setIsFilterOpen(true)}
-            className="bg-blue-200 border-blue-500 text-blue-700 px-4 py-1 rounded-md shadow-md flex items-center gap-2"
-          >
-            <span>Filter</span>
-          </button>
+      <div className="container mx-auto px-4 md:px-12 pt-24 pb-16 mt-14">
+        <div className="flex flex-wrap items-start justify-between gap-5">
+          <div>
+            <p className="text-sm uppercase tracking-[0.3em] text-gray-400">
+              Showing {selectedClass === "All" ? "All" : selectedClass} Tutors
+            </p>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+              {selectedClass === "All"
+                ? "Find the perfect tutor"
+                : `Showing ${selectedClass} Tutors`}
+            </h1>
+            <p className="text-gray-600 mt-2 max-w-2xl">
+              জেলা, মাধ্যম বা ক্লাস অনুযায়ী ফিল্টার করে সহজেই প্রোফাইল দেখুন।
+              উন্নত ফিল্টার খুলে আরো নির্দিষ্ট করে খুঁজুন।
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={() => navigate(-1)}
+              className="px-4 py-1 rounded-xl border border-gray-300 text-gray-600 font-semibold hover:border-gray-500"
+            >
+              Go Back
+            </button>
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              className="px-5 py-1 rounded-xl bg-[#111827] text-white font-semibold flex items-center gap-2"
+            >
+              <MdOutlineFilterAlt /> Filter
+            </button>
+          </div>
         </div>
-        <div className="container mx-auto p-4  min-h-screen flex gap-6">
-          {/* Sidebar Filter */}
-          <div className="hidden md:block w-[30%] bg-[#F9F9FF] mt-28 border p-4 rounded-md shadow-md">
-            <h2 className="text-[24px] font-semibold mb-4">
-              🔍 Advanced Filter
-            </h2>
 
-            {/* District */}
-            <label className="block mb-2 font-medium">Select District</label>
-            <select
-              className="w-full border p-2 rounded mb-4"
-              value={selectedCity}
-              onChange={(e) => {
-                setSelectedCity(e.target.value);
-                setSelectedArea("All"); // reset city when district changes
-              }}
-            >
-              <option value="All">All</option>
-              {bdDistricts.map((district) => (
-                <option key={district} value={district}>
-                  {district}
-                </option>
-              ))}
-            </select>
-
-            {/* Area */}
-            <label className="block mb-2 font-medium">Select Area</label>
-            <select
-              className="w-full border p-2 rounded mb-4"
-              value={selectedArea}
-              onChange={(e) => setSelectedArea(e.target.value)}
-            >
-              <option value="All">All</option>
-              {selectedCity !== "All" &&
-                cityAreaMap[selectedCity]?.map((area) => (
-                  <option key={area} value={area}>
-                    {area}
-                  </option>
-                ))}
-            </select>
-
-            {/* Medium */}
-            <label className="block mb-2 font-medium">Select Medium</label>
-            <select
-              className="w-full border p-2 rounded mb-4"
-              value={selectedMedium}
-              onChange={(e) => setSelectedMedium(e.target.value)}
-            >
-              <option value="All">All</option>
-              <option value="Bangla Medium">Bangla Medium</option>
-              <option value="English Medium">English Medium</option>
-              <option value="English Version">English Version</option>
-              <option value="Madrasha">Madrasha</option>
-            </select>
-
-            {/* Class */}
-            <label className="block mb-2 font-medium">Select Class</label>
-            <select
-              className="w-full border p-2 rounded mb-4"
-              value={selectedClass}
-              onChange={(e) => setSelectedClass(e.target.value)}
-            >
-              <option value="All">All</option>
-              {[
-                "Class 1",
-                "Class 2",
-                "Class 3",
-                "Class 4",
-                "Class 5",
-                "Class 6",
-                "Class 7",
-                "Class 8",
-                "Class 9",
-                "Class 10",
-                "Class 11",
-                "Class 12",
-                "Honours",
-              ].map((cls) => (
-                <option key={cls} value={cls}>
-                  {cls}
-                </option>
-              ))}
-            </select>
-
-            {/* Tuition Type */}
-            <label className="block mb-2 font-medium">Tuition Type</label>
-            <select
-              className="w-full border p-2 rounded mb-4"
-              value={selectedTuitionType}
-              onChange={(e) => setSelectedTuitionType(e.target.value)}
-            >
-              <option value="All">All</option>
-              <option value="Home">Home Tuition</option>
-              <option value="Online">Online Tuition</option>
-              <option value="Both">Both</option>
-            </select>
-
-            {/* Gender */}
-            <label className="block mb-2 font-medium">Gender</label>
-            <select
-              className="w-full border p-2 rounded mb-4"
-              value={selectedGender}
-              onChange={(e) => setSelectedGender(e.target.value)}
-            >
-              <option value="All">All</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-
-            {/* Religion */}
-            <label className="block mb-2 font-medium">Religion</label>
-            <select
-              className="w-full border p-2 rounded"
-              value={selectedReligion}
-              onChange={(e) => setSelectedReligion(e.target.value)}
-            >
-              <option value="All">All</option>
-              <option value="Islam">Islam</option>
-              <option value="Hinduism">Hinduism</option>
-              <option value="Christianity">Christianity</option>
-              <option value="Buddhism">Buddhism</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          {/* Mobile Drawer */}
-          <div
-            className={`fixed top-0 left-0 h-full w-72 bg-white z-50 transform ${
-              isFilterOpen ? "translate-x-0" : "-translate-x-full"
-            } transition-transform duration-300 ease-in-out shadow-lg`}
-          >
-            <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-lg font-semibold">🔍 Advance Filter</h2>
+        <div className="flex flex-wrap gap-3 mt-10">
+          {quickDistricts.map((district) => {
+            const active =
+              (district === "All" && selectedCity === "All") ||
+              selectedCity === district;
+            return (
               <button
-                onClick={() => setIsFilterOpen(false)}
-                className="text-xl"
+                key={district}
+                onClick={() => handleQuickDistrict(district)}
+                className={`px-4 py-2 rounded-full border text-sm font-medium flex items-center gap-2 ${
+                  active
+                    ? "bg-[#111827] text-white border-[#111827]"
+                    : "bg-[#f6f8ff] text-gray-600 border-gray-200 hover:border-[#5c6ac4]"
+                }`}
               >
-                ✕
+                <input type="checkbox" checked={active} readOnly />
+                {district}
               </button>
-            </div>
+            );
+          })}
+        </div>
 
-            <div className="p-4 overflow-y-auto">
-              {/* District */}
-              <label className="block mb-2 font-medium">Select District</label>
-              <select
-                className="w-full border p-2 rounded mb-4"
-                value={selectedCity}
-                onChange={(e) => {
-                  setSelectedCity(e.target.value);
-                  setSelectedArea("All"); // reset city when district changes
-                }}
-              >
-                <option value="All">All</option>
-                {bdDistricts.map((district) => (
-                  <option key={district} value={district}>
-                    {district}
-                  </option>
-                ))}
-              </select>
-
-              {/* Area */}
-              <label className="block mb-2 font-medium">Select Area</label>
-              <select
-                className="w-full border p-2 rounded mb-4"
-                value={selectedArea}
-                onChange={(e) => setSelectedArea(e.target.value)}
-              >
-                <option value="All">All</option>
-                {selectedCity !== "All" &&
-                  cityAreaMap[selectedCity]?.map((area) => (
-                    <option key={area} value={area}>
-                      {area}
-                    </option>
-                  ))}
-              </select>
-
-              {/* Medium */}
-              <label className="block mb-2 font-medium">Select Medium</label>
-              <select
-                className="w-full border p-2 rounded mb-4"
-                value={selectedMedium}
-                onChange={(e) => setSelectedMedium(e.target.value)}
-              >
-                <option value="All">All</option>
-                <option value="Bangla Medium">Bangla Medium</option>
-                <option value="English Medium">English Medium</option>
-                <option value="English Version">English Version</option>
-                <option value="Madrasha">Madrasha</option>
-              </select>
-
-              {/* Class */}
-              <label className="block mb-2 font-medium">Select Class</label>
-              <select
-                className="w-full border p-2 rounded mb-4"
-                value={selectedClass}
-                onChange={(e) => setSelectedClass(e.target.value)}
-              >
-                <option value="All">All</option>
-                {[
-                  "Class 1",
-                  "Class 2",
-                  "Class 3",
-                  "Class 4",
-                  "Class 5",
-                  "Class 6",
-                  "Class 7",
-                  "Class 8",
-                  "Class 9",
-                  "Class 10",
-                  "Class 11",
-                  "Class 12",
-                  "Honours",
-                ].map((cls) => (
-                  <option key={cls} value={cls}>
-                    {cls}
-                  </option>
-                ))}
-              </select>
-
-              {/* Tuition Type */}
-              <label className="block mb-2 font-medium">Tuition Type</label>
-              <select
-                className="w-full border p-2 rounded mb-4"
-                value={selectedTuitionType}
-                onChange={(e) => setSelectedTuitionType(e.target.value)}
-              >
-                <option value="All">All</option>
-                <option value="Home">Home Tuition</option>
-                <option value="Online">Online Tuition</option>
-                <option value="Both">Both</option>
-              </select>
-
-              {/* Gender */}
-              <label className="block mb-2 font-medium">Gender</label>
-              <select
-                className="w-full border p-2 rounded mb-4"
-                value={selectedGender}
-                onChange={(e) => setSelectedGender(e.target.value)}
-              >
-                <option value="All">All</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-
-              {/* Religion */}
-              <label className="block mb-2 font-medium">Religion</label>
-              <select
-                className="w-full border p-2 rounded"
-                value={selectedReligion}
-                onChange={(e) => setSelectedReligion(e.target.value)}
-              >
-                <option value="All">All</option>
-                <option value="Islam">Islam</option>
-                <option value="Hinduism">Hinduism</option>
-                <option value="Christianity">Christianity</option>
-                <option value="Buddhism">Buddhism</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
+        {filteredTutors.length === 0 ? (
+          <div className="bg-[#f6f8ff] rounded-3xl p-10 mt-12 text-center shadow-sm">
+            <p className="text-lg font-semibold text-gray-900">
+              No tutors matched your filters
+            </p>
+            <p className="text-gray-600 mt-2">
+              অন্য district বা class নির্বাচন করে দেখতে চেষ্টা করুন।
+            </p>
           </div>
-          {isFilterOpen && (
-            <div
-              onClick={() => setIsFilterOpen(false)}
-              className="fixed inset-0 z-40"
-            />
-          )}
-
-          {/* Tutor List */}
-          <div className="w-full md:w-[70%] mt-2 md:mt-28">
-            <ul className="list bg-[#F9F9FF] rounded-box shadow-md">
-              <li className="p-4 pb-2 text-xs opacity-60 tracking-wide bg-base-100">
-                Showing Tutors ({filteredTutors.length})
-              </li>
-
-              {filteredTutors
-                .sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0))
-                .map((tutor) => (
-                  <li
-                    key={tutor._id}
-                    className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-base-300 transition rounded-md border-b border-gray-300"
-                  >
-                    <div className="flex items-center gap-3">
-                      <img
-                        className="w-12 h-12 rounded-md object-cover bg-white"
-                        src={
-                          tutor.photoURL ||
-                          "https://i.ibb.co/7n4R8Rt/default-avatar.png"
-                        }
-                        alt={tutor.name}
-                      />
-                      <div>
-                        <div className="text-black font-medium text-lg">
-                          {tutor.name}
-                        </div>
-
-                        <div className="flex items-center text-xs text-gray-500 gap-1">
-                          <MdLocationOn className="text-blue-400" />
-                          <span>{tutor.city}</span>
-                        </div>
-                      </div>
+        ) : (
+          <>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {pagedTutors.map((tutor) => {
+                const profileId = tutor?.customId;
+                return (
+                <article
+                  key={tutor._id}
+                  className="bg-[#f6f8ff] rounded-xl p-6 shadow-md border border-gray-200 flex flex-col gap-4"
+                >
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={
+                        tutor.photoURL ||
+                        "https://i.ibb.co/7n4R8Rt/default-avatar.png"
+                      }
+                      alt={tutor.name}
+                      className="w-14 h-14 object-cover rounded-2xl bg-gray-100"
+                    />
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-1">
+                        {tutor.name}
+                        {tutor.verificationStatus === "approved" && (
+                          <MdVerified className="text-blue-500" />
+                        )}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        {tutor.institute || tutor.education || "Tutor"}
+                      </p>
                     </div>
-
-                    <div className="flex items-center gap-3">
-                      <NavLink to={`/tutors/tutor-profile/${tutor.customId}`}>
-                        <button className="bg-blue-200 p-2 rounded-md hover:bg-blue-300 transition">
-                          <ImProfile className="text-base text-blue-600" />
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600 gap-2">
+                    <MdLocationOn className="text-[#5c6ac4]" />
+                    {tutor.city || "Anywhere"}
+                    {tutor.preferredLocations && (
+                      <span className="text-xs px-2 py-1 bg-[#f6f8ff] rounded-full">
+                        {tutor.preferredLocations.split(",")[0]}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {(tutor.preferredClass || "")
+                      .split(",")
+                      .slice(0, 3)
+                      .map((cls) => (
+                        <span
+                          key={cls}
+                          className="text-xs font-medium px-3 py-1 bg-[#f6f8ff] rounded-full text-gray-600"
+                        >
+                          {cls.trim()}
+                        </span>
+                      ))}
+                  </div>
+                  <div className="flex items-center justify-between mt-4">
+                 
+                      <NavLink to={`/tutors/tutor-profile/${profileId}`}>
+                        <button className="px-4 py-2 rounded-full bg-[#111827] text-white text-sm font-semibold flex items-center gap-2">
+                          <ImProfile className="text-base" />
+                          See
                         </button>
                       </NavLink>
-                      <button className="bg-blue-200 p-2 rounded-md hover:bg-blue-300 transition">
-                        <IoBookmarksOutline className="text-base text-blue-700" />
-                      </button>
-                    </div>
-                  </li>
-                ))}
-            </ul>
+                    
+                   
+                  </div>
+                </article>
+              );
+            })}
+            </div>
+            <div className="flex flex-wrap items-center justify-between gap-4 mt-10 text-sm text-gray-600">
+              <span>
+                Showing {showingFrom} - {showingTo} of {filteredTutors.length} tutors
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => goToPage(page - 1)}
+                  disabled={page === 1}
+                  className="px-3 py-2 rounded-full border border-gray-300 disabled:opacity-50 flex items-center gap-1"
+                >
+                  <MdOutlineNavigateBefore /> Prev
+                </button>
+                <span className="px-3 py-2 bg-white rounded-full border border-gray-200">
+                  Page {page} of {totalPages}
+                </span>
+                <button
+                  onClick={() => goToPage(page + 1)}
+                  disabled={page === totalPages}
+                  className="px-3 py-2 rounded-full border border-gray-300 disabled:opacity-50 flex items-center gap-1"
+                >
+                  Next <MdOutlineNavigateNext />
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {isFilterOpen && (
+        <div className="fixed inset-0 z-50 flex justify-end">
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setIsFilterOpen(false)}
+          ></div>
+          <div className="relative bg-white w-full max-w-md h-full overflow-y-auto shadow-2xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">🔍 Advanced Filter</h2>
+              <button onClick={() => setIsFilterOpen(false)}>✕</button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block mb-2 font-medium">Select District</label>
+                <select
+                  className="w-full border p-2 rounded"
+                  value={selectedCity}
+                  onChange={(e) => {
+                    setSelectedCity(e.target.value);
+                    setSelectedArea("All");
+                  }}
+                >
+                  <option value="All">All</option>
+                  {bdDistricts.map((district) => (
+                    <option key={district} value={district}>
+                      {district}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block mb-2 font-medium">Select Area</label>
+                <select
+                  className="w-full border p-2 rounded"
+                  value={selectedArea}
+                  onChange={(e) => setSelectedArea(e.target.value)}
+                >
+                  <option value="All">All</option>
+                  {selectedCity !== "All" &&
+                    cityAreaMap[selectedCity]?.map((area) => (
+                      <option key={area} value={area}>
+                        {area}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block mb-2 font-medium">Select Medium</label>
+                <select
+                  className="w-full border p-2 rounded"
+                  value={selectedMedium}
+                  onChange={(e) => setSelectedMedium(e.target.value)}
+                >
+                  <option value="All">All</option>
+                  <option value="Bangla Medium">Bangla Medium</option>
+                  <option value="English Medium">English Medium</option>
+                  <option value="English Version">English Version</option>
+                  <option value="Madrasha">Madrasha</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block mb-2 font-medium">Select Class</label>
+                <select
+                  className="w-full border p-2 rounded"
+                  value={selectedClass}
+                  onChange={(e) => setSelectedClass(e.target.value)}
+                >
+                  <option value="All">All</option>
+                  {[
+                    "Class 1",
+                    "Class 2",
+                    "Class 3",
+                    "Class 4",
+                    "Class 5",
+                    "Class 6",
+                    "Class 7",
+                    "Class 8",
+                    "Class 9",
+                    "Class 10",
+                    "Class 11",
+                    "Class 12",
+                    "Honours",
+                  ].map((cls) => (
+                    <option key={cls} value={cls}>
+                      {cls}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block mb-2 font-medium">Tuition Type</label>
+                <select
+                  className="w-full border p-2 rounded"
+                  value={selectedTuitionType}
+                  onChange={(e) => setSelectedTuitionType(e.target.value)}
+                >
+                  <option value="All">All</option>
+                  <option value="Home">Home Tuition</option>
+                  <option value="Online">Online Tuition</option>
+                  <option value="Both">Both</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block mb-2 font-medium">Gender</label>
+                <select
+                  className="w-full border p-2 rounded"
+                  value={selectedGender}
+                  onChange={(e) => setSelectedGender(e.target.value)}
+                >
+                  <option value="All">All</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block mb-2 font-medium">Religion</label>
+                <select
+                  className="w-full border p-2 rounded"
+                  value={selectedReligion}
+                  onChange={(e) => setSelectedReligion(e.target.value)}
+                >
+                  <option value="All">All</option>
+                  <option value="Islam">Islam</option>
+                  <option value="Hinduism">Hinduism</option>
+                  <option value="Christianity">Christianity</option>
+                  <option value="Buddhism">Buddhism</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
       <Outlet />
       <Footer />
     </div>
