@@ -46,13 +46,13 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100/90">
       <Helmet>
         <title>Sign_Up | TuToria</title>
       </Helmet>
       <div className="flex flex-col lg:flex-row w-4/5 max-w-5xl my-2 lg:my-8">
         {/* Left Section - Image */}
-        <div className="w-full lg:w-1/2 flex justify-center items-center bg-gray-100 p-8">
+        <div className="w-full lg:w-1/2 flex justify-center items-center bg-gray-100/90 p-8">
           <img
             src={userType === "student" ? studentImage : tutorImage}
             alt={userType === "student" ? "Parent and Student" : "Tutor"}

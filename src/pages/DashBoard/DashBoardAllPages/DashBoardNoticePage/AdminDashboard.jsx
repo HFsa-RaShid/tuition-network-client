@@ -19,7 +19,7 @@ import useAllPayment from "../../../../hooks/useAllPayment";
 import MonthlyStatusChart from "../../../../components/MonthlyStatusChart";
 
 const MetricCard = ({ icon, label, value, helper }) => (
-  <div className="bg-[#F9F9FF] border border-gray-100 rounded-xl p-5 shadow-lg flex items-center gap-4">
+  <div className="bg-gray-100/90 border border-gray-100 rounded-xl p-5 shadow-lg flex items-center gap-4">
     <span className={`text-blue-500 text-sm p-3 bg-blue-200 rounded-xl`}>
       {icon}
     </span>
@@ -128,7 +128,10 @@ const NoticeTable = ({ notices, onDelete, loading }) => (
     {loading ? (
       <div className="space-y-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-16 bg-gray-100 rounded-xl animate-pulse" />
+          <div
+            key={i}
+            className="h-16 bg-gray-100/90 rounded-xl animate-pulse"
+          />
         ))}
       </div>
     ) : notices.length === 0 ? (
@@ -426,7 +429,7 @@ const AdminDashboard = () => {
       </div>
 
       <div className="grid gap-6 mt-8 lg:grid-cols-3">
-        <div className="lg:col-span-2 bg-[#F9F9FF] border border-gray-100 rounded-2xl p-6 shadow-lg">
+        <div className="lg:col-span-2 bg-gray-100/90 border border-gray-100 rounded-2xl p-6 shadow-lg">
           <div className="flex justify-between items-center mb-4">
             <div>
               <h3 className="text-lg font-semibold text-gray-800">
@@ -454,7 +457,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="bg-[#F9F9FF] border border-gray-100 rounded-2xl p-2 shadow-lg">
+        <div className="bg-gray-100/90 border border-gray-100 rounded-2xl p-2 shadow-lg">
           <div className="min-h-[480px] p-4">
             <NoticeComposer onSubmit={handleNoticePost} />
           </div>
@@ -462,7 +465,7 @@ const AdminDashboard = () => {
       </div>
 
       <div className="grid gap-6 mt-8 lg:grid-cols-2">
-        <div className="bg-[#F9F9FF] border border-gray-100 rounded-2xl p-6 shadow-lg">
+        <div className="bg-gray-100/90 border border-gray-100 rounded-2xl p-6 shadow-lg">
           <NoticeTable
             notices={notices}
             loading={noticeLoading}

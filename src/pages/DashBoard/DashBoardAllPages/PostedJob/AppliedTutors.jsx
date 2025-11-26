@@ -538,7 +538,7 @@ const AppliedTutors = () => {
             <div className="p-6">
               {topMatchedTutors.length === 0 ? (
                 <div className="text-center py-12">
-                  <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                  <div className="mx-auto w-24 h-24 bg-gray-100/90 rounded-full flex items-center justify-center mb-4">
                     <FaEyeSlash className="w-8 h-8 text-gray-400" />
                   </div>
                   <h3 className="text-lg font-medium text-gray-900 mb-2">
@@ -690,7 +690,7 @@ const AppliedTutors = () => {
                                     disabled={hasPaidJob}
                                     className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
                                       hasPaidJob
-                                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                        ? "bg-gray-100/90 text-gray-400 cursor-not-allowed"
                                         : "bg-red-500 text-white hover:bg-red-600"
                                     }`}
                                   >
@@ -703,7 +703,7 @@ const AppliedTutors = () => {
                                     disabled={isDisabled}
                                     className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
                                       isDisabled
-                                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                        ? "bg-gray-100/90 text-gray-400 cursor-not-allowed"
                                         : "bg-green-500 text-white hover:bg-green-600"
                                     }`}
                                   >
@@ -821,7 +821,7 @@ const AppliedTutors = () => {
                                   disabled={hasPaidJob}
                                   className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
                                     hasPaidJob
-                                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                      ? "bg-gray-100/90 text-gray-400 cursor-not-allowed"
                                       : "bg-red-500 text-white hover:bg-red-600"
                                   }`}
                                 >
@@ -834,7 +834,7 @@ const AppliedTutors = () => {
                                   disabled={isDisabled}
                                   className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
                                     isDisabled
-                                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                      ? "bg-gray-100/90 text-gray-400 cursor-not-allowed"
                                       : "bg-green-500 text-white hover:bg-green-600"
                                   }`}
                                 >

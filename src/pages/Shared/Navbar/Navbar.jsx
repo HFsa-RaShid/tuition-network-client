@@ -34,7 +34,8 @@ const Navbar = () => {
   useEffect(() => {
     const root = document.documentElement;
     if (theme === "device") {
-      const deviceTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+      const deviceTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
         ? "dark"
         : "light";
       root.setAttribute("data-theme", deviceTheme);
@@ -46,9 +47,12 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (themeRef.current && !themeRef.current.contains(e.target)) setIsThemeDropdownOpen(false);
-      if (userRef.current && !userRef.current.contains(e.target)) setIsUserDropdownOpen(false);
-      if (mobileRef.current && !mobileRef.current.contains(e.target)) setIsMobileMenuOpen(false);
+      if (themeRef.current && !themeRef.current.contains(e.target))
+        setIsThemeDropdownOpen(false);
+      if (userRef.current && !userRef.current.contains(e.target))
+        setIsUserDropdownOpen(false);
+      if (mobileRef.current && !mobileRef.current.contains(e.target))
+        setIsMobileMenuOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -68,22 +72,42 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <ul className="hidden lg:flex gap-6 font-semibold text-[18px]">
           <li>
-            <NavLink to="/" className={({ isActive }) => isActive ? "text-[#5282ca] underline" : ""}>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "text-[#5282ca] underline" : ""
+              }
+            >
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink to="/tutors" className={({ isActive }) => isActive ? "text-[#5282ca] underline" : ""}>
+            <NavLink
+              to="/tutors"
+              className={({ isActive }) =>
+                isActive ? "text-[#5282ca] underline" : ""
+              }
+            >
               Tutors
             </NavLink>
           </li>
           <li>
-            <NavLink to="/tuitions" className={({ isActive }) => isActive ? "text-[#5282ca] underline" : ""}>
+            <NavLink
+              to="/tuitions"
+              className={({ isActive }) =>
+                isActive ? "text-[#5282ca] underline" : ""
+              }
+            >
               Tuitions
             </NavLink>
           </li>
           <li>
-            <NavLink to="/search-by-map" className={({ isActive }) => isActive ? "text-[#5282ca] underline" : ""}>
+            <NavLink
+              to="/search-by-map"
+              className={({ isActive }) =>
+                isActive ? "text-[#5282ca] underline" : ""
+              }
+            >
               Find on Map
             </NavLink>
           </li>
@@ -132,7 +156,12 @@ const Navbar = () => {
                 onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
                 className="bg-white w-10 h-10 rounded-full border overflow-hidden flex items-center justify-center"
               >
-                <img src={currentUser?.photoURL} alt="User" title={currentUser?.name} className="w-full h-full object-cover" />
+                <img
+                  src={currentUser?.photoURL}
+                  alt="User"
+                  title={currentUser?.name}
+                  className="w-full h-full object-cover"
+                />
               </button>
               {isUserDropdownOpen && (
                 <ul className="absolute right-0 mt-2 w-40 bg-slate-100 text-black rounded-lg shadow-lg z-50">
@@ -186,16 +215,16 @@ const Navbar = () => {
             </button>
             {isMobileMenuOpen && (
               <ul className="absolute top-full right-0 mt-2 w-48 bg-white text-black rounded-lg z-50 flex flex-col text-base font-medium">
-                <li className="border-b px-4 py-2 hover:bg-gray-100">
+                <li className="border-b px-4 py-2 hover:bg-gray-100/90">
                   <NavLink to="/">Home</NavLink>
                 </li>
-                <li className="border-b px-4 py-2 hover:bg-gray-100">
+                <li className="border-b px-4 py-2 hover:bg-gray-100/90">
                   <NavLink to="/tutors">Tutors</NavLink>
                 </li>
-                <li className="border-b px-4 py-2 hover:bg-gray-100">
+                <li className="border-b px-4 py-2 hover:bg-gray-100/90">
                   <NavLink to="/tuitions">Tuitions</NavLink>
                 </li>
-                <li className="px-4 py-2 hover:bg-gray-100">
+                <li className="px-4 py-2 hover:bg-gray-100/90">
                   <NavLink to="/search-by-map">Find on Map</NavLink>
                 </li>
               </ul>

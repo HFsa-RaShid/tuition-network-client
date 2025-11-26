@@ -3,7 +3,7 @@ import faq from "../../../../assets/faq.png";
 
 const FAQ = () => {
   return (
-    <div className="bg-[#170F24]">
+    <div className="bg-gray-100/90">
       <div className="  flex flex-col lg:flex-row justify-between items-center container mx-auto pt-16 md:pt-20 pb-10 gap-10 md:gap-16 lg:gap-20 px-6 md:px-10 lg:px-20">
         {/* Left Side Image */}
         <div className="w-full lg:w-1/2 flex justify-center mb-8 lg:mb-0">

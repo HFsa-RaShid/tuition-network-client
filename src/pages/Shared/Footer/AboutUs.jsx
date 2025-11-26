@@ -1,12 +1,12 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import aboutImage from "../../../assets/logo.png"; 
+import aboutImage from "../../../assets/logo.png";
 import Navbar from "../Navbar/Navbar";
 import Footer from "./Footer";
 
 const AboutUs = () => {
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100/90 min-h-screen">
       <Navbar></Navbar>
       <Helmet>
         <title>About Us | TuToria</title>
@@ -124,7 +124,7 @@ const AboutUs = () => {
               Hafsa Rashid
             </h3>
             <p className="text-gray-600 text-sm">
-              Analysis, Design, Frontend & Backend, 
+              Analysis, Design, Frontend & Backend,
             </p>
           </div>
         </div>

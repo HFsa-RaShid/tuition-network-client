@@ -72,9 +72,7 @@ const ClassDetails = () => {
                 <h1 className="text-4xl lg:text-5xl font-bold">
                   {classMeta?.name} Tuition Program
                 </h1>
-                <p className="text-lg text-white/80">
-                  {category?.description}
-                </p>
+                <p className="text-lg text-white/80">{category?.description}</p>
                 <ul className="grid sm:grid-cols-2 gap-3 mt-4">
                   {detail.learningList.map((item) => (
                     <li
@@ -123,7 +121,7 @@ const ClassDetails = () => {
                 {guardianHighlights.map((highlight) => (
                   <div
                     key={highlight.title}
-                    className="border border-gray-100 rounded-2xl p-4 bg-[#f9f9ff]"
+                    className="border border-gray-100 rounded-2xl p-4 bg-gray-100/90"
                   >
                     <h4 className="font-semibold text-gray-900">
                       {highlight.title}
@@ -148,7 +146,9 @@ const ClassDetails = () => {
                 ))}
               </ul>
               <div className="mt-6 space-y-2 text-sm text-gray-600">
-                <p>📍 Dhaka, Chattogram, Sylhet, Rajshahi & nationwide online</p>
+                <p>
+                  📍 Dhaka, Chattogram, Sylhet, Rajshahi & nationwide online
+                </p>
                 <p>⏱️ 60-90 মিনিট লাইভ সেশন ও অন-ডিমান্ড doubt clearing</p>
               </div>
             </article>
@@ -194,4 +194,3 @@ const ClassDetails = () => {
 };
 
 export default ClassDetails;
-

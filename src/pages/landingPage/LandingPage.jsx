@@ -17,7 +17,7 @@ import Reviews from "./sections/reviews/Reviews";
 
 const LandingPage = () => {
   return (
-    <div className="bg-black min-h-screen font-serif">
+    <div className=" min-h-screen font-serif">
       <Helmet>
         <title>TuToria</title>
       </Helmet>

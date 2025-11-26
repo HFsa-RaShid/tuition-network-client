@@ -4,7 +4,7 @@ import Footer from "./Footer";
 
 const ContactUs = () => {
   return (
-    <div className="bg-gray-100 min-h-screen ">
+    <div className="bg-gray-100/90 min-h-screen ">
       <Navbar></Navbar>
       <div className="max-w-6xl mx-auto px-4 py-10 mt-20 mb-10">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">

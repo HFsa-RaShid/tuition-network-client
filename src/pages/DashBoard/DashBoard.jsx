@@ -105,7 +105,7 @@ const DashBoard = () => {
       to={route.path}
       className={({ isActive }) =>
         isActive
-          ? "relative group bg-blue-200 py-1 rounded-lg flex items-center pl-3  space-x-3 text-black"
+          ? "relative group bg-white py-1 rounded-lg flex items-center pl-3  space-x-3 text-black"
           : "relative group p-2 rounded-lg flex items-center space-x-3"
       }
     >
@@ -126,9 +126,14 @@ const DashBoard = () => {
       </Helmet>
 
       {/* Sidebar */}
-      <div
-        className={`${isSidebarOpen ? "w-1/5" : "w-20"} bg-[#EDEDF4]
+      {/* <div
+        className={`${isSidebarOpen ? "w-1/5" : "w-20"} bg-gray-200 
         p-5 flex flex-col items-start space-y-4 relative transition-all duration-300`}
+      > */}
+      <div
+        className={`${isSidebarOpen ? "w-1/5" : "w-20"} 
+  bg-gradient-to-b from-gray-200 to-gray-400
+  p-5 flex flex-col items-start space-y-4 relative transition-all duration-300`}
       >
         <NavLink to="/">
           <div className="mb-4 mt-2">

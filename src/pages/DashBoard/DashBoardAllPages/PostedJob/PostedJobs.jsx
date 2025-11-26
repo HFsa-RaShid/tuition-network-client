@@ -101,7 +101,7 @@ const PostedJobs = () => {
           {jobs.map((job) => (
             <div
               key={job._id}
-              className="bg-[#F9F9FF] shadow-md rounded-lg p-6 relative "
+              className="bg-gray-100/90 shadow-md rounded-lg p-6 relative "
             >
               <NavLink
                 to={`/${role}/posted-jobs/applied-tutors`}

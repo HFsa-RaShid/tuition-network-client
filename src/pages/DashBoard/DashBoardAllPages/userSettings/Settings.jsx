@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from "react";
 import { FaCrown, FaUserCheck } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
@@ -23,7 +22,10 @@ const Settings = () => {
 
   const handleVerificationSubmit = async () => {
     if (!currentUser) return;
-    if (currentUser.verificationStatus === "pending" || currentUser.verificationStatus === "approved") {
+    if (
+      currentUser.verificationStatus === "pending" ||
+      currentUser.verificationStatus === "approved"
+    ) {
       toast.error(
         currentUser.verificationStatus === "pending"
           ? "You have already submitted a request!"
@@ -64,7 +66,9 @@ const Settings = () => {
       }
     } catch (error) {
       console.error("Verification error:", error);
-      toast.error(error.response?.data?.message || "Failed to submit verification");
+      toast.error(
+        error.response?.data?.message || "Failed to submit verification"
+      );
     } finally {
       setLoading(false);
     }
@@ -77,7 +81,11 @@ const Settings = () => {
   };
 
   const isButtonDisabled = () => {
-    return loading || currentUser.verificationStatus === "pending" || currentUser.verificationStatus === "approved";
+    return (
+      loading ||
+      currentUser.verificationStatus === "pending" ||
+      currentUser.verificationStatus === "approved"
+    );
   };
 
   return (
@@ -101,7 +109,7 @@ const Settings = () => {
         </div>
 
         {/* Profile Verification */}
-        {/* <div className="bg-[#F9F9FF] rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:scale-105 transition mx-20">
+        {/* <div className="bg-gray-100/90 rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:scale-105 transition mx-20">
           <FaUserCheck className="text-blue-400 text-4xl mb-3" />
           <h2 className="text-lg font-semibold text-gray-800 mb-2">
             Profile Verification

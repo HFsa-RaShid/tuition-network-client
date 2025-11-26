@@ -1,4 +1,3 @@
-
 import moment from "moment";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import { AuthContext } from "../../../../provider/AuthProvider";
@@ -6,7 +5,7 @@ import { useContext } from "react";
 import jsPDF from "jspdf";
 import * as htmlToImage from "html-to-image";
 import useAllHiredByAStudent from "../../../../hooks/useAllHiredByAStudent";
-import PaymentRow from "./PaymentRow"; 
+import PaymentRow from "./PaymentRow";
 import useAxisTutorByID from "../../../../hooks/useAxisTutorByID";
 
 const PaymentHistoryStudent = () => {
@@ -15,11 +14,11 @@ const PaymentHistoryStudent = () => {
   const { paidJobs, isLoading } = useAllHiredByAStudent(currentUser?.email);
 
   const filteredJobs = paidJobs?.filter(
-    (job) => job.source === "trialClassPayment" || job.source === "advanceSalary"
+    (job) =>
+      job.source === "trialClassPayment" || job.source === "advanceSalary"
   );
 
- 
-  const handleDownloadInvoice = async (job,tutor) => {
+  const handleDownloadInvoice = async (job, tutor) => {
     try {
       const newWindow = window.open("", "_blank", "width=800,height=600");
       if (!newWindow) {
@@ -106,15 +105,15 @@ const PaymentHistoryStudent = () => {
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
                     <p style="margin: 0; color: #555;">
                     <strong>Tuition Type:</strong> ${
-                                  job.jobDetails?.tuitionType || "N/A"
+                      job.jobDetails?.tuitionType || "N/A"
                     }</p>
                     <p style="margin: 0; color: #555;">
                     <strong>Category:</strong> ${
-                                  job.jobDetails?.category || "N/A"
+                      job.jobDetails?.category || "N/A"
                     }</p>
                     <p style="margin: 0; color: #555;">
                     <strong>Class/Course:</strong> ${
-                                  job.jobDetails?.classCourse || "N/A"
+                      job.jobDetails?.classCourse || "N/A"
                     }</p>
                             
                                 <p style="margin: 0; color: #555;">
@@ -242,15 +241,23 @@ const PaymentHistoryStudent = () => {
       <div className="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-gray-500">#{index + 1}</span>
-          <span className={`text-xs px-2 py-1 rounded-full font-medium ${statusClass}`}>
+          <span
+            className={`text-xs px-2 py-1 rounded-full font-medium ${statusClass}`}
+          >
             {job.paidStatus ? "Paid" : "Unpaid"}
           </span>
         </div>
         <div className="mb-2">
-          <p className="text-base font-semibold text-gray-800">{job.jobDetails?.classCourse || "N/A"}</p>
+          <p className="text-base font-semibold text-gray-800">
+            {job.jobDetails?.classCourse || "N/A"}
+          </p>
           <p className="text-sm text-gray-600">Amount: {job.amount} BDT</p>
-          <p className="text-sm text-gray-600">Status: {job.paidStatus ? "Paid" : "Unpaid"}</p>
-          <p className="text-sm text-gray-600">Date: {moment(job.paymentTime).format("DD MMM YYYY")}</p>
+          <p className="text-sm text-gray-600">
+            Status: {job.paidStatus ? "Paid" : "Unpaid"}
+          </p>
+          <p className="text-sm text-gray-600">
+            Date: {moment(job.paymentTime).format("DD MMM YYYY")}
+          </p>
         </div>
         <button
           onClick={() => handleDownloadInvoice(job, tutor)}
@@ -284,11 +291,7 @@ const PaymentHistoryStudent = () => {
             {/* Mobile: stacked cards */}
             <div className="md:hidden space-y-3">
               {filteredJobs.map((job, index) => (
-                <PaymentCardSmall
-                  key={job._id}
-                  job={job}
-                  index={index}
-                />
+                <PaymentCardSmall key={job._id} job={job} index={index} />
               ))}
             </div>
 
@@ -296,7 +299,7 @@ const PaymentHistoryStudent = () => {
             <div className="hidden md:block overflow-x-auto">
               <table className="min-w-full border border-gray-200 text-center">
                 <thead>
-                  <tr className="bg-gray-100 text-gray-700 text-center">
+                  <tr className="bg-gray-100/90 text-gray-700 text-center">
                     <th className="p-3 border">#</th>
                     <th className="p-3 border">Course Name</th>
                     <th className="p-3 border">Amount</th>
@@ -326,4 +329,3 @@ const PaymentHistoryStudent = () => {
 };
 
 export default PaymentHistoryStudent;
-

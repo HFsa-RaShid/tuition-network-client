@@ -13,7 +13,7 @@ import useAllHiredByAStudent from "../../../../hooks/useAllHiredByAStudent";
 import useDashboardNotices from "../../../../hooks/useDashboardNotices";
 
 const StatCard = ({ icon, label, value, subLabel }) => (
-  <div className="bg-[#F9F9FF] border border-gray-100 rounded-xl p-5 shadow-lg flex items-center gap-4">
+  <div className="bg-gray-100/90 border border-gray-100 rounded-xl p-5 shadow-lg flex items-center gap-4">
     <span
       className={`text-blue-500 text-xl p-3 rounded-xl bg-blue-200 bg-opacity-90`}
     >
@@ -108,7 +108,7 @@ const NoticeBoard = ({ notices = [], loading }) => (
           {[1, 2, 3].map((key) => (
             <div
               key={key}
-              className="animate-pulse h-16 bg-gray-100 rounded-xl"
+              className="animate-pulse h-16 bg-gray-100/90 rounded-xl"
             ></div>
           ))}
         </div>
@@ -247,7 +247,6 @@ const StudentDashboard = () => {
   }
 
   return (
-
     <div className=" lg:px-0 pb-10 ml-10">
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-gray-800 pt-2">
@@ -264,42 +263,38 @@ const StudentDashboard = () => {
           label="Total Tutor Requests"
           value={totalPosted}
           subLabel={`${approvedPosts} approved`}
-    
         />
         <StatCard
           icon={<FaClock />}
           label="Pending Reviews"
           value={pendingPosts}
           subLabel="Waiting for admin approval"
-         
         />
         <StatCard
           icon={<FaChalkboardTeacher />}
           label="Tutors Hired"
           value={hireCount}
           subLabel="Includes trial & confirmed"
-        
         />
         <StatCard
           icon={<FaAward />}
           label="Engagement Points"
           value={points}
           subLabel="Earn 25 pts per hire"
-         
         />
       </div>
 
       <div className="grid gap-6 mt-8 lg:grid-cols-3">
-        <div className="lg:col-span-2 bg-[#F9F9FF]  rounded-xl border border-gray-100 p-6 shadow-lg">
+        <div className="lg:col-span-2 bg-gray-100/90  rounded-xl border border-gray-100 p-6 shadow-lg">
           <PerformanceChart data={chartData} />
         </div>
-        <div className="bg-[#F9F9FF]  rounded-xl border border-gray-100 p-6 shadow-lg">
+        <div className="bg-gray-100/90  rounded-xl border border-gray-100 p-6 shadow-lg">
           <NoticeBoard notices={notices.slice(0, 6)} loading={noticeLoading} />
         </div>
       </div>
 
       <div className="grid gap-6 mt-8 lg:grid-cols-2">
-        <div className="bg-[#F9F9FF]  rounded-xl border border-gray-100 p-6 shadow-lg">
+        <div className="bg-gray-100/90  rounded-xl border border-gray-100 p-6 shadow-lg">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-lg font-semibold text-gray-800">
@@ -377,7 +372,6 @@ const StudentDashboard = () => {
         </div>
       </div>
     </div>
- 
   );
 };
 

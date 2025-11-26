@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import {
   MapContainer,
@@ -279,7 +278,7 @@ const SearchByMap = () => {
             {selectedRequest && (
               <div
                 key={selectedRequest._id}
-                className="bg-[#F9F9FF] shadow-md rounded-lg p-6 relative "
+                className="bg-gray-100/90 shadow-md rounded-lg p-6 relative "
               >
                 {selectedRequest.appliedTutors?.some(
                   (tutor) =>

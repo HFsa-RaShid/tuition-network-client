@@ -51,7 +51,7 @@ const TuitionTypes = () => {
                 flex flex-col items-center text-center
               "
             >
-              <div className="p-4 bg-green-100 text-green-600 rounded-full mb-4">
+              <div className="p-4 bg-blue-100 text-blue-600 rounded-full mb-4">
                 {item.icon}
               </div>
 

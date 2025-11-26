@@ -9,8 +9,15 @@ const GetPremium = () => {
   const axiosSecure = useAxiosSecure();
 
   // 🔹 Payment handler
-  const handlePaymentBkash = async (name, email, tutorId, amount,tutorAmount,
-        tuToriaAmount, role) => {
+  const handlePaymentBkash = async (
+    name,
+    email,
+    tutorId,
+    amount,
+    tutorAmount,
+    tuToriaAmount,
+    role
+  ) => {
     try {
       const result = await axiosSecure.post("/paymentBkash", {
         name,
@@ -58,7 +65,7 @@ const GetPremium = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-around w-full ">
         {/* Free Plan Card */}
-        <div className="rounded-2xl border border-gray-200 bg-[#F9F9FF] shadow-sm p-6 flex flex-col justify-between">
+        <div className="rounded-2xl border border-gray-200 bg-gray-100/90 shadow-sm p-6 flex flex-col justify-between">
           <div>
             <h3 className="text-xl font-semibold">Free</h3>
             <p className="mt-2 text-gray-500">
@@ -88,7 +95,7 @@ const GetPremium = () => {
         </div>
 
         {/* Premium Plan Card */}
-        <div className="rounded-2xl border border-gray-200 bg-[#F9F9FF] shadow-sm p-6 flex flex-col justify-between">
+        <div className="rounded-2xl border border-gray-200 bg-gray-100/90 shadow-sm p-6 flex flex-col justify-between">
           <div>
             <h3 className="text-xl font-semibold">Premium</h3>
             <p className="mt-2 text-gray-500">

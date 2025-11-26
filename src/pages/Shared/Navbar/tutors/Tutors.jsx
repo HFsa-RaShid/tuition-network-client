@@ -769,7 +769,7 @@ const Tutors = () => {
                           "https://i.ibb.co/7n4R8Rt/default-avatar.png"
                         }
                         alt={tutor.name}
-                        className="w-14 h-14 object-cover rounded-2xl bg-gray-100"
+                        className="w-14 h-14 object-cover rounded-2xl bg-gray-100/90"
                       />
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-1">

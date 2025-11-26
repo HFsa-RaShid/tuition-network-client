@@ -11,7 +11,7 @@ const PaymentHistoryTutor = () => {
   const { currentUser } = useCurrentUser(user?.email);
   const { paidJobs, refetch, isLoading } = usePaidJobs(currentUser?.email);
 
-const handleDownloadInvoice = async (job) => {
+  const handleDownloadInvoice = async (job) => {
     try {
       const newWindow = window.open("", "_blank", "width=800,height=600");
       if (!newWindow) {
@@ -71,12 +71,8 @@ const handleDownloadInvoice = async (job) => {
 
               <div class="details-section">
                 <h3>Invoice To:</h3>
-                <p><strong>Name:</strong> ${
-                  currentUser?.name || "N/A"
-                }</p>
-                <p><strong>Email:</strong> ${
-                  currentUser?.email || "N/A"
-                }</p>
+                <p><strong>Name:</strong> ${currentUser?.name || "N/A"}</p>
+                <p><strong>Email:</strong> ${currentUser?.email || "N/A"}</p>
                 <p><strong>Transaction ID:</strong> ${
                   job.transactionId || "N/A"
                 }</p>
@@ -89,15 +85,15 @@ const handleDownloadInvoice = async (job) => {
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
                     <p style="margin: 0; color: #555;">
                     <strong>Tuition Type:</strong> ${
-                                  job.jobDetails?.tuitionType || "N/A"
+                      job.jobDetails?.tuitionType || "N/A"
                     }</p>
                     <p style="margin: 0; color: #555;">
                     <strong>Category:</strong> ${
-                                  job.jobDetails?.category || "N/A"
+                      job.jobDetails?.category || "N/A"
                     }</p>
                     <p style="margin: 0; color: #555;">
                     <strong>Class/Course:</strong> ${
-                                  job.jobDetails?.classCourse || "N/A"
+                      job.jobDetails?.classCourse || "N/A"
                     }</p>
                             
                                 <p style="margin: 0; color: #555;">
@@ -214,95 +210,115 @@ const handleDownloadInvoice = async (job) => {
 
   return (
     <div className="container mx-auto ">
-      <div className=" p-4 ml-7 bg-[#F9F9FF] shadow rounded-xl min-h-[calc(100vh-100px)]">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
-        Payment History
-      </h2>
-      {paidJobs?.length === 0 ? (
-        <p className="text-center  text-gray-500">No payment history found.</p>
-      ) : (
-        <>
-          {/* Mobile: stacked cards */}
-          <div className="md:hidden space-y-3">
-            {paidJobs.map((job, index) => {
-              const statusClass = job.paidStatus ? "bg-green-200 text-green-800" : "bg-red-100 text-red-800";
-              return (
-                <div key={job._id} className="border border-gray-200 rounded-lg p-4 shadow-sm bg-white">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-500">#{index + 1}</span>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${statusClass}`}>
-                      {job.paidStatus ? "Paid" : "Unpaid"}
-                    </span>
-                  </div>
-                  <div className="mb-2">
-                    <p className="text-base font-semibold text-gray-800">{job.jobDetails?.classCourse || "N/A"}</p>
-                    <p className="text-sm text-gray-600">Amount: {job.amount} BDT</p>
-                    <p className="text-sm text-gray-600">Date: {moment(job.paymentTime).format("DD MMM YYYY")}</p>
-                  </div>
-                  <button
-                    onClick={() => handleDownloadInvoice(job)}
-                    className="w-full bg-blue-200 hover:bg-blue-300 text-blue-700 font-semibold py-2 rounded text-sm transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
-                    disabled={!job.paidStatus}
+      <div className=" p-4 ml-7 bg-gray-100/90 shadow rounded-xl min-h-[calc(100vh-100px)]">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
+          Payment History
+        </h2>
+        {paidJobs?.length === 0 ? (
+          <p className="text-center  text-gray-500">
+            No payment history found.
+          </p>
+        ) : (
+          <>
+            {/* Mobile: stacked cards */}
+            <div className="md:hidden space-y-3">
+              {paidJobs.map((job, index) => {
+                const statusClass = job.paidStatus
+                  ? "bg-green-200 text-green-800"
+                  : "bg-red-100 text-red-800";
+                return (
+                  <div
+                    key={job._id}
+                    className="border border-gray-200 rounded-lg p-4 shadow-sm bg-white"
                   >
-                    Download Invoice
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Desktop/Tablet: table */}
-          <div className="hidden md:block overflow-x-auto">
-            <table className="min-w-full border bg-white border-gray-200 text-center">
-              <thead>
-                <tr className="bg-gray-100 text-gray-700 text-center">
-                  <th className="p-3 border">#</th>
-                  <th className="p-3 border">Course Name</th>
-                  <th className="p-3 border">Amount</th>
-                  <th className="p-3 border">Status</th>
-                  <th className="p-3 border">Payment Time</th>
-                  <th className="p-3 border">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {paidJobs.map((job, index) => (
-                  <tr key={job._id} className="hover:bg-gray-50 text-gray-800">
-                    <td className="p-3 border">{index + 1}</td>
-                    <td className="p-3 border font-semibold">
-                      {job.jobDetails?.classCourse || "N/A"}
-                    </td>
-                    <td className="p-3 border">{job.amount} BDT</td>
-                    <td className="p-3 border">
-                      {job.paidStatus ? (
-                        <span className="bg-green-200 text-green-800 px-2 py-1 rounded-full text-sm">
-                          Paid
-                        </span>
-                      ) : (
-                        <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm">
-                          Unpaid
-                        </span>
-                      )}
-                    </td>
-                    <td className="p-3 border">
-                      {moment(job.paymentTime).format("DD MMM YYYY")}
-                    </td>
-                    <td className="p-3 border">
-                      <button
-                        onClick={() => handleDownloadInvoice(job)}
-                        className="bg-blue-200 hover:bg-blue-300 text-blue-700 font-bold py-1 px-3 rounded text-sm transition-colors duration-200"
-                        disabled={!job.paidStatus}
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-500">
+                        #{index + 1}
+                      </span>
+                      <span
+                        className={`text-xs px-2 py-1 rounded-full font-medium ${statusClass}`}
                       >
-                        Download Invoice
-                      </button>
-                    </td>
+                        {job.paidStatus ? "Paid" : "Unpaid"}
+                      </span>
+                    </div>
+                    <div className="mb-2">
+                      <p className="text-base font-semibold text-gray-800">
+                        {job.jobDetails?.classCourse || "N/A"}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Amount: {job.amount} BDT
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Date: {moment(job.paymentTime).format("DD MMM YYYY")}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => handleDownloadInvoice(job)}
+                      className="w-full bg-blue-200 hover:bg-blue-300 text-blue-700 font-semibold py-2 rounded text-sm transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                      disabled={!job.paidStatus}
+                    >
+                      Download Invoice
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Desktop/Tablet: table */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="min-w-full border bg-white border-gray-200 text-center">
+                <thead>
+                  <tr className="bg-gray-100/90 text-gray-700 text-center">
+                    <th className="p-3 border">#</th>
+                    <th className="p-3 border">Course Name</th>
+                    <th className="p-3 border">Amount</th>
+                    <th className="p-3 border">Status</th>
+                    <th className="p-3 border">Payment Time</th>
+                    <th className="p-3 border">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      )}
-    </div>
+                </thead>
+                <tbody>
+                  {paidJobs.map((job, index) => (
+                    <tr
+                      key={job._id}
+                      className="hover:bg-gray-50 text-gray-800"
+                    >
+                      <td className="p-3 border">{index + 1}</td>
+                      <td className="p-3 border font-semibold">
+                        {job.jobDetails?.classCourse || "N/A"}
+                      </td>
+                      <td className="p-3 border">{job.amount} BDT</td>
+                      <td className="p-3 border">
+                        {job.paidStatus ? (
+                          <span className="bg-green-200 text-green-800 px-2 py-1 rounded-full text-sm">
+                            Paid
+                          </span>
+                        ) : (
+                          <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm">
+                            Unpaid
+                          </span>
+                        )}
+                      </td>
+                      <td className="p-3 border">
+                        {moment(job.paymentTime).format("DD MMM YYYY")}
+                      </td>
+                      <td className="p-3 border">
+                        <button
+                          onClick={() => handleDownloadInvoice(job)}
+                          className="bg-blue-200 hover:bg-blue-300 text-blue-700 font-bold py-1 px-3 rounded text-sm transition-colors duration-200"
+                          disabled={!job.paidStatus}
+                        >
+                          Download Invoice
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

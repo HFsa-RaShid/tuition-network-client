@@ -36,17 +36,9 @@ const TutorRequests = () => {
     "Madrasah",
   ];
 
-  const studentGender = [
-    "Male",
-    "Female",
-    "Others",
-  ];
+  const studentGender = ["Male", "Female", "Others"];
 
-  const tutorGenderPreference = [
-    "Male",
-    "Female",
-    "Any",
-  ];
+  const tutorGenderPreference = ["Male", "Female", "Any"];
 
   const classes = [
     "Play",
@@ -58,7 +50,6 @@ const TutorRequests = () => {
     "BSc/Honours",
     "MSc/Masters",
   ];
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -175,343 +166,342 @@ const TutorRequests = () => {
 
   return (
     <div className="ml-7">
-      <div className="w-full bg-[#F9F9FF] mx-auto mt-12  px-4 py-4 md:px-10 lg:px-20 max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl shadow-lg rounded-lg">
-      <h2 className="text-2xl font-semibold text-center mb-2">
-        Tuition Information
-      </h2>
+      <div className="w-full bg-gray-100/90 mx-auto mt-12  px-4 py-4 md:px-10 lg:px-20 max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl shadow-lg rounded-lg">
+        <h2 className="text-2xl font-semibold text-center mb-2">
+          Tuition Information
+        </h2>
 
-      {step === 1 && (
-        <div>
-          <div className="space-y-4">
-            <div>
-              <label className="block font-medium">Tuition Type *</label>
-              <select
-                name="tuitionType"
-                value={formData.tuitionType}
-                onChange={handleChange}
-                className="w-full p-2 border rounded"
-              >
-                <option value="Home Tutoring">Home</option>
-                <option value="Online Tutoring">Online</option>
-                
-              </select>
-            </div>
+        {step === 1 && (
+          <div>
+            <div className="space-y-4">
+              <div>
+                <label className="block font-medium">Tuition Type *</label>
+                <select
+                  name="tuitionType"
+                  value={formData.tuitionType}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="Home Tutoring">Home</option>
+                  <option value="Online Tutoring">Online</option>
+                </select>
+              </div>
 
-            <div>
-              <label className="block font-medium">Category *</label>
-              <select
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border rounded"
-              >
-                <option value="">Select...</option>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-            </div>
+              <div>
+                <label className="block font-medium">Category *</label>
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="">Select...</option>
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div>
-              <label className="block font-medium">Class *</label>
-              <select
-                name="classCourse"
-                value={formData.classCourse}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border rounded"
-              >
-                <option value="">Select...</option>
-                {classes.map((cls) => (
-                  <option key={cls} value={cls}>
-                    {cls}
-                  </option>
-                ))}
-              </select>
-            </div>
+              <div>
+                <label className="block font-medium">Class *</label>
+                <select
+                  name="classCourse"
+                  value={formData.classCourse}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="">Select...</option>
+                  {classes.map((cls) => (
+                    <option key={cls} value={cls}>
+                      {cls}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-
-            <div>
-              <label className="block font-medium">Student Gender *</label>
-              <select
-                name="studentGender"
-                value={formData.studentGender}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border rounded"
-              >
-                <option value="">Select...</option>
-                {studentGender.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-          </div>
-
-          <div className="mt-2 flex justify-end">
-            <button
-              onClick={nextStep}
-              disabled={isNextButtonDisabled()}
-              className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
-                isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              Next →
-            </button>
-          </div>
-        </div>
-      )}
-
-      {step === 2 && (
-        <div>
-          <div className="space-y-4">
-            <div>
-              <label className="block font-medium">Subjects *</label>
-              <select
-                name="subjects"
-                onChange={handleSubjectChange}
-                className="w-full p-2 border rounded"
-              >
-                <option value="">Select Subject</option>
-                {subjects.map((sub) => (
-                  <option key={sub} value={sub}>
-                    {sub}
-                  </option>
-                ))}
-              </select>
-
-              <div className="mt-2 flex flex-wrap gap-2">
-                {formData.subjects.map((subject) => (
-                  <span
-                    key={subject}
-                    className="px-3 py-1 bg-blue-500 text-white rounded-full flex items-center gap-2"
-                  >
-                    {subject}
-                    <button
-                      onClick={() => removeSubject(subject)}
-                      className="text-white font-bold"
-                    >
-                      ❌
-                    </button>
-                  </span>
-                ))}
+              <div>
+                <label className="block font-medium">Student Gender *</label>
+                <select
+                  name="studentGender"
+                  value={formData.studentGender}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="">Select...</option>
+                  {studentGender.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-             {/* City Selection */}
-            <div>
-              <label className="block font-medium">City *</label>
-              <select
-                name="city"
-                value={formData.city}
-                onChange={(e) => {
-                  handleChange(e);
-                  setFormData((prev) => ({
-                    ...prev,
-                    location: "", 
-                  }));
-                }}
-                className="w-full p-2 border rounded"
+            <div className="mt-2 flex justify-end">
+              <button
+                onClick={nextStep}
+                disabled={isNextButtonDisabled()}
+                className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
+                  isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                <option value="">Select City</option>
-                {bdDistricts.map((district) => (
-                  <option key={district} value={district}>
-                    {district}
-                  </option>
-                ))}
-              </select>
+                Next →
+              </button>
             </div>
+          </div>
+        )}
 
-            {/* Location/Area Selection */}
-            <div>
-              <label className="block font-medium">Location *</label>
-              <select
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                className="w-full p-2 border rounded"
-                disabled={!formData.city}
-              >
-                <option value="">Select Area</option>
-                {formData.city &&
-                  cityAreaMap[formData.city]?.map((area) => (
-                    <option key={area} value={area}>
-                      {area}
+        {step === 2 && (
+          <div>
+            <div className="space-y-4">
+              <div>
+                <label className="block font-medium">Subjects *</label>
+                <select
+                  name="subjects"
+                  onChange={handleSubjectChange}
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="">Select Subject</option>
+                  {subjects.map((sub) => (
+                    <option key={sub} value={sub}>
+                      {sub}
                     </option>
                   ))}
-              </select>
-            </div>
-           </div>
+                </select>
 
-            <div>
-              <label className="block font-medium">Tutor Gender Preference*</label>
-              <select
-                name="tutorGenderPreference"
-                value={formData.tutorGenderPreference}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border rounded"
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {formData.subjects.map((subject) => (
+                    <span
+                      key={subject}
+                      className="px-3 py-1 bg-blue-500 text-white rounded-full flex items-center gap-2"
+                    >
+                      {subject}
+                      <button
+                        onClick={() => removeSubject(subject)}
+                        className="text-white font-bold"
+                      >
+                        ❌
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* City Selection */}
+                <div>
+                  <label className="block font-medium">City *</label>
+                  <select
+                    name="city"
+                    value={formData.city}
+                    onChange={(e) => {
+                      handleChange(e);
+                      setFormData((prev) => ({
+                        ...prev,
+                        location: "",
+                      }));
+                    }}
+                    className="w-full p-2 border rounded"
+                  >
+                    <option value="">Select City</option>
+                    {bdDistricts.map((district) => (
+                      <option key={district} value={district}>
+                        {district}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Location/Area Selection */}
+                <div>
+                  <label className="block font-medium">Location *</label>
+                  <select
+                    name="location"
+                    value={formData.location}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded"
+                    disabled={!formData.city}
+                  >
+                    <option value="">Select Area</option>
+                    {formData.city &&
+                      cityAreaMap[formData.city]?.map((area) => (
+                        <option key={area} value={area}>
+                          {area}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-medium">
+                  Tutor Gender Preference*
+                </label>
+                <select
+                  name="tutorGenderPreference"
+                  value={formData.tutorGenderPreference}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="">Select...</option>
+                  {tutorGenderPreference.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-between">
+              <button
+                onClick={prevStep}
+                className="px-4 py-2 bg-[#124086] text-white rounded hover:bg-[#082755]"
               >
-                <option value="">Select...</option>
-                {tutorGenderPreference.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="mt-6 flex justify-between">
-            <button
-              onClick={prevStep}
-              className="px-4 py-2 bg-[#124086] text-white rounded hover:bg-[#082755]"
-            >
-              ← Previous
-            </button>
-            <button
-              onClick={nextStep}
-              disabled={isNextButtonDisabled()}
-              className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
-                isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              Next →
-            </button>
-          </div>
-        </div>
-      )}
-
-      {step === 3 && (
-        <div>
-          <div className="space-y-2">
-            <div>
-              <label className="block font-medium">No. of Students *</label>
-              <select
-                name="noOfStudents"
-                value={formData.noOfStudents}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border rounded"
+                ← Previous
+              </button>
+              <button
+                onClick={nextStep}
+                disabled={isNextButtonDisabled()}
+                className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
+                  isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                {Array.from({ length: 10 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ))}
-              </select>
+                Next →
+              </button>
             </div>
-            <div>
-              <label className="block font-medium">Days/Week *</label>
-              <select
-                name="daysPerWeek"
-                value={formData.daysPerWeek}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border rounded"
+          </div>
+        )}
+
+        {step === 3 && (
+          <div>
+            <div className="space-y-2">
+              <div>
+                <label className="block font-medium">No. of Students *</label>
+                <select
+                  name="noOfStudents"
+                  value={formData.noOfStudents}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border rounded"
+                >
+                  {Array.from({ length: 10 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      {i + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block font-medium">Days/Week *</label>
+                <select
+                  name="daysPerWeek"
+                  value={formData.daysPerWeek}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="">Select...</option>
+                  {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+                    <option key={day} value={day}>
+                      {day} Day{day > 1 ? "s" : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block font-medium">Duration *</label>
+                <select
+                  name="duration"
+                  value={formData.duration}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border rounded"
+                >
+                  <option value="1 hour">1 hour</option>
+                  <option value="1.5 hour">1.5 hour</option>
+                  <option value="2 hour">2 hour</option>
+                  <option value="2.5 hour">2.5 hour</option>
+                  <option value="3 hour">3 hour</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block font-medium">Salary (BDT) *</label>
+                <input
+                  type="number"
+                  name="salary"
+                  value={formData.salary}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-between">
+              <button
+                onClick={prevStep}
+                className="px-4 py-2 bg-[#124086] text-white rounded hover:bg-[#082755]"
               >
-                <option value="">Select...</option>
-                {[1, 2, 3, 4, 5, 6, 7].map((day) => (
-                  <option key={day} value={day}>
-                    {day} Day{day > 1 ? "s" : ""}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block font-medium">Duration *</label>
-              <select
-                name="duration"
-                value={formData.duration}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border rounded"
+                ← Previous
+              </button>
+              <button
+                onClick={nextStep}
+                disabled={isNextButtonDisabled()}
+                className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
+                  isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                <option value="1 hour">1 hour</option>
-                <option value="1.5 hour">1.5 hour</option>
-                <option value="2 hour">2 hour</option>
-                <option value="2.5 hour">2.5 hour</option>
-                <option value="3 hour">3 hour</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block font-medium">Salary (BDT) *</label>
-              <input
-                type="number"
-                name="salary"
-                value={formData.salary}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border rounded"
-              />
+                Next →
+              </button>
             </div>
           </div>
+        )}
 
-          <div className="mt-6 flex justify-between">
-            <button
-              onClick={prevStep}
-              className="px-4 py-2 bg-[#124086] text-white rounded hover:bg-[#082755]"
-            >
-              ← Previous
-            </button>
-            <button
-              onClick={nextStep}
-              disabled={isNextButtonDisabled()}
-              className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
-                isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              Next →
-            </button>
+        {step === 4 && (
+          <div>
+            <h3 className="text-lg font-medium mb-4">Review & Submit</h3>
+            <p>
+              <strong>Tuition Type:</strong> {formData.tuitionType}
+            </p>
+            <p>
+              <strong>Category:</strong> {formData.category}
+            </p>
+            <p>
+              <strong>Class:</strong> {formData.classCourse}
+            </p>
+            <p>
+              <strong>Subjects:</strong> {formData.subjects.join(", ")}
+            </p>
+            <p>
+              <strong>City:</strong> {formData.city}
+            </p>
+
+            <div className="mt-6 flex justify-between">
+              <button
+                onClick={prevStep}
+                className="px-4 py-2 bg-[#124086] text-white rounded hover:bg-[#082755]"
+              >
+                ← Previous
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              >
+                Submit
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-
-      {step === 4 && (
-        <div>
-          <h3 className="text-lg font-medium mb-4">Review & Submit</h3>
-          <p>
-            <strong>Tuition Type:</strong> {formData.tuitionType}
-          </p>
-          <p>
-            <strong>Category:</strong> {formData.category}
-          </p>
-          <p>
-            <strong>Class:</strong> {formData.classCourse}
-          </p>
-          <p>
-            <strong>Subjects:</strong> {formData.subjects.join(", ")}
-          </p>
-          <p>
-            <strong>City:</strong> {formData.city}
-          </p>
-
-          <div className="mt-6 flex justify-between">
-            <button
-              onClick={prevStep}
-              className="px-4 py-2 bg-[#124086] text-white rounded hover:bg-[#082755]"
-            >
-              ← Previous
-            </button>
-            <button
-              onClick={handleSubmit}
-              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -60,7 +60,7 @@
 
 //           <p className="text-gray-600 flex items-center gap-1">
 //             Rating: {renderStars(tutor.averageRating)}
-           
+
 //           </p>
 //         </div>
 //       </div>
@@ -94,7 +94,7 @@
 //               className={`px-3 py-1 rounded-full border ${
 //                 tutor.availableDays?.includes(day)
 //                   ? "bg-blue-100 text-blue-700 border-blue-300"
-//                   : "bg-gray-100 text-gray-500 border-gray-300"
+//                   : "bg-gray-100/90 text-gray-500 border-gray-300"
 //               }`}
 //             >
 //               {day}
@@ -117,7 +117,7 @@
 //               className={`px-3 py-1 rounded-full border ${
 //                 tutor.availableTimes?.includes(time)
 //                   ? "bg-green-100 text-green-700 border-green-300"
-//                   : "bg-gray-100 text-gray-500 border-gray-300"
+//                   : "bg-gray-100/90 text-gray-500 border-gray-300"
 //               }`}
 //             >
 //               {time}
@@ -126,13 +126,11 @@
 //         </div>
 //       </div>
 
-      
 //     </div>
 //   );
 // };
 
 // export default AppliedTutorProfile;
-
 
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../../provider/AuthProvider";
@@ -207,9 +205,12 @@ const HiredTutors = () => {
       return;
     }
     try {
-      const res = await axiosSecure.put(`/tutors/${selectedTutor?.tutorEmail}`, {
-        rating: parseFloat(rating),
-      });
+      const res = await axiosSecure.put(
+        `/tutors/${selectedTutor?.tutorEmail}`,
+        {
+          rating: parseFloat(rating),
+        }
+      );
 
       if (res.modifiedCount > 0 || res.upsertedCount > 0) {
         toast.success("Thanks for your rating!");
@@ -265,7 +266,9 @@ const HiredTutors = () => {
   const hasAdvanceSalaryPaid = (jobId) =>
     paidJobsById?.some(
       (p) =>
-        p.jobId === jobId && p.source === "advanceSalary" && p.paidStatus === true
+        p.jobId === jobId &&
+        p.source === "advanceSalary" &&
+        p.paidStatus === true
     );
 
   return (
@@ -325,7 +328,11 @@ const HiredTutors = () => {
                       onClick={() =>
                         handleAdvanceSalaryPayment(
                           jobId,
-                          { name: tutorName, email: tutorEmail, tutorId: payment.tutorId },
+                          {
+                            name: tutorName,
+                            email: tutorEmail,
+                            tutorId: payment.tutorId,
+                          },
                           payment.jobDetails?.salary
                         )
                       }
@@ -336,7 +343,9 @@ const HiredTutors = () => {
                   )}
 
                   <button
-                    onClick={() => handleTrialClassPayment(jobId, payment.tutorId)}
+                    onClick={() =>
+                      handleTrialClassPayment(jobId, payment.tutorId)
+                    }
                     disabled={hasPaidTrial(jobId, tutorEmail)}
                     className={`bg-blue-200 text-blue-700 px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1 ${
                       hasPaidTrial(jobId, tutorEmail)
@@ -375,16 +384,66 @@ const HiredTutors = () => {
               className="rating rating-lg rating-half"
               onChange={(e) => setRating(e.target.value)}
             >
-              <input type="radio" name="rating" value="0.5" className="mask mask-star-2 mask-half-1 bg-yellow-500" />
-              <input type="radio" name="rating" value="1" className="mask mask-star-2 mask-half-2 bg-yellow-500" />
-              <input type="radio" name="rating" value="1.5" className="mask mask-star-2 mask-half-1 bg-yellow-500" />
-              <input type="radio" name="rating" value="2" className="mask mask-star-2 mask-half-2 bg-yellow-500" />
-              <input type="radio" name="rating" value="2.5" className="mask mask-star-2 mask-half-1 bg-yellow-500" />
-              <input type="radio" name="rating" value="3" className="mask mask-star-2 mask-half-2 bg-yellow-500" />
-              <input type="radio" name="rating" value="3.5" className="mask mask-star-2 mask-half-1 bg-yellow-500" />
-              <input type="radio" name="rating" value="4" className="mask mask-star-2 mask-half-2 bg-yellow-500" />
-              <input type="radio" name="rating" value="4.5" className="mask mask-star-2 mask-half-1 bg-yellow-500" />
-              <input type="radio" name="rating" value="5" className="mask mask-star-2 mask-half-2 bg-yellow-500" />
+              <input
+                type="radio"
+                name="rating"
+                value="0.5"
+                className="mask mask-star-2 mask-half-1 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="1"
+                className="mask mask-star-2 mask-half-2 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="1.5"
+                className="mask mask-star-2 mask-half-1 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="2"
+                className="mask mask-star-2 mask-half-2 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="2.5"
+                className="mask mask-star-2 mask-half-1 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="3"
+                className="mask mask-star-2 mask-half-2 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="3.5"
+                className="mask mask-star-2 mask-half-1 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="4"
+                className="mask mask-star-2 mask-half-2 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="4.5"
+                className="mask mask-star-2 mask-half-1 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="5"
+                className="mask mask-star-2 mask-half-2 bg-yellow-500"
+              />
             </div>
             <div className="modal-action">
               <button onClick={handleSubmitRating} className="btn btn-success">
@@ -405,12 +464,16 @@ const HiredTutors = () => {
       {viewInfoTutor && (
         <dialog open className="modal">
           <div className="modal-box">
-            <h3 className="font-bold text-lg mb-4">
-              Tutor Information
-            </h3>
-            <p><strong>Name:</strong> {viewInfoTutor.name}</p>
-            <p><strong>Email:</strong> {viewInfoTutor.email}</p>
-            <p><strong>Phone:</strong> {viewInfoTutor.phone || "N/A"}</p>
+            <h3 className="font-bold text-lg mb-4">Tutor Information</h3>
+            <p>
+              <strong>Name:</strong> {viewInfoTutor.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {viewInfoTutor.email}
+            </p>
+            <p>
+              <strong>Phone:</strong> {viewInfoTutor.phone || "N/A"}
+            </p>
             {viewInfoTutor.studentIdImage && (
               <img
                 src={viewInfoTutor.studentIdImage}

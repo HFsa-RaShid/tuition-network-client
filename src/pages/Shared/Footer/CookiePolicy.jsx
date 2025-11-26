@@ -12,10 +12,9 @@ import useCurrentUser from "../../../hooks/useCurrentUser";
 
 const CookiePolicy = () => {
   const { user } = useContext(AuthContext);
-   const { currentUser } = useCurrentUser(user?.email);
+  const { currentUser } = useCurrentUser(user?.email);
   const isAdmin = currentUser?.role === "admin";
   const axiosPublic = useAxiosPublic();
- 
 
   // Sections state
   const [sections, setSections] = useState([
@@ -73,7 +72,7 @@ const CookiePolicy = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100/90 min-h-screen">
       <Navbar />
       <Helmet>
         <title>Cookie Policy | TuToria</title>

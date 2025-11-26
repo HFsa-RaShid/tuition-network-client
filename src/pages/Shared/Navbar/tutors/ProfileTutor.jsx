@@ -104,45 +104,42 @@ const ProfileTutor = () => {
   };
 
   // -------- Request / Select Handlers ----------
- const assemblePayload = () => {
-  return {
-    createdAt: new Date().toISOString(),
+  const assemblePayload = () => {
+    return {
+      createdAt: new Date().toISOString(),
 
-    studentId: currentUser?.customId || "",
-    studentName: currentUser?.name || "",
-    studentEmail: currentUser?.email || "",
-    studentPhone: currentUser?.phone || "",
+      studentId: currentUser?.customId || "",
+      studentName: currentUser?.name || "",
+      studentEmail: currentUser?.email || "",
+      studentPhone: currentUser?.phone || "",
 
-
-    tutorId: tutor?.customId || "",
-    tutorName: tutor?.name || "",
-    tutorEmail: tutor?.email || "",
-    tutorPhone: tutor?.phone || "",
+      tutorId: tutor?.customId || "",
+      tutorName: tutor?.name || "",
+      tutorEmail: tutor?.email || "",
+      tutorPhone: tutor?.phone || "",
+    };
   };
-};
 
+  const handleAction = async () => {
+    if (!user) {
+      navigate("/signIn", { state: { from: location } });
+      return;
+    }
 
- const handleAction = async () => {
-  if (!user) {
-    navigate("/signIn", { state: { from: location } });
-    return;
-  }
+    if (!currentUser?.customId || !tutor?.customId) {
+      toast.error("Something went wrong. Please reload the page.");
+      return;
+    }
 
-  if (!currentUser?.customId || !tutor?.customId) {
-    toast.error("Something went wrong. Please reload the page.");
-    return;
-  }
-
-  try {
-    const payload = assemblePayload();
-    const res = await axiosSecure.post("/tutorRequests/demo", payload);
-    toast.success("Request sent successfully");
-  } catch (err) {
-    console.error("Request error:", err);
-    toast.error("Failed to submit request");
-  }
-};
-
+    try {
+      const payload = assemblePayload();
+      const res = await axiosSecure.post("/tutorRequests/demo", payload);
+      toast.success("Request sent successfully");
+    } catch (err) {
+      console.error("Request error:", err);
+      toast.error("Failed to submit request");
+    }
+  };
 
   // Main Return
 
@@ -152,7 +149,7 @@ const ProfileTutor = () => {
       <div className="bg-base-100 min-h-screen mt-6">
         <div className="flex p-6 gap-6 container mx-auto">
           {/* Left Side - Profile Card */}
-          <div className="w-[28%] mt-20 bg-[#F9F9FF] shadow-md rounded-xl p-4 flex flex-col items-center">
+          <div className="w-[28%] mt-20 bg-gray-100/90 shadow-md rounded-xl p-4 flex flex-col items-center">
             {/* Profile Picture */}
             <img
               src={
@@ -187,7 +184,7 @@ const ProfileTutor = () => {
           </div>
 
           {/* Middle Section - Tabs */}
-          <div className="w-[52%] mt-20 bg-[#F9F9FF] shadow-md rounded-xl p-4">
+          <div className="w-[52%] mt-20 bg-gray-100/90 shadow-md rounded-xl p-4">
             {/* Tabs */}
             <div className="flex border-b mb-4">
               <button
@@ -340,11 +337,11 @@ const ProfileTutor = () => {
           </div>
 
           {/* Right Side - Single Action + Contact Info */}
-          <div className="w-[25%] mt-20 bg-[#F9F9FF] shadow-md rounded-xl p-6 flex flex-col items-stretch gap-3">
+          <div className="w-[25%] mt-20 bg-gray-100/90 shadow-md rounded-xl p-6 flex flex-col items-stretch gap-3">
             <h2 className="text-[18px] font-bold mb-2">Get Started</h2>
             <p className="text-sm text-gray-700 mb-3">
-              Interested in a live demo class or hiring this tutor? <b>Click</b> the
-              button below to choose your action.
+              Interested in a live demo class or hiring this tutor? <b>Click</b>{" "}
+              the button below to choose your action.
             </p>
 
             <button

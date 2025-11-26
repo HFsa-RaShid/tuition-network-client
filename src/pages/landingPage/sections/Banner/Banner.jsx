@@ -94,7 +94,7 @@
 //               <select
 //                 value={className}
 //                 onChange={(e) => setClassName(e.target.value)}
-//                 className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 
+//                 className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28
 //                 ${!className ? "text-gray-400" : "text-black"}`}
 //               >
 //                 <option value="" disabled>
@@ -132,7 +132,7 @@
 //                 value={city}
 //                 onChange={(e) => setCity(e.target.value)}
 //                 disabled={!district}
-//                 className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 
+//                 className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28
 //                 ${!city ? "text-gray-400" : "text-black"}`}
 //               >
 //                 <option value="" disabled>
@@ -198,7 +198,6 @@
 
 // export default Banner;
 
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bdDistricts from "../../../utils/bdDistricts";
@@ -227,14 +226,13 @@ const Banner = () => {
   ];
 
   return (
-    <div className="relative bg-[#F9F9FF] py-28 mt-20 overflow-hidden">
+    <div className="relative bg-gray-100/90 py-28 mt-20 overflow-hidden">
       {/* 💡 Lamppost Light Effect */}
       {/* <div
         className="absolute top-[-40%] left-1/2 -translate-x-1/2 w-[300px] h-[700px]
         bg-gradient-to-b from-[rgba(255,255,255,0.4)] via-[rgba(255,255,255,0.1)] to-transparent
         blur-[80px] opacity-70 pointer-events-none"
       ></div> */}
-      
 
       {/* Small glow point like lamppost bulb */}
       {/* <div
@@ -272,9 +270,9 @@ const Banner = () => {
         </h1>
 
         <p className="font-medium text-gray-500 max-w-2xl mx-auto">
-          Personalized one-on-one instruction tailored to your needs,
-          delivered by a highly qualified instructor of your choice.
-          Sessions can be conducted online or in person.
+          Personalized one-on-one instruction tailored to your needs, delivered
+          by a highly qualified instructor of your choice. Sessions can be
+          conducted online or in person.
         </p>
 
         {/* 🔍 Search Form */}

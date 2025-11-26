@@ -81,7 +81,7 @@ const PrivacyPolicy = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100/90 min-h-screen">
       <Navbar />
       <Helmet>
         <title>Privacy Policy | TuToria</title>

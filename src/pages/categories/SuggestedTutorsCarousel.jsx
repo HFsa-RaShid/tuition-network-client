@@ -139,68 +139,67 @@ const SuggestedTutorsCarousel = ({ targetClass, categoryName }) => {
         {filteredTutors.map((tutor) => {
           const profileId = tutor?.customId;
           return (
-          <article
-            key={tutor._id}
-            className="min-w-[260px] max-w-[260px] bg-[#f9f9ff] border border-white rounded-3xl p-5 flex flex-col gap-3 snap-start"
-          >
-            <div className="flex items-center gap-3">
-              <img
-                src={
-                  tutor.photoURL ||
-                  "https://i.ibb.co/7n4R8Rt/default-avatar.png"
-                }
-                alt={tutor.name}
-                className="w-14 h-14 rounded-2xl object-cover bg-white"
-                loading="lazy"
-              />
-              <div>
-                <h4 className="font-semibold text-gray-900 flex items-center gap-1">
-                  {tutor.name}
-                  {tutor.verificationStatus === "approved" && (
-                    <MdVerified className="text-blue-500" />
-                  )}
-                </h4>
-                <p className="text-xs text-gray-500">
-                  {tutor.institute || tutor.education || "Experienced tutor"}
-                </p>
+            <article
+              key={tutor._id}
+              className="min-w-[260px] max-w-[260px] bg-gray-100/90 border border-white rounded-3xl p-5 flex flex-col gap-3 snap-start"
+            >
+              <div className="flex items-center gap-3">
+                <img
+                  src={
+                    tutor.photoURL ||
+                    "https://i.ibb.co/7n4R8Rt/default-avatar.png"
+                  }
+                  alt={tutor.name}
+                  className="w-14 h-14 rounded-2xl object-cover bg-white"
+                  loading="lazy"
+                />
+                <div>
+                  <h4 className="font-semibold text-gray-900 flex items-center gap-1">
+                    {tutor.name}
+                    {tutor.verificationStatus === "approved" && (
+                      <MdVerified className="text-blue-500" />
+                    )}
+                  </h4>
+                  <p className="text-xs text-gray-500">
+                    {tutor.institute || tutor.education || "Experienced tutor"}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center text-xs text-gray-600 gap-1">
-              <MdLocationOn className="text-[#5c6ac4]" />
-              {tutor.city || "Anywhere"}
-            </div>
-            <div className="flex flex-wrap gap-2 text-[11px] text-gray-600">
-              {(tutor.preferredClass || "")
-                .split(",")
-                .slice(0, 3)
-                .map((cls) => (
-                  <span
-                    key={cls}
-                    className="px-2 py-1 bg-white rounded-full border border-gray-200"
-                  >
-                    {cls.trim()}
-                  </span>
-                ))}
-            </div>
-            {profileId ? (
-              <button
-                onClick={() => navigate(`/tutors/tutor-profile/${profileId}`)}
-                className="mt-2 w-full px-4 py-2 rounded-full bg-white text-gray-900 font-semibold border border-gray-200 hover:border-[#5c6ac4]"
-              >
-                See
-              </button>
-            ) : (
-              <span className="mt-2 text-xs text-gray-400 text-center">
-                Profile unavailable
-              </span>
-            )}
-          </article>
-        );
-      })}
+              <div className="flex items-center text-xs text-gray-600 gap-1">
+                <MdLocationOn className="text-[#5c6ac4]" />
+                {tutor.city || "Anywhere"}
+              </div>
+              <div className="flex flex-wrap gap-2 text-[11px] text-gray-600">
+                {(tutor.preferredClass || "")
+                  .split(",")
+                  .slice(0, 3)
+                  .map((cls) => (
+                    <span
+                      key={cls}
+                      className="px-2 py-1 bg-white rounded-full border border-gray-200"
+                    >
+                      {cls.trim()}
+                    </span>
+                  ))}
+              </div>
+              {profileId ? (
+                <button
+                  onClick={() => navigate(`/tutors/tutor-profile/${profileId}`)}
+                  className="mt-2 w-full px-4 py-2 rounded-full bg-white text-gray-900 font-semibold border border-gray-200 hover:border-[#5c6ac4]"
+                >
+                  See
+                </button>
+              ) : (
+                <span className="mt-2 text-xs text-gray-400 text-center">
+                  Profile unavailable
+                </span>
+              )}
+            </article>
+          );
+        })}
       </div>
     </section>
   );
 };
 
 export default SuggestedTutorsCarousel;
-

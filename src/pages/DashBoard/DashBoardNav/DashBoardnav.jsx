@@ -1,5 +1,3 @@
-
-
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../provider/AuthProvider";
 import useCurrentUser from "../../../hooks/useCurrentUser";
@@ -21,12 +19,9 @@ const DashBoardNav = ({ isSidebarOpen }) => {
     setIsOpen((prev) => !prev);
   };
 
-
-
-
   return (
     <div
-      className={`bg-[#F9F9FF]  shadow-md backdrop-blur font-serif text-black fixed top-0 z-50 transition-all duration-300 
+      className={`bg-gray-100/90  shadow-md backdrop-blur font-serif text-black fixed top-0 z-50 transition-all duration-300 
         ${isSidebarOpen ? "w-4/5" : "w-full"}`}
     >
       <div className="navbar px-14">
@@ -35,9 +30,7 @@ const DashBoardNav = ({ isSidebarOpen }) => {
             Tu<span className="text-[#DAA520]">T</span>oria
           </h1>
 
-        
           <div className="relative">
-            
             <button onClick={toggleDropdown}>
               <IoChevronDownSharp className="text-[18px] mt-3 cursor-pointer" />
             </button>
@@ -47,10 +40,7 @@ const DashBoardNav = ({ isSidebarOpen }) => {
               <div className="absolute bg-white shadow-lg rounded mt-2 w-40 z-50">
                 <ul className="text-sm">
                   {/* Free Option */}
-                  <li
-                    className="px-4 py-2 hover:bg-gray-100 flex justify-between cursor-pointer"
-                    
-                  >
+                  <li className="px-4 py-2 hover:bg-gray-100/90 flex justify-between cursor-pointer">
                     Free
                     {currentUser?.profileStatus === "Free" && (
                       <span className="text-green-600 font-bold">✔</span>
@@ -59,10 +49,10 @@ const DashBoardNav = ({ isSidebarOpen }) => {
 
                   {/* Premium Option */}
                   <li
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    className="px-4 py-2 hover:bg-gray-100/90 cursor-pointer"
                     onClick={() => {
                       navigate("settings/premium");
-                      setIsOpen(false); 
+                      setIsOpen(false);
                     }}
                   >
                     Premium
