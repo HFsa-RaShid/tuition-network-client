@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import toast from "react-hot-toast";
 import signInImage from "../../../../assets/tutor-student.png";
@@ -13,46 +13,53 @@ const SignIn = () => {
   const { signInUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const axiosPublic = useAxiosPublic();
 
-
   const handleSignIn = async (e) => {
-  e.preventDefault();
-  const form = e.target;
-  let loginId = form.loginId.value; // email or phone
-  const password = form.password.value;
+    e.preventDefault();
+    const form = e.target;
+    let loginId = form.loginId.value; // email or phone
+    const password = form.password.value;
 
-  try {
-    // Check if input is phone
-    const isPhone = /^[0-9]{11}$/.test(loginId);
+    try {
+      // Check if input is phone
+      const isPhone = /^[0-9]{11}$/.test(loginId);
 
-    if (isPhone) {
-      // fetch email by phone
-      const res = await axiosPublic.get(`/find-email-by-phone/${loginId}`);
-      loginId = res.data.email; // converted to email
+      if (isPhone) {
+        // fetch email by phone
+        const res = await axiosPublic.get(`/find-email-by-phone/${loginId}`);
+        loginId = res.data.email; // converted to email
+      }
+
+      // Firebase login with found email
+      const result = await signInUser(loginId, password);
+
+      // get user data
+      const userRes = await axiosPublic.get(`/users/${result.user.email}`);
+      const loggedUser = userRes.data;
+
+      if (loggedUser?.banned === "yes") {
+        toast.error("Your account has been banned.");
+        return;
+      }
+
+      toast.success("Successfully Signed In!");
+      // If user was redirected here, go back to the original page
+      const returnTo = location.state?.from;
+      if (returnTo) {
+        // support both location objects and simple path strings
+        const toPath = returnTo?.pathname || returnTo;
+        navigate(toPath);
+      } else {
+        navigate(`/${loggedUser.role}/dashboard`);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Invalid login credentials.");
+      form.reset();
     }
-
-    // Firebase login with found email
-    const result = await signInUser(loginId, password);
-
-    // get user data
-    const userRes = await axiosPublic.get(`/users/${result.user.email}`);
-    const loggedUser = userRes.data;
-
-    if (loggedUser?.banned === "yes") {
-      toast.error("Your account has been banned.");
-      return;
-    }
-
-    toast.success("Successfully Signed In!");
-    navigate(`/${loggedUser.role}/dashboard`);
-  } catch (error) {
-    console.error(error);
-    toast.error("Invalid login credentials.");
-    form.reset();
-  }
-};
-
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

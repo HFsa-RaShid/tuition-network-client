@@ -14,6 +14,7 @@ import PendingRequest from "../pages/DashBoard/DashBoardAllPages/PendingRequest/
 import PostedJobs from "../pages/DashBoard/DashBoardAllPages/PostedJob/PostedJobs";
 import AppliedTutorProfile from "../pages/DashBoard/DashBoardAllPages/PostedJob/AppliedTutorProfile";
 import TutorRequests from "../pages/DashBoard/DashBoardAllPages/tutorRequests/TutorRequests";
+import AdminTutorRequests from "../pages/DashBoard/DashBoardAllPages/tutorRequests/AdminTutorRequests";
 import MyApplications from "../pages/DashBoard/DashBoardAllPages/MyApplications/MyApplications";
 import JobDetails from "../pages/DashBoard/DashBoardAllPages/MyApplications/JobDetails";
 import AppliedTutors from "../pages/DashBoard/DashBoardAllPages/PostedJob/AppliedTutors";
@@ -72,7 +73,7 @@ export const router = createBrowserRouter([
         path: "/categories/:categoryId/:classId",
         element: <ClassDetails />,
       },
-     
+
       {
         path: "/about-us",
         element: <AboutUs></AboutUs>,
@@ -127,6 +128,10 @@ export const router = createBrowserRouter([
             element: <ProfileDetails></ProfileDetails>,
           },
           { path: "tutor-request", element: <TutorRequests></TutorRequests> },
+          {
+            path: "tutor-requests-admin",
+            element: <AdminTutorRequests></AdminTutorRequests>,
+          },
           { path: "posted-jobs", element: <PostedJobs></PostedJobs> },
           {
             path: "pending-request",

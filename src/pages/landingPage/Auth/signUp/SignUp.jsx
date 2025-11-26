@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../../provider/AuthProvider";
@@ -21,6 +21,7 @@ const SignupPage = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const axiosPublic = useAxiosPublic();
 
   const onSubmit = async (data) => {
@@ -36,6 +37,7 @@ const SignupPage = () => {
         state: {
           userData: data,
           role: userType,
+          from: location.state?.from || null,
         },
       });
     } catch (error) {

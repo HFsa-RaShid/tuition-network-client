@@ -1,5 +1,3 @@
-
-
 import React, { useState, useContext, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
@@ -56,6 +54,7 @@ const DashBoard = () => {
     { path: "tutor-request", icon: <FaUsers />, label: "Tutor Request" },
     { path: "posted-jobs", icon: <FaBookOpen />, label: "Posted Jobs" },
     { path: "hired-tutors", icon: <FaHandshake />, label: "Hired Tutors" },
+
     { path: "pay-history", icon: <FaHistory />, label: "Payment History" },
     { path: "settings", icon: <FaCog />, label: "Settings" },
   ];
@@ -69,6 +68,7 @@ const DashBoard = () => {
       icon: <VscGitStashApply />,
       label: "My Applications",
     },
+
     { path: "payment-history", icon: <FaHistory />, label: "Payment History" },
     { path: "settings", icon: <FaCog />, label: "Settings" },
   ];
@@ -82,6 +82,11 @@ const DashBoard = () => {
       path: "pending-request",
       icon: <FaHourglassHalf />,
       label: "Pending Request",
+    },
+    {
+      path: "tutor-requests-admin",
+      icon: <FaUsers />,
+      label: "Requested Tutor",
     },
     // { path: "verify-user", icon: <FaUserCheck />, label: "Verify User" },
     { path: "allPayment", icon: <FaCreditCard />, label: "Payments" },

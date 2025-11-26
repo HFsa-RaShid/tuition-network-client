@@ -519,6 +519,61 @@ const Tutors = () => {
   const [page, setPage] = useState(1);
   const pageSize = 20;
 
+  // Small rating stars renderer (read-only) reused from Profile view
+  const RatingStars = ({ rating, totalRatings = 0, name }) => {
+    if (!rating || totalRatings === 0) {
+      return (
+        <div className="flex items-center gap-2">
+          <div className="rating rating-sm rating-half">
+            {[...Array(10)].map((_, i) => (
+              <input
+                key={i}
+                type="radio"
+                name={`${name}-no-rating`}
+                className={`mask mask-star-2 ${
+                  i % 2 === 0 ? "mask-half-1" : "mask-half-2"
+                } bg-gray-300`}
+                readOnly
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex items-center gap-2">
+        <div className="rating rating-sm rating-half">
+          <input
+            type="radio"
+            name={`${name}-avg-rating`}
+            className="rating-hidden"
+            readOnly
+          />
+          {[...Array(10)].map((_, i) => {
+            const value = (i + 1) / 2;
+            return (
+              <input
+                key={i}
+                type="radio"
+                name={`${name}-avg-rating`}
+                className={`mask mask-star-2 ${
+                  i % 2 === 0 ? "mask-half-1" : "mask-half-2"
+                } bg-yellow-400`}
+                aria-label={`${value} star`}
+                checked={rating >= value}
+                readOnly
+              />
+            );
+          })}
+        </div>
+        <span className="text-sm text-gray-600">
+          {rating?.toFixed ? rating.toFixed(1) : rating}
+        </span>
+      </div>
+    );
+  };
+
   useEffect(() => {
     if (district) setSelectedCity(district);
     if (city) setSelectedArea(city);
@@ -703,71 +758,76 @@ const Tutors = () => {
               {pagedTutors.map((tutor) => {
                 const profileId = tutor?.customId;
                 return (
-                <article
-                  key={tutor._id}
-                  className="bg-[#f6f8ff] rounded-xl p-6 shadow-md border border-gray-200 flex flex-col gap-4"
-                >
-                  <div className="flex items-center gap-4">
-                    <img
-                      src={
-                        tutor.photoURL ||
-                        "https://i.ibb.co/7n4R8Rt/default-avatar.png"
-                      }
-                      alt={tutor.name}
-                      className="w-14 h-14 object-cover rounded-2xl bg-gray-100"
-                    />
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-1">
-                        {tutor.name}
-                        {tutor.verificationStatus === "approved" && (
-                          <MdVerified className="text-blue-500" />
-                        )}
-                      </h3>
-                      <p className="text-sm text-gray-500">
-                        {tutor.institute || tutor.education || "Tutor"}
-                      </p>
+                  <article
+                    key={tutor._id}
+                    className="bg-[#f6f8ff] rounded-xl p-6 shadow-md border border-gray-200 flex flex-col gap-4"
+                  >
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={
+                          tutor.photoURL ||
+                          "https://i.ibb.co/7n4R8Rt/default-avatar.png"
+                        }
+                        alt={tutor.name}
+                        className="w-14 h-14 object-cover rounded-2xl bg-gray-100"
+                      />
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-1">
+                          {tutor.name}
+                          {tutor.verificationStatus === "approved" && (
+                            <MdVerified className="text-blue-500" />
+                          )}
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          {tutor.institute || "Tutor"}
+                        </p>
+                        <div className="mt-2">
+                          <RatingStars
+                            rating={tutor.averageRating}
+                            totalRatings={tutor.ratings?.length}
+                            name={`tutor-${tutor._id}`}
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center text-sm text-gray-600 gap-2">
-                    <MdLocationOn className="text-[#5c6ac4]" />
-                    {tutor.city || "Anywhere"}
-                    {tutor.preferredLocations && (
-                      <span className="text-xs px-2 py-1 bg-[#f6f8ff] rounded-full">
-                        {tutor.preferredLocations.split(",")[0]}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {(tutor.preferredClass || "")
-                      .split(",")
-                      .slice(0, 3)
-                      .map((cls) => (
-                        <span
-                          key={cls}
-                          className="text-xs font-medium px-3 py-1 bg-[#f6f8ff] rounded-full text-gray-600"
-                        >
-                          {cls.trim()}
+                    <div className="flex items-center text-sm text-gray-600 gap-2">
+                      <MdLocationOn className="text-[#5c6ac4]" />
+                      {tutor.city || "Anywhere"}
+                      {tutor.preferredLocations && (
+                        <span className="text-xs px-2 py-1 bg-[#f6f8ff] rounded-full">
+                          {tutor.preferredLocations.split(",")[0]}
                         </span>
-                      ))}
-                  </div>
-                  <div className="flex items-center justify-between mt-4">
-                 
+                      )}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {(tutor.preferredClass || "")
+                        .split(",")
+                        .slice(0, 3)
+                        .map((cls) => (
+                          <span
+                            key={cls}
+                            className="text-xs font-medium px-3 py-1 bg-[#f6f8ff] rounded-full text-gray-600"
+                          >
+                            {cls.trim()}
+                          </span>
+                        ))}
+                    </div>
+                    <div className="flex items-center justify-between mt-4">
                       <NavLink to={`/tutors/tutor-profile/${profileId}`}>
                         <button className="px-4 py-2 rounded-full bg-[#111827] text-white text-sm font-semibold flex items-center gap-2">
                           <ImProfile className="text-base" />
                           See
                         </button>
                       </NavLink>
-                    
-                   
-                  </div>
-                </article>
-              );
-            })}
+                    </div>
+                  </article>
+                );
+              })}
             </div>
             <div className="flex flex-wrap items-center justify-between gap-4 mt-10 text-sm text-gray-600">
               <span>
-                Showing {showingFrom} - {showingTo} of {filteredTutors.length} tutors
+                Showing {showingFrom} - {showingTo} of {filteredTutors.length}{" "}
+                tutors
               </span>
               <div className="flex items-center gap-2">
                 <button
@@ -806,7 +866,9 @@ const Tutors = () => {
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block mb-2 font-medium">Select District</label>
+                <label className="block mb-2 font-medium">
+                  Select District
+                </label>
                 <select
                   className="w-full border p-2 rounded"
                   value={selectedCity}
