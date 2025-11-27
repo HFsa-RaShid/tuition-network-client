@@ -126,10 +126,7 @@ const DashBoard = () => {
       </Helmet>
 
       {/* Sidebar */}
-      {/* <div
-        className={`${isSidebarOpen ? "w-1/5" : "w-20"} bg-gray-200 
-        p-5 flex flex-col items-start space-y-4 relative transition-all duration-300`}
-      > */}
+      
       <div
         className={`${isSidebarOpen ? "w-1/5" : "w-20"} 
   bg-gradient-to-b from-gray-200 to-gray-400
