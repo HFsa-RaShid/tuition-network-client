@@ -156,7 +156,7 @@ const Reviews = () => {
                     textOverflow: "ellipsis",
                   }}
                 >
-                  {review.review}
+                  “{review.review}”
                 </p>
 
                 {/* Name + Role + Stars */}

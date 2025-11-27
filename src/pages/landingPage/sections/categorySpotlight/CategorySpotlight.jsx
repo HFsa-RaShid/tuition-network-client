@@ -13,7 +13,7 @@ const CategorySpotlight = () => {
   }
 
   return (
-    <section className="bg-[#f6f8ff] py-16">
+    <section className="bg-gray-100/90 py-16">
       <div className="container mx-auto px-4 md:px-16">
         <div className="flex items-center justify-between mb-10 flex-wrap gap-4">
           <div>

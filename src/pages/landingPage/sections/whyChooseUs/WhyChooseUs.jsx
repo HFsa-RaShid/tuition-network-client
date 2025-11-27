@@ -33,11 +33,11 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <div className="bg-[#100E20] py-24">
-      <div className="container mx-auto text-center px-6 md:px-16 text-black">
+    <div className="bg-white py-32">
+      <div className="container mx-auto text-center px-6 md:px-16 ">
         <div className="w-full mx-auto">
           <h4 className="text-[#DAA520] font-bold mb-2">WHY CHOOSE US</h4>
-          <h2 className="text-3xl font-bold mb-1 text-white">
+          <h2 className="text-3xl font-bold mb-1 ">
             Benefits of Online Tutoring
           </h2>
           <h2 className="text-3xl font-bold mb-8 text-white">
@@ -48,18 +48,13 @@ const WhyChooseUs = () => {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="relative bg-[#111824] rounded-xl p-6 text-center overflow-hidden group transition-all duration-700 shadow-[0_0_20px_rgba(0,255,255,0.05)] hover:shadow-[0_0_5px_rgba(0,255,255,0)]"
+                className="relative bg-gray-100/90 border-gray-400 rounded-xl p-6 text-center overflow-hidden group transition-all duration-700 shadow-[0_0_20px_rgba(0,255,255,0.05)] hover:shadow-[0_0_5px_rgba(0,255,255,0)]"
               >
-                {/* light beam effect */}
-                <div className="absolute top-[-50%] left-1/2 -translate-x-1/2 w-[120%] h-[200%] 
-                                opacity-50 group-hover:opacity-0 transition-opacity duration-700
-                                [background:radial-gradient(ellipse_at_top,rgba(0,255,255,0.35)_0%,rgba(0,255,255,0.05)_40%,transparent_70%)]
-                                blur-[30px] rotate-[6deg]"></div>
-
-                <div className="relative z-10 text-white">
+                
+                <div className="relative z-10 text-black">
                   <p className="text-5xl mb-4">{benefit.icon}</p>
                   <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
-                  <p className="text-base text-gray-300">{benefit.description}</p>
+                  <p className="text-base text-gray-700">{benefit.description}</p>
                 </div>
               </div>
             ))}
