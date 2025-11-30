@@ -167,7 +167,7 @@ export const router = createBrowserRouter([
             path: "pay-history",
             element: <PaymentHistoryStudent></PaymentHistoryStudent>,
           },
-          // { path: "verify-user", element: <VerifyUser></VerifyUser> },
+    
           { path: "hired-tutors", element: <HiredTutors></HiredTutors> },
           { path: "settings", element: <Settings></Settings> },
           { path: "settings/premium", element: <GetPremium></GetPremium> },

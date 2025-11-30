@@ -22,7 +22,7 @@ const LandingPage = () => {
         <title>TuToria</title>
       </Helmet>
       <Navbar></Navbar>
-      {/* <ContactSection></ContactSection> */}
+     
       <Banner></Banner>
       <CountDown></CountDown>
       <WhyChooseUs></WhyChooseUs>
