@@ -3,13 +3,18 @@ import useAxiosPublic from "./useAxiosPublic";
 
 const useAllTutors = () => {
   const axiosPublic = useAxiosPublic();
-  const {refetch,data: allTutors = [],isLoading,isError,} = useQuery({
+  const {
+    refetch,
+    data: allTutors = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["AllTutors"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/tutors`);
+      const res = await axiosPublic.get("/tutors");
       return res.data;
     },
-    enabled: true, 
+    enabled: true,
   });
   return { allTutors, refetch, isLoading, isError };
 };

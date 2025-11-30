@@ -302,7 +302,7 @@ const ProfileDetails = () => {
             <h2 className="text-xl font-bold">{currentUser?.name}</h2>
             <p>{currentUser?.role || "Student"}</p>
             <p>{currentUser?.isPremium ? "Premium User" : "Free User"}</p>
-            <p>Points: {currentUser?.points || 0}</p>
+            
           </div>
         </div>
 
@@ -318,7 +318,7 @@ const ProfileDetails = () => {
                     <label>Name</label>
                     <input
                       {...register("name", { required: true })}
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full bg-white"
                       readOnly
                     />
                     {errors.name && (
@@ -329,7 +329,7 @@ const ProfileDetails = () => {
                     <label>Phone</label>
                     <input
                       {...register("phone", { required: true })}
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full bg-white"
                       readOnly
                     />
                     {errors.phone && (
@@ -341,7 +341,7 @@ const ProfileDetails = () => {
                     <label>Gender</label>
                     <select
                       {...register("gender", { required: true })}
-                      className="select select-bordered w-full"
+                      className="select select-bordered w-full bg-white"
                       //defaultValue={currentUser?.gender || ""}
                     >
                       <option value="">Select Gender</option>
@@ -359,7 +359,7 @@ const ProfileDetails = () => {
                     <label>Religion</label>
                     <select
                       {...register("religion", { required: true })}
-                      className="select select-bordered w-full"
+                      className="select select-bordered w-full bg-white"
                       //defaultValue={currentUser?.religion || ""}
                     >
                       <option value="">Select Religion</option>
@@ -378,12 +378,12 @@ const ProfileDetails = () => {
                     <label>City</label>
                     <select
                       {...register("city")}
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full bg-white"
                       onChange={(e) => {
                         setValue("city", e.target.value);
-                        setValue("location", ""); // Reset location when city changes
+                        setValue("location", ""); 
                       }}
-                      //defaultValue={currentUser?.city || ""}
+                      
                     >
                       <option value="">Select a City</option>
                       {bdDistricts.map((district) => (
@@ -398,9 +398,9 @@ const ProfileDetails = () => {
                     <label>Location / Area</label>
                     <select
                       {...register("location")}
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full bg-white"
                       disabled={!watch("city")}
-                      //defaultValue={currentUser?.location || ""}
+                     
                     >
                       <option value="">Select an Area</option>
                       {cityAreaMap[watch("city")]?.map((area) => (
@@ -411,47 +411,14 @@ const ProfileDetails = () => {
                     </select>
                   </div>
 
-                  {/* NID Image (View Only with Icons) */}
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">
-                      NID Image
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={
-                          currentUser?.NidImage ? "Uploaded" : "Not Uploaded"
-                        }
-                        disabled
-                        className="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-100/90 cursor-not-allowed pr-16"
-                      />
-                      {currentUser?.NidImage && (
-                        <div className="absolute inset-y-0 right-3 flex items-center gap-3">
-                          {/* Eye Icon for Modal */}
-                          <FaEye
-                            onClick={() => setShowNidModal(true)}
-                            className="text-blue-600 hover:text-blue-800 cursor-pointer"
-                            size={18}
-                          />
-
-                          {/* Download Icon */}
-                          <a
-                            href={currentUser?.NidImage}
-                            download="nid-image.jpg"
-                          >
-                            <FaDownload size={18} />
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                 
 
                   {/* Tutor Type */}
                   <div>
                     <label className="block font-medium ">Tutor Type</label>
                     <select
                       {...register("tutorType")}
-                      className="select select-bordered w-full"
+                      className="select select-bordered w-full bg-white"
                     >
                       <option value="">Select </option>
                       <option value="Government Institution">
@@ -486,7 +453,7 @@ const ProfileDetails = () => {
                     </label>
                     <select
                       {...register("education")}
-                      className="select select-bordered w-full"
+                      className="select select-bordered w-full bg-white"
                     >
                       <option value="">Select education level</option>
                       <option value="JSC/Equivalent">JSC/Equivalent</option>
@@ -502,7 +469,7 @@ const ProfileDetails = () => {
                     <input
                       {...register("institute")}
                       type="text"
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full bg-white"
                       placeholder="Name of your institute"
                     />
                   </div>
@@ -515,7 +482,7 @@ const ProfileDetails = () => {
                     <input
                       {...register("department")}
                       type="text"
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full bg-white"
                       placeholder="e.g., Science, Arts, CSE"
                     />
                   </div>
@@ -524,7 +491,7 @@ const ProfileDetails = () => {
                     <input
                       {...register("gpa")}
                       type="text"
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full bg-white"
                       placeholder="e.g., 4.00"
                     />
                   </div>
@@ -536,7 +503,7 @@ const ProfileDetails = () => {
                     </label>
                     <select
                       {...register("passingYear")}
-                      className="select select-bordered w-full"
+                      className="select select-bordered w-full bg-white"
                     >
                       <option value="">Select year</option>
                       {Array.from({ length: 26 }, (_, i) => {
@@ -556,17 +523,9 @@ const ProfileDetails = () => {
                     <input
                       type="file"
                       accept="image/*"
-                      className="file-input file-input-bordered w-full"
+                      className="file-input file-input-bordered w-full bg-white"
                       onChange={handleStudentIdChange}
-                    />
-
-                    {/* {studentIdUrl && (
-                    <img
-                      src={studentIdUrl}
-                      alt="Student ID"
-                      className="mt-2 w-60 h-24 border rounded object-cover"
-                    />
-                  )} */}
+                    /> 
                   </div>
                 </div>{" "}
               </>
@@ -586,7 +545,7 @@ const ProfileDetails = () => {
                     </label>
                     <select
                       {...register("tuitionPreference")}
-                      className="select select-bordered w-full"
+                      className="select select-bordered w-full bg-white"
                     >
                       <option value="">Select preference</option>
                       <option value="Home">Home Tutoring </option>
@@ -603,7 +562,7 @@ const ProfileDetails = () => {
                     <input
                       {...register("expectedSalary")}
                       type="text"
-                      className="input input-bordered w-full"
+                      className="input input-bordered w-full bg-white"
                       placeholder="e.g., 5000 BDT/month"
                     />
                   </div>
@@ -628,7 +587,7 @@ const ProfileDetails = () => {
                         ]);
                       }
                     }}
-                    className="w-full p-2 border rounded mb-2"
+                    className="w-full p-2 border rounded mb-2 bg-white"
                   >
                     <option value="">Select Category</option>
                     {categories.map((cat) => (
@@ -652,7 +611,7 @@ const ProfileDetails = () => {
                               preferredCategories.filter((c) => c !== cat)
                             )
                           }
-                          className="text-white font-bold"
+                          className="text-white font-bold "
                         >
                           <RxCross2 />
                         </button>
@@ -678,7 +637,7 @@ const ProfileDetails = () => {
                         ]);
                       }
                     }}
-                    className="w-full p-2 border rounded mb-2"
+                    className="w-full p-2 border rounded mb-2 bg-white"
                   >
                     <option value="">Select Class</option>
                     {classes.map((cls) => (
@@ -702,7 +661,7 @@ const ProfileDetails = () => {
                               preferredClasses.filter((c) => c !== cls)
                             )
                           }
-                          className="text-white font-bold"
+                          className="text-white font-bold "
                         >
                           <RxCross2 />
                         </button>
@@ -730,7 +689,7 @@ const ProfileDetails = () => {
                         ]);
                       }
                     }}
-                    className="w-full p-2 border rounded mb-2"
+                    className="w-full p-2 border rounded mb-2 bg-white"
                   >
                     <option value="">Select Subject</option>
                     {subjects.map((sub) => (
@@ -754,7 +713,7 @@ const ProfileDetails = () => {
                               preferredSubjects.filter((s) => s !== subject)
                             )
                           }
-                          className="text-white font-bold"
+                          className="text-white font-bold "
                         >
                           <RxCross2 />
                         </button>
@@ -791,7 +750,7 @@ const ProfileDetails = () => {
                         ]);
                       }
                     }}
-                    className="w-full p-2 border rounded mb-2"
+                    className="w-full p-2 border rounded mb-2 bg-white"
                     disabled={!watch("city")}
                   >
                     <option value="">Select Location</option>
@@ -817,7 +776,7 @@ const ProfileDetails = () => {
                               dataPreferredLocations.filter((l) => l !== loc)
                             )
                           }
-                          className="text-white font-bold"
+                          className="text-white font-bold "
                         >
                           <RxCross2 />
                         </button>
@@ -929,7 +888,7 @@ const ProfileDetails = () => {
               {step > 1 && (
                 <button
                   type="button"
-                  className="btn"
+                  className="btn-primary"
                   onClick={() => setStep(step - 1)}
                 >
                   Previous
@@ -938,7 +897,7 @@ const ProfileDetails = () => {
               {step === 4 ? (
                 <button
                   type="submit"
-                  className="btn btn-success text-white"
+                  className="btn-primary"
                   disabled={!isStep4Valid}
                   onClick={handleSubmit((data) => {
                     onSubmit(data);
@@ -954,7 +913,7 @@ const ProfileDetails = () => {
                     onSubmit(data);
                     setStep(step + 1);
                   })}
-                  className="bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 shadow"
+                  className="btn-primary mb-2"
                   disabled={
                     (step === 1 && !isStep1Valid) ||
                     (step === 2 && !isStep2Valid) ||

@@ -6,6 +6,8 @@ import {
   MdOutlineNavigateNext,
   MdVerified,
 } from "react-icons/md";
+
+// Hooks
 import useAllTutors from "../../hooks/useAllTutors";
 
 const SuggestedTutorsCarousel = ({ targetClass, categoryName }) => {
@@ -82,7 +84,7 @@ const SuggestedTutorsCarousel = ({ targetClass, categoryName }) => {
                 state: { className: targetClass },
               })
             }
-            className="px-5 py-2 rounded-full bg-[#111827] text-white font-semibold"
+            className="btn-primary"
           >
             See All Tutors
           </button>
@@ -125,7 +127,7 @@ const SuggestedTutorsCarousel = ({ targetClass, categoryName }) => {
                 state: { className: targetClass },
               })
             }
-            className="px-5 py-2 rounded-full bg-[#5c6ac4] text-white font-semibold"
+            className="btn-primary"
           >
             See All
           </button>
@@ -185,7 +187,7 @@ const SuggestedTutorsCarousel = ({ targetClass, categoryName }) => {
               {profileId ? (
                 <button
                   onClick={() => navigate(`/tutors/tutor-profile/${profileId}`)}
-                  className="mt-2 w-full px-4 py-2 rounded-full bg-white text-gray-900 font-semibold border border-gray-200 hover:border-[#5c6ac4]"
+                  className="mt-2 w-full btn-primary"
                 >
                   See
                 </button>

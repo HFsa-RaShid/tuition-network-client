@@ -1,12 +1,16 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { AuthContext } from "../../../../provider/AuthProvider";
-import toast from "react-hot-toast";
-import signInImage from "../../../../assets/tutor-student.png";
-import useAxiosPublic from "../../../../hooks/useAxiosPublic";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
+
+// Context & Hooks
+import { AuthContext } from "../../../../provider/AuthProvider";
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+
+// Assets
+import signInImage from "../../../../assets/tutor-student.png";
 import logo from "../../../../assets/logo.png";
 
 const SignIn = () => {
@@ -29,7 +33,7 @@ const SignIn = () => {
       if (isPhone) {
         // fetch email by phone
         const res = await axiosPublic.get(`/find-email-by-phone/${loginId}`);
-        loginId = res.data.email; // converted to email
+        loginId = res.data.email; 
       }
 
       // Firebase login with found email
@@ -90,17 +94,10 @@ const SignIn = () => {
             <label className="block text-gray-700">
               Email or Phone<span className="text-red-600">*</span>
             </label>
-            {/* <input
-              type="email"
-              name="email"
-              className="w-full p-2 border rounded mt-1"
-              placeholder="Enter your email"
-              required
-            /> */}
             <input
               type="text"
               name="loginId"
-              className="w-full p-2 border rounded mt-1"
+              className="w-full p-2 border rounded mt-1 bg-white"
               placeholder="Enter email or phone"
               required
             />
@@ -112,7 +109,7 @@ const SignIn = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                className="w-full p-2 border rounded mt-1 pr-10"
+                className="w-full p-2 border rounded mt-1 pr-10 bg-white"
                 placeholder="Enter your password"
                 required
               />
@@ -132,7 +129,7 @@ const SignIn = () => {
 
             <button
               type="submit"
-              className="w-full mt-6 bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 font-semibold shadow"
+              className="w-full mt-6 btn-primary mb-2"
             >
               Sign In
             </button>

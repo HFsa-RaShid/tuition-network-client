@@ -27,7 +27,7 @@ const DashBoardNav = ({ isSidebarOpen }) => {
       <div className="navbar px-14">
         <div className="navbar-start flex items-center gap-1 ">
           <h1 className="text-xl md:text-2xl font-bold">
-            Tu<span className="text-[#DAA520]">T</span>oria
+            Tu<span className="text-blue-500">T</span>oria
           </h1>
 
           <div className="relative">
@@ -51,7 +51,7 @@ const DashBoardNav = ({ isSidebarOpen }) => {
                   <li
                     className="px-4 py-2 hover:bg-gray-100/90 cursor-pointer"
                     onClick={() => {
-                      navigate("settings/premium");
+                      navigate("get-premium");
                       setIsOpen(false);
                     }}
                   >

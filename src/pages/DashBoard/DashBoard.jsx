@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
-import { RiArrowLeftDoubleLine } from "react-icons/ri";
-import { VscGitStashApply } from "react-icons/vsc";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import {
   FaUser,
   FaEnvelope,
@@ -10,17 +8,24 @@ import {
   FaHistory,
   FaUsers,
   FaCog,
-  FaUserCheck,
   FaTachometerAlt,
   FaHourglassHalf,
   FaHandshake,
   FaCreditCard,
 } from "react-icons/fa";
-import logo from "../../assets/logo.png";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
+import { RiArrowLeftDoubleLine } from "react-icons/ri";
+import { VscGitStashApply } from "react-icons/vsc";
+
+// Context & Hooks
 import { AuthContext } from "../../provider/AuthProvider";
 import useCurrentUser from "../../hooks/useCurrentUser";
+
+// Components
 import DashBoardNav from "./DashBoardNav/DashBoardnav";
+
+// Assets
+import logo from "../../assets/logo.png";
 
 const DashBoard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -56,7 +61,7 @@ const DashBoard = () => {
     { path: "hired-tutors", icon: <FaHandshake />, label: "Hired Tutors" },
 
     { path: "pay-history", icon: <FaHistory />, label: "Payment History" },
-    { path: "settings", icon: <FaCog />, label: "Settings" },
+    { path: "get-premium", icon: <FaCog />, label: "Get Premium" },
   ];
 
   // Tutor Routes
@@ -70,7 +75,7 @@ const DashBoard = () => {
     },
 
     { path: "payment-history", icon: <FaHistory />, label: "Payment History" },
-    { path: "settings", icon: <FaCog />, label: "Settings" },
+    { path: "get-premium", icon: <FaCog />, label: "Get Premium" },
   ];
 
   // Admin Routes
@@ -88,7 +93,7 @@ const DashBoard = () => {
       icon: <FaUsers />,
       label: "Requested Tutor",
     },
-    // { path: "verify-user", icon: <FaUserCheck />, label: "Verify User" },
+   
     { path: "allPayment", icon: <FaCreditCard />, label: "Payments" },
   ];
 
@@ -130,7 +135,7 @@ const DashBoard = () => {
       <div
         className={`${isSidebarOpen ? "w-1/5" : "w-20"} 
   bg-gradient-to-b from-gray-200 to-gray-400
-  p-5 flex flex-col items-start space-y-4 relative transition-all duration-300`}
+  p-5 flex flex-col items-start space-y-4 relative transition-all duration-300 text-black`}
       >
         <NavLink to="/">
           <div className="mb-4 mt-2">
@@ -146,7 +151,7 @@ const DashBoard = () => {
 
         {/* Sidebar Toggle (only lg+) */}
         <button
-          className="absolute bottom-5 -right-4 bg-blue-200 text-[#082755] p-2 rounded-full transition-all duration-300 hidden lg:block"
+          className="absolute bottom-5 -right-4 bg-blue-300  text-black p-2 rounded-full transition-all duration-300 hidden lg:block"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
           {isSidebarOpen ? (
@@ -161,7 +166,7 @@ const DashBoard = () => {
       <div
         className={`transition-all duration-300 ${
           isSidebarOpen ? "w-4/5" : "w-full"
-        } bg-white pt-20 pr-10 overflow-y-auto h-screen`}
+        } bg-white pt-20 pr-10 overflow-y-auto h-screen text-black`}
       >
         <DashBoardNav isSidebarOpen={isSidebarOpen} />
         <Outlet />

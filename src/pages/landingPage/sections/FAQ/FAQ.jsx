@@ -1,4 +1,6 @@
 import React from "react";
+
+// Assets
 import faq from "../../../../assets/faq.png";
 
 const FAQ = () => {
@@ -30,7 +32,7 @@ const FAQ = () => {
           {/* Accordion */}
           <div className="join join-vertical w-full">
             {/* Q1 */}
-            <div className="collapse collapse-arrow join-item border border-t-[#DAA520]">
+            <div className="collapse collapse-arrow join-item border border-t-blue-300">
               <input type="radio" name="faq-accordion" defaultChecked />
               <div className="collapse-title text-lg font-semibold text-[#1E293B]">
                 How does Tutoria connect students with tutors?
@@ -45,7 +47,7 @@ const FAQ = () => {
             </div>
 
             {/* Q2 */}
-            <div className="collapse collapse-arrow join-item border border-t-[#DAA520]">
+            <div className="collapse collapse-arrow join-item border border-t-blue-300">
               <input type="radio" name="faq-accordion" />
               <div className="collapse-title text-lg font-semibold text-[#1E293B]">
                 Is Tutoria free to use?
@@ -60,7 +62,7 @@ const FAQ = () => {
             </div>
 
             {/* Q3 */}
-            <div className="collapse collapse-arrow join-item border border-t-[#DAA520]">
+            <div className="collapse collapse-arrow join-item border border-t-blue-300">
               <input type="radio" name="faq-accordion" />
               <div className="collapse-title text-lg font-semibold text-[#1E293B]">
                 How do I become a tutor on Tutoria?
@@ -75,7 +77,7 @@ const FAQ = () => {
             </div>
 
             {/* Q4 */}
-            <div className="collapse collapse-arrow join-item border border-t-[#DAA520]">
+            <div className="collapse collapse-arrow join-item border border-t-blue-300">
               <input type="radio" name="faq-accordion" />
               <div className="collapse-title text-lg font-semibold text-[#1E293B]">
                 Can I schedule classes through Tutoria?
@@ -89,7 +91,7 @@ const FAQ = () => {
             </div>
 
             {/* Q5 */}
-            <div className="collapse collapse-arrow join-item border border-t-[#DAA520] border-b-[#DAA520]">
+            <div className="collapse collapse-arrow join-item border border-t-blue-300 border-b-blue-300">
               <input type="radio" name="faq-accordion" />
               <div className="collapse-title text-lg font-semibold text-[#1E293B]">
                 What subjects are available on Tutoria?

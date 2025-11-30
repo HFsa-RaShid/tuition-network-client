@@ -1,11 +1,10 @@
-
-
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import useAxiosPublic from "../../../../hooks/useAxiosPublic";
-import { useContext } from "react";
+
+// Context & Hooks
 import { AuthContext } from "../../../../provider/AuthProvider";
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 
 const VerifyEmailPage = () => {
   const { state } = useLocation();
@@ -24,7 +23,7 @@ const VerifyEmailPage = () => {
   }
 
   // Countdown timer
-  useState(() => {
+  useEffect(() => {
     const countdown = setInterval(() => {
       setTimer((t) => (t > 0 ? t - 1 : 0));
     }, 1000);
@@ -119,7 +118,3 @@ const VerifyEmailPage = () => {
 };
 
 export default VerifyEmailPage;
-
-
-
-

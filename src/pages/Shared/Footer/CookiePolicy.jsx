@@ -1,14 +1,16 @@
 import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import Navbar from "../Navbar/Navbar";
-import Footer from "./Footer";
-
 import { FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import toast from "react-hot-toast";
 
+// Context & Hooks
 import { AuthContext } from "../../../provider/AuthProvider";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useCurrentUser from "../../../hooks/useCurrentUser";
+
+// Components
+import Navbar from "../Navbar/Navbar";
+import Footer from "./Footer";
 
 const CookiePolicy = () => {
   const { user } = useContext(AuthContext);

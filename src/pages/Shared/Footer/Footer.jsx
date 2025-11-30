@@ -1,15 +1,17 @@
 import { NavLink } from "react-router-dom";
+
+// Assets
 import logo from "../../../assets/logo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-white   sm:px-8 md:px-10 pt-10 pb-6">
+    <footer className="bg-white text-gray-700  sm:px-8 md:px-10 pt-10 pb-6">
       <div className="container mx-auto">
         <div className="footer pb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="flex flex-col items-start space-y-4">
             <img src={logo} alt="logo" className="h-14 mx-auto" />
             <h1 className="text-3xl font-bold">
-              Tu<span className="text-[#DAA520]">T</span>oria
+              Tu<span className="text-blue-500">T</span>oria
             </h1>
           </div>
 
@@ -28,16 +30,13 @@ const Footer = () => {
           <form>
             <h6 className="footer-title">Newsletter</h6>
             <fieldset className="form-control w-full sm:w-80">
-              {/* <label className="label">
-              <span className="label-text">Enter your email address</span>
-            </label> */}
               <div className="join w-full">
                 <input
                   type="text"
                   placeholder="username@site.com"
                   className="input input-bordered join-item w-full"
                 />
-                <button className="bg-[#f9d045] px-4 join-item font-semibold">
+                <button className="bg-blue-300 px-4 join-item font-semibold">
                   Subscribe
                 </button>
               </div>
@@ -79,8 +78,8 @@ const Footer = () => {
             </div>
           </form>
         </div>
-        <hr></hr>
-        <div className="text-center pt-6 text-gray-700">
+        <hr />
+        <div className="text-center pt-6 text-gray-500">
           <p>
             Copyright © {new Date().getFullYear()} - All right reserved by
             TuToria Ltd

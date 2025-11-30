@@ -17,7 +17,7 @@ const CategorySpotlight = () => {
       <div className="container mx-auto px-4 md:px-16">
         <div className="flex items-center justify-between mb-10 flex-wrap gap-4">
           <div>
-            <p className="text-sm tracking-wide uppercase text-[#5c6ac4]">
+            <p className="text-sm tracking-wide uppercase text-[#DAA520] font-bold">
               Category Spotlight
             </p>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
@@ -31,7 +31,7 @@ const CategorySpotlight = () => {
           </div>
           <Link
             to="/categories"
-            className="px-5 py-2 rounded-xl border border-[#5c6ac4] text-[#5c6ac4] font-semibold hover:bg-[#5c6ac4] hover:text-white transition"
+            className="btn-primary"
           >
             See More
           </Link>
@@ -68,14 +68,14 @@ const CategorySpotlight = () => {
               <div className="flex flex-wrap gap-4 mt-3">
                 <Link
                   to={`/categories/${spotlightCategory.id}/${spotlightClass.id}`}
-                  className="px-6 py-1 bg-white text-gray-900 rounded-xl font-semibold shadow"
+                  className="btn-primary"
                 >
                   Hire A Tutor
                 </Link>
                 <Link
                   to="/tutors"
                   state={{ className: spotlightClass.name }}
-                  className="px-6 py-1 border border-white rounded-xl font-semibold"
+                  className="px-6 py-1 border border-white rounded-xl font-semibold hover:bg-white/10 transition"
                 >
                   See Tutors
                 </Link>

@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { app } from "../firebase/firebase.config";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -11,6 +10,11 @@ import {
   updateProfile,
 } from "firebase/auth";
 import PropTypes from "prop-types";
+
+// Firebase Config
+import { app } from "../firebase/firebase.config";
+
+// Hooks
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import useCurrentUser from "../hooks/useCurrentUser";
 
@@ -23,8 +27,8 @@ const AuthProvider = ({ children }) => {
   const googleProvider = new GoogleAuthProvider();
   const axiosPublic = useAxiosPublic();
 
-   //Get currentUser from DB
-   const { currentUser } = useCurrentUser(user?.email);
+  // Get currentUser from DB
+  const { currentUser } = useCurrentUser(user?.email);
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -62,7 +66,6 @@ const AuthProvider = ({ children }) => {
       if (currentUser) {
         const userInfo = { email: currentUser.email };
         axiosPublic.post("/jwt", userInfo).then((res) => {
-          // console.log('token response',res.data);
           if (res.data.token) {
             localStorage.setItem("access-token", res.data.token);
             setLoading(false);
@@ -78,14 +81,13 @@ const AuthProvider = ({ children }) => {
     };
   }, [axiosPublic]);
 
-
-   //Role check: Log out if banned
-   useEffect(() => {
+  // Role check: Log out if banned
+  useEffect(() => {
     if (currentUser?.banned === "yes") {
       console.log("Banned user detected. Logging out...");
       localStorage.removeItem("access-token");
       logOut().then(() => {
-        navigate("/signIn");
+        window.location.href = "/signIn";
       });
     }
   }, [currentUser?.banned]);

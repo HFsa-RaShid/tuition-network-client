@@ -202,7 +202,7 @@ const MyApplications = () => {
         <div className="hidden md:block overflow-x-auto overflow-visible bg-white rounded-xl shadow border mt-3">
           <table className="min-w-full border border-gray-200 text-center">
             <thead>
-              <tr className="bg-gray-100/90 text-gray-700 text-center">
+              <tr className="bg-gray-100/90 text-gray-700 text-center animate-fade-in">
                 <th className="p-3 border">Profile</th>
                 <th className="p-3 border"></th>
                 <th className="p-3 border">Applied On</th>
@@ -300,7 +300,7 @@ const MyApplications = () => {
                           (paidJobs?.some((p) => p.jobId === app._id) ? (
                             <button
                               disabled
-                              className="bg-blue-200 mb-2 text-blue-700 px-2 py-2 rounded hover:bg-blue-300 flex items-center gap-1"
+                              className="bg-gray-300 mb-2 text-gray-600 px-2 py-2 rounded cursor-not-allowed flex items-center gap-1"
                             >
                               Paid
                             </button>
@@ -320,7 +320,7 @@ const MyApplications = () => {
                                     currentUser?.role
                                   )
                                 }
-                                className="bg-green-200 mb-2 text-green-700 font-medium px-2 py-2 rounded hover:bg-green-300 transition"
+                                className="btn-primary mb-2"
                               >
                                 Pay Now
                               </button>

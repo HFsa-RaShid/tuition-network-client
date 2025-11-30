@@ -183,7 +183,7 @@ const Tuitions = () => {
   }
 
   return (
-    <div className="font-serif bg-base-100">
+    <div className="font-serif bg-white text-black">
       <Navbar />
 
       <Helmet>
@@ -194,7 +194,7 @@ const Tuitions = () => {
       <div className="md:hidden flex justify-end pt-24 px-4">
         <button
           onClick={() => setIsFilterOpen(true)}
-          className="bg-blue-200 border-blue-500 text-blue-700 px-4 py-1 rounded-md shadow-md flex items-center gap-2"
+          className="btn-primary flex items-center gap-2"
         >
           <span>Filter</span>
         </button>
@@ -477,10 +477,11 @@ const Tuitions = () => {
 
           {/* Right Content (Job Cards) */}
           <div className="w-full md:w-[70%] md:mt-28 space-y-6">
-            {currentJobs.map((job) => (
+            {currentJobs.map((job, idx) => (
               <div
                 key={job._id}
-                className="bg-gray-100/90 shadow-md rounded-lg p-6 relative"
+                className="bg-gray-100/90 shadow-md rounded-lg p-6 relative animate-fade-in animate-card-hover"
+                style={{ animationDelay: `${idx * 0.1}s` }}
               >
                 {paidJobsByJobIds?.some(
                   (p) =>
@@ -594,12 +595,12 @@ const Tuitions = () => {
                       disabled={job.appliedTutors?.some(
                         (tutor) => tutor.email === user.email
                       )}
-                      className={`absolute bottom-4 right-4 px-4 py-2 rounded font-medium ${
+                      className={`absolute bottom-4 right-4 ${
                         job.appliedTutors?.some(
                           (tutor) => tutor.email === user.email
                         )
-                          ? "bg-gray-300 cursor-not-allowed"
-                          : "bg-[#f9d045] hover:bg-[#f9d045]"
+                          ? "bg-gray-300 cursor-not-allowed px-4 py-2 rounded"
+                          : "btn-primary"
                       }`}
                     >
                       {job.appliedTutors?.some(

@@ -98,10 +98,11 @@ const PostedJobs = () => {
     <div className=" ">
       <div className="p-6 gap-4 container mx-auto ">
         <div className="w-full space-y-6 mx-5">
-          {jobs.map((job) => (
+          {jobs.map((job, idx) => (
             <div
               key={job._id}
-              className="bg-gray-100/90 shadow-md rounded-lg p-6 relative "
+              className="bg-gray-100/90 shadow-md rounded-lg p-6 relative animate-fade-in animate-card-hover"
+              style={{ animationDelay: `${idx * 0.1}s` }}
             >
               <NavLink
                 to={`/${role}/posted-jobs/applied-tutors`}

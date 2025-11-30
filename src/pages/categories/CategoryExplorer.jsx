@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
+
+// Components
 import Navbar from "../Shared/Navbar/Navbar";
 import Footer from "../Shared/Footer/Footer";
+
+// Utils
 import { categoryCatalog } from "../utils/categoryCatalog";
 
 const CategoryExplorer = () => {
@@ -58,12 +62,13 @@ const CategoryExplorer = () => {
           })}
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {selectedCategory?.classes?.map((cls) => (
-            <article
-              key={cls.id}
-              className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col"
-            >
+            <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {selectedCategory?.classes?.map((cls, idx) => (
+                <article
+                  key={cls.id}
+                  className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col animate-fade-in animate-card-hover"
+                  style={{ animationDelay: `${idx * 0.1}s` }}
+                >
               <div className="relative h-48">
                 <img
                   src={cls.heroImage}
@@ -101,7 +106,7 @@ const CategoryExplorer = () => {
                   onClick={() =>
                     navigate(`/categories/${selectedCategory.id}/${cls.id}`)
                   }
-                  className="mt-6 inline-flex items-center justify-center px-4 py-2 rounded-full bg-[#111827] text-white font-semibold hover:bg-[#090f1c] transition"
+                  className="mt-6 inline-flex items-center justify-center btn-primary"
                 >
                   Explore {cls.name}
                 </button>

@@ -180,7 +180,7 @@ const TutorRequests = () => {
                   name="tuitionType"
                   value={formData.tuitionType}
                   onChange={handleChange}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded bg-white"
                 >
                   <option value="Home Tutoring">Home</option>
                   <option value="Online Tutoring">Online</option>
@@ -194,7 +194,7 @@ const TutorRequests = () => {
                   value={formData.category}
                   onChange={handleChange}
                   required
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded bg-white"
                 >
                   <option value="">Select...</option>
                   {categories.map((cat) => (
@@ -212,7 +212,7 @@ const TutorRequests = () => {
                   value={formData.classCourse}
                   onChange={handleChange}
                   required
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded bg-white"
                 >
                   <option value="">Select...</option>
                   {classes.map((cls) => (
@@ -230,7 +230,7 @@ const TutorRequests = () => {
                   value={formData.studentGender}
                   onChange={handleChange}
                   required
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded bg-white"
                 >
                   <option value="">Select...</option>
                   {studentGender.map((cat) => (
@@ -246,9 +246,7 @@ const TutorRequests = () => {
               <button
                 onClick={nextStep}
                 disabled={isNextButtonDisabled()}
-                className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
-                  isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                className="btn-primary"
               >
                 Next →
               </button>
@@ -264,7 +262,7 @@ const TutorRequests = () => {
                 <select
                   name="subjects"
                   onChange={handleSubjectChange}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded bg-white"
                 >
                   <option value="">Select Subject</option>
                   {subjects.map((sub) => (
@@ -278,7 +276,7 @@ const TutorRequests = () => {
                   {formData.subjects.map((subject) => (
                     <span
                       key={subject}
-                      className="px-3 py-1 bg-blue-500 text-white rounded-full flex items-center gap-2"
+                      className="px-3 py-1 bg-blue-400 text-white rounded-full flex items-center gap-2"
                     >
                       {subject}
                       <button
@@ -306,7 +304,7 @@ const TutorRequests = () => {
                         location: "",
                       }));
                     }}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded bg-white"
                   >
                     <option value="">Select City</option>
                     {bdDistricts.map((district) => (
@@ -324,7 +322,7 @@ const TutorRequests = () => {
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded bg-white"
                     disabled={!formData.city}
                   >
                     <option value="">Select Area</option>
@@ -347,7 +345,7 @@ const TutorRequests = () => {
                   value={formData.tutorGenderPreference}
                   onChange={handleChange}
                   required
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded bg-white"
                 >
                   <option value="">Select...</option>
                   {tutorGenderPreference.map((cat) => (
@@ -369,7 +367,7 @@ const TutorRequests = () => {
               <button
                 onClick={nextStep}
                 disabled={isNextButtonDisabled()}
-                className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
+                className={`btn-primary ${
                   isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
@@ -389,7 +387,7 @@ const TutorRequests = () => {
                   value={formData.noOfStudents}
                   onChange={handleChange}
                   required
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded bg-white"
                 >
                   {Array.from({ length: 10 }, (_, i) => (
                     <option key={i + 1} value={i + 1}>
@@ -405,7 +403,7 @@ const TutorRequests = () => {
                   value={formData.daysPerWeek}
                   onChange={handleChange}
                   required
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded bg-white"
                 >
                   <option value="">Select...</option>
                   {[1, 2, 3, 4, 5, 6, 7].map((day) => (
@@ -423,7 +421,7 @@ const TutorRequests = () => {
                   value={formData.duration}
                   onChange={handleChange}
                   required
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded bg-white"
                 >
                   <option value="1 hour">1 hour</option>
                   <option value="1.5 hour">1.5 hour</option>
@@ -441,7 +439,7 @@ const TutorRequests = () => {
                   value={formData.salary}
                   onChange={handleChange}
                   required
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded bg-white"
                 />
               </div>
             </div>
@@ -456,7 +454,7 @@ const TutorRequests = () => {
               <button
                 onClick={nextStep}
                 disabled={isNextButtonDisabled()}
-                className={`px-4 py-2 bg-[#f9d045]  rounded hover:bg-[#e7bd34] ${
+                className={`btn-primary ${
                   isNextButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
@@ -488,13 +486,13 @@ const TutorRequests = () => {
             <div className="mt-6 flex justify-between">
               <button
                 onClick={prevStep}
-                className="px-4 py-2 bg-[#124086] text-white rounded hover:bg-[#082755]"
+                className="btn-primary"
               >
                 ← Previous
               </button>
               <button
                 onClick={handleSubmit}
-                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                className="btn-primary"
               >
                 Submit
               </button>

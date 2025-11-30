@@ -688,10 +688,8 @@ const AppliedTutors = () => {
                                   <button
                                     onClick={handleCancel}
                                     disabled={hasPaidJob}
-                                    className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                                      hasPaidJob
-                                        ? "bg-gray-100/90 text-gray-400 cursor-not-allowed"
-                                        : "bg-red-500 text-white hover:bg-red-600"
+                                    className={`btn-primary inline-flex items-center ${
+                                      hasPaidJob ? "opacity-50 cursor-not-allowed" : ""
                                     }`}
                                   >
                                     <FaTimes className="w-3 h-3 mr-1" />
@@ -701,10 +699,8 @@ const AppliedTutors = () => {
                                   <button
                                     onClick={() => handleConfirm(tutor.email)}
                                     disabled={isDisabled}
-                                    className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                                      isDisabled
-                                        ? "bg-gray-100/90 text-gray-400 cursor-not-allowed"
-                                        : "bg-green-500 text-white hover:bg-green-600"
+                                    className={`btn-primary inline-flex items-center ${
+                                      isDisabled ? "opacity-50 cursor-not-allowed" : ""
                                     }`}
                                   >
                                     <FaCheck className="w-3 h-3 mr-1" />

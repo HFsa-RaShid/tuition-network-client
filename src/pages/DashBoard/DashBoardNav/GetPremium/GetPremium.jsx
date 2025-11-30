@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
@@ -7,6 +7,58 @@ const GetPremium = () => {
   const { user } = useContext(AuthContext);
   const { currentUser, isLoading, refetch } = useCurrentUser(user?.email);
   const axiosSecure = useAxiosSecure();
+  const [timeRemaining, setTimeRemaining] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+  const [validityDays, setValidityDays] = useState(0);
+
+  // Calculate time remaining and validity days
+  useEffect(() => {
+    if (currentUser?.premiumExpiry) {
+      const expiryDate = new Date(currentUser.premiumExpiry);
+      const now = new Date();
+      const diff = expiryDate - now;
+
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        setTimeRemaining({ days, hours, minutes, seconds });
+        setValidityDays(days);
+      } else {
+        setTimeRemaining({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setValidityDays(0);
+      }
+    }
+
+    const interval = setInterval(() => {
+      if (currentUser?.premiumExpiry) {
+        const expiryDate = new Date(currentUser.premiumExpiry);
+        const now = new Date();
+        const diff = expiryDate - now;
+
+        if (diff > 0) {
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          setTimeRemaining({ days, hours, minutes, seconds });
+          setValidityDays(days);
+        } else {
+          setTimeRemaining({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+          setValidityDays(0);
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [currentUser?.premiumExpiry]);
 
   // 🔹 Payment handler
   const handlePaymentBkash = async (
@@ -62,6 +114,57 @@ const GetPremium = () => {
   return (
     <div className="flex flex-col items-center justify-center ml-14">
       <h2 className="text-2xl font-bold mb-8">Upgrade your plan</h2>
+
+      {/* Premium Validity Countdown */}
+      {currentUser?.profileStatus === "Premium" && currentUser?.premiumExpiry && (
+        <div className="mb-8 w-full max-w-2xl">
+          <div className="bg-gradient-to-r from-blue-300 to-blue-500 rounded-2xl p-6 shadow-lg">
+            <h3 className="text-xl font-bold text-black mb-4 text-center">
+              Premium Access Validity
+            </h3>
+            <div className="text-center mb-4">
+              <p className="text-lg font-semibold text-black">
+                {validityDays > 0 ? (
+                  <>
+                    <span className="text-3xl">{validityDays}</span>{" "}
+                    {validityDays === 1 ? "day" : "days"} remaining
+                  </>
+                ) : (
+                  <span className="text-red-600">Premium Expired</span>
+                )}
+              </p>
+            </div>
+            {validityDays > 0 && (
+              <div className="grid grid-cols-4 gap-4 text-center">
+                <div className="bg-white/90 rounded-lg p-3">
+                  <div className="text-2xl font-bold text-black">
+                    {String(timeRemaining.days).padStart(2, "0")}
+                  </div>
+                  <div className="text-sm text-gray-700">Days</div>
+                </div>
+                <div className="bg-white/90 rounded-lg p-3">
+                  <div className="text-2xl font-bold text-black">
+                    {String(timeRemaining.hours).padStart(2, "0")}
+                  </div>
+                  <div className="text-sm text-gray-700">Hours</div>
+                </div>
+                <div className="bg-white/90 rounded-lg p-3">
+                  <div className="text-2xl font-bold text-black">
+                    {String(timeRemaining.minutes).padStart(2, "0")}
+                  </div>
+                  <div className="text-sm text-gray-700">Minutes</div>
+                </div>
+                <div className="bg-white/90 rounded-lg p-3">
+                  <div className="text-2xl font-bold text-black">
+                    {String(timeRemaining.seconds).padStart(2, "0")}
+                  </div>
+                  <div className="text-sm text-gray-700">Seconds</div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-around w-full ">
         {/* Free Plan Card */}
@@ -140,7 +243,7 @@ const GetPremium = () => {
                   currentUser?.role
                 )
               }
-              className="mt-6 w-full rounded-xl bg-blue-200 text-blue-800 py-2 font-medium hover:bg-blue-300 transition"
+              className="mt-6 w-full btn-primary"
             >
               Get Premium
             </button>

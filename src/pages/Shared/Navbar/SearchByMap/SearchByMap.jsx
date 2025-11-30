@@ -35,13 +35,13 @@ const redIcon = createColoredIcon("red");
 const blueIcon = createColoredIcon("blue");
 const greenIcon = createColoredIcon("green");
 
-// 🔹 Jitter markers (avoid overlap)
+//Jitter markers (avoid overlap)
 const jitterCoords = (coords, index) => {
   const offset = 0.0004 * index;
   return [coords[0] + offset, coords[1] + offset];
 };
 
-// 🔹 RecenterMap - only when search center changes
+//RecenterMap - only when search center changes
 const RecenterMap = ({ center }) => {
   const map = useMap();
   useEffect(() => {
@@ -211,7 +211,7 @@ const SearchByMap = () => {
   if (jobsError) return <div>Error loading job requests.</div>;
 
   return (
-    <div>
+    <div className="bg-white text-black">
       <Navbar />
 
       <Helmet>
@@ -234,7 +234,7 @@ const SearchByMap = () => {
                   setDistrict(e.target.value);
                   setCity("");
                 }}
-                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 ${
+                className={`border-b-2 bg-white border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 ${
                   !district ? "text-gray-400" : "text-black"
                 }`}
               >
@@ -252,7 +252,7 @@ const SearchByMap = () => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 disabled={!district}
-                className={`border-b-2 border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 ${
+                className={`border-b-2 bg-white border-gray-300 appearance-none focus:outline-none px-2 py-1 w-28 ${
                   !city ? "text-gray-400" : "text-black"
                 }`}
               >
@@ -269,7 +269,7 @@ const SearchByMap = () => {
 
               <button
                 onClick={handleSearch}
-                className="bg-blue-200 text-blue-800 px-3 rounded hover:bg-blue-300"
+                className="btn-primary"
               >
                 Search
               </button>
@@ -378,12 +378,12 @@ const SearchByMap = () => {
                       disabled={selectedRequest.appliedTutors?.some(
                         (tutor) => tutor.email === user.email
                       )}
-                      className={`w-full mt-4 px-4 py-2 rounded font-medium ${
+                      className={`w-full mt-4 ${
                         selectedRequest.appliedTutors?.some(
                           (tutor) => tutor?.email === user?.email
                         )
-                          ? "bg-gray-300 cursor-not-allowed"
-                          : "bg-blue-200 hover:bg-blue-300 text-blue-800"
+                          ? "bg-gray-300 cursor-not-allowed px-4 py-2 rounded"
+                          : "btn-primary"
                       }`}
                     >
                       {selectedRequest.appliedTutors?.some(

@@ -2,15 +2,19 @@ import React, { useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineArrowBackIosNew, MdVerified } from "react-icons/md";
+
+// Components
 import Navbar from "../Shared/Navbar/Navbar";
 import Footer from "../Shared/Footer/Footer";
+import SuggestedTutorsCarousel from "./SuggestedTutorsCarousel";
+
+// Utils
 import {
   categoryCatalog,
   getCategoryById,
   getClassById,
   getClassDetail,
 } from "../utils/categoryCatalog";
-import SuggestedTutorsCarousel from "./SuggestedTutorsCarousel";
 
 const ClassDetails = () => {
   const { categoryId, classId } = useParams();
@@ -92,7 +96,7 @@ const ClassDetails = () => {
                       state: { className: classMeta?.name, district: "" },
                     })
                   }
-                  className="px-6 py-3 rounded-full bg-white text-gray-900 font-semibold shadow"
+                  className="btn-primary"
                 >
                   Hire A Tutor
                 </button>
@@ -103,8 +107,8 @@ const ClassDetails = () => {
             </div>
           </section>
 
-          <section className="mt-10 grid lg:grid-cols-3 gap-6">
-            <article className="lg:col-span-2 bg-white rounded-[28px] p-8 shadow-sm">
+              <section className="mt-10 grid lg:grid-cols-3 gap-6">
+                <article className="lg:col-span-2 bg-white rounded-[28px] p-8 shadow-sm animate-slide-up">
               <p className="text-sm uppercase tracking-[0.3em] text-gray-400">
                 About This Category
               </p>
@@ -133,10 +137,10 @@ const ClassDetails = () => {
                 ))}
               </div>
             </article>
-            <article className="bg-white rounded-[28px] p-8 shadow-sm">
-              <h3 className="text-xl font-semibold text-gray-900">
-                {detail.aboutBlocks[1].title}
-              </h3>
+                <article className="bg-white rounded-[28px] p-8 shadow-sm animate-scale-in">
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    {detail.aboutBlocks[1].title}
+                  </h3>
               <ul className="space-y-3 mt-4">
                 {detail.aboutBlocks[1].checklist.map((single) => (
                   <li key={single} className="flex items-start gap-3">

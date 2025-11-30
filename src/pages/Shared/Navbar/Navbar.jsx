@@ -1,11 +1,15 @@
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { BsSunFill } from "react-icons/bs";
 import { BiSolidMoon } from "react-icons/bi";
 import { PiCloudSunFill } from "react-icons/pi";
-import React, { useState, useEffect, useContext, useRef } from "react";
-import logo from "../../../assets/logo.png";
-import { NavLink, useNavigate } from "react-router-dom";
+
+// Context & Hooks
 import { AuthContext } from "../../../provider/AuthProvider";
 import useCurrentUser from "../../../hooks/useCurrentUser";
+
+// Assets
+import logo from "../../../assets/logo.png";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -65,7 +69,7 @@ const Navbar = () => {
         <NavLink to="/" className="flex items-center gap-2 justify-center">
           <img src={logo} alt="logo" className="h-9" />
           <h1 className="text-2xl sm:text-3xl font-bold pt-1">
-            Tu<span className="text-[#DAA520]">T</span>oria
+            Tu<span className="text-blue-500">T</span>oria
           </h1>
         </NavLink>
 

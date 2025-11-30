@@ -3,7 +3,7 @@ import CountUp from "react-countup";
 
 const CountDown = () => {
   return (
-    <div className="relative -mt-16">
+    <div className="relative -mt-12">
       {/* Banner background */}
       <div className="w-full mb-14"></div>
 

@@ -319,7 +319,7 @@ const HiredTutors = () => {
                           studentIdImage: payment.jobDetails?.studentIdImage,
                         })
                       }
-                      className="bg-green-200 text-green-700 px-2 py-1 rounded hover:bg-green-300 flex items-center gap-1"
+                      className="btn-primary flex items-center gap-1"
                     >
                       View Info
                     </button>
@@ -336,7 +336,7 @@ const HiredTutors = () => {
                           payment.jobDetails?.salary
                         )
                       }
-                      className="bg-blue-200 text-blue-700 text-center px-2 py-1 rounded hover:bg-blue-300 flex items-center gap-1"
+                      className="btn-primary flex items-center gap-1"
                     >
                       Pay Advance
                     </button>

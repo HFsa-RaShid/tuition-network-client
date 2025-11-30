@@ -119,10 +119,11 @@ const NoticeBoard = ({ notices = [], loading }) => (
         </div>
       )}
       {!loading &&
-        notices.map((notice) => (
+        notices.map((notice, idx) => (
           <div
             key={notice._id}
-            className="border border-gray-100 rounded-xl p-4 bg-orange-50"
+            className="border border-gray-100 rounded-xl p-4 bg-orange-50 animate-fade-in"
+            style={{ animationDelay: `${idx * 0.1}s` }}
           >
             <div className="flex justify-between items-center mb-1">
               <p className="font-semibold text-gray-800">{notice.title}</p>

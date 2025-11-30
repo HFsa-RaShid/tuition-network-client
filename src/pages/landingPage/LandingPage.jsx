@@ -1,40 +1,40 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import Banner from "./sections/Banner/Banner";
 
-import CountDown from "./sections/countDown/CountDown";
-import FAQ from "./sections/FAQ/FAQ";
-import TutoringWithUs from "./sections/TutoringWithUs/TutoringWithUs";
-import WhyChooseUs from "./sections/whyChooseUs/WhyChooseUs";
-import TuitionTypes from "./sections/tuitionTypes/TuitionTypes";
+// Layout Components
 import Navbar from "../Shared/Navbar/Navbar";
 import Footer from "../Shared/Footer/Footer";
+
+// Landing Page Sections
+import Banner from "./sections/Banner/Banner";
+import CountDown from "./sections/countDown/CountDown";
+import WhyChooseUs from "./sections/whyChooseUs/WhyChooseUs";
 import CategorySpotlight from "./sections/categorySpotlight/CategorySpotlight";
+import TuitionTypes from "./sections/tuitionTypes/TuitionTypes";
 import ParentConnection from "./sections/parentConnection/ParentConnection";
 import TutorConnection from "./sections/TutorConnection/TutorConnection";
+import TutoringWithUs from "./sections/TutoringWithUs/TutoringWithUs";
 import Reviews from "./sections/reviews/Reviews";
-
+import FAQ from "./sections/FAQ/FAQ";
 
 const LandingPage = () => {
   return (
-    <div className=" min-h-screen font-serif">
+    <div className="min-h-screen font-serif">
       <Helmet>
         <title>TuToria</title>
       </Helmet>
-      <Navbar></Navbar>
-     
-      <Banner></Banner>
-      <CountDown></CountDown>
-      <WhyChooseUs></WhyChooseUs>
+      <Navbar />
+      <Banner />
+      <CountDown />
+      <WhyChooseUs />
       <CategorySpotlight />
       <TuitionTypes />
-      <ParentConnection></ParentConnection>
-      <TutorConnection></TutorConnection>
-    
-      <TutoringWithUs></TutoringWithUs>
-      <Reviews></Reviews>
-      <FAQ></FAQ>
-      <Footer></Footer>
+      <ParentConnection />
+      <TutorConnection />
+      <TutoringWithUs />
+      <Reviews />
+      <FAQ />
+      <Footer />
     </div>
   );
 };

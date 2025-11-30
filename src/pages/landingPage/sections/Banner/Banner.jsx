@@ -1,9 +1,9 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+// Utils
 import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
-
 
 const Banner = () => {
   const [className, setClassName] = useState("");
@@ -122,10 +122,9 @@ const Banner = () => {
           </select>
 
           {/* Search Button */}
-          {/* <GlassButton text="Search" onClick={handleSearch} /> */}
           <button
             onClick={handleSearch}
-            className="bg-gradient-to-r from-blue-300 to-blue-500 text-black font-semibold px-5 py-2 rounded-lg shadow-md hover:opacity-90 transition duration-300"
+            className="btn-primary"
           >
             Search
           </button>

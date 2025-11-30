@@ -4,7 +4,7 @@ const ParentConnection = () => {
   return (
     <div className="w-full bg-gray-100/90 py-12 font-inter">
       <div className="max-w-6xl mx-auto px-6">
-        <h1 className="text-2xl font-semibold mb-8 text-gray-800">
+        <h1 className="text-2xl font-semibold mb-8 text-gray-800 text-center">
           The ways <span className="text-blue-500">Parents/Students</span> can
           connect with us
         </h1>
@@ -20,7 +20,7 @@ const ParentConnection = () => {
               "Get Tutors' CV",
               "Select Tutor",
             ].map((label, i) => (
-              <div key={i} className="flex flex-col items-center text-center">
+              <div key={i} className="flex flex-col items-center text-center animate-fade-in" style={{ animationDelay: `${i * 0.15}s` }}>
                 <div className="w-14 h-14 bg-blue-400 text-white text-lg font-bold rounded-full flex items-center justify-center shadow-md">
                   {i + 1}
                 </div>
@@ -63,7 +63,8 @@ const ParentConnection = () => {
             ].map((x, i) => (
               <div
                 key={i}
-                className="bg-white p-4 rounded-xl shadow hover:-translate-y-1 transition"
+                className="bg-white p-4 rounded-xl shadow hover:-translate-y-1 transition animate-fade-in animate-card-hover"
+                style={{ animationDelay: `${i * 0.1}s` }}
               >
                 <h3 className="font-semibold text-sm mb-1">{x.t}</h3>
                 <p className="text-xs text-gray-500">{x.d}</p>

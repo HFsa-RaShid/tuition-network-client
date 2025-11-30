@@ -1,13 +1,17 @@
 import { useContext, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { useForm } from "react-hook-form";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import toast from "react-hot-toast";
+
+// Context & Hooks
 import { AuthContext } from "../../../../provider/AuthProvider";
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+
+// Assets
 import tutorImage from "../../../../assets/tutor-student.png";
 import studentImage from "../../../../assets/parentauth.jpg";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Helmet } from "react-helmet-async";
-import toast from "react-hot-toast";
 import logo from "../../../../assets/logo.png";
 
 const SignupPage = () => {
@@ -50,7 +54,7 @@ const SignupPage = () => {
       <Helmet>
         <title>Sign_Up | TuToria</title>
       </Helmet>
-      <div className="flex flex-col lg:flex-row w-4/5 max-w-5xl my-2 lg:my-8">
+      <div className="flex flex-col lg:flex-row w-4/5 max-w-5xl my-2 lg:my-8 text-black">
         {/* Left Section - Image */}
         <div className="w-full lg:w-1/2 flex justify-center items-center bg-gray-100/90 p-8">
           <img
@@ -105,7 +109,7 @@ const SignupPage = () => {
               {...register("name", { required: "Name is required" })}
               type="text"
               placeholder="Name*"
-              className="w-full border p-2 rounded-md"
+              className="w-full border p-2 rounded-md bg-white"
               required
             />
             {errors.name && (
@@ -116,7 +120,7 @@ const SignupPage = () => {
               {...register("phone", { required: "Phone number is required" })}
               type="tel"
               placeholder="Phone*"
-              className="w-full border p-2 rounded-md"
+              className="w-full border p-2 rounded-md bg-white"
               required
             />
             {errors.phone && (
@@ -130,7 +134,7 @@ const SignupPage = () => {
               })}
               type="email"
               placeholder="Email*"
-              className="w-full border p-2 rounded-md"
+              className="w-full border p-2 rounded-md bg-white"
               required
             />
             {errors.email && (
@@ -145,7 +149,7 @@ const SignupPage = () => {
                 })}
                 type={showPassword ? "text" : "password"}
                 placeholder="Password*"
-                className="w-full border p-2 rounded-md pr-10"
+                className="w-full border p-2 rounded-md pr-10 bg-white"
                 required
               />
               <span
@@ -164,7 +168,7 @@ const SignupPage = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full mt-6 bg-blue-200 mb-2 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 font-semibold shadow"
+              className="w-full mt-6 btn-primary mb-2"
             >
               Sign Up
             </button>
