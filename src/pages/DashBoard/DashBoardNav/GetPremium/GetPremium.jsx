@@ -112,7 +112,7 @@ const GetPremium = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center ml-14">
+    <div className="flex flex-col items-center justify-center ml-14 my-10">
 
       {/* Premium Validity Countdown */}
       {currentUser?.profileStatus === "Premium" && currentUser?.premiumExpiry && (

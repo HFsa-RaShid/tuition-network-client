@@ -9,6 +9,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import usePaidJobs from "../../../../hooks/usePaidJobs";
 import useMultipleJobPayments from "../../../../hooks/useMultipleJobPayments";
+import EmptyState from "../../../../components/EmptyState";
 
 const MyApplications = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -339,9 +340,7 @@ const MyApplications = () => {
             </tbody>
           </table>
           {appliedJobs.length === 0 && (
-            <p className="text-center text-gray-500 py-4">
-              No applications found.
-            </p>
+            <EmptyState message="No applications found." />
           )}
         </div>
 

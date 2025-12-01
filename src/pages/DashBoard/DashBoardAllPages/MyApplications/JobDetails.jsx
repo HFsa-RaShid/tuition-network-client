@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useAllJobs from '../../../../hooks/useAllJobs';
 import moment from 'moment';
 import { IoArrowBack } from "react-icons/io5";
+import EmptyState from "../../../../components/EmptyState";
 
 const JobDetails = () => {
   const { id } = useParams();
@@ -20,11 +21,7 @@ const JobDetails = () => {
   const job = allJobs.find(job => job._id === id);
 
   if (!job) {
-    return (
-      <div className="text-center text-red-500 font-semibold mt-10">
-        No Job details found.
-      </div>
-    );
+    return <EmptyState message="No job details found." />;
   }
 
   return (

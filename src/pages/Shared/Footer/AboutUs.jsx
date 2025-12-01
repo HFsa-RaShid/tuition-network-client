@@ -143,8 +143,11 @@ const AboutUs = () => {
           </p>
           <p>
             Email:{" "}
-            <a href="mailto:support@tutoria.com" className="underline">
-              support@tutoria.com
+            <a
+              href="mailto:tutoria.official.bd@gmail.com"
+              className="underline"
+            >
+              tutoria.official.bd@gmail.com
             </a>
           </p>
           <p>

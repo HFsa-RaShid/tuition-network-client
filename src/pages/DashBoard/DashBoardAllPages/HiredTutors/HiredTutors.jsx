@@ -3,6 +3,7 @@ import { AuthContext } from "../../../../provider/AuthProvider";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import useAllHiredByAStudent from "../../../../hooks/useAllHiredByAStudent";
 import HiredTutorRow from "./HiredTutorRow";
+import EmptyState from "../../../../components/EmptyState";
 
 const HiredTutors = () => {
   const { user } = useContext(AuthContext);
@@ -67,9 +68,7 @@ const HiredTutors = () => {
   }
 
   if (!studentPaidJobs?.length) {
-    return (
-      <p className="text-center text-gray-500 py-4">No hired tutors found.</p>
-    );
+    return <EmptyState message="No hired tutors found." />;
   }
 
   return (

@@ -65,7 +65,7 @@ const ContactUs = () => {
               Contact Information
             </h3>
             <p className="text-gray-600">
-              <strong>Email:</strong> support@tutoria.com
+              <strong>Email:</strong> tutoria.official.bd@gmail.com
             </p>
             <p className="text-gray-600">
               <strong>Phone:</strong> +880 1838 551941

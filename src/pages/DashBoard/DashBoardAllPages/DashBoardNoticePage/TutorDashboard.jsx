@@ -12,6 +12,7 @@ import useCurrentUser from "../../../../hooks/useCurrentUser";
 import useAllJobs from "../../../../hooks/useAllJobs";
 import usePaidJobs from "../../../../hooks/usePaidJobs";
 import useDashboardNotices from "../../../../hooks/useDashboardNotices";
+import EmptyState from "../../../../components/EmptyState";
 
 const StatTile = ({ icon, label, value, helper, color }) => (
   <div className="bg-gray-100/90 border border-gray-100 rounded-xl p-5 shadow-lg flex items-center gap-4">
@@ -88,9 +89,7 @@ const ActivityChart = ({ data }) => {
           );
         })}
         {data.length === 0 && (
-          <div className="text-center text-gray-400 w-full">
-            Not enough activity captured yet.
-          </div>
+          <EmptyState message="Not enough activity captured yet." />
         )}
       </div>
     </div>
@@ -115,9 +114,7 @@ const NoticePanel = ({ notices, loading }) => (
         </div>
       )}
       {!loading && (!notices || notices.length === 0) && (
-        <div className="text-center text-gray-400 py-8 text-sm">
-          No announcements from admin yet.
-        </div>
+        <EmptyState message="No announcements from admin yet." />
       )}
       {!loading &&
         notices.map((notice) => (
@@ -329,9 +326,7 @@ const TutorDashboard = () => {
             </div>
           </div>
           {latestApplications.length === 0 ? (
-            <div className="text-center text-gray-400 py-8 text-sm">
-              You haven't applied to any tuitions yet.
-            </div>
+            <EmptyState message="You haven't applied to any tuitions yet." />
           ) : (
             <div className="space-y-4">
               {latestApplications.map((job) => (

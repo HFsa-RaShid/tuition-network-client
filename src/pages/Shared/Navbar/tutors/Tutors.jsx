@@ -121,28 +121,29 @@ const Tutors = () => {
       </div>
     );
 
-  if (!allTutors || allTutors.length === 0) {
+  // Filter out students - only show tutors with role === "tutor"
+  const tutorsOnly = allTutors?.filter((tutor) => tutor.role === "tutor") || [];
+
+  if (!allTutors || tutorsOnly.length === 0) {
     return (
       <div className="bg-[#f6f8ff] min-h-screen font-serif">
         <Navbar />
         <div className="container mx-auto px-4 pt-32">
-          <div className="bg-white rounded-3xl p-10 text-center shadow-sm">
-            <div className="mx-auto w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+          <div className="  p-10 text-center ">
+            <div className="mx-auto w-24 h-24 bg-blue-200 rounded-full flex items-center justify-center mb-4">
               <FaEyeSlash className="text-3xl text-blue-400" />
             </div>
             <p className="text-lg font-semibold text-gray-800">
               No tutors available right now.
             </p>
-            <p className="text-gray-500">
-              নতুন tutor যুক্ত হতে থাকলে এখানেই দেখতে পাবেন।
-            </p>
+           
           </div>
         </div>
       </div>
     );
   }
 
-  const filteredTutors = allTutors.filter((tutor) => {
+  const filteredTutors = tutorsOnly.filter((tutor) => {
     const cityMatch =
       selectedCity === "All" ||
       tutor.city?.toLowerCase() === selectedCity.toLowerCase();

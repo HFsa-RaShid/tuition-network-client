@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import useAllPayment from "../../../../hooks/useAllPayment";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+import EmptyState from "../../../../components/EmptyState";
 
 const AllPaymentTabs = () => {
   const { allPayment, isLoading, isError } = useAllPayment();
@@ -74,20 +75,24 @@ const AllPaymentTabs = () => {
   );
 
   return (
-    <div className="p-4 ml-6">
+    <div className="px-3 md:px-6 py-4 md:py-6">
       {/* Tabs */}
-      <div className="flex mb-4 border-b border-gray-300">
+      <div className="flex flex-wrap gap-2 mb-4 border-b border-gray-300">
         <button
-          className={`px-4 py-2 font-semibold ${
-            activeTab === "tutoria" ? "border-b-2 border-blue-500" : ""
+          className={`px-4 py-2 text-sm md:text-base font-semibold transition-colors ${
+            activeTab === "tutoria"
+              ? "border-b-2 border-blue-500 text-blue-600"
+              : "text-gray-600 hover:text-blue-600"
           }`}
           onClick={() => setActiveTab("tutoria")}
         >
           TuToria Payments
         </button>
         <button
-          className={`px-4 py-2 font-semibold ${
-            activeTab === "tutor" ? "border-b-2 border-blue-500" : ""
+          className={`px-4 py-2 text-sm md:text-base font-semibold transition-colors ${
+            activeTab === "tutor"
+              ? "border-b-2 border-blue-500 text-blue-600"
+              : "text-gray-600 hover:text-blue-600"
           }`}
           onClick={() => setActiveTab("tutor")}
         >
@@ -96,76 +101,222 @@ const AllPaymentTabs = () => {
       </div>
 
       {/* Total */}
-      <div className="mb-4 font-semibold">
+      <div className="mb-4 font-semibold text-sm md:text-base">
         {activeTab === "tutoria"
           ? `Total TuToria Amount: ${totalTutoriaAmount} BDT`
           : `Total Tutor Amount: ${totalTutorAmount} BDT`}
       </div>
 
       {/* Tab Contents */}
-      <div>
+      <div className="bg-white rounded-xl shadow border border-gray-200 mt-2">
         {activeTab === "tutoria" && (
-          <div className="overflow-x-auto">
-            <table className="min-w-full table-auto border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-200 text-center">
-                  <th className="border px-3 py-2">Transaction ID</th>
-                  <th className="border px-3 py-2">Email</th>
-                  <th className="border px-3 py-2">Role</th>
-                  <th className="border px-3 py-2">Source</th>
-                  <th className="border px-3 py-2">Amount</th>
-                  <th className="border px-3 py-2">Payment Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tutoriaPayments.map((p) => (
-                  <tr key={p._id} className="text-center">
-                    <td className="border px-2 py-3">{p.transactionId}</td>
-                    <td className="border px-2 py-3">{p.email}</td>
-                    <td className="border px-2 py-3">{p.role}</td>
-                    <td className="border px-2 py-3">{p.source}</td>
-                    <td className="border px-2 py-3">{p.tuToriaAmount}</td>
-                    <td className="border px-2 py-3">
-                      {new Date(p.paymentTime).toLocaleString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <>
+            {tutoriaPayments.length === 0 ? (
+              <EmptyState message="No TuToria payments found." />
+            ) : (
+              <>
+                {/* Mobile: Cards */}
+                <div className="md:hidden space-y-3 p-4">
+                  {tutoriaPayments.map((p) => (
+                    <div
+                      key={p._id}
+                      className="border border-gray-200 rounded-lg p-4 shadow-sm bg-white"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <p className="text-xs text-gray-500">Transaction ID</p>
+                            <p className="text-sm font-semibold text-gray-800">
+                              {p.transactionId}
+                            </p>
+                          </div>
+                          <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
+                            {p.role}
+                          </span>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Email</p>
+                          <p className="text-sm text-blue-600">{p.email}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Source</p>
+                          <p className="text-sm text-gray-800">{p.source}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Amount</p>
+                          <p className="text-base font-bold text-green-600">
+                            {p.tuToriaAmount} BDT
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Payment Time</p>
+                          <p className="text-sm text-gray-800">
+                            {new Date(p.paymentTime).toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop: Table */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="min-w-full text-xs md:text-sm table-auto border-collapse">
+                    <thead>
+                      <tr className="bg-gray-100/90 text-center text-gray-700">
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Transaction ID
+                        </th>
+                        <th className="border px-3 py-2 whitespace-nowrap">Email</th>
+                        <th className="border px-3 py-2 whitespace-nowrap">Role</th>
+                        <th className="border px-3 py-2 whitespace-nowrap">Source</th>
+                        <th className="border px-3 py-2 whitespace-nowrap">Amount</th>
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Payment Time
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tutoriaPayments.map((p) => (
+                        <tr
+                          key={p._id}
+                          className="text-center text-gray-800 hover:bg-gray-50"
+                        >
+                          <td className="border px-2 py-3 whitespace-nowrap">
+                            {p.transactionId}
+                          </td>
+                          <td className="border px-2 py-3 text-blue-600 whitespace-nowrap">
+                            {p.email}
+                          </td>
+                          <td className="border px-2 py-3 whitespace-nowrap">
+                            {p.role}
+                          </td>
+                          <td className="border px-2 py-3 whitespace-nowrap">
+                            {p.source}
+                          </td>
+                          <td className="border px-2 py-3 whitespace-nowrap">
+                            {p.tuToriaAmount}
+                          </td>
+                          <td className="border px-2 py-3 whitespace-nowrap">
+                            {new Date(p.paymentTime).toLocaleString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+          </>
         )}
 
         {activeTab === "tutor" && (
-          <div className="overflow-x-auto">
-            <table className="min-w-full table-auto border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-200 text-center">
-                  <th className="border px-3 py-2">Student Email</th>
-                  <th className="border px-3 py-2">Source</th>
-                  <th className="border px-3 py-2">Tutor ID</th>
-                  <th className="border px-3 py-2">Tutor Phone</th>
-                  <th className="border px-3 py-2">Tutor Amount</th>
-                  <th className="border px-3 py-2">Payment Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tutorPayments.map((p) => (
-                  <tr key={p._id} className="text-center">
-                    <td className="border px-2 py-3">{p.studentEmail}</td>
-                    <td className="border px-2 py-3">{p.source}</td>
-                    <td className="border px-2 py-3">{p.tutorId}</td>
-                    <td className="border px-2 py-3">
-                      {tutorProfiles[p.tutorId]?.phone || "N/A"}
-                    </td>
-                    <td className="border px-2 py-3">{p.tutorAmount}</td>
-                    <td className="border px-2 py-3">
-                      {new Date(p.paymentTime).toLocaleString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <>
+            {tutorPayments.length === 0 ? (
+              <EmptyState message="No tutor payments found." />
+            ) : (
+              <>
+                {/* Mobile: Cards */}
+                <div className="md:hidden space-y-3 p-4">
+                  {tutorPayments.map((p) => (
+                    <div
+                      key={p._id}
+                      className="border border-gray-200 rounded-lg p-4 shadow-sm bg-white"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <p className="text-xs text-gray-500">Student Email</p>
+                            <p className="text-sm font-semibold text-blue-600">
+                              {p.studentEmail}
+                            </p>
+                          </div>
+                          <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
+                            {p.source}
+                          </span>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Tutor ID</p>
+                          <p className="text-sm text-gray-800">{p.tutorId}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Tutor Phone</p>
+                          <p className="text-sm text-gray-800">
+                            {tutorProfiles[p.tutorId]?.phone || "N/A"}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Amount</p>
+                          <p className="text-base font-bold text-green-600">
+                            {p.tutorAmount} BDT
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Payment Time</p>
+                          <p className="text-sm text-gray-800">
+                            {new Date(p.paymentTime).toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop: Table */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="min-w-full text-xs md:text-sm table-auto border-collapse">
+                    <thead>
+                      <tr className="bg-gray-100/90 text-center text-gray-700">
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Student Email
+                        </th>
+                        <th className="border px-3 py-2 whitespace-nowrap">Source</th>
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Tutor ID
+                        </th>
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Tutor Phone
+                        </th>
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Tutor Amount
+                        </th>
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Payment Time
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tutorPayments.map((p) => (
+                        <tr
+                          key={p._id}
+                          className="text-center text-gray-800 hover:bg-gray-50"
+                        >
+                          <td className="border px-2 py-3 text-blue-600 whitespace-nowrap">
+                            {p.studentEmail}
+                          </td>
+                          <td className="border px-2 py-3 whitespace-nowrap">
+                            {p.source}
+                          </td>
+                          <td className="border px-2 py-3 whitespace-nowrap">
+                            {p.tutorId}
+                          </td>
+                          <td className="border px-2 py-3 whitespace-nowrap">
+                            {tutorProfiles[p.tutorId]?.phone || "N/A"}
+                          </td>
+                          <td className="border px-2 py-3 whitespace-nowrap">
+                            {p.tutorAmount}
+                          </td>
+                          <td className="border px-2 py-3 whitespace-nowrap">
+                            {new Date(p.paymentTime).toLocaleString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+          </>
         )}
       </div>
     </div>

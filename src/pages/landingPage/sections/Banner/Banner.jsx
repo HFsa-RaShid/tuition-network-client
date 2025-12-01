@@ -70,7 +70,7 @@ const Banner = () => {
             value={className}
             onChange={(e) => setClassName(e.target.value)}
             className={`border-b-2 border-gray-400 bg-transparent focus:outline-none px-2 py-1 w-32 text-center rounded
-            ${!className ? "text-gray-400" : "text-white"}`}
+            ${!className ? "text-gray-500" : "text-black"}`}
           >
             <option value="" disabled>
               Class
@@ -90,7 +90,7 @@ const Banner = () => {
               setCity("");
             }}
             className={`border-b-2 border-gray-400 bg-transparent focus:outline-none px-2 py-1 w-32 text-center rounded
-            ${!district ? "text-gray-400" : "text-white"}`}
+            ${!district ? "text-gray-500" : "text-black"}`}
           >
             <option value="" disabled>
               District
@@ -108,7 +108,7 @@ const Banner = () => {
             onChange={(e) => setCity(e.target.value)}
             disabled={!district}
             className={`border-b-2 border-gray-400 bg-transparent focus:outline-none px-2 py-1 w-32 text-center rounded
-            ${!city ? "text-gray-400" : "text-white"}`}
+            ${!city ? "text-gray-500" : "text-black"}`}
           >
             <option value="" disabled>
               Location

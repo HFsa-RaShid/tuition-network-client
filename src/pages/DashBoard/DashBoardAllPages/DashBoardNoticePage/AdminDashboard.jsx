@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import PieChart from "../../../../components/PieChart";
 import useAllPayment from "../../../../hooks/useAllPayment";
 import MonthlyStatusChart from "../../../../components/MonthlyStatusChart";
+import EmptyState from "../../../../components/EmptyState";
 
 const MetricCard = ({ icon, label, value, helper }) => (
   <div className="bg-gray-100/90 border border-gray-100 rounded-xl p-5 shadow-lg flex items-center gap-4">
@@ -135,9 +136,7 @@ const NoticeTable = ({ notices, onDelete, loading }) => (
         ))}
       </div>
     ) : notices.length === 0 ? (
-      <div className="text-center text-gray-400 py-10 text-sm">
-        No notices published yet.
-      </div>
+      <EmptyState message="No notices published yet." />
     ) : (
       <div className="space-y-4">
         {notices.map((notice) => (

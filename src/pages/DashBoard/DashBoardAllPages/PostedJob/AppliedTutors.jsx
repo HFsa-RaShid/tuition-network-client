@@ -48,7 +48,7 @@ const AppliedTutors = () => {
   const handleToggleAndRefresh = async () => {
     if (currentUser?.profileStatus !== "Premium") {
       toast.error("You need to purchase Premium to use this feature!");
-      navigate(`/${currentUser.role}/settings/premium`);
+      navigate(`/${currentUser.role}/get-premium`);
       return;
     }
 
@@ -535,7 +535,7 @@ const AppliedTutors = () => {
         <div className="bg-white rounded-md shadow-sm border border-gray-200 overflow-hidden">
           {showTopMatches ? (
             // Top 5 Matches View
-            <div className="p-6">
+            <div className="p-6 overflow-x-auto">
               {topMatchedTutors.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="mx-auto w-24 h-24 bg-gray-100/90 rounded-full flex items-center justify-center mb-4">
@@ -550,7 +550,7 @@ const AppliedTutors = () => {
                   </p>
                 </div>
               ) : (
-                <div className="overflow-hidden rounded-lg border border-gray-200">
+                <div className="min-w-full rounded-lg border border-gray-200">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
@@ -719,8 +719,8 @@ const AppliedTutors = () => {
             </div>
           ) : (
             // All Applied Tutors View
-            <div className="p-6">
-              <div className="overflow-hidden rounded-lg border border-gray-200">
+            <div className="p-6 overflow-x-auto">
+              <div className="min-w-full rounded-lg border border-gray-200">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>

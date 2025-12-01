@@ -7,6 +7,7 @@ import * as htmlToImage from "html-to-image";
 import useAllHiredByAStudent from "../../../../hooks/useAllHiredByAStudent";
 import PaymentRow from "./PaymentRow";
 import useAxisTutorByID from "../../../../hooks/useAxisTutorByID";
+import EmptyState from "../../../../components/EmptyState";
 
 const PaymentHistoryStudent = () => {
   const { user } = useContext(AuthContext);
@@ -285,7 +286,7 @@ const PaymentHistoryStudent = () => {
           Payment History
         </h2>
         {filteredJobs?.length === 0 ? (
-          <p className="text-center text-gray-500">No payment history found.</p>
+          <EmptyState message="No payment history found." />
         ) : (
           <>
             {/* Mobile: stacked cards */}

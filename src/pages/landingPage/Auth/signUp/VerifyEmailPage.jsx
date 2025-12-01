@@ -57,7 +57,11 @@ const VerifyEmailPage = () => {
       };
 
       const res = await axiosPublic.post("/users", userInfo);
-      const res2 = await axiosPublic.post("/tutors", userInfo);
+      
+      // Only add to tutors collection if role is "tutor"
+      if (role === "tutor") {
+        await axiosPublic.post("/tutors", userInfo);
+      }
 
       if (res.data.insertedId) {
         toast.success("Account created successfully!");

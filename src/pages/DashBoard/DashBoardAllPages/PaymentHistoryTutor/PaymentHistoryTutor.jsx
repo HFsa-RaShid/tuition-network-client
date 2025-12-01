@@ -5,6 +5,7 @@ import { AuthContext } from "../../../../provider/AuthProvider";
 import { useContext } from "react";
 import jsPDF from "jspdf";
 import * as htmlToImage from "html-to-image";
+import EmptyState from "../../../../components/EmptyState";
 
 const PaymentHistoryTutor = () => {
   const { user } = useContext(AuthContext);
@@ -215,9 +216,7 @@ const PaymentHistoryTutor = () => {
           Payment History
         </h2>
         {paidJobs?.length === 0 ? (
-          <p className="text-center  text-gray-500">
-            No payment history found.
-          </p>
+          <EmptyState message="No payment history found." />
         ) : (
           <>
             {/* Mobile: stacked cards */}

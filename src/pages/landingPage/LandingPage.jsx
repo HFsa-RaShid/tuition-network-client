@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 // Layout Components
 import Navbar from "../Shared/Navbar/Navbar";
 import Footer from "../Shared/Footer/Footer";
+import TidioChat from "../../components/TidioChat";
 
 // Landing Page Sections
 import Banner from "./sections/Banner/Banner";
@@ -23,6 +24,7 @@ const LandingPage = () => {
       <Helmet>
         <title>TuToria</title>
       </Helmet>
+      <TidioChat />
       <Navbar />
       <Banner />
       <CountDown />

@@ -43,10 +43,10 @@ const ProfileTutor = () => {
     }
 
     return (
-      <div className="grid grid-cols-12 text-md px-2 py-1">
-        <p className="col-span-3 font-semibold">{title}</p>
-        <p className="col-span-3 text-center">:</p>
-        <p className={`col-span-6 ${valueClass}`}>{value || "N/A"}</p>
+      <div className="grid grid-cols-12 text-sm md:text-md px-2 py-1">
+        <p className="col-span-4 md:col-span-3 font-semibold">{title}</p>
+        <p className="col-span-1 md:col-span-3 text-center">:</p>
+        <p className={`col-span-7 md:col-span-6 ${valueClass}`}>{value || "N/A"}</p>
       </div>
     );
   };
@@ -147,9 +147,9 @@ const ProfileTutor = () => {
     <div>
       <Navbar></Navbar>
       <div className="bg-base-100 min-h-screen mt-6">
-        <div className="flex p-6 gap-6 container mx-auto">
+        <div className="flex flex-col lg:flex-row p-4 md:p-6 gap-4 md:gap-6 container mx-auto">
           {/* Left Side - Profile Card */}
-          <div className="w-[28%] mt-20 bg-gray-100/90 shadow-md rounded-xl p-4 flex flex-col items-center">
+          <div className="w-full lg:w-[28%] mt-20 bg-gray-100/90 shadow-md rounded-xl p-4 flex flex-col items-center">
             {/* Profile Picture */}
             <img
               src={
@@ -174,7 +174,6 @@ const ProfileTutor = () => {
               <InfoRow title="ID#" value={tutor.customId} />
               <InfoRow title="Gender" value={tutor.gender} />
               <InfoRow title="Religion" value={tutor.religion} />
-
               <InfoRow title="Type/Role" value={tutor.tutorType} />
               <InfoRow
                 title="Location"
@@ -184,7 +183,7 @@ const ProfileTutor = () => {
           </div>
 
           {/* Middle Section - Tabs */}
-          <div className="w-[52%] mt-20 bg-gray-100/90 shadow-md rounded-xl p-4">
+          <div className="w-full lg:w-[52%] mt-4 lg:mt-20 bg-gray-100/90 shadow-md rounded-xl p-4">
             {/* Tabs */}
             <div className="flex border-b mb-4">
               <button
@@ -266,28 +265,15 @@ const ProfileTutor = () => {
                   <InfoRow title="Degree" value={tutor.education} />
                   <InfoRow title="Passing Year" value={tutor.passingYear} />
                   <InfoRow title="GPA/CGPA" value={tutor.gpa} />
-                  <InfoRow
-                    title="Teacher ID/ Student ID/ NID"
-                    value={
-                      tutor.verificationStatus === "approved" ? (
-                        <span className="flex items-center gap-1 text-green-600 font-semibold">
-                          Verified <MdVerified className="text-blue-500" />
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-1 text-red-500 font-semibold">
-                          Not Verified
-                        </span>
-                      )
-                    }
-                  />
+                 
                 </div>
               )}
 
               {activeTab === "ratings" && (
-                <div className="space-y-6 px-10 mt-10">
+                <div className="space-y-6 px-4 md:px-10 mt-6 md:mt-10">
                   {/* Left side summary */}
-                  <div className="flex  gap-10 items-center ">
-                    <div className="text-center w-[35%]">
+                  <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center">
+                    <div className="text-center w-full md:w-[35%]">
                       <h3 className="font-bold">Student Reviews</h3>
 
                       {/* ⭐ Average Rating (Readonly) */}
@@ -306,7 +292,7 @@ const ProfileTutor = () => {
                     </div>
 
                     {/* Right side breakdown */}
-                    <div className="flex-1 space-y-2 w-[55%]">
+                    <div className="flex-1 space-y-2 w-full md:w-[55%]">
                       {[5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1].map((star) => {
                         const total = tutor.ratings?.length || 0;
                         const count =
@@ -337,7 +323,7 @@ const ProfileTutor = () => {
           </div>
 
           {/* Right Side - Single Action + Contact Info */}
-          <div className="w-[25%] mt-20 bg-gray-100/90 shadow-md rounded-xl p-6 flex flex-col items-stretch gap-3">
+          <div className="w-full lg:w-[25%] mt-4 lg:mt-20 bg-gray-100/90 shadow-md rounded-xl p-6 flex flex-col items-stretch gap-3">
             <h2 className="text-[18px] font-bold mb-2">Get Started</h2>
             <p className="text-sm text-gray-700 mb-3">
               Interested in a live demo class or hiring this tutor? <b>Click</b>{" "}
@@ -364,8 +350,11 @@ const ProfileTutor = () => {
               <p>If you need assistance, contact TuToria:</p>
               <p className="mt-1">
                 Email:{" "}
-                <a href="mailto:support@tutoria.com" className="text-blue-600">
-                  support@tutoria.com
+                <a
+                  href="mailto:tutoria.official.bd@gmail.com"
+                  className="text-blue-600"
+                >
+                  tutoria.official.bd@gmail.com
                 </a>
               </p>
               <p>

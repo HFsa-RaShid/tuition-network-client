@@ -11,6 +11,7 @@ import useCurrentUser from "../../../../hooks/useCurrentUser";
 import useAllJobs from "../../../../hooks/useAllJobs";
 import useAllHiredByAStudent from "../../../../hooks/useAllHiredByAStudent";
 import useDashboardNotices from "../../../../hooks/useDashboardNotices";
+import EmptyState from "../../../../components/EmptyState";
 
 const StatCard = ({ icon, label, value, subLabel }) => (
   <div className="bg-gray-100/90 border border-gray-100 rounded-xl p-5 shadow-lg flex items-center gap-4">
@@ -87,9 +88,7 @@ const PerformanceChart = ({ data }) => {
           );
         })}
         {data.length === 0 && (
-          <div className="text-center text-gray-400 w-full">
-            Not enough activity to plot a chart yet.
-          </div>
+          <EmptyState message="Not enough activity to plot a chart yet." />
         )}
       </div>
     </div>
@@ -114,9 +113,7 @@ const NoticeBoard = ({ notices = [], loading }) => (
         </div>
       )}
       {!loading && notices.length === 0 && (
-        <div className="text-center text-gray-400 py-10 text-sm">
-          No notices from admin yet.
-        </div>
+        <EmptyState message="No notices from admin yet." />
       )}
       {!loading &&
         notices.map((notice, idx) => (
@@ -307,9 +304,7 @@ const StudentDashboard = () => {
             </div>
           </div>
           {recentRequests.length === 0 ? (
-            <div className="text-center text-gray-400 py-8 text-sm">
-              You have not posted any tutor requests yet.
-            </div>
+            <EmptyState message="You have not posted any tutor requests yet." />
           ) : (
             <div className="space-y-4">
               {recentRequests.map((request) => (

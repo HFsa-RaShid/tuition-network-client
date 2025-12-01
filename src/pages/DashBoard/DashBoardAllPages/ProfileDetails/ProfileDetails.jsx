@@ -43,6 +43,8 @@ const ProfileDetails = () => {
     currentUser?.preferredLocations?.split(",") || []
   );
 
+  const isTutor = currentUser?.role === "tutor";
+
   const {
     register,
     handleSubmit,
@@ -245,8 +247,7 @@ const ProfileDetails = () => {
     watch("institute") &&
     watch("department") &&
     watch("gpa") &&
-    watch("passingYear") &&
-    watch("tutorType");
+    watch("passingYear");
 
   // Step 3 fields
   const isStep3Valid =
@@ -309,9 +310,11 @@ const ProfileDetails = () => {
         <div className="w-full md:w-2/3">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
             {/* Step 1 - Personal Info */}
-            {step === 1 && (
+            {(step === 1 || !isTutor) && (
               <>
-                <h2 className="text-2xl font-semibold pb-2 mt-10">Personal Info</h2>
+                <h2 className="text-2xl font-semibold pb-2 mt-10">
+                  Personal Info
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label>Name</label>
@@ -413,7 +416,7 @@ const ProfileDetails = () => {
 
             {/* Step 2 - Educational Info */}
 
-            {step === 2 && (
+            {isTutor && step === 2 && (
               <>
                 <h3 className="text-2xl font-semibold pb-6">
                   Educational Information
@@ -488,6 +491,40 @@ const ProfileDetails = () => {
                   </div>{" "}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+
+                  <div className="flex flex-col gap-1">
+                    <label className="font-medium">Tutor Type</label>
+
+                    <select
+                      {...register("tutorType", { required: true })}
+                      className="select select-bordered w-full bg-white"
+                    >
+                      <option value="">Select Tutor Type</option>
+                      <option value="University Student">
+                        University Student
+                      </option>
+                      <option value="College Student">College Student</option>
+                      <option value="School Teacher">School Teacher</option>
+                      <option value="College Teacher">College Teacher</option>
+                      <option value="University Teacher">
+                        University Teacher
+                      </option>
+                      <option value="Job Seeker">Job Seeker</option>
+                      <option value="Professional Tutor">
+                        Professional Tutor
+                      </option>
+                      <option value="Part-Time Tutor">Part-Time Tutor</option>
+                      <option value="Full-Time Tutor">Full-Time Tutor</option>
+                      
+                    </select>
+
+                    {errors.tutorType && (
+                      <span className="text-red-500 text-sm">
+                        Tutor Type is required
+                      </span>
+                    )}
+                  </div>
+
                   <div>
                     <label className="block font-medium mb-1">
                       Teacher ID/ Student ID(optional)
@@ -504,7 +541,7 @@ const ProfileDetails = () => {
             )}
 
             {/* Step 3 - Tuition Info */}
-            {step === 3 && (
+            {isTutor && step === 3 && (
               <>
                 <h3 className="text-2xl font-semibold pb-4">
                   Tuition Preference Information
@@ -698,7 +735,7 @@ const ProfileDetails = () => {
 
             {/* Step 4 - Availability Info */}
 
-            {step === 4 && (
+            {isTutor && step === 4 && (
               <>
                 <h3 className="text-2xl font-semibold pb-6">
                   Availability Information
@@ -857,43 +894,57 @@ const ProfileDetails = () => {
 
             {/* Navigation Buttons */}
             <div className="flex justify-between pt-4">
-              {step > 1 && (
-                <button
-                  type="button"
-                  className="btn-primary"
-                  onClick={() => setStep(step - 1)}
-                >
-                  Previous
-                </button>
-              )}
-              {step === 4 ? (
-                <button
-                  type="submit"
-                  className="btn-primary"
-                  disabled={!isStep4Valid}
-                  onClick={handleSubmit((data) => {
-                    onSubmit(data);
-                    setStep(1);
-                  })}
-                >
-                  Complete
-                </button>
+              {isTutor ? (
+                <>
+                  {step > 1 && (
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={() => setStep(step - 1)}
+                    >
+                      Previous
+                    </button>
+                  )}
+                  {step === 4 ? (
+                    <button
+                      type="submit"
+                      className="btn-primary"
+                      disabled={!isStep4Valid}
+                      onClick={handleSubmit((data) => {
+                        onSubmit(data);
+                        setStep(1);
+                      })}
+                    >
+                      Complete
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleSubmit((data) => {
+                        onSubmit(data);
+                        setStep(step + 1);
+                      })}
+                      className="btn-primary mb-2"
+                      disabled={
+                        (step === 1 && !isStep1Valid) ||
+                        (step === 2 && !isStep2Valid) ||
+                        (step === 3 && !isStep3Valid)
+                      }
+                    >
+                      Next
+                    </button>
+                  )}
+                </>
               ) : (
-                <button
-                  type="button"
-                  onClick={handleSubmit((data) => {
-                    onSubmit(data);
-                    setStep(step + 1);
-                  })}
-                  className="btn-primary mb-2"
-                  disabled={
-                    (step === 1 && !isStep1Valid) ||
-                    (step === 2 && !isStep2Valid) ||
-                    (step === 3 && !isStep3Valid)
-                  }
-                >
-                  Next
-                </button>
+                <div className="ml-auto">
+                  <button
+                    type="submit"
+                    className="btn-primary"
+                    disabled={!isStep1Valid}
+                  >
+                    Submit
+                  </button>
+                </div>
               )}
             </div>
           </form>

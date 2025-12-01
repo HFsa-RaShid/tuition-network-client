@@ -5,7 +5,7 @@ import logo from "../../../assets/logo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-white text-gray-700  sm:px-8 md:px-10 pt-10 pb-6">
+    <footer className="bg-white text-gray-700  sm:px-8 md:px-10 pt-10 pb-6 ">
       <div className="container mx-auto">
         <div className="footer pb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="flex flex-col items-start space-y-4">

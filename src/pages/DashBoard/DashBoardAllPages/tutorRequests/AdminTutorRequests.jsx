@@ -62,7 +62,7 @@ const AdminTutorRequests = () => {
 
             <div className="flex gap-2 mt-auto flex-wrap">
               <button
-                className="btn btn-sm btn-success flex-1"
+                className="btn-primary flex-1"
                 onClick={() => openSendLinkModal(r)}
                 disabled={loadingId === r._id}
               >
@@ -70,7 +70,7 @@ const AdminTutorRequests = () => {
               </button>
 
               <button
-                className="btn btn-sm btn-error flex-1"
+                className="btn btn-sm btn-error text-white flex-1"
                 onClick={() => handleDelete(r)}
                 disabled={loadingId === r._id}
               >

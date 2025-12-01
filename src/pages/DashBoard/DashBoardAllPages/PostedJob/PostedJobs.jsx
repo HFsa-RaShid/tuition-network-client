@@ -61,21 +61,6 @@ const PostedJobs = () => {
     );
   }
 
-  // if (jobs.length === 0) {
-  //   return (
-  //     <div className="flex flex-col items-center justify-center min-h-[60vh] ">
-  //       <div className="relative w-28 h-28 flex items-center justify-center mb-4">
-  //         <div className="absolute inset-0 bg-gray-700 rounded-full"></div>
-  //         <PiSmileySadBold className="relative text-gray-300 text-5xl" />
-  //       </div>
-  //       <h2 className="text-2xl font-semibold mb-1">No Jobs Found</h2>
-  //       <p className="text-gray-400 text-sm">
-  //         You haven't posted any jobs yet.
-  //       </p>
-  //     </div>
-  //   );
-  // }
-
   if (jobs.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
@@ -88,7 +73,7 @@ const PostedJobs = () => {
           No Jobs Found
         </h2>
         <p className="text-gray-500 text-sm">
-          You haven’t posted any jobs yet.
+          You haven't posted any jobs yet.
         </p>
       </div>
     );
