@@ -5,7 +5,7 @@ import axios from "axios";
 import { AuthContext } from "../provider/AuthProvider";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://tutoria-server.vercel.app",
 });
 const useAxiosSecure = () => {
   const { user, logOut } = useContext(AuthContext);
