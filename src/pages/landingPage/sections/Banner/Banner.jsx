@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Utils
 import bdDistricts from "../../../utils/bdDistricts";
 import cityAreaMap from "../../../utils/cityAreaMap";
 
+// AOS for animations
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 const Banner = () => {
+
+  useEffect(() => {
+            AOS.init({duration: 2000});
+        }, []);
+
   const [className, setClassName] = useState("");
   const [district, setDistrict] = useState("");
   const [city, setCity] = useState("");
@@ -30,11 +39,13 @@ const Banner = () => {
     <div className="relative bg-gray-100/90 py-28 mt-12 overflow-hidden">
       {/*  Content */}
       <div className="relative z-10 container mx-auto text-center px-6 md:px-16">
-        <p className="text-[#DAA520] font-bold mb-3">
+        <p className="text-[#DAA520] font-bold mb-3" >
           100% SATISFACTION GUARANTEE
         </p>
 
-        <h1 className="text-5xl font-bold text-black mb-6 leading-tight">
+        <h1 className="text-5xl font-bold text-black mb-6 leading-tight" data-aos="fade-down"
+     data-aos-easing="linear"
+     data-aos-duration="1500">
           Find Your <br />
           <span className="relative inline-flex items-center">
             Perfect Tutor

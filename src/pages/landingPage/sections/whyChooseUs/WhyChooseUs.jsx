@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { MdOutlineAttachMoney } from "react-icons/md";
+// AOS for animations
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const WhyChooseUs = () => {
+  useEffect(() => {
+        AOS.init({duration: 2000});
+    }, []);
   const benefits = [
     {
       icon: (
@@ -43,7 +49,7 @@ const WhyChooseUs = () => {
             Services with Us
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 " data-aos = "fade-up">
             {benefits.map((benefit, index) => (
               <div
                 key={index}

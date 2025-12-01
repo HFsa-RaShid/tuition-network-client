@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BookOpen, Laptop, Users, Layers } from "lucide-react";
+// AOS for animations
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const TuitionTypes = () => {
+  useEffect(() => {
+          AOS.init({duration: 2000});
+      }, []);
   const types = [
     {
       title: "Home Tutoring",
@@ -32,15 +38,15 @@ const TuitionTypes = () => {
           TUITION TYPES
         </h4>
 
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+        <h2 className="text-3xl md:text-3xl font-bold text-gray-900">
           Find the Best Tuition Type
         </h2>
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12">
+        <h2 className="text-3xl md:text-3xl font-bold text-gray-900 mb-12">
           which suits you most
         </h2>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-10" data-aos = "fade-up">
           {types.map((item, index) => (
             <div
               key={index}

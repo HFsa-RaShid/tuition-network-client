@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -17,7 +16,7 @@ const ViewUsers = () => {
 
   const axiosSecure = useAxiosSecure();
 
-  // === Fetch all users (not on every keystroke) ===
+  // Fetch all users
   const {
     data: users = [],
     isLoading,
@@ -28,15 +27,15 @@ const ViewUsers = () => {
       const res = await axiosSecure.get("/users");
       return res.data;
     },
-    refetchInterval: 30000, 
+    refetchInterval: 30000,
   });
 
-  // === Filtering + Searching (client side) ===
+  // Filtering + Searching
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
       user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.customId?.toLowerCase().includes(searchTerm.toLowerCase());
+      user.customId?.toLowerCase().includes(searchTerm.toLowerCase());
 
     let matchesRole = true;
     if (filterRole === "tutor") matchesRole = user.role === "tutor";
@@ -174,22 +173,23 @@ const ViewUsers = () => {
 
   return (
     <div className="min-h-screen mb-2 ml-6">
-      
       <h1 className="pt-6 text-center font-bold text-3xl">Users</h1>
 
-      <div className="relative flex justify-center items-center mt-4 mb-4">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-2 mt-4 mb-4">
+        {/* Search Input */}
         <input
           type="text"
-          className="border px-4 py-2 w-[250px] "
-          placeholder="Search by name,email or ID"
+          className="border px-4 py-1 w-full md:w-[290px] border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Search by name, email, or ID"
           value={searchTerm}
           onChange={handleSearch}
         />
 
+        {/* Role Filter */}
         <select
           value={filterRole}
           onChange={(e) => setFilterRole(e.target.value)}
-          className="absolute right-5 border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none"
+          className="border border-gray-300 rounded-md px-3 py-2 w-full md:w-auto text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
           <option value="all">All</option>
           <option value="tutor">Tutors</option>
