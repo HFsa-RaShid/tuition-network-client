@@ -37,7 +37,7 @@ const PaymentSuccess = () => {
       navigate(`/${currentUser?.role}/hired-tutors`);
     }
     else if(paymentData?.source === "getPremium") {
-      navigate(`/${currentUser?.role}/settings/premium`);
+      navigate(`/${currentUser?.role}/get-premium`);
     }
    
   };

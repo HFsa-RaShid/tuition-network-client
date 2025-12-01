@@ -37,7 +37,6 @@ import AppliedTutors from "../pages/DashBoard/DashBoardAllPages/PostedJob/Applie
 import AppliedTutorProfile from "../pages/DashBoard/DashBoardAllPages/PostedJob/AppliedTutorProfile";
 import PendingRequest from "../pages/DashBoard/DashBoardAllPages/PendingRequest/PendingRequest";
 import HiredTutors from "../pages/DashBoard/DashBoardAllPages/HiredTutors/HiredTutors";
-import Settings from "../pages/DashBoard/DashBoardAllPages/userSettings/Settings";
 import GetPremium from "../pages/DashBoard/DashBoardNav/GetPremium/GetPremium";
 import PaymentHistoryTutor from "../pages/DashBoard/DashBoardAllPages/PaymentHistoryTutor/PaymentHistoryTutor";
 import PaymentHistoryStudent from "../pages/DashBoard/DashBoardAllPages/PaymentHistoryStudent/PaymentHistoryStudent";

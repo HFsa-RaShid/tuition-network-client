@@ -274,7 +274,7 @@ const ProfileDetails = () => {
       <div className="w-full mt-6 p-4 mx-5 flex flex-col md:flex-row gap-8 bg-gray-100/90 shadow-lg rounded-lg">
         {/* Left Side - Profile Image and Info */}
         <div className="w-full md:w-1/3 text-center relative">
-          <div className="relative inline-block">
+          <div className="relative inline-block mt-12">
             <img
               src={imagePreview}
               alt="Profile"
@@ -302,7 +302,6 @@ const ProfileDetails = () => {
             <h2 className="text-xl font-bold">{currentUser?.name}</h2>
             <p>{currentUser?.role || "Student"}</p>
             <p>{currentUser?.isPremium ? "Premium User" : "Free User"}</p>
-            
           </div>
         </div>
 
@@ -312,7 +311,7 @@ const ProfileDetails = () => {
             {/* Step 1 - Personal Info */}
             {step === 1 && (
               <>
-                <h2 className="text-2xl font-semibold pb-2">Personal Info</h2>
+                <h2 className="text-2xl font-semibold pb-2 mt-10">Personal Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label>Name</label>
@@ -381,9 +380,8 @@ const ProfileDetails = () => {
                       className="input input-bordered w-full bg-white"
                       onChange={(e) => {
                         setValue("city", e.target.value);
-                        setValue("location", ""); 
+                        setValue("location", "");
                       }}
-                      
                     >
                       <option value="">Select a City</option>
                       {bdDistricts.map((district) => (
@@ -394,13 +392,12 @@ const ProfileDetails = () => {
                     </select>
                   </div>
 
-                  <div>
+                  <div className="mb-10">
                     <label>Location / Area</label>
                     <select
                       {...register("location")}
                       className="input input-bordered w-full bg-white"
                       disabled={!watch("city")}
-                     
                     >
                       <option value="">Select an Area</option>
                       {cityAreaMap[watch("city")]?.map((area) => (
@@ -408,31 +405,6 @@ const ProfileDetails = () => {
                           {area}
                         </option>
                       ))}
-                    </select>
-                  </div>
-
-                 
-
-                  {/* Tutor Type */}
-                  <div>
-                    <label className="block font-medium ">Tutor Type</label>
-                    <select
-                      {...register("tutorType")}
-                      className="select select-bordered w-full bg-white"
-                    >
-                      <option value="">Select </option>
-                      <option value="Government Institution">
-                        Govt. Employee
-                      </option>
-                      <option value="Private Institution">
-                        Private Employee
-                      </option>
-                      <option value="Job Seeker">Job Seeker</option>
-                      <option value="University Student">
-                        University Student
-                      </option>
-
-                      <option value="College Student">College Student</option>
                     </select>
                   </div>
                 </div>
@@ -446,6 +418,15 @@ const ProfileDetails = () => {
                 <h3 className="text-2xl font-semibold pb-6">
                   Educational Information
                 </h3>
+                <div>
+                  <label className="block font-medium mb-1">Institute</label>
+                  <input
+                    {...register("institute")}
+                    type="text"
+                    className="input input-bordered w-full bg-white"
+                    placeholder="Name of your institute"
+                  />
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block font-medium mb-1">
@@ -465,17 +446,6 @@ const ProfileDetails = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block font-medium mb-1">Institute</label>
-                    <input
-                      {...register("institute")}
-                      type="text"
-                      className="input input-bordered w-full bg-white"
-                      placeholder="Name of your institute"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                  <div>
                     <label className="block font-medium mb-1">
                       Group/Department
                     </label>
@@ -486,6 +456,8 @@ const ProfileDetails = () => {
                       placeholder="e.g., Science, Arts, CSE"
                     />
                   </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                   <div>
                     <label className="block font-medium mb-1">GPA / CGPA</label>
                     <input
@@ -495,8 +467,6 @@ const ProfileDetails = () => {
                       placeholder="e.g., 4.00"
                     />
                   </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                   <div>
                     <label className="block font-medium mb-1">
                       Passing Year
@@ -516,6 +486,8 @@ const ProfileDetails = () => {
                       })}{" "}
                     </select>{" "}
                   </div>{" "}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                   <div>
                     <label className="block font-medium mb-1">
                       Teacher ID/ Student ID(optional)
@@ -525,7 +497,7 @@ const ProfileDetails = () => {
                       accept="image/*"
                       className="file-input file-input-bordered w-full bg-white"
                       onChange={handleStudentIdChange}
-                    /> 
+                    />
                   </div>
                 </div>{" "}
               </>

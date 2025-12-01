@@ -60,7 +60,7 @@ const GetPremium = () => {
     return () => clearInterval(interval);
   }, [currentUser?.premiumExpiry]);
 
-  // 🔹 Payment handler
+  //  Payment handler
   const handlePaymentBkash = async (
     name,
     email,
@@ -113,15 +113,12 @@ const GetPremium = () => {
 
   return (
     <div className="flex flex-col items-center justify-center ml-14">
-      <h2 className="text-2xl font-bold mb-8">Upgrade your plan</h2>
 
       {/* Premium Validity Countdown */}
       {currentUser?.profileStatus === "Premium" && currentUser?.premiumExpiry && (
         <div className="mb-8 w-full max-w-2xl">
           <div className="bg-gradient-to-r from-blue-300 to-blue-500 rounded-2xl p-6 shadow-lg">
-            <h3 className="text-xl font-bold text-black mb-4 text-center">
-              Premium Access Validity
-            </h3>
+            
             <div className="text-center mb-4">
               <p className="text-lg font-semibold text-black">
                 {validityDays > 0 ? (

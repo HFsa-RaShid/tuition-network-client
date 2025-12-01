@@ -190,7 +190,7 @@ const Navbar = () => {
             </div>
           ) : (
             <NavLink to="/signIn">
-              <button className="bg-blue-200 text-blue-700 px-3 py-2 rounded hover:bg-blue-300 font-semibold h-10">
+              <button className="btn-primary">
                 Sign Up
               </button>
             </NavLink>
