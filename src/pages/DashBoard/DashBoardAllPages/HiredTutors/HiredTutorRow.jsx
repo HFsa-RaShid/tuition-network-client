@@ -291,7 +291,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
               />
             </div>
             <div className="modal-action">
-              <button onClick={handleSubmitRating} className="btn btn-success">
+              <button onClick={handleSubmitRating} className="btn-primary">
                 Send
               </button>
               <button
@@ -305,7 +305,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
         </dialog>
       )}
 
-      {/* ✅ View Info Modal */}
+      {/* View Info Modal */}
       {viewInfoTutor && (
         <dialog open className="modal">
           <div className="modal-box">

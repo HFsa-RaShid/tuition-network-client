@@ -268,7 +268,7 @@ const Tutors = () => {
                 className={`px-4 py-2 rounded-full border text-sm font-medium flex items-center gap-2 ${
                   active
                     ? "bg-[#111827] text-white border-[#111827]"
-                    : "bg-[#f6f8ff] text-gray-600 border-gray-200 hover:border-[#5c6ac4]"
+                    : "bg-gray-100/90 text-gray-600 border-gray-200 hover:border-[#5c6ac4]"
                 }`}
               >
                 <input type="checkbox" checked={active} readOnly />
@@ -279,7 +279,7 @@ const Tutors = () => {
         </div>
 
         {filteredTutors.length === 0 ? (
-          <div className="bg-[#f6f8ff] rounded-3xl p-10 mt-12 text-center shadow-sm">
+          <div className="bg-gray-100/90 rounded-3xl p-10 mt-12 text-center shadow-sm">
             <p className="text-lg font-semibold text-gray-900">
               No tutors matched your filters
             </p>
@@ -295,7 +295,7 @@ const Tutors = () => {
                     return (
                       <article
                         key={tutor._id}
-                        className="bg-[#f6f8ff] rounded-xl p-6 shadow-md border border-gray-200 flex flex-col gap-4 animate-fade-in animate-card-hover"
+                        className="bg-gray-100/90 rounded-xl p-6 shadow-md border border-gray-200 flex flex-col gap-4 animate-fade-in animate-card-hover"
                         style={{ animationDelay: `${idx * 0.05}s` }}
                       >
                     <div className="flex items-center gap-4">
@@ -330,7 +330,7 @@ const Tutors = () => {
                       <MdLocationOn className="text-[#5c6ac4]" />
                       {tutor.city || "Anywhere"}
                       {tutor.preferredLocations && (
-                        <span className="text-xs px-2 py-1 bg-[#f6f8ff] rounded-full">
+                        <span className="text-xs px-2 py-1 bg-gray-100/90 rounded-full">
                           {tutor.preferredLocations.split(",")[0]}
                         </span>
                       )}
@@ -342,7 +342,7 @@ const Tutors = () => {
                         .map((cls) => (
                           <span
                             key={cls}
-                            className="text-xs font-medium px-3 py-1 bg-[#f6f8ff] rounded-full text-gray-600"
+                            className="text-xs font-medium px-3 py-1 bg-gray-100/90 rounded-full text-gray-600"
                           >
                             {cls.trim()}
                           </span>
@@ -395,7 +395,7 @@ const Tutors = () => {
             className="absolute inset-0 bg-black/40"
             onClick={() => setIsFilterOpen(false)}
           ></div>
-          <div className="relative bg-white w-full max-w-md h-full overflow-y-auto shadow-2xl p-6">
+          <div className="relative bg-gray-100/90 w-full max-w-md h-full overflow-y-auto shadow-2xl p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold">🔍 Advanced Filter</h2>
               <button onClick={() => setIsFilterOpen(false)}>✕</button>

@@ -58,7 +58,7 @@ const VerifyEmailPage = () => {
 
       const res = await axiosPublic.post("/users", userInfo);
       
-      // Only add to tutors collection if role is "tutor"
+      
       if (role === "tutor") {
         await axiosPublic.post("/tutors", userInfo);
       }

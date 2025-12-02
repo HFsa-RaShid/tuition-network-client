@@ -156,7 +156,7 @@ const ProfileTutor = () => {
                 tutor.photoURL || "https://i.ibb.co/7n4R8Rt/default-avatar.png"
               }
               alt={tutor.name}
-              className="w-32 h-32 rounded-lg border mx-auto"
+              className="w-32 h-32 rounded-lg border mx-auto bg-white"
             />
 
             {/* Name + Rating */}
@@ -276,7 +276,7 @@ const ProfileTutor = () => {
                     <div className="text-center w-full md:w-[35%]">
                       <h3 className="font-bold">Student Reviews</h3>
 
-                      {/* ⭐ Average Rating (Readonly) */}
+                      {/* Average Rating (Readonly) */}
                       <RatingStars
                         rating={tutor.averageRating}
                         totalRatings={tutor.ratings?.length}
@@ -340,7 +340,7 @@ const ProfileTutor = () => {
                 // simply send student+tutor data
                 await handleAction();
               }}
-              className="px-4 py-3 bg-[#111827] text-white rounded-md font-semibold hover:opacity-95"
+              className="btn-primary"
             >
               Live Class Request
             </button>
@@ -359,8 +359,8 @@ const ProfileTutor = () => {
               </p>
               <p>
                 Phone:{" "}
-                <a href="tel:+8801700000000" className="text-blue-600">
-                  +880 1700 000000
+                <a href="tel:+8801838551941" className="text-blue-600">
+                  +880 1838551941
                 </a>
               </p>
             </div>

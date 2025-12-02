@@ -149,9 +149,7 @@ const PendingRequest = () => {
                   </span>
                   /Month
                 </p>
-                {/* <p className="text-gray-500  text-sm">
-                  Posted by: {request.userName} ({request.userEmail})
-                </p> */}
+                
                 <p className="text-gray-500  text-sm">
                   Posted Date:{" "}
                   {new Date(request.postedAt).toLocaleString("en-US", {
@@ -166,7 +164,7 @@ const PendingRequest = () => {
 
                 <div className="card-actions justify-end">
                   <button
-                    className="px-4 py-2 border border-blue-400 hover:bg-green-600"
+                    className="btn-primary"
                     onClick={() => approveRequest(request)}
                   >
                     Approve
