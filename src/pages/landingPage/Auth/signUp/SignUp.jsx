@@ -66,7 +66,7 @@ const SignupPage = () => {
 
       <div
         className="w-full max-w-5xl flex flex-col lg:flex-row items-center justify-between gap-10 p-6 
-    backdrop-blur-sm bg-white/5 border border-white/30 rounded-2xl shadow-2xl"
+    backdrop-blur-sm bg-white/15 border border-white/30 rounded-2xl shadow-2xl"
       >
         {/* Left Section */}
         <div className="w-full lg:w-1/2 flex justify-center relative z-10">
@@ -110,7 +110,6 @@ const SignupPage = () => {
                 onClick={() => setUserType(role)}
               >
                 <p className="font-semibold capitalize text-white">{role}</p>
-                
               </div>
             ))}
           </div>

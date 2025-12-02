@@ -395,7 +395,7 @@ const Tutors = () => {
             className="absolute inset-0 bg-black/40"
             onClick={() => setIsFilterOpen(false)}
           ></div>
-          <div className="relative bg-gray-100/90 w-full max-w-md h-full overflow-y-auto shadow-2xl p-6">
+          <div className="relative bg-white w-full max-w-md h-full overflow-y-auto shadow-2xl p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold">🔍 Advanced Filter</h2>
               <button onClick={() => setIsFilterOpen(false)}>✕</button>

@@ -100,15 +100,12 @@ const ClassDetails = () => {
                 >
                   Hire A Tutor
                 </button>
-                <button className="px-6 py-3 rounded-full border border-white text-white font-semibold hover:bg-white/10 transition">
-                  Share
-                </button>
               </div>
             </div>
           </section>
 
-              <section className="mt-10 grid lg:grid-cols-3 gap-6">
-                <article className="lg:col-span-2 bg-white rounded-[28px] p-8 shadow-sm animate-slide-up">
+          <section className="mt-10 grid lg:grid-cols-3 gap-6">
+            <article className="lg:col-span-2 bg-white rounded-[28px] p-8 shadow-sm animate-slide-up">
               <p className="text-sm uppercase tracking-[0.3em] text-gray-400">
                 About This Category
               </p>
@@ -137,10 +134,10 @@ const ClassDetails = () => {
                 ))}
               </div>
             </article>
-                <article className="bg-white rounded-[28px] p-8 shadow-sm animate-scale-in">
-                  <h3 className="text-xl font-semibold text-gray-900">
-                    {detail.aboutBlocks[1].title}
-                  </h3>
+            <article className="bg-white rounded-[28px] p-8 shadow-sm animate-scale-in">
+              <h3 className="text-xl font-semibold text-gray-900">
+                {detail.aboutBlocks[1].title}
+              </h3>
               <ul className="space-y-3 mt-4">
                 {detail.aboutBlocks[1].checklist.map((single) => (
                   <li key={single} className="flex items-start gap-3">
@@ -151,7 +148,7 @@ const ClassDetails = () => {
               </ul>
               <div className="mt-6 space-y-2 text-sm text-gray-600">
                 <p>
-                  📍 Dhaka, Chattogram, Sylhet, Rajshahi & nationwide online
+                  📍 Barishal,Dhaka, Chattogram, Rajshahi & nationwide online
                 </p>
                 <p>⏱️ 60-90 মিনিট লাইভ সেশন ও অন-ডিমান্ড doubt clearing</p>
               </div>

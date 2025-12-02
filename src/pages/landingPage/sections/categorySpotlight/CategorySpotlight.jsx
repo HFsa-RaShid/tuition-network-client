@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { categoryCatalog } from "../../../utils/categoryCatalog";
 
-
 const spotlightCategory = categoryCatalog[0];
 const spotlightClass = spotlightCategory?.classes?.find(
   (cls) => cls.id === "class-9"
@@ -22,18 +21,16 @@ const CategorySpotlight = () => {
               Category Spotlight
             </p>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Class 9 Tuition Terminal Experience
+              Class 9 TuToria Experience
             </h2>
-            <p className="text-gray-600 mt-2 max-w-3xl">
-              বিজ্ঞান, বাণিজ্য কিংবা মানবিক—যে কোন গ্রুপের শিক্ষার্থী/অভিভাবক এখানে
-              এসে verified tutor ব্রাউজ ও ফিল্টার করতে পারেন। Class details এবং
-              Suggested Tutors সেকশন থেকে পছন্দের শিক্ষক নির্বাচন করুন।
+            <p className="text-gray-600 mt-2 max-w-3xl ">
+              বিজ্ঞান, বাণিজ্য কিংবা মানবিক—যে কোন গ্রুপের শিক্ষার্থী/অভিভাবক
+              এখানে এসে verified tutor ব্রাউজ ও ফিল্টার করতে পারেন। Class
+              details এবং Suggested Tutors সেকশন থেকে পছন্দের শিক্ষক নির্বাচন
+              করুন।
             </p>
           </div>
-          <Link
-            to="/categories"
-            className="btn-primary"
-          >
+          <Link to="/categories" className="btn-primary">
             See More
           </Link>
         </div>
@@ -90,16 +87,18 @@ const CategorySpotlight = () => {
                 About This Category
               </h3>
               <p className="text-gray-600 mt-3 leading-relaxed">
-                নবম ও দশম শ্রেণির জন্য ক্লাস তথ্য, বিষয়ের তালিকা ও টিউটর কার্ড এক জায়গায় দেখা যায়।
+                নবম ও দশম শ্রেণির জন্য ক্লাস তথ্য, বিষয়ের তালিকা ও টিউটর কার্ড
+                এক জায়গায় দেখা যায়।
               </p>
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="border border-gray-200 rounded-2xl p-5">
                 <h4 className="font-semibold text-gray-900 mb-2">
-                  কেন Tuition Terminal?
+                  কেন TuToria?
                 </h4>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  verified tutor প্রোফাইল, ফিল্টার এবং Hire বোতাম একই জায়গায় থাকায় সিদ্ধান্ত নেওয়া সহজ।
+                  verified tutor প্রোফাইল, ফিল্টার এবং Hire বোতাম একই জায়গায়
+                  থাকায় সিদ্ধান্ত নেওয়া সহজ।
                 </p>
                 <div className="mt-4 text-sm font-semibold text-[#5c6ac4]">
                   সর্বোচ্চ ৯৮% সন্তুষ্টি
@@ -143,4 +142,3 @@ const CategorySpotlight = () => {
 };
 
 export default CategorySpotlight;
-

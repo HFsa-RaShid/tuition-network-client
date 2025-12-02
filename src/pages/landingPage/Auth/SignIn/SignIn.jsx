@@ -1,4 +1,3 @@
-
 import { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -65,7 +64,7 @@ const SignIn = () => {
       className="min-h-screen  w-full bg-cover bg-center bg-no-repeat flex items-center justify-center p-4"
       style={{
         backgroundImage: `url(${authBg})`,
-         backgroundSize: "cover",
+        backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
@@ -75,10 +74,10 @@ const SignIn = () => {
       </Helmet>
 
       {/* Glassmorphism Container */}
-      <div className="w-full max-w-5xl flex flex-col lg:flex-row items-center justify-between gap-10 p-6 
-    backdrop-blur-sm bg-white/5 border border-white/30 rounded-2xl shadow-2xl">
-
-
+      <div
+        className="w-full max-w-5xl flex flex-col lg:flex-row items-center justify-between gap-10 p-6 
+    backdrop-blur-sm bg-white/15 border border-white/30 rounded-2xl shadow-2xl"
+      >
         {/* Left image */}
         <div className="w-full lg:w-1/2 flex justify-center">
           <img
@@ -91,13 +90,19 @@ const SignIn = () => {
         {/* Right form */}
         <div className="w-full lg:w-1/2 text-black">
           <div className="flex justify-center mb-4">
-            <img src={logo} alt="Logo" className="w-12 h-12 rounded-xl shadow-md" />
+            <img
+              src={logo}
+              alt="Logo"
+              className="w-12 h-12 rounded-xl shadow-md"
+            />
           </div>
 
           <h2 className="text-3xl text-black font-semibold text-center">
             Welcome Back
           </h2>
-          <p className="text-center text-gray-800">Sign in to continue your journey.</p>
+          <p className="text-center text-gray-800">
+            Sign in to continue your journey.
+          </p>
 
           <form className="mt-6 text-black" onSubmit={handleSignIn}>
             <label className="block font-medium">
@@ -133,8 +138,6 @@ const SignIn = () => {
               </span>
             </div>
 
-            
-
             <button
               type="submit"
               className="w-full mt-6 btn-primary  font-semibold "
@@ -145,7 +148,10 @@ const SignIn = () => {
 
           <p className="text-center mt-4 text-black">
             New to TuToria?{" "}
-            <Link to="/signup" className="text-blue-800 underline font-semibold">
+            <Link
+              to="/signup"
+              className="text-blue-800 underline font-semibold"
+            >
               Sign Up
             </Link>
           </p>
