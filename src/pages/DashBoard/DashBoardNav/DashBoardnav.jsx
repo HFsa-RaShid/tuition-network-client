@@ -27,7 +27,11 @@ const DashBoardNav = ({ isSidebarOpen }) => {
       <div className="navbar px-14">
         <div className="navbar-start flex items-center gap-1 ">
           <h1 className="text-xl md:text-2xl font-bold">
-            Tu<span className="text-blue-500">T</span>oria
+            Tu
+            <span className="bg-gradient-to-r from-blue-300  to-blue-800 bg-clip-text text-transparent">
+              T
+            </span>
+            oria
           </h1>
 
           <div className="relative">

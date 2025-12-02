@@ -47,10 +47,10 @@ const CategoryExplorer = () => {
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-6 py-3 rounded-full border transition font-semibold ${
+                className={` transition font-semibold ${
                   isActive
-                    ? "bg-[#5c6ac4] text-white border-[#5c6ac4]"
-                    : "bg-white text-gray-700 border-gray-200 hover:border-[#5c6ac4]"
+                    ? `btn-primary`
+                    : "bg-white px-4 py-1 rounded-lg shadow-md border hover:border-[#5c6ac4]"
                 }`}
               >
                 {category.name}

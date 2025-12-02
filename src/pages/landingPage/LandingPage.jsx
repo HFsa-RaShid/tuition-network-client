@@ -34,8 +34,9 @@ const LandingPage = () => {
       <ParentConnection />
       <TutorConnection />
       <TutoringWithUs />
+       <FAQ />
       <Reviews />
-      <FAQ />
+     
       <Footer />
     </div>
   );

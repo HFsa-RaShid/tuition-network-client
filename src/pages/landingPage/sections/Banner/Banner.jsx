@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import bgPic from "../../../../assets/bgPic.png";
 
 // Utils
 import bdDistricts from "../../../utils/bdDistricts";
@@ -10,10 +11,9 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 const Banner = () => {
-
   useEffect(() => {
-            AOS.init({duration: 2000});
-        }, []);
+    AOS.init({ duration: 2000 });
+  }, []);
 
   const [className, setClassName] = useState("");
   const [district, setDistrict] = useState("");
@@ -36,16 +36,29 @@ const Banner = () => {
   ];
 
   return (
-    <div className="relative bg-gray-100/90 py-28 mt-12 overflow-hidden">
+    // <div className="relative bg-gray-100/90 py-28 mt-12 overflow-hidden">
+    <div
+      className="relative py-28 mt-12 overflow-hidden "
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7)),url(${bgPic})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+    
       {/*  Content */}
-      <div className="relative z-10 container mx-auto text-center px-6 md:px-16">
-        <p className="text-[#DAA520] font-bold mb-3" >
+      <div className="relative z-10 container mx-auto text-white text-center px-6 md:px-16">
+        <p className="text-[#DAA520] font-bold mb-3">
           100% SATISFACTION GUARANTEE
         </p>
 
-        <h1 className="text-5xl font-bold text-black mb-6 leading-tight" data-aos="fade-down"
-     data-aos-easing="linear"
-     data-aos-duration="1500">
+        <h1
+          className="text-5xl font-bold  mb-6 leading-tight"
+          data-aos="fade-down"
+          data-aos-easing="linear"
+          data-aos-duration="1500"
+        >
           Find Your <br />
           <span className="relative inline-flex items-center">
             Perfect Tutor
@@ -59,7 +72,7 @@ const Banner = () => {
               >
                 <path
                   d="M8 49C85.2556 24.5985 292.813 -14.4606 505 24.5152"
-                  stroke="#5282ca"
+                  stroke="#7BA0F1FF"
                   strokeWidth="16"
                   strokeLinecap="round"
                 />
@@ -68,7 +81,7 @@ const Banner = () => {
           </span>
         </h1>
 
-        <p className="font-medium text-gray-500 max-w-2xl mx-auto">
+        <p className="font-medium  max-w-2xl mx-auto py-4">
           Personalized one-on-one instruction tailored to your needs, delivered
           by a highly qualified instructor of your choice. Sessions can be
           conducted online or in person.
@@ -80,8 +93,8 @@ const Banner = () => {
           <select
             value={className}
             onChange={(e) => setClassName(e.target.value)}
-            className={`border-b-2 border-gray-400 bg-transparent focus:outline-none px-2 py-1 w-32 text-center rounded
-            ${!className ? "text-gray-500" : "text-black"}`}
+            className={`border-b-2 border-r-2 border-white bg-transparent focus:outline-none px-2 py-1 w-32 text-center rounded
+            ${!className ? "text-white" : "text-white"}`}
           >
             <option value="" disabled>
               Class
@@ -100,8 +113,8 @@ const Banner = () => {
               setDistrict(e.target.value);
               setCity("");
             }}
-            className={`border-b-2 border-gray-400 bg-transparent focus:outline-none px-2 py-1 w-32 text-center rounded
-            ${!district ? "text-gray-500" : "text-black"}`}
+            className={`border-b-2 border-r-2 border-white bg-transparent focus:outline-none px-2 py-1 w-32 text-center rounded
+            ${!district ? "text-white" : "text-white"}`}
           >
             <option value="" disabled>
               District
@@ -118,8 +131,8 @@ const Banner = () => {
             value={city}
             onChange={(e) => setCity(e.target.value)}
             disabled={!district}
-            className={`border-b-2 border-gray-400 bg-transparent focus:outline-none px-2 py-1 w-32 text-center rounded
-            ${!city ? "text-gray-500" : "text-black"}`}
+            className={`border-b-2 border-r-2 border-white bg-transparent focus:outline-none px-2 py-1 w-32 text-center rounded
+            ${!city ? "text-white" : "text-white"}`}
           >
             <option value="" disabled>
               Location
@@ -133,10 +146,7 @@ const Banner = () => {
           </select>
 
           {/* Search Button */}
-          <button
-            onClick={handleSearch}
-            className="btn-primary"
-          >
+          <button onClick={handleSearch} className="btn-primary">
             Search
           </button>
         </div>

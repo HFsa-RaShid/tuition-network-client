@@ -21,7 +21,7 @@ const CountDown = () => {
 
         <div className="text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-blue-600">
-            <CountUp start={0} end={15000} duration={2} separator="," />
+            <CountUp start={0} end={9000} duration={2} separator="," />
           </h1>
           <p className="text-gray-600 mt-1">Available Tuitions</p>
         </div>

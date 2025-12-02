@@ -45,7 +45,7 @@ const WhyChooseUs = () => {
           <h2 className="text-3xl font-bold mb-1 ">
             Benefits of Online Tutoring
           </h2>
-          <h2 className="text-3xl font-bold mb-8 text-white">
+          <h2 className="text-3xl font-bold mb-1 text-white">
             Services with Us
           </h2>
 

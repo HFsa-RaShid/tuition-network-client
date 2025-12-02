@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { categoryCatalog } from "../../../utils/categoryCatalog";
 
+
 const spotlightCategory = categoryCatalog[0];
 const spotlightClass = spotlightCategory?.classes?.find(
   (cls) => cls.id === "class-9"

@@ -267,10 +267,7 @@ const SearchByMap = () => {
                   ))}
               </select>
 
-              <button
-                onClick={handleSearch}
-                className="btn-primary"
-              >
+              <button onClick={handleSearch} className="btn-primary">
                 Search
               </button>
             </div>

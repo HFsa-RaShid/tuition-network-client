@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
 // Assets
-import withUs from "../../../../assets/call.png";
-import withUsBg from "../../../../assets/bg.jpg";
+import withUs from "../../../../assets/class (2).png";
+import withUsBg from "../../../../assets/bgImage.png";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 
@@ -14,7 +14,7 @@ const TutoringWithUs = () => {
     <div
       className="bg-fixed"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), url(${withUsBg})`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)), url(${withUsBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -27,7 +27,7 @@ const TutoringWithUs = () => {
             <img
               src={withUs}
               alt="withUs"
-              className="w-[200px] sm:w-[250px] md:w-[300px] object-contain"
+              className="w-[200px] sm:w-[250px] md:w-[300px] object-contain rounded-xl"
             />
           </div>
 

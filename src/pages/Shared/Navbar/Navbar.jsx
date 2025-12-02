@@ -68,8 +68,13 @@ const Navbar = () => {
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-2 justify-center">
           <img src={logo} alt="logo" className="h-9" />
+          
           <h1 className="text-2xl sm:text-3xl font-bold pt-1">
-            Tu<span className="text-blue-500">T</span>oria
+            Tu
+            <span className="bg-gradient-to-r from-blue-300  to-blue-800 bg-clip-text text-transparent">
+              T
+            </span>
+            oria
           </h1>
         </NavLink>
 
@@ -190,9 +195,7 @@ const Navbar = () => {
             </div>
           ) : (
             <NavLink to="/signIn">
-              <button className="btn-primary">
-                Sign Up
-              </button>
+              <button className="btn-primary">Sign Up</button>
             </NavLink>
           )}
 

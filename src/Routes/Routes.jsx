@@ -44,6 +44,7 @@ import AllPayment from "../pages/DashBoard/DashBoardAllPages/AllPayment/AllPayme
 import ViewUsers from "../pages/DashBoard/DashBoardAllPages/Users/ViewUsers";
 import SearchByMap from "../pages/Shared/Navbar/SearchByMap/SearchByMap";
 import OtherPaymentSuccess from "../pages/Shared/otherPaymentSuccess/OtherPaymentSuccess";
+import PressKit from "../pages/Shared/Footer/PressKit";
 
 // Public Routes
 const publicRoutes = [
@@ -61,6 +62,7 @@ const publicRoutes = [
   { path: "/privacy-policy", element: <PrivacyPolicy /> },
   { path: "/cookie-policy", element: <CookiePolicy /> },
   { path: "/contact-us", element: <ContactUs /> },
+  { path: "/press-kit", element: <PressKit /> },
   { path: "/payment/success/:tranId", element: <OtherPaymentSuccess /> },
 ];
 

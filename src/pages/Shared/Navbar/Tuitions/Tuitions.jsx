@@ -14,6 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useMultipleJobPayments from "../../../../hooks/useMultipleJobPayments";
 import { Helmet } from "react-helmet-async";
+import Footer from "../../Footer/Footer";
 
 const Tuitions = () => {
   const axiosPublic = useAxiosPublic();
@@ -640,6 +641,7 @@ const Tuitions = () => {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 };

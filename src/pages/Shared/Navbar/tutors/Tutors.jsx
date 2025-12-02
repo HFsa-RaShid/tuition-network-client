@@ -227,10 +227,10 @@ const Tutors = () => {
       <div className="container mx-auto px-4 md:px-12 pt-24 pb-16 mt-14">
         <div className="flex flex-wrap items-start justify-between gap-5">
           <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-gray-400">
+            <p className="text-sm uppercase tracking-[0.3em] text-[#DAA520]">
               Showing {selectedClass === "All" ? "All" : selectedClass} Tutors
             </p>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 py-2">
               {selectedClass === "All"
                 ? "Find the perfect tutor"
                 : `Showing ${selectedClass} Tutors`}

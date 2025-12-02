@@ -1,3 +1,5 @@
+import classImage from "../../assets/class (1).png";
+
 const heroImages = {
   class6:
     "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&q=80",
@@ -5,8 +7,7 @@ const heroImages = {
     "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80",
   class8:
     "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&q=80",
-  class9:
-    "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&q=80",
+
   class10:
     "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80",
   olevel:
@@ -126,7 +127,7 @@ export const categoryCatalog = [
           "Higher Math",
           "Accounting",
         ],
-        heroImage: heroImages.class9,
+        heroImage: classImage,
       },
       {
         id: attachId("Class 10", "class-10"),
