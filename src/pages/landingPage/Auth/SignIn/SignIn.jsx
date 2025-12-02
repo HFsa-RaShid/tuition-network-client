@@ -1,9 +1,9 @@
+
 import { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import toast from "react-hot-toast";
-import Swal from "sweetalert2";
 
 // Context & Hooks
 import { AuthContext } from "../../../../provider/AuthProvider";
@@ -12,6 +12,7 @@ import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 // Assets
 import signInImage from "../../../../assets/tutor-student.png";
 import logo from "../../../../assets/logo.png";
+import authBg from "../../../../assets/auth1.png";
 
 const SignIn = () => {
   const { signInUser } = useContext(AuthContext);
@@ -23,23 +24,18 @@ const SignIn = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     const form = e.target;
-    let loginId = form.loginId.value; // email or phone
+    let loginId = form.loginId.value;
     const password = form.password.value;
 
     try {
-      // Check if input is phone
       const isPhone = /^[0-9]{11}$/.test(loginId);
 
       if (isPhone) {
-        // fetch email by phone
         const res = await axiosPublic.get(`/find-email-by-phone/${loginId}`);
-        loginId = res.data.email; 
+        loginId = res.data.email;
       }
 
-      // Firebase login with found email
       const result = await signInUser(loginId, password);
-
-      // get user data
       const userRes = await axiosPublic.get(`/users/${result.user.email}`);
       const loggedUser = userRes.data;
 
@@ -49,10 +45,9 @@ const SignIn = () => {
       }
 
       toast.success("Successfully Signed In!");
-      // If user was redirected here, go back to the original page
+
       const returnTo = location.state?.from;
       if (returnTo) {
-        // support both location objects and simple path strings
         const toPath = returnTo?.pathname || returnTo;
         navigate(toPath);
       } else {
@@ -66,81 +61,91 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100/90">
+    <div
+      className="min-h-screen  w-full bg-cover bg-center bg-no-repeat flex items-center justify-center p-4"
+      style={{
+        backgroundImage: `url(${authBg})`,
+         backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <Helmet>
         <title>Sign_In | TuToria</title>
       </Helmet>
-      <div className="flex flex-col lg:flex-row w-4/5 max-w-5xl  my-2 overflow-hidden gap-2 lg:gap-20 p-2 md:p-6">
-        {/* Left Image Section */}
-        <img
-          src={signInImage}
-          className="w-full lg:w-1/2 h-80 mt-2 lg:mt-6 object-contain"
-        />
 
-        {/* Right Form Section */}
-        <div className="w-full lg:w-1/2 px-4 md:px-14 py-6 bg-white">
-          <div className="mb-2 flex justify-center">
-            <img src={logo} alt="Logo" className="w-9 h-9 rounded-md" />
+      {/* Glassmorphism Container */}
+      <div className="w-full max-w-5xl flex flex-col lg:flex-row items-center justify-between gap-10 p-6 
+    backdrop-blur-sm bg-white/5 border border-white/30 rounded-2xl shadow-2xl">
+
+
+        {/* Left image */}
+        <div className="w-full lg:w-1/2 flex justify-center">
+          <img
+            src={signInImage}
+            className="w-80 lg:w-[420px] drop-shadow-2xl"
+            alt=""
+          />
+        </div>
+
+        {/* Right form */}
+        <div className="w-full lg:w-1/2 text-black">
+          <div className="flex justify-center mb-4">
+            <img src={logo} alt="Logo" className="w-12 h-12 rounded-xl shadow-md" />
           </div>
-          <h2 className="text-2xl font-semibold text-gray-700 text-center">
-            Welcome <span className="text-[#123d7e]">Back</span>
-          </h2>
-          <p className="text-gray-500 text-center">
-            Sign in to Continue your Journey.
-          </p>
 
-          {/* Sign In Form */}
-          <form className="mt-4" onSubmit={handleSignIn}>
-            <label className="block text-gray-700">
-              Email or Phone<span className="text-red-600">*</span>
+          <h2 className="text-3xl text-black font-semibold text-center">
+            Welcome Back
+          </h2>
+          <p className="text-center text-gray-800">Sign in to continue your journey.</p>
+
+          <form className="mt-6 text-black" onSubmit={handleSignIn}>
+            <label className="block font-medium">
+              Email or Phone <span className="text-red-300">*</span>
             </label>
             <input
               type="text"
               name="loginId"
-              className="w-full p-2 border rounded mt-1 bg-white"
+              className="w-full px-3 py-2 rounded-lg mt-1 bg-blue-300/70 text-white
+                         placeholder-white/90 border border-white/30 focus:outline-none"
               placeholder="Enter email or phone"
               required
             />
 
-            <label className="block text-gray-700 mt-2">
-              Password<span className="text-red-600">*</span>
+            <label className="block mt-4 font-medium">
+              Password <span className="text-red-300">*</span>
             </label>
+
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                className="w-full p-2 border rounded mt-1 pr-10 bg-white"
+                className="w-full px-3 py-2 rounded-lg mt-1 bg-blue-300/70 text-white
+                         placeholder-white/90 border border-white/30 focus:outline-none pr-12"
                 placeholder="Enter your password"
                 required
               />
               <span
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-gray-600 cursor-pointer"
+                className="absolute right-4 top-4 cursor-pointer text-white"
               >
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
             </div>
 
-            <div className="flex justify-between items-center mt-2">
-              <a href="#" className="text-sm text-gray-500 hover:underline">
-                Forgot Password?
-              </a>
-            </div>
+            
 
             <button
               type="submit"
-              className="w-full mt-6 btn-primary mb-2"
+              className="w-full mt-6 btn-primary  font-semibold "
             >
               Sign In
             </button>
           </form>
 
-          <p className="text-center mt-4 text-[14px] text-gray-700">
-            New to TuitionNetwork? Please{" "}
-            <Link
-              to="/signup"
-              className="text-blue-700 underline font-semibold"
-            >
+          <p className="text-center mt-4 text-black">
+            New to TuitionNetwork?{" "}
+            <Link to="/signup" className="text-blue-800 underline font-semibold">
               Sign Up
             </Link>
           </p>
