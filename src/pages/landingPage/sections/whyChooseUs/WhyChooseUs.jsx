@@ -53,7 +53,7 @@ const WhyChooseUs = () => {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="relative bg-gray-100/90 border-gray-400 rounded-xl p-6 text-center overflow-hidden group transition-all duration-700 shadow-[0_0_20px_rgba(0,255,255,0.05)] hover:shadow-[0_0_5px_rgba(0,255,255,0)] animate-fade-in animate-card-hover"
+                className="relative bg-gray-100/90 border-gray-400 rounded-xl p-6 text-center overflow-hidden group transition-all duration-700 shadow-lg animate-fade-in animate-card-hover"
                 style={{ animationDelay: `${index * 0.15}s` }}
               >
                 <div className="relative z-10 text-black">

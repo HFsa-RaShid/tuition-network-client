@@ -101,13 +101,13 @@ const VerifyEmailPage = () => {
         <button
           onClick={handleVerify}
           disabled={loading}
-          className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          className="mt-4 w-full btn-primary"
         >
           {loading ? "Verifying..." : "Verify Email"}
         </button>
 
         <p className="mt-3 text-gray-600 text-sm">
-          Didn’t get the code?{" "}
+          Didn't get the code?{" "}
           <button
             onClick={handleResend}
             disabled={timer > 0}
