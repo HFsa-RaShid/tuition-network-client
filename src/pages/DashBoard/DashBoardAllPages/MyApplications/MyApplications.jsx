@@ -4,7 +4,7 @@ import useCurrentUser from "../../../../hooks/useCurrentUser";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useAllJobs from "../../../../hooks/useAllJobs";
 import { MdSendToMobile } from "react-icons/md";
-import { FaRegQuestionCircle } from "react-icons/fa";
+import { FaEye, FaRegQuestionCircle } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import usePaidJobs from "../../../../hooks/usePaidJobs";
@@ -76,6 +76,18 @@ const MyApplications = () => {
       .then((result) => {
         window.location.replace(result.data.url);
       });
+  };
+  const [selectedApp, setSelectedApp] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (app) => {
+    setSelectedApp(app);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedApp(null);
+    setIsModalOpen(false);
   };
 
   if (isLoading || paymentsLoading) {
@@ -160,9 +172,25 @@ const MyApplications = () => {
                 </div>
 
                 <div className="flex items-center justify-between mt-3">
-                  <div className="text-blue-700">
-                    <FaRegQuestionCircle className="text-lg" />
+                  <div className="relative group">
+                    {paidJobs?.some((p) => p.jobId === app._id) ? (
+                      // PAID
+                      <FaEye
+                        onClick={() => openModal(app)}
+                        className="text-green-700 cursor-pointer text-xl"
+                        title="View Student Contact"
+                      />
+                    ) : (
+                      // NOT PAID
+                      <>
+                        <FaRegQuestionCircle
+                          className="text-blue-700 cursor-pointer text-xl"
+                          title="Payment Required"
+                        />
+                      </>
+                    )}
                   </div>
+
                   <div>
                     {appliedTutor?.confirmationStatus === "confirmed" &&
                       (paidJobs?.some((p) => p.jobId === app._id) ? (
@@ -275,23 +303,39 @@ const MyApplications = () => {
                         )}
                       </div>
                     </td>
-
                     <td className="p-3 border">
-                      <div className="relative group">
-                        <FaRegQuestionCircle className="text-blue-700 cursor-pointer text-xl" />
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-2 w-72 p-3 bg-gray-800 text-white text-sm rounded-md shadow-lg z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                          {appliedTutor?.confirmationStatus === "confirmed" ? (
-                            <>
-                              You got confirmation <br /> from Guardian.
-                            </>
-                          ) : (
-                            <>
-                              Your application has been <br />
-                              shared with Guardian who may <br />
-                              get in touch if they like it.
-                            </>
-                          )}
-                        </div>
+                      <div className="relative group flex items-center justify-center">
+                        {paidJobs?.some((p) => p.jobId === app._id) ? (
+                          // PAID 
+                          <FaEye
+                            onClick={() => openModal(app)}
+                            className="text-green-700 cursor-pointer text-xl"
+                            title="View Student Contact"
+                          />
+                        ) : (
+                          // NOT PAID 
+                          <>
+                            <FaRegQuestionCircle
+                              className="text-blue-700 cursor-pointer text-xl"
+                              title="Payment Required"
+                            />
+
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-2 w-72 p-3 bg-gray-800 text-white text-sm rounded-md shadow-lg z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                              {appliedTutor?.confirmationStatus ===
+                              "confirmed" ? (
+                                <>
+                                  You got confirmation <br /> from Guardian.
+                                </>
+                              ) : (
+                                <>
+                                  Your application has been <br />
+                                  shared with Guardian who may <br />
+                                  get in touch if they like it.
+                                </>
+                              )}
+                            </div>
+                          </>
+                        )}
                       </div>
                     </td>
 
@@ -365,6 +409,30 @@ const MyApplications = () => {
             >
               Next &gt;
             </button>
+          </div>
+        )}
+
+        {isModalOpen && selectedApp && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white w-96 p-6 rounded-lg shadow-lg">
+              <h2 className="text-xl font-semibold mb-3 text-gray-700">
+                Student Contact Info
+              </h2>
+
+              <p>
+                <strong>Name:</strong> {selectedApp.userName}
+              </p>
+              <p>
+                <strong>Email:</strong> {selectedApp.userEmail}
+              </p>
+              <p>
+                <strong>Phone:</strong> {selectedApp.phone || "Not Provided"}
+              </p>
+
+              <button onClick={closeModal} className="mt-4 btn-primary">
+                Close
+              </button>
+            </div>
           </div>
         )}
 

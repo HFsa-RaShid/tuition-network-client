@@ -111,7 +111,7 @@ const SignIn = () => {
             <input
               type="text"
               name="loginId"
-              className="w-full px-3 py-2 rounded-lg mt-1 bg-blue-300/70 text-white
+              className="w-full px-3 py-2 rounded-lg mt-1 bg-blue-300/70 text-black
                          placeholder-white/90 border border-white/30 focus:outline-none"
               placeholder="Enter email or phone"
               required
@@ -125,7 +125,7 @@ const SignIn = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                className="w-full px-3 py-2 rounded-lg mt-1 bg-blue-300/70 text-white
+                className="w-full px-3 py-2 rounded-lg mt-1 bg-blue-300/70 text-black
                          placeholder-white/90 border border-white/30 focus:outline-none pr-12"
                 placeholder="Enter your password"
                 required

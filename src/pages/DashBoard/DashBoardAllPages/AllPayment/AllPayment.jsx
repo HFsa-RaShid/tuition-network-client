@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import useAllPayment from "../../../../hooks/useAllPayment";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
@@ -9,35 +8,46 @@ const AllPaymentTabs = () => {
   const [activeTab, setActiveTab] = useState("tutoria");
   const [tutorProfiles, setTutorProfiles] = useState({});
   const axiosPublic = useAxiosPublic();
+  const [studentProfiles, setStudentProfiles] = useState({});
 
   useEffect(() => {
     if (allPayment?.length > 0) {
       const tutorIds = [
+        ...new Set(allPayment.filter((p) => p.tutorId).map((p) => p.tutorId)),
+      ];
+
+      const studentEmails = [
         ...new Set(
-          allPayment
-            .filter((p) => p.role === "tutor" && p.tutorId)
-            .map((p) => p.tutorId)
+          allPayment.filter((p) => p.studentEmail).map((p) => p.studentEmail)
         ),
       ];
 
+      // Fetch tutors
       Promise.all(
         tutorIds.map((id) =>
           axiosPublic
             .get(`/tutors/profile/${id}`)
-            .then((res) => ({
-              id,
-              profile: res.data,
-            }))
-            .catch((err) => {
-              return { id, profile: null };
-            })
+            .then((res) => ({ id, profile: res.data }))
+            .catch(() => ({ id, profile: null }))
         )
       ).then((results) => {
-        const profileMap = {};
-        results.forEach((r) => {
-          profileMap[r.id] = r.profile;
-        });
-        setTutorProfiles(profileMap);
+        const map = {};
+        results.forEach((r) => (map[r.id] = r.profile));
+        setTutorProfiles(map);
+      });
+
+      // Fetch students using your EXISTING USERS API
+      Promise.all(
+        studentEmails.map((email) =>
+          axiosPublic
+            .get(`/users/${email}`)
+            .then((res) => ({ email, profile: res.data }))
+            .catch(() => ({ email, profile: null }))
+        )
+      ).then((results) => {
+        const map = {};
+        results.forEach((r) => (map[r.email] = r.profile));
+        setStudentProfiles(map);
       });
     }
   }, [allPayment, axiosPublic]);
@@ -125,7 +135,9 @@ const AllPaymentTabs = () => {
                       <div className="space-y-2">
                         <div className="flex justify-between items-start">
                           <div>
-                            <p className="text-xs text-gray-500">Transaction ID</p>
+                            <p className="text-xs text-gray-500">
+                              Transaction ID
+                            </p>
                             <p className="text-sm font-semibold text-gray-800">
                               {p.transactionId}
                             </p>
@@ -167,10 +179,18 @@ const AllPaymentTabs = () => {
                         <th className="border px-3 py-2 whitespace-nowrap">
                           Transaction ID
                         </th>
-                        <th className="border px-3 py-2 whitespace-nowrap">Email</th>
-                        <th className="border px-3 py-2 whitespace-nowrap">Role</th>
-                        <th className="border px-3 py-2 whitespace-nowrap">Source</th>
-                        <th className="border px-3 py-2 whitespace-nowrap">Amount</th>
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Email
+                        </th>
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Role
+                        </th>
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Source
+                        </th>
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Amount
+                        </th>
                         <th className="border px-3 py-2 whitespace-nowrap">
                           Payment Time
                         </th>
@@ -194,8 +214,8 @@ const AllPaymentTabs = () => {
                           <td className="border px-2 py-3 whitespace-nowrap">
                             {p.source}
                           </td>
-                          <td className="border px-2 py-3 whitespace-nowrap">
-                            {p.tuToriaAmount}
+                          <td className="border px-2 py-3 whitespace-nowrap text-green-600 font-semibold">
+                            {p.tuToriaAmount} BDT
                           </td>
                           <td className="border px-2 py-3 whitespace-nowrap">
                             {new Date(p.paymentTime).toLocaleString()}
@@ -226,9 +246,11 @@ const AllPaymentTabs = () => {
                       <div className="space-y-2">
                         <div className="flex justify-between items-start">
                           <div>
-                            <p className="text-xs text-gray-500">Student Email</p>
-                            <p className="text-sm font-semibold text-blue-600">
-                              {p.studentEmail}
+                            <p className="text-xs text-gray-500">
+                              Student Phone
+                            </p>
+                            <p className="text-sm font-semibold text-gray-800">
+                              {studentProfiles[p.studentEmail]?.phone || "N/A"}
                             </p>
                           </div>
                           <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
@@ -268,9 +290,11 @@ const AllPaymentTabs = () => {
                     <thead>
                       <tr className="bg-gray-100/90 text-center text-gray-700">
                         <th className="border px-3 py-2 whitespace-nowrap">
-                          Student Email
+                          Student Phone
                         </th>
-                        <th className="border px-3 py-2 whitespace-nowrap">Source</th>
+                        <th className="border px-3 py-2 whitespace-nowrap">
+                          Source
+                        </th>
                         <th className="border px-3 py-2 whitespace-nowrap">
                           Tutor ID
                         </th>
@@ -291,8 +315,8 @@ const AllPaymentTabs = () => {
                           key={p._id}
                           className="text-center text-gray-800 hover:bg-gray-50"
                         >
-                          <td className="border px-2 py-3 text-blue-600 whitespace-nowrap">
-                            {p.studentEmail}
+                          <td className="border px-2 py-3 whitespace-nowrap">
+                            {studentProfiles[p.studentEmail]?.phone || "N/A"}
                           </td>
                           <td className="border px-2 py-3 whitespace-nowrap">
                             {p.source}
@@ -303,8 +327,8 @@ const AllPaymentTabs = () => {
                           <td className="border px-2 py-3 whitespace-nowrap">
                             {tutorProfiles[p.tutorId]?.phone || "N/A"}
                           </td>
-                          <td className="border px-2 py-3 whitespace-nowrap">
-                            {p.tutorAmount}
+                          <td className="border px-2 py-3 whitespace-nowrap text-green-600 font-semibold">
+                            {p.tutorAmount} BDT
                           </td>
                           <td className="border px-2 py-3 whitespace-nowrap">
                             {new Date(p.paymentTime).toLocaleString()}
@@ -324,4 +348,3 @@ const AllPaymentTabs = () => {
 };
 
 export default AllPaymentTabs;
-

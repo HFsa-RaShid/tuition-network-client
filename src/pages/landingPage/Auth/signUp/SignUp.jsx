@@ -120,7 +120,7 @@ const SignupPage = () => {
               {...register("name", { required: "Name is required" })}
               type="text"
               placeholder="Name*"
-              className="w-full px-3 py-2 rounded-lg bg-blue-300/70 text-white placeholder-white/90 border border-white/30 focus:outline-none"
+              className="w-full px-3 py-2 rounded-lg bg-blue-300/70 text-black placeholder-white/90 border border-white/30 focus:outline-none"
             />
             {errors.name && (
               <p className="text-red-300 text-sm">{errors.name.message}</p>
@@ -130,7 +130,7 @@ const SignupPage = () => {
               {...register("phone", { required: "Phone is required" })}
               type="tel"
               placeholder="Phone*"
-              className="w-full px-3 py-2 rounded-lg bg-blue-300/70 text-white  placeholder-white/90 border border-white/30 focus:outline-none"
+              className="w-full px-3 py-2 rounded-lg bg-blue-300/70 text-black  placeholder-white/90 border border-white/30 focus:outline-none"
             />
             {errors.phone && (
               <p className="text-red-300 text-sm">{errors.phone.message}</p>
@@ -140,7 +140,7 @@ const SignupPage = () => {
               {...register("email", { required: "Email is required" })}
               type="email"
               placeholder="Email*"
-              className="w-full px-3 py-2 rounded-lg bg-blue-300/70 text-white  placeholder-white/90 border border-white/30 focus:outline-none"
+              className="w-full px-3 py-2 rounded-lg bg-blue-300/70 text-black  placeholder-white/90 border border-white/30 focus:outline-none"
             />
             {errors.email && (
               <p className="text-red-300 text-sm">Valid email required</p>
@@ -151,7 +151,7 @@ const SignupPage = () => {
                 {...register("password", { required: true, minLength: 6 })}
                 type={showPassword ? "text" : "password"}
                 placeholder="Password*"
-                className="w-full px-3 py-2 rounded-lg bg-blue-300/70 text-white  placeholder-white/90 border border-white/30 focus:outline-none pr-12"
+                className="w-full px-3 py-2 rounded-lg bg-blue-300/70 text-black  placeholder-white/90 border border-white/30 focus:outline-none pr-12"
               />
               <span
                 className="absolute right-4 top-3 cursor-pointer text-white"
