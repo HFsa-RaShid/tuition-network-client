@@ -67,7 +67,7 @@ const PaymentHistoryTutor = () => {
               <div class="details-section" style="text-align:left;">
                 <h2>TuToria</h2>
                 
-                <p>support.tutoria@gmail.com</p>
+                <p>tutoria.official.bd@gmail.com</p>
               </div>
 
               <div class="details-section">

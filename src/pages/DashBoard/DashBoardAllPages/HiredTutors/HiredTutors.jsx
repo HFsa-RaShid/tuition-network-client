@@ -75,7 +75,7 @@ const HiredTutors = () => {
     <div className="container mx-auto">
       <div className="p-4 pl-10">
         <ul className="list bg-base-100 rounded-box shadow-md">
-          <li className="p-4 pb-2 text-xs opacity-60 tracking-wide bg-base-100">
+          <li className="p-4 pb-2 text-lg text-blue-400  tracking-wide bg-gray-100">
             Hired Tutors
           </li>
           {studentPaidJobs.map((payment) => (

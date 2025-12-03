@@ -37,6 +37,7 @@ const JobDetails = () => {
       <h2 className="text-2xl font-bold mb-10 text-blue-700 text-center">Job Details</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[17px]">
+        <div><strong>Tuition ID:</strong> {job.tuitionId}</div>
         <div><strong>Class/Course:</strong> {job.classCourse}</div>
         <div><strong>Tuition Type:</strong> {job.tuitionType}</div>
         <div><strong>Category:</strong> {job.category}</div>

@@ -301,8 +301,14 @@ const ProfileDetails = () => {
           )}
           <div className="mt-4">
             <h2 className="text-xl font-bold">{currentUser?.name}</h2>
-            <p>{currentUser?.role || "Student"}</p>
-            <p>{currentUser?.isPremium ? "Premium User" : "Free User"}</p>
+
+            {currentUser?.role !== "admin" ? (
+              <p>
+                <strong>ID: </strong>
+                {currentUser?.customId}
+              </p>
+            ) : null}
+            <p>{currentUser?.role}</p>
           </div>
         </div>
 
@@ -491,7 +497,6 @@ const ProfileDetails = () => {
                   </div>{" "}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-
                   <div className="flex flex-col gap-1">
                     <label className="font-medium">Tutor Type</label>
 
@@ -515,7 +520,6 @@ const ProfileDetails = () => {
                       </option>
                       <option value="Part-Time Tutor">Part-Time Tutor</option>
                       <option value="Full-Time Tutor">Full-Time Tutor</option>
-                      
                     </select>
 
                     {errors.tutorType && (

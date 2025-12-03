@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination, Autoplay } from "swiper/modules";
@@ -16,12 +15,14 @@ import { AuthContext } from "../../../../provider/AuthProvider";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import useReviews from "../../../../hooks/useReviews";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
 
 const Reviews = () => {
   const { user } = useContext(AuthContext);
   const { currentUser } = useCurrentUser(user?.email);
   const { reviews = [], refetch } = useReviews();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [rating, setRating] = useState(5);
@@ -82,11 +83,11 @@ const Reviews = () => {
     <div
       className="py-10 px-4 md:px-10"
       style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)),url(${bgPic})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)),url(${bgPic})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
     >
       {/* HEADER */}
       <div className="max-w-4xl mx-auto flex justify-between items-center mb-12">
@@ -99,7 +100,14 @@ const Reviews = () => {
 
         <button
           className="btn-primary border-white"
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            if (!user) {
+              toast.error("Please sign in first!");
+              navigate("/signIn");
+              return;
+            }
+            setModalOpen(true);
+          }}
         >
           Give Review
         </button>
@@ -126,54 +134,54 @@ const Reviews = () => {
       >
         {reviews?.length > 0 &&
           reviews.map((r, i) => (
-           
             <SwiperSlide key={i} className="!w-72 md:!w-80">
-  <div
-    className="backdrop-blur-md bg-white/30 border border-white/30
+              <div
+                className="backdrop-blur-md bg-white/30 border border-white/30
                p-6 rounded-3xl shadow-lg h-96 flex flex-col justify-between relative
                transition-transform duration-300 hover:scale-105"
-    style={{
-      boxShadow:
-        "0 8px 25px rgba(0,0,0,0.1), inset 0 0 25px rgba(255,255,255,0.15)",
-    }}
-  >
-    {/* ADMIN DELETE */}
-    {currentUser?.role === "admin" && (
-      <div
-        className="absolute top-2 right-2 cursor-pointer text-red-500"
-        onClick={() => handleDelete(r._id)}
-      >
-        <FaTrash />
-      </div>
-    )}
+                style={{
+                  boxShadow:
+                    "0 8px 25px rgba(0,0,0,0.1), inset 0 0 25px rgba(255,255,255,0.15)",
+                }}
+              >
+                {/* ADMIN DELETE */}
+                {currentUser?.role === "admin" && (
+                  <div
+                    className="absolute top-2 right-2 cursor-pointer text-red-500"
+                    onClick={() => handleDelete(r._id)}
+                  >
+                    <FaTrash />
+                  </div>
+                )}
 
-    {/* IMAGE */}
-    <div className="flex justify-center">
-      <img
-        src={r.image}
-        alt={r.name}
-        className="w-20 h-20 rounded-full border-4 border-white shadow-md object-cover"
-      />
-    </div>
+                {/* IMAGE */}
+                <div className="flex justify-center">
+                  <img
+                    src={r.image}
+                    alt={r.name}
+                    className="w-20 h-20 rounded-full border-4 border-white shadow-md object-cover"
+                  />
+                </div>
 
-    {/* TEXT */}
-    <p className="text-center text-black italic text-sm px-2 line-clamp-6">
-      “{r.review}”
-    </p>
+                {/* TEXT */}
+                <p className="text-center text-black italic text-sm px-2 line-clamp-6">
+                  “{r.review}”
+                </p>
 
-    {/* NAME / ROLE / STARS */}
-    <div className="text-center">
-      <h3 className="font-bold text-lg text-white">{r.name}</h3>
-      <p className="text-white">{r.role}</p>
+                {/* NAME / ROLE / STARS */}
+                <div className="text-center">
+                  <h3 className="font-bold text-lg text-white">{r.name}</h3>
+                  <p className="text-white">{r.role}</p>
 
-      <div className="mt-2 text-yellow-400 text-xl">
-        {"★".repeat(r.rating)}
-        <span className="text-gray-800">{"★".repeat(5 - r.rating)}</span>
-      </div>
-    </div>
-  </div>
-</SwiperSlide>
-
+                  <div className="mt-2 text-yellow-400 text-xl">
+                    {"★".repeat(r.rating)}
+                    <span className="text-gray-800">
+                      {"★".repeat(5 - r.rating)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
           ))}
       </Swiper>
 
@@ -210,10 +218,7 @@ const Reviews = () => {
               >
                 Close
               </button>
-              <button
-                className="px-4 py-2 bg-blue-600 text-white rounded"
-                onClick={handleSubmit}
-              >
+              <button className="btn-primary" onClick={handleSubmit}>
                 Submit
               </button>
             </div>

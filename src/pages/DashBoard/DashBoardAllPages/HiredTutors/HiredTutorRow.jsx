@@ -120,7 +120,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
   }
 
   return (
-    <li className="list-row flex flex-col md:flex-row md:items-center md:justify-between gap-3 p-4 border-b">
+    <li className="list-row flex flex-col  md:flex-row md:items-center md:justify-between gap-3 p-4 border-b">
       <div className="flex items-center gap-3">
         <img
           className="w-10 h-10 rounded-md"
@@ -146,7 +146,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
                   studentIdImage: tutor?.studentIdImage,
                 })
               }
-              className="bg-green-200 text-green-700 px-2 py-2 rounded hover:bg-green-300 flex items-center justify-center gap-1 w-full sm:w-auto"
+              className="bg-green-300 text-green-900 px-2 py-2 rounded-md hover:bg-green-300 flex items-center justify-center gap-1 w-full sm:w-auto"
             >
               View Info
             </button>
@@ -165,7 +165,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
                   extraFee
                 );
               }}
-              className="bg-blue-200 text-blue-700 px-2 py-2 rounded hover:bg-blue-300 flex items-center justify-center gap-1 w-full sm:w-auto"
+              className="btn-primary flex items-center justify-center gap-1 w-full sm:w-auto"
             >
               Pay Advance
             </button>
@@ -185,7 +185,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
               )
             }
             disabled={hasPaidTrial() || hasAdvanceSalaryPaid()}
-            className={`bg-blue-200 text-blue-700 px-2 py-2 rounded hover:bg-blue-300 flex items-center justify-center gap-1 w-full sm:w-auto ${
+            className={`btn-primary flex items-center justify-center gap-1 w-full sm:w-auto ${
               hasPaidTrial() || hasAdvanceSalaryPaid()
                 ? "cursor-not-allowed opacity-50"
                 : ""
@@ -204,7 +204,7 @@ const HiredTutorRow = ({ payment, currentUser }) => {
                 jobId: payment.jobId,
               })
             }
-            className="btn btn-ghost w-full md:w-auto"
+            className="btn-primary py-2 w-full md:w-auto"
           >
             Rating
           </button>
@@ -309,7 +309,8 @@ const HiredTutorRow = ({ payment, currentUser }) => {
       {viewInfoTutor && (
         <dialog open className="modal">
           <div className="modal-box">
-            <h3 className="font-bold text-lg mb-4">Tutor Information</h3>
+            <h3 className="font-bold text-md mb-4">Tutor Information</h3>
+            <h3 className="text-red-600 py-2"> If the tutor doesn't respond within 10 days, please contact support.</h3>
             <p>
               <strong>Name:</strong> {viewInfoTutor.name}
             </p>

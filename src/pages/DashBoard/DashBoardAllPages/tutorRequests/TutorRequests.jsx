@@ -118,7 +118,7 @@ const TutorRequests = () => {
 
     try {
       const res = await axiosSecure.post("/tutorRequests", tutorRequestData);
-      console.log("Tutor request submitted:", res.data);
+
       toast.success("Tutor request submitted successfully!");
       // Reset form data and go back to step 1
       setFormData({
@@ -137,7 +137,7 @@ const TutorRequests = () => {
       });
       setStep(1);
     } catch (error) {
-      console.error("Error submitting tutor request:", error);
+      
       const backendMessage =
         error?.response?.data?.errors?.join(", ") ||
         error?.response?.data?.message;

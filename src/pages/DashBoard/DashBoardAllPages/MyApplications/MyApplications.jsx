@@ -416,18 +416,16 @@ const MyApplications = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white w-96 p-6 rounded-lg shadow-lg">
               <h2 className="text-xl font-semibold mb-3 text-gray-700">
-                Student Contact Info
+                Alert
               </h2>
 
-              <p>
-                <strong>Name:</strong> {selectedApp.userName}
+              <p className="py-2 text-red-600">
+                If the student doesn't respond within 10 days, please contact support.
               </p>
-              <p>
-                <strong>Email:</strong> {selectedApp.userEmail}
-              </p>
-              <p>
-                <strong>Phone:</strong> {selectedApp.phone || "Not Provided"}
-              </p>
+              <p><strong>Email:</strong> tutoria.official.bd@gmail.com</p>
+              <p><strong>Phone</strong>: +880 1838551941</p>
+           
+               
 
               <button onClick={closeModal} className="mt-4 btn-primary">
                 Close
