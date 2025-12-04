@@ -135,7 +135,7 @@ const SignIn = () => {
           <p className="text-center mt-6 text-black">
             New to TuToria?{" "}
             <Link to="/signUp" className="text-blue-800 underline font-semibold">
-              Create an account
+              Sign Up
             </Link>
           </p>
         </div>
