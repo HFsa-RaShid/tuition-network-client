@@ -170,7 +170,7 @@ const PendingRequest = () => {
                     Approve
                   </button>
                   <button
-                    className="px-4 py-2 border border-red-400 hover:bg-red-500"
+                    className="px-4 py-1 rounded-md border border-red-400 hover:bg-red-500 hover:text-white"
                     onClick={() => handleReject(request._id)}
                   >
                     Reject

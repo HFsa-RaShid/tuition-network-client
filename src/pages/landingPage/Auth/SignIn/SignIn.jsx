@@ -1,158 +1,141 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import toast from "react-hot-toast";
 
-// Context & Hooks
 import { AuthContext } from "../../../../provider/AuthProvider";
-import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 
-// Assets
-import signInImage from "../../../../assets/tutor-student.png";
 import logo from "../../../../assets/logo.png";
+import heroIllustration from "../../../../assets/tutorAuth.png";
 import authBg from "../../../../assets/auth1.png";
 
 const SignIn = () => {
   const { signInUser } = useContext(AuthContext);
-  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const axiosPublic = useAxiosPublic();
+  const redirectTo = location.state?.from?.pathname || "/";
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleSignIn = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    let loginId = form.loginId.value;
-    const password = form.password.value;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: { email: "", password: "" },
+  });
 
+  const onSubmit = async ({ email, password }) => {
     try {
-      const isPhone = /^[0-9]{11}$/.test(loginId);
-
-      if (isPhone) {
-        const res = await axiosPublic.get(`/find-email-by-phone/${loginId}`);
-        loginId = res.data.email;
-      }
-
-      const result = await signInUser(loginId, password);
-      const userRes = await axiosPublic.get(`/users/${result.user.email}`);
-      const loggedUser = userRes.data;
-
-      if (loggedUser?.banned === "yes") {
-        toast.error("Your account has been banned.");
-        return;
-      }
-
-      toast.success("Successfully Signed In!");
-
-      const returnTo = location.state?.from;
-      if (returnTo) {
-        const toPath = returnTo?.pathname || returnTo;
-        navigate(toPath);
-      } else {
-        navigate(`/${loggedUser.role}/dashboard`);
-      }
+      await signInUser(email.trim(), password);
+      toast.success("Welcome back!");
+      reset();
+      navigate(redirectTo, { replace: true });
     } catch (error) {
-      console.error(error);
-      toast.error("Invalid login credentials.");
-      form.reset();
+      const message =
+        error?.message?.replace("Firebase: ", "") || "Failed to sign in";
+      toast.error(message);
     }
   };
 
   return (
     <div
-      className="min-h-screen  w-full bg-cover bg-center bg-no-repeat flex items-center justify-center p-4"
-      style={{
-        backgroundImage: `url(${authBg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
+      className="min-h-screen w-full bg-cover bg-center bg-no-repeat flex items-center justify-center p-4"
+      style={{ backgroundImage: `url(${authBg})` }}
     >
       <Helmet>
         <title>Sign_In | TuToria</title>
       </Helmet>
 
-      {/* Glassmorphism Container */}
-      <div
-        className="w-full max-w-5xl flex flex-col lg:flex-row items-center justify-between gap-10 p-6 
-    backdrop-blur-sm bg-white/15 border border-white/30 rounded-2xl shadow-2xl"
-      >
-        {/* Left image */}
-        <div className="w-full lg:w-1/2 flex justify-center">
+      <div className="w-full max-w-5xl flex flex-col lg:flex-row items-center justify-between gap-10 p-6 backdrop-blur-md bg-white/15 border border-white/30 rounded-2xl shadow-2xl">
+        <div className="w-full lg:w-1/2 flex justify-center relative z-10">
           <img
-            src={signInImage}
-            className="w-80 lg:w-[420px] drop-shadow-2xl"
-            alt=""
+            src={heroIllustration}
+            alt="Sign in visual"
+            className="w-80 lg:w-[360px] drop-shadow-2xl rounded-xl"
           />
         </div>
 
-        {/* Right form */}
-        <div className="w-full lg:w-1/2 text-black">
+        <div className="w-full lg:w-1/2 text-white relative z-10">
           <div className="flex justify-center mb-4">
             <img
               src={logo}
-              alt="Logo"
+              alt="TuToria logo"
               className="w-12 h-12 rounded-xl shadow-md"
             />
           </div>
 
-          <h2 className="text-3xl text-black font-semibold text-center">
+          <h2 className="text-3xl font-semibold text-center text-black">
             Welcome Back
           </h2>
-          <p className="text-center text-gray-800">
-            Sign in to continue your journey.
+          <p className="text-center text-gray-800 mb-6">
+            Sign in to continue learning
           </p>
 
-          <form className="mt-6 text-black" onSubmit={handleSignIn}>
-            <label className="block font-medium">
-              Email or Phone <span className="text-red-300">*</span>
-            </label>
-            <input
-              type="text"
-              name="loginId"
-              className="w-full px-3 py-2 rounded-lg mt-1 bg-blue-300/70 text-black
-                         placeholder-white/90 border border-white/30 focus:outline-none"
-              placeholder="Enter email or phone"
-              required
-            />
-
-            <label className="block mt-4 font-medium">
-              Password <span className="text-red-300">*</span>
-            </label>
-
-            <div className="relative">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="email" className="text-sm font-semibold text-black">
+                Email or Phone
+              </label>
               <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                className="w-full px-3 py-2 rounded-lg mt-1 bg-blue-300/70 text-black
-                         placeholder-white/90 border border-white/30 focus:outline-none pr-12"
-                placeholder="Enter your password"
-                required
+                id="email"
+                type="text"
+                placeholder="Enter your email or phone"
+                className="w-full px-3 py-2 rounded-lg bg-blue-300/70 text-black placeholder-white/90 border border-white/30 focus:outline-none"
+                {...register("email", { required: "Email is required" })}
               />
-              <span
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-4 cursor-pointer text-white"
+              {errors.email && (
+                <p className="text-red-300 text-sm">{errors.email.message}</p>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="password"
+                className="text-sm font-semibold text-black"
               >
-                {showPassword ? <FaEye /> : <FaEyeSlash />}
-              </span>
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  className="w-full px-3 py-2 rounded-lg bg-blue-300/70 text-black placeholder-white/90 border border-white/30 focus:outline-none pr-12"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: { value: 6, message: "At least 6 characters" },
+                  })}
+                />
+                <button
+                  type="button"
+                  className="absolute right-4 top-2.5 text-white"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-red-300 text-sm">{errors.password.message}</p>
+              )}
             </div>
 
             <button
               type="submit"
-              className="w-full mt-6 btn-primary  font-semibold "
+              disabled={isSubmitting}
+              className="w-full mt-4 btn-primary font-semibold disabled:cursor-not-allowed disabled:opacity-70"
             >
-              Sign In
+              {isSubmitting ? "Signing In..." : "Sign In"}
             </button>
           </form>
 
-          <p className="text-center mt-4 text-black">
+          <p className="text-center mt-6 text-black">
             New to TuToria?{" "}
-            <Link
-              to="/signup"
-              className="text-blue-800 underline font-semibold"
-            >
-              Sign Up
+            <Link to="/signUp" className="text-blue-800 underline font-semibold">
+              Create an account
             </Link>
           </p>
         </div>

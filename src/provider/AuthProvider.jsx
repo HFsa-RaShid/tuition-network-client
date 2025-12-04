@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import {
-  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
@@ -24,7 +23,6 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const googleProvider = new GoogleAuthProvider();
   const axiosPublic = useAxiosPublic();
 
   // Get currentUser from DB
@@ -47,10 +45,7 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const googleSignIn = () => {
-    setLoading(true);
-    return signInWithPopup(auth, googleProvider);
-  };
+ 
 
   const logOut = () => {
     setLoading(true);
@@ -96,7 +91,6 @@ const AuthProvider = ({ children }) => {
     user,
     createUser,
     signInUser,
-    googleSignIn,
     logOut,
     loading,
     updateUserProfile,
