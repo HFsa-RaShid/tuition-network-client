@@ -14,6 +14,7 @@ import authBg from "../../../../assets/auth1.png";
 const SignIn = () => {
   const { signInUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -26,17 +27,21 @@ const SignIn = () => {
   });
 
   const onSubmit = async ({ email, password }) => {
-    try {
-      await signInUser(email.trim(), password);
-      toast.success("Welcome back!");
-      reset();
-      navigate(`/${role}/dashboard`);
-    } catch (error) {
-      const message =
-        error?.message?.replace("Firebase: ", "") || "Failed to sign in";
-      toast.error(message);
-    }
-  };
+  try {
+    const user = await signInUser(email.trim(), password); // <-- get user with role
+    toast.success("Welcome back!");
+    reset();
+
+    // Role-based redirection
+    const redirectTo =
+      location.state?.from?.pathname || `/${user.role}/dashboard`;
+    navigate(redirectTo, { replace: true });
+  } catch (error) {
+    const message =
+      error?.message?.replace("Firebase: ", "") || "Failed to sign in";
+    toast.error(message);
+  }
+};
 
   return (
     <div
