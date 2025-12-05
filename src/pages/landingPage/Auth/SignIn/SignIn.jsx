@@ -30,13 +30,26 @@ const SignIn = () => {
 
   const onSubmit = async ({ email, password }) => {
   try {
-    const user = await signInUser(email.trim(), password); // <-- get user with role
+    await signInUser(email.trim(), password);
     toast.success("Welcome back!");
     reset();
 
-    // Role-based redirection
+    // Wait until currentUser is available
+    const waitForUser = () =>
+      new Promise((resolve) => {
+        const interval = setInterval(() => {
+          if (currentUser?.role) {
+            clearInterval(interval);
+            resolve(currentUser);
+          }
+        }, 100); // check every 100ms
+      });
+
+    const user = await waitForUser();
+
+    // Role-based redirect
     const redirectTo =
-      location.state?.from?.pathname || `/${currentUser.role}/dashboard`;
+      location.state?.from?.pathname || `/${user.role}/dashboard`;
     navigate(redirectTo, { replace: true });
   } catch (error) {
     const message =
@@ -44,6 +57,7 @@ const SignIn = () => {
     toast.error(message);
   }
 };
+
 
   return (
     <div
