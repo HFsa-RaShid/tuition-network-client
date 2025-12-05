@@ -15,7 +15,7 @@ const SignIn = () => {
   const { signInUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const redirectTo = location.state?.from?.pathname || "/";
+
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -32,6 +32,9 @@ const SignIn = () => {
       await signInUser(email.trim(), password);
       toast.success("Welcome back!");
       reset();
+      // Navigate logic
+      const redirectTo =
+      location.state?.from?.pathname || `/${user.role}/dashboard`;
       navigate(redirectTo, { replace: true });
     } catch (error) {
       const message =
@@ -76,7 +79,10 @@ const SignIn = () => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div className="flex flex-col gap-2">
-              <label htmlFor="email" className="text-sm font-semibold text-black">
+              <label
+                htmlFor="email"
+                className="text-sm font-semibold text-black"
+              >
                 Email or Phone
               </label>
               <input
@@ -119,7 +125,9 @@ const SignIn = () => {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-red-300 text-sm">{errors.password.message}</p>
+                <p className="text-red-300 text-sm">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
@@ -134,7 +142,10 @@ const SignIn = () => {
 
           <p className="text-center mt-6 text-black">
             New to TuToria?{" "}
-            <Link to="/signUp" className="text-blue-800 underline font-semibold">
+            <Link
+              to="/signUp"
+              className="text-blue-800 underline font-semibold"
+            >
               Sign Up
             </Link>
           </p>
