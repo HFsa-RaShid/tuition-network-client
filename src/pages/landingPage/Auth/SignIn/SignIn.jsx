@@ -10,9 +10,11 @@ import { AuthContext } from "../../../../provider/AuthProvider";
 import logo from "../../../../assets/logo.png";
 import heroIllustration from "../../../../assets/tutorAuth.png";
 import authBg from "../../../../assets/auth1.png";
+import useCurrentUser from "../../../../hooks/useCurrentUser";
 
 const SignIn = () => {
   const { signInUser } = useContext(AuthContext);
+  const { currentUser } = useCurrentUser(signInUser?.email);
   const navigate = useNavigate();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
@@ -34,7 +36,7 @@ const SignIn = () => {
 
     // Role-based redirection
     const redirectTo =
-      location.state?.from?.pathname || `/${user.role}/dashboard`;
+      location.state?.from?.pathname || `/${currentUser.role}/dashboard`;
     navigate(redirectTo, { replace: true });
   } catch (error) {
     const message =
