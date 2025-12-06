@@ -34,29 +34,25 @@ const SignIn = () => {
     toast.success("Welcome back!");
     reset();
 
-    // Wait until currentUser is available
-    const waitForUser = () =>
-      new Promise((resolve) => {
-        const interval = setInterval(() => {
-          if (currentUser?.role) {
-            clearInterval(interval);
-            resolve(currentUser);
-          }
-        }, 100); // check every 100ms
-      });
+    // Small delay to allow currentUser to update
+    setTimeout(() => {
+      const role = currentUser?.role;
 
-    const user = await waitForUser();
+      if (role) {
+        const redirectTo =
+          location.state?.from?.pathname || `/${role}/dashboard`;
 
-    // Role-based redirect
-    const redirectTo =
-      location.state?.from?.pathname || `/${user.role}/dashboard`;
-    navigate(redirectTo, { replace: true });
+        navigate(redirectTo, { replace: true });
+      }
+    }, 600); // 600ms delay
+
   } catch (error) {
     const message =
       error?.message?.replace("Firebase: ", "") || "Failed to sign in";
     toast.error(message);
   }
 };
+
 
 
   return (
