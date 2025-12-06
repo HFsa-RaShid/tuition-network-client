@@ -103,8 +103,8 @@ const AllPaymentTabs = () => {
     try {
       await axiosPublic.put(`/payments/send-to-tutor/${transactionId}`);
       toast.success("Payment sent to tutor successfully!");
-     
-      refetch(); 
+
+      refetch();
     } catch (error) {
       console.error(error);
       toast.error("Send failed. Please try again.");
@@ -213,7 +213,14 @@ const AllPaymentTabs = () => {
                         <div>
                           <p className="text-xs text-gray-500">Payment Time</p>
                           <p className="text-sm text-gray-800">
-                            {new Date(p.paymentTime).toLocaleString()}
+                            {new Date(p.paymentTime).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )}
                           </p>
                         </div>
                       </div>
@@ -276,7 +283,14 @@ const AllPaymentTabs = () => {
                             {p.tuToriaAmount} BDT
                           </td>
                           <td className="border px-2 py-3 whitespace-nowrap">
-                            {new Date(p.paymentTime).toLocaleString()}
+                            {new Date(p.paymentTime).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )}
                           </td>
                           <td className="border px-2 py-3 whitespace-nowrap">
                             {p.source !== "getPremium" && (
@@ -348,7 +362,14 @@ const AllPaymentTabs = () => {
                         <div>
                           <p className="text-xs text-gray-500">Payment Time</p>
                           <p className="text-sm text-gray-800">
-                            {new Date(p.paymentTime).toLocaleString()}
+                            {new Date(p.paymentTime).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )}
                           </p>
                         </div>
                         <button
@@ -420,7 +441,14 @@ const AllPaymentTabs = () => {
                             {p.tutorAmount} BDT
                           </td>
                           <td className="border px-2 py-3 whitespace-nowrap">
-                            {new Date(p.paymentTime).toLocaleString()}
+                            {new Date(p.paymentTime).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )}
                           </td>
                           <td className="border px-2 py-3 whitespace-nowrap">
                             <button
