@@ -24,6 +24,8 @@ jest.mock("react-hot-toast", () => ({
   error: jest.fn(),
 }));
 
+jest.mock("../../../../hooks/useCurrentUser", () => jest.fn());
+
 const renderSignIn = (contextValue) => {
   const defaultValue = {
     user: null,
@@ -45,6 +47,18 @@ const renderSignIn = (contextValue) => {
 
 const getPasswordInput = () =>
   screen.getByLabelText(/password/i, { selector: "input" });
+
+const mockUseCurrentUser = require("../../../../hooks/useCurrentUser");
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  mockUseCurrentUser.mockReturnValue({
+    currentUser: null,
+    refetch: jest.fn(),
+    isLoading: false,
+    isError: false,
+  });
+});
 
 describe("SignIn Page", () => {
   test("renders email and password fields", () => {

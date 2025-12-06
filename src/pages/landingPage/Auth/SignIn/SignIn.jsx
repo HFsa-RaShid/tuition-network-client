@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -13,8 +13,8 @@ import authBg from "../../../../assets/auth1.png";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 
 const SignIn = () => {
-  const { signInUser } = useContext(AuthContext);
-  const { currentUser } = useCurrentUser(signInUser?.email);
+  const { signInUser, user } = useContext(AuthContext);
+  const { currentUser, refetch } = useCurrentUser(user?.email);
   const navigate = useNavigate();
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
@@ -28,30 +28,31 @@ const SignIn = () => {
     defaultValues: { email: "", password: "" },
   });
 
+  // Redirect after successful login when user and currentUser are ready
+  useEffect(() => {
+    if (user && currentUser?.role) {
+      const redirectTo =
+        location.state?.from?.pathname || `/${currentUser.role}/dashboard`;
+      navigate(redirectTo, { replace: true });
+    }
+  }, [user, currentUser, navigate, location.state]);
+
   const onSubmit = async ({ email, password }) => {
-  try {
-    await signInUser(email.trim(), password);
-    toast.success("Welcome back!");
-    reset();
-
-    // Small delay to allow currentUser to update
-    setTimeout(() => {
-      const role = currentUser?.role;
-
-      if (role) {
-        const redirectTo =
-          location.state?.from?.pathname || `/${role}/dashboard`;
-
-        navigate(redirectTo, { replace: true });
-      }
-    }, 1000); // 1000ms delay
-
-  } catch (error) {
-    const message =
-      error?.message?.replace("Firebase: ", "") || "Failed to sign in";
-    toast.error(message);
-  }
-};
+    try {
+      await signInUser(email.trim(), password);
+      toast.success("Welcome back!");
+      reset();
+      
+      // Wait for user data to load, then redirect will happen via useEffect
+      setTimeout(async () => {
+        await refetch();
+      }, 500);
+    } catch (error) {
+      const message =
+        error?.message?.replace("Firebase: ", "") || "Failed to sign in";
+      toast.error(message);
+    }
+  };
 
 
 

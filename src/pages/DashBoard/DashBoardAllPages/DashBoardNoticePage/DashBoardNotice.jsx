@@ -16,20 +16,9 @@ const DashBoardNotice = () => {
 
   const [showModal, setShowModal] = useState(false);
 
-  // useEffect(() => {
-  //   if (currentUser?.role === "tutor" || currentUser?.role === "student") {
-  //     const visited = localStorage.getItem("tutoriaNoticeShown");
-  //     if (!visited) {
-  //       setShowModal(true);
-  //       localStorage.setItem("tutoriaNoticeShown", "true");
-  //     }
-  //   }
-  // }, [currentUser]);
   useEffect(() => {
-  // set a 1 second delay before checking currentUser
-  const timer = setTimeout(() => {
+    // Show modal when user first visits dashboard after signin/signup
     if (currentUser?.role === "tutor" || currentUser?.role === "student") {
-      // make the key user-specific so different users get their own notice
       const key = `tutoriaNoticeShown_${currentUser.email}`;
       const visited = localStorage.getItem(key);
 
@@ -38,11 +27,7 @@ const DashBoardNotice = () => {
         localStorage.setItem(key, "true");
       }
     }
-  }, 1000); // 1000ms = 1 second
-
-  // cleanup: clear timeout if component unmounts or currentUser changes
-  return () => clearTimeout(timer);
-}, [currentUser]);
+  }, [currentUser]);
 
 
   if (userLoading) {
@@ -68,7 +53,6 @@ const DashBoardNotice = () => {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start pt-10 z-50">
           <div className="bg-white w-[470px] rounded-xl shadow-2xl relative p-7 animate-fadeIn border border-gray-200">
-          
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-2 right-2 text-gray-600 hover:text-red-600 text-xl"
@@ -79,7 +63,7 @@ const DashBoardNotice = () => {
             {/* Logo */}
             <div className="flex justify-center mb-4">
               <img
-                src="/logo.png" 
+                src="/logo.png"
                 alt="TuToria Logo"
                 className="w-20 h-20 object-contain drop-shadow-sm"
               />
