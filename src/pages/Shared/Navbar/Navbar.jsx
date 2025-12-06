@@ -25,8 +25,11 @@ const Navbar = () => {
   const mobileRef = useRef();
 
   const handleSignOut = () => {
-    // Remove notice flag on logout
-    localStorage.removeItem("tutoriaNoticeShown");
+    // Remove user-specific notice flag on logout
+    if (currentUser?.email) {
+      const noticeKey = `tutoriaNoticeShown_${currentUser.email}`;
+      localStorage.removeItem(noticeKey);
+    }
 
     logOut()
       .then(() => navigate("/"))
