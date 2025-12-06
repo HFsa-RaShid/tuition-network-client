@@ -44,7 +44,7 @@ const SignIn = () => {
 
         navigate(redirectTo, { replace: true });
       }
-    }, 600); // 600ms delay
+    }, 1000); // 1000ms delay
 
   } catch (error) {
     const message =

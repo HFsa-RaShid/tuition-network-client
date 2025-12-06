@@ -16,15 +16,34 @@ const DashBoardNotice = () => {
 
   const [showModal, setShowModal] = useState(false);
 
+  // useEffect(() => {
+  //   if (currentUser?.role === "tutor" || currentUser?.role === "student") {
+  //     const visited = localStorage.getItem("tutoriaNoticeShown");
+  //     if (!visited) {
+  //       setShowModal(true);
+  //       localStorage.setItem("tutoriaNoticeShown", "true");
+  //     }
+  //   }
+  // }, [currentUser]);
   useEffect(() => {
+  // set a 1 second delay before checking currentUser
+  const timer = setTimeout(() => {
     if (currentUser?.role === "tutor" || currentUser?.role === "student") {
-      const visited = localStorage.getItem("tutoriaNoticeShown");
+      // make the key user-specific so different users get their own notice
+      const key = `tutoriaNoticeShown_${currentUser.email}`;
+      const visited = localStorage.getItem(key);
+
       if (!visited) {
         setShowModal(true);
-        localStorage.setItem("tutoriaNoticeShown", "true");
+        localStorage.setItem(key, "true");
       }
     }
-  }, [currentUser]);
+  }, 1000); // 1000ms = 1 second
+
+  // cleanup: clear timeout if component unmounts or currentUser changes
+  return () => clearTimeout(timer);
+}, [currentUser]);
+
 
   if (userLoading) {
     return (
