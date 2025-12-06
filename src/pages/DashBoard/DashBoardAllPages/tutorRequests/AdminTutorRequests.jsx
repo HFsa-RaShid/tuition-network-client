@@ -44,6 +44,14 @@ const AdminTutorRequests = () => {
 
   return (
     <div className="p-4 ml-10">
+      {sorted?.length === 0 ? (
+        <div>
+          <div className="mx-auto w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+              <FaEyeSlash className="w-8 h-8 text-gray-500" />
+            </div>
+          <p className="text-center mt-4">No pending requests found.</p>
+        </div>
+      ) : (
       
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {sorted.map((r, idx) => (
@@ -86,6 +94,7 @@ const AdminTutorRequests = () => {
           </div>
         ))}
       </div>
+      )}
 
       {/* Send Link Modal */}
       <div className={`modal ${sendModalOpen ? "modal-open" : ""}`}>
@@ -210,6 +219,7 @@ const AdminTutorRequests = () => {
           </div>
         </div>
       </div>
+      
     </div>
   );
 };

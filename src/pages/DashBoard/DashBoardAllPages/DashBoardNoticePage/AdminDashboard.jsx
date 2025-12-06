@@ -178,7 +178,12 @@ const NoticeComposer = ({ onSubmit }) => {
   const submit = handleSubmit(async (values) => {
     const success = await onSubmit(values);
     if (success) {
-      reset({ audience: "all", priority: "normal" });
+      reset({
+        title: "",
+        message: "",
+        audience: "all",
+        priority: "normal",
+      });
     }
   });
 
@@ -190,17 +195,20 @@ const NoticeComposer = ({ onSubmit }) => {
       <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
         <FaBullhorn className="text-red-500" /> Publish Notice
       </h3>
+
       <input
         {...register("title", { required: true })}
         placeholder="Title"
         className="w-full border white border-gray-200 rounded-lg px-4 py-3 text-sm"
       />
+
       <textarea
         {...register("message", { required: true })}
         placeholder="Message"
         rows={18}
         className="w-full border bg-white border-gray-200 rounded-lg px-4 py-3 text-sm min-h-[220px]"
-      ></textarea>
+      />
+
       <div className="grid grid-cols-2 gap-3 text-sm">
         <select
           {...register("audience")}
@@ -210,6 +218,7 @@ const NoticeComposer = ({ onSubmit }) => {
           <option value="students">Students</option>
           <option value="tutors">Tutors</option>
         </select>
+
         <select
           {...register("priority")}
           className="border border-gray-200 bg-white rounded-lg px-3 py-2"
@@ -218,6 +227,7 @@ const NoticeComposer = ({ onSubmit }) => {
           <option value="high">High Priority</option>
         </select>
       </div>
+
       <button
         type="submit"
         disabled={formState.isSubmitting}
@@ -228,6 +238,7 @@ const NoticeComposer = ({ onSubmit }) => {
     </form>
   );
 };
+
 
 const AdminDashboard = () => {
   const { summary, isLoading, isError, refetch } = useStatsSummary();
