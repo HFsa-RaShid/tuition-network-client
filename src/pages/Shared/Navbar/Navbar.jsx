@@ -25,6 +25,9 @@ const Navbar = () => {
   const mobileRef = useRef();
 
   const handleSignOut = () => {
+    // Remove notice flag on logout
+    localStorage.removeItem("tutoriaNoticeShown");
+
     logOut()
       .then(() => navigate("/"))
       .catch((err) => console.error(err));
@@ -68,7 +71,7 @@ const Navbar = () => {
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-2 justify-center">
           <img src={logo} alt="logo" className="h-9" />
-          
+
           <h1 className="text-2xl sm:text-3xl font-bold pt-1">
             Tu
             <span className="bg-gradient-to-r from-blue-300  to-blue-800 bg-clip-text text-transparent">
